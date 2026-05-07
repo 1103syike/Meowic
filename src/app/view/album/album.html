@@ -1,0 +1,69 @@
+<main class="album">
+  <button class="album__back-btn">
+    <mat-icon aria-hidden="false" aria-label="返回首頁" class="album__back-btn__icon" routerLink="/"
+      >arrow_back_ios</mat-icon
+    >
+  </button>
+
+  <header class="album__header">
+    <img class="album__image" [src]="this.currentAlbum()?.coverPath" alt="" />
+    <section class="album__info">
+      <h5 class="album__info__type">播放清單</h5>
+      <h1 class="album__info__name">專輯名</h1>
+      <h3 class="album__info__artist"></h3>
+      <span class="album__info__record">播放次數:1</span>
+    </section>
+  </header>
+
+  <main>
+    <table class="table" mat-table [dataSource]="this.songlist()!" class="mat-elevation-z8">
+      <!-- 歌曲編號 -->
+      <ng-container matColumnDef="id">
+        <th class="table__th table__th--id" mat-header-cell *matHeaderCellDef>#</th>
+        <td class="table__td table__td--id" mat-cell *matCellDef="let element">
+          {{ element.id }}
+        </td>
+      </ng-container>
+
+      <!-- 歌名 -->
+      <ng-container matColumnDef="name">
+        <th class="table__th table__th--name" mat-header-cell *matHeaderCellDef>歌名</th>
+        <td class="table__td table__td--name" mat-cell *matCellDef="let element">
+          <!-- <img class="table__image" [src]="element.imgPath" alt="" /> -->
+          <section class="table__info">
+            <span class="table__info__title">{{ element.songTitle }}</span>
+            <span class="table__info__artist">{{ element.artist }}</span>
+          </section>
+        </td>
+      </ng-container>
+
+      <!-- 專輯 -->
+      <ng-container matColumnDef="album">
+        <th class="table__th table__th--album" mat-header-cell *matHeaderCellDef>專輯</th>
+        <td class="table__td table__td--album" mat-cell *matCellDef="let element">
+          {{ element.album.albumName }}
+        </td>
+      </ng-container>
+
+      <!-- 時長 -->
+      <ng-container matColumnDef="time">
+        <th class="table__th table__th--time" mat-header-cell *matHeaderCellDef>時長</th>
+        <td class="table__td table__td--time" mat-cell *matCellDef="let element">
+          {{ element.length }}
+        </td>
+      </ng-container>
+
+      <!-- 動作 -->
+      <ng-container matColumnDef="tool">
+        <th class="table__th table__th--tool" mat-header-cell *matHeaderCellDef>動作</th>
+        <td class="table__td table__td--tool" mat-cell *matCellDef="let element">
+          <mat-icon aria-hidden="true" class="">favorite</mat-icon>
+          <mat-icon aria-hidden="true" class="">playlist_add</mat-icon>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns" [routerLink]="['/song',displayedColumns[0]]"></tr>
+    </table>
+  </main>
+</main>
