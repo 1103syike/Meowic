@@ -1,18 +1,58 @@
 <section class="lyric">
-  <header class="lyric__header">歌詞</header>
-  <main class="lyric__container">
-    <span class="lyric__item">第一段歌詞</span>
-    <span class="lyric__item">第二段歌詞</span>
-    <span class="lyric__item">第二段歌詞</span>
-    <span class="lyric__item">第二段歌詞</span>
-    <span class="lyric__item">第二段歌詞</span>
-    <span class="lyric__item lyric__item--prev" >第三段歌詞</span>
-    <span class="lyric__item lyric__item--active">第四段歌詞</span>
-    <span class="lyric__item lyric__item--next">第五段歌詞</span>
-    <span class="lyric__item">第六段歌詞</span>
-    <span class="lyric__item">第七段歌詞</span>
-    <span class="lyric__item">第七段歌詞</span>
-    <span class="lyric__item">第七段歌詞</span>
-    <span class="lyric__item">第七段歌詞</span>
-  </main>
+  <header class="lyric__header">
+    <button class="lyric__back-btn">
+      <mat-icon
+        aria-hidden="false"
+        aria-label="返回首頁"
+        class="lyric__back-btn__icon"
+        [routerLink]="['/album',this.passedCurrentSong()?.album?.albumId]"
+        >arrow_back_ios</mat-icon
+      >
+    </button>
+    <button
+      class="lyric__header__btn"
+      [class.lyric__header__btn--active]="!!isShowCover()"
+      (click)="showCover(true)"
+    >
+      封面
+    </button>
+    |
+    <button
+      class="lyric__header__btn"
+      [class.lyric__header__btn--active]="!isShowCover()"
+      (click)="showCover(false)"
+    >
+      歌詞
+    </button>
+  </header>
+  @if (!!isShowCover()) {
+    <main class="lyric__container">
+      @if (this.passedCurrentSong(); as song) {
+        <!-- 確保有專輯資料才渲染圖片 -->
+        @if (song.album!.albumCover) {
+          <div class="lyric__float">
+            <img class="lyric__cover" [src]="song.album.albumCover" alt="專輯封面" />
+          </div>
+        }
+      }
+      <div class="lyric__title">{{ this.passedCurrentSong()?.songTitle }}</div>
+      <div class="lyric__artist">{{ this.passedCurrentSong()?.artist }}</div>
+    </main>
+  } @else {
+    <main class="lyric__container">
+      <span class="lyric__item">第一段歌詞</span>
+      <span class="lyric__item">第二段歌詞</span>
+      <span class="lyric__item">第二段歌詞</span>
+      <span class="lyric__item">第二段歌詞</span>
+      <span class="lyric__item">第二段歌詞</span>
+      <span class="lyric__item lyric__item--prev">第三段歌詞</span>
+      <span class="lyric__item lyric__item--active">第四段歌詞</span>
+      <span class="lyric__item lyric__item--next">第五段歌詞</span>
+      <span class="lyric__item">第六段歌詞</span>
+      <span class="lyric__item">第七段歌詞</span>
+      <span class="lyric__item">第七段歌詞</span>
+      <span class="lyric__item">第七段歌詞</span>
+      <span class="lyric__item">第七段歌詞</span>
+    </main>
+  }
 </section>

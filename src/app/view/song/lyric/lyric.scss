@@ -1,14 +1,86 @@
 @use 'variables' as *;
 .lyric {
-  display: block;
   width: 100%;
   height: 100%;
+  overflow-y: auto;
   @include block(40px, 40px);
   box-shadow: none;
+  &__back-btn {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: none;
+    border: 2px solid $color-ts-blue;
+    box-shadow: 4px 4px 20px 0 rgba($color-green, 0.2);
+    border-radius: 100px;
+    color: $color-blue;
+    &:hover {
+      background: $color-green;
+      color: $color-white;
+    }
+    &__icon {
+      transform: translateX(20%);
+    }
+  }
+  &__float {
+    margin: 0 auto;
+    margin-top: 20px;
+    width: fit-content;
+    display: inline-block;
 
+    // animation: floating 4s ease-in-out infinite;
+  }
+  &__cover {
+    width: 340px;
+    border: 2px solid $color-blue;
+
+    border-radius: 200px;
+    animation: spinning 20s linear infinite;
+  }
+
+  &__title {
+    color: $color-blue;
+
+    margin-top: 20px;
+    text-align: center;
+    font-size: map-get($font-sizes, '2xl');
+  }
+
+  &__artist {
+    color: $color-blue;
+    font-weight: normal;
+    margin-top: 6px;
+    text-align: center;
+    font-size: map-get($font-sizes, 'base');
+  }
   &__header {
-    color:$color-blue;
+    gap: 10px;
+    display: flex;
+    align-items: center;
     font-size: map-get($font-sizes, 'xl');
+    color: $color-blue;
+
+    &__btn {
+      cursor: pointer;
+      color: $color-ts-gray;
+
+      background: none;
+
+      &--active {
+        color: $color-blue;
+      }
+
+      &--unactive {
+        color: $color-ts-gray;
+      }
+
+      &:hover {
+        color: $color-blue;
+      }
+    }
   }
   &__container {
     display: flex;
@@ -32,5 +104,30 @@
 
       color: $color-green;
     }
+  }
+}
+
+// animation
+@keyframes spinning {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes floating {
+  0% {
+    transform: translateY(0); /* 回到原位 */
+    animation-timing-function: ease-in; /* 下落時加速，更有真實感 */
+  }
+  50% {
+    transform: translateY(-20px); /* 向上飄移 20px */
+    animation-timing-function: ease-out; /* 上升到頂點時減速 */
+  }
+  100% {
+    transform: translateY(0); /* 回到原位 */
+    animation-timing-function: ease-in;
   }
 }
