@@ -1,0 +1,54 @@
+:host {
+  --header-height: 100px;
+  --header-player: 120px;
+  --sidebar-width: 400px;
+  --main-gap: 20px;
+  --page-padding: 20px;
+}
+
+.main-layout {
+  display: grid;
+  height: 100vh;
+  gap: var(--main-gap);
+
+  padding: var(--page-padding);
+
+  grid-template-rows: var(--header-height) auto var(--header-player);
+  grid-template-columns: var(--sidebar-width) 1fr;
+  grid-template-areas:
+    'header  header'
+    'sidebar content'
+    'player player';
+
+  box-sizing: border-box;
+}
+
+.header-area {
+  grid-area: header;
+}
+.content-area {
+  grid-area: content;
+  overflow-y: auto;
+}
+.player-area {
+  grid-area: player;
+}
+.sidebar-area {
+  grid-area: sidebar;
+  display: flex;
+  flex-direction: column;
+  gap: var(--main-gap);
+  min-height: 0;
+}
+
+app-musicbar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.music-list-container {
+  flex: 1;
+  overflow-y: auto;
+}
