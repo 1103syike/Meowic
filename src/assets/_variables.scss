@@ -1,0 +1,162 @@
+@use 'sass:map';
+/* ==========================================================================
+   Variables - 基礎定義
+   ========================================================================== */
+
+// 1. Colors
+$color-green: #6f9d77;
+$color-blue: #64748b;
+$color-white: #ffffff;
+
+// 透明度變體 (Transparent versions)
+$color-ts-green: rgba($color-green, 0.5);
+$color-ts-blue: rgba($color-blue, 0.1);
+$color-ts-gray: rgba($color-blue, 0.36);
+$color-table: rgba($color-blue, 0.01);
+
+// 2. Font Sizes
+$font-sizes: (
+  '3xl': 2.25rem,   // 36px
+  '2xl': 1.5rem,    // 24px
+  'xl': 1.25rem,    // 20px
+  'lg': 1.125rem,   // 18px
+  'base': 1rem,     // 16px
+  'sm': 0.875rem,   // 14px
+  'xs': 0.75rem,    // 12px
+);
+
+// 3. Border Radius
+$radius: (
+  'small': 8px,
+  'medium': 12px,
+  'large': 20px,
+  'circle': 90px,
+);
+
+// 4. Spacing
+$space-base: 20px;
+$space-xl: 24px;
+$space-2xl: 40px;
+
+/* ==========================================================================
+   Typography - 字體設定
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+
+@mixin font-nunito($weight: 700) {
+  font-optical-sizing: auto;
+  font-family: 'Nunito', 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+  font-weight: $weight;
+  font-style: normal;
+}
+
+// 全域初始化 (排除 Material Icons)
+*:not(.material-icons) {
+  @include font-nunito(700);
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   Mixins - 功能與元件
+   ========================================================================== */
+
+// 1. Radius Helper
+@mixin radius($size: 'large') {
+  border-radius: map-get($radius, $size);
+}
+
+// 2. 共用卡片陰影與邊框 (Internal use)
+@mixin _base-card-style {
+  background: $color-white;
+  border: 2px solid $color-ts-blue;
+  box-shadow: 4px 4px 20px 0 rgba($color-green, 0.2);
+}
+
+// 3. Block / Container
+@mixin block($py: 20px, $px: 20px) {
+  @include _base-card-style;
+  @include radius('large');
+  padding: $py $px;
+}
+
+// 4. Buttons
+// 基礎按鈕 Hover 效果
+@mixin _btn-hover {
+  &:hover {
+    cursor: pointer;
+    background: $color-green;
+    color: white;
+    box-shadow: 6px 6px 25px 0 rgba($color-green, 0.3);
+  }
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// 推薦歌曲
+@mixin recommand-btn {
+  background: $color-ts-blue;
+  @include radius( 'small');
+  overflow: hidden
+}
+
+// 導覽按鈕
+@mixin nav-button {
+  @include _base-card-style;
+  @include radius('large');
+  @include _btn-hover;
+  font-size: map.get($font-sizes, 'lg');
+  padding: 16px 32px;
+  color: $color-blue;
+  transition: all 0.1s ease;
+}
+
+@mixin capsule-btn {
+  @include _base-card-style;
+  @include radius('large');
+  height: 40px;
+  padding: 0 20px;
+  display: inline-flex;
+  align-items: center;
+  color: $color-blue;
+}
+
+// 長型列表按鈕
+@mixin long-button {
+  @include radius('small');
+  @include _btn-hover;
+  font-size: map-get($font-sizes, 'xl');
+  padding: 8px;
+  color: $color-blue;
+  text-align: left;
+  background: $color-white;
+
+  &:hover {
+    transform: translateY(-2px); // 補上 px 單位
+  }
+}
+
+// 5. Flex Layout Helper
+@mixin flex($dir: row, $justify: flex-start, $align: center) {
+  display: flex;
+  flex-direction: $dir;
+  gap: $space-base;
+
+  // 轉換語意化關鍵字為標準 CSS
+  $j-map: (
+    'start': flex-start,
+    'end': flex-end,
+    'center': center,
+    'space-between': space-between,
+  );
+
+  $a-map: (
+    'up': flex-start,
+    'down': flex-end,
+    'center': center,
+  );
+
+  justify-content: if(map-has-key($j-map, $justify), map-get($j-map, $justify), $justify);
+  align-items: if(map-has-key($a-map, $align), map-get($a-map, $align), $align);
+}
