@@ -1,0 +1,46 @@
+<section class="player-container">
+  <!-- 左側音樂資訊 -->
+  <section class="song">
+    <img class="song__image" src="./mock/album/img-1.png" alt="" />
+    <section class="song__info">
+      <span class="song__info__title">歌名</span>
+      <span class="song__info__artist">歌手</span>
+    </section>
+  </section>
+
+  <!-- 中間音樂撥放器 -->
+  <section class="player">
+    <!-- 上方播放、循環撥放等等按鈕 -->
+    <div class="player__play-tool">
+      <mat-icon class="player__play-tool__icon">shuffle</mat-icon>
+      <mat-icon class="player__play-tool__icon player__play-tool__icon--skip"
+        >skip_previous</mat-icon
+      >
+      <mat-icon class="player__play-tool__icon player__play-tool__icon--play">play_circle</mat-icon>
+      <mat-icon class="player__play-tool__icon player__play-tool__icon--skip">skip_next</mat-icon>
+      <mat-icon class="player__play-tool__icon">repeat</mat-icon>
+    </div>
+
+    <!-- 下方音樂播放進度條區域 -->
+    <div class="player__time-tool">
+      <span class="player__start-time">3:52</span>
+      <div class="player__time-length">
+        <div class="player__current-time"></div>
+      </div>
+      <span class="player__end-time">4:55</span>
+    </div>
+  </section>
+
+  <!-- 右側工具列 -->
+  <section class="tool">
+    <mat-icon class="tool__lyrics">lyrics</mat-icon>
+    <mat-icon class="tool__playlist">queue_music</mat-icon>
+    <mat-icon class="tool__volume">volume_up</mat-icon>
+    <div class="tool__music">
+      <div class="tool__music__current"></div>
+    </div>
+    <button class="tool__close">
+      <mat-icon>close</mat-icon>
+    </button>
+  </section>
+</section>

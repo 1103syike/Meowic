@@ -1,0 +1,145 @@
+@use 'sass:map';
+@use 'variables' as *;
+
+.player-container {
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+  @include block(20px, 40px);
+  align-items: center;
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-areas: 'song  player tool';
+}
+
+// 左側音樂資訊
+.song {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  grid-area: song;
+  gap: 20px;
+  color: $color-blue;
+
+  &__image {
+    width: 70px;
+    height: 70px;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    &__title {
+      font-size: map-get($font-sizes, 'lg');
+    }
+
+    &__artist {
+      font-weight: normal;
+    }
+  }
+}
+
+// 中間音樂撥放器
+.player {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  grid-area: player;
+  gap: 4px;
+
+  // 上方 播放、循環撥放等等按鈕
+  &__play-tool {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    &__icon {
+      color: $color-ts-green;
+      width: 28px;
+      height: 28px;
+      font-size: 28px;
+      &--play {
+        width: 50px;
+        height: 50px;
+        font-size: 50px;
+        color: $color-green;
+      }
+
+      &--skip {
+        width: 36px;
+        height: 36px;
+        font-size: 36px;
+      }
+    }
+  }
+
+  // 下方 音樂播放進度條區域
+  &__time-tool {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    color: $color-green;
+  }
+  &__start-time,
+  &__end-time {
+    font-weight: normal;
+  }
+
+  &__time-length {
+    overflow: hidden;
+    border-radius: 100px;
+    width: 300px;
+    height: 6px;
+    background: $color-ts-gray;
+  }
+
+  &__current-time {
+    width: 30%;
+    height: 100%;
+    background: $color-green;
+  }
+}
+// 右側工具列
+.tool {
+  position: relative;
+  height: 100%;
+  display: flex;
+  justify-content: end;
+
+  align-items: end;
+  gap: 12px;
+  grid-area: tool;
+  color: $color-green;
+
+  &__music {
+    width: 150px;
+    background: $color-ts-gray;
+    height: 6px;
+    margin-bottom: 9px;
+    border-radius: 200px;
+    overflow: hidden;
+
+    &__current {
+      width: 80%;
+      height: 6px;
+      background: $color-green;
+    }
+
+  }
+  &__close{
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    color: $color-green;
+    display: block;
+    background: none;
+    margin-bottom: auto;
+    position: absolute;
+    right: -24px;
+    top: -4px;
+  }
+}
