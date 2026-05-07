@@ -1,0 +1,24 @@
+<header class="header">
+  <div class="header__logo">Meowic</div>
+  <button class="header__patch">
+    <div>BETA</div>
+  </button>
+
+  <nav class="header__nav">
+    <button class="header__nav__btn">關於我們</button>
+    <button class="header__nav__btn">Meowic Pro</button>
+    <button class="header__nav__btn">加入創作者</button>
+  </nav>
+
+  <div class="user">
+    @if (!!auth.currentUserStatus()) {
+      <div>{{this.auth.user()?.name}}</div>
+      <button class="user__login" (click)="this.auth.logout()">登出</button>
+    } @else {
+      <button class="user__login" (click)="openLoginDialog()">登入</button>
+    }
+  </div>
+</header>
+@if (this.isLoginDialogOpen()) {
+  <app-login (close)="isLoginDialogOpen.set(false)"></app-login>
+}

@@ -1,0 +1,43 @@
+@use 'sass:map'; //
+@use 'variables' as *;
+
+.header {
+  height: 100px;
+  @include block(20px, 40px);
+  @include flex(row, start, center);
+
+  &__logo {
+    font-size: map-get($font-sizes, '3xl');
+  }
+
+  &__patch {
+    font-size: map.get($font-sizes, 'xs');
+    background: $color-ts-green;
+
+    @include flex(row, center, center);
+    width: 50px;
+    height: 50px;
+    color: $color-white;
+    @include radius('small');
+  }
+
+  &__nav {
+    @include flex(row, start, center);
+
+    &__btn {
+      @include nav-button;
+    }
+  }
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-left: auto;
+
+  &__login{
+      @include nav-button;
+
+  }
+}
