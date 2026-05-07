@@ -1,0 +1,12 @@
+<section class="celebrity">
+  <header class="celebrity__header">熱門藝人</header>
+  <ul class="celebrity__list">
+    @for(celebrity of celebrities; track $index) {
+      <li class="celebrity__item">
+        <img class="celebrity__item__image" [src]="celebrity.path" alt="" />
+        <div class="celebrity__item__artist">{{celebrity.name}} </div>
+        <div class="celebrity__item__carrer">{{celebrity.career}}</div>
+      </li>
+    }
+  </ul>
+</section>

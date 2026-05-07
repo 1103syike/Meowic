@@ -1,0 +1,11 @@
+@use 'variables' as *;
+.home {
+  display: block;
+  height: 100%;
+  overflow-x: auto;
+  font-size: map-get($font-sizes, 'xl');
+  color: $color-blue;
+  @include block(40px, 40px);
+  box-shadow: none;
+
+}

@@ -1,0 +1,11 @@
+<section class="recommand">
+  <header class="recommand__header">推薦專輯</header>
+  <ul class="recommand__list">
+    @for (recommand of recommandAlbumList(); track $index) {
+      <li [routerLink]="['album',recommand.id]"  class="recommand__item">
+        <img class="recommand__item__image" [src]="recommand.coverPath" alt="" />
+        <div class="recommand__item__artist">{{ recommand.name }}</div>
+      </li>
+    }
+  </ul>
+</section>

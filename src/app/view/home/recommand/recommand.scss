@@ -1,0 +1,27 @@
+@use 'variables' as *;
+
+.recommand {
+  &__header{
+    margin-bottom: 12px;
+  }
+  &__list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, auto);
+    gap: 12px;
+  }
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+
+    @include recommand-btn;
+    &__image {
+      width: 80px;
+      height: 80px;
+    }
+    &__title {
+      font-size: map-get($font-sizes, 'base');
+    }
+  }
+}

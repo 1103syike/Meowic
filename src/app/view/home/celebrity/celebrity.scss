@@ -1,0 +1,38 @@
+@use 'variables' as *;
+
+.celebrity {
+  margin-top: 40px;
+  &__header {
+    margin-bottom: 12px;
+  }
+
+  &__list {
+    display: flex;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(1, auto);
+    gap: 20px;
+  }
+
+  &__item {
+    border-radius: 12px;
+    padding: 12px;
+    background: $color-ts-blue;
+    &__image {
+      border-radius: 90px;
+      margin-bottom: 12px;
+    }
+
+    &__artist {
+      font-size: map-get($font-sizes, 'lg');
+      margin-bottom: 8px;
+
+    }
+
+    &__carrer {
+      font-size: map-get($font-sizes, 'base');
+      font-weight: 500;
+
+    }
+  }
+}

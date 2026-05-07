@@ -1,0 +1,12 @@
+<section class="popular">
+  <header class="popular__header">熱門歌曲</header>
+  <ul class="popular__list">
+    @for (popular of populars; track $index) {
+      <li class="popular__item">
+        <img class="popular__item__image" [src]="popular.path" alt="" />
+        <div class="popular__item__title">{{ popular.title }}</div>
+        <div class="popular__item__artist">{{ popular.artist }}</div>
+      </li>
+    }
+  </ul>
+</section>
