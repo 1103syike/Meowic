@@ -6,13 +6,17 @@
   </button>
 
   <header class="album__header">
-    <img class="album__image" [src]="this.currentAlbum()?.coverPath" alt="" />
-    <section class="album__info">
-      <h5 class="album__info__type">播放清單</h5>
-      <h1 class="album__info__name">專輯名</h1>
-      <h3 class="album__info__artist"></h3>
-      <span class="album__info__record">播放次數:1</span>
-    </section>
+    @if (!!this.currentAlbum()) {
+      <img class="album__image" [src]="this.currentAlbum()!.coverPath" alt="" />
+      <section class="album__info">
+        <h5 class="album__info__type">
+          {{ this.currentAlbum()!.type == 'album' ? '專輯' : '播放清單' }}
+        </h5>
+        <h1 class="album__info__name">{{ this.currentAlbum()!.name }}</h1>
+        <h3 class="album__info__artist">{{ this.currentAlbum()!.artist }}</h3>
+        <span class="album__info__record">喜歡人數：{{ this.currentAlbum()?.like }}</span>
+      </section>
+    }
   </header>
 
   <main>
@@ -63,7 +67,11 @@
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns" [routerLink]="['/song',displayedColumns[0]]"></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumns"
+        [routerLink]="['/song', row.id]"
+      ></tr>
     </table>
   </main>
 </main>

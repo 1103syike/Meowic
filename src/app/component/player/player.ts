@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { MatIcon } from "@angular/material/icon";
+import { Component, signal } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-player',
@@ -7,4 +7,9 @@ import { MatIcon } from "@angular/material/icon";
   templateUrl: './player.html',
   styleUrl: './player.scss',
 })
-export class Player {}
+export class Player {
+  public isClose = signal<boolean>(false);
+  closePlayer(boolean: boolean) {
+    this.isClose.set(boolean);
+  }
+}

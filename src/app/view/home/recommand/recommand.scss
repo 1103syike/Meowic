@@ -11,10 +11,16 @@
     gap: 12px;
   }
   &__item {
+    cursor: pointer;
     display: flex;
     align-items: center;
     gap: 24px;
 
+    &:hover{
+      background: $color-ts-green;
+      color: $color-white;
+
+    }
     @include recommand-btn;
     &__image {
       width: 80px;

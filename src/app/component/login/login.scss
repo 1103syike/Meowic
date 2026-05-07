@@ -1,6 +1,7 @@
 @use 'sass:map';
 @use 'variables' as *;
 .login {
+  z-index: 999;
   &__mask {
     position: absolute;
     top: 0;
