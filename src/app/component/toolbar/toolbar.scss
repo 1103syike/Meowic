@@ -1,0 +1,11 @@
+@use 'variables' as *;
+.toolbar {
+  @include block(20px, 20px);
+  @include flex(column, start, start);
+
+  &__btn {
+    width: 100%;
+    @include long-button;
+    @include flex(row, start, center);
+  }
+}
