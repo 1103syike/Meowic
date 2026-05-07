@@ -1,0 +1,22 @@
+<div class="login__mask" (click)="closingLoginDialog()"></div>
+<main class="login" >
+  <form [formGroup]="loginForm" class="login__container" (ngSubmit)="onLogin()">
+    <header class="login__header">登入</header>
+
+    <label class="login__label" for="account">帳號</label>
+    <input formControlName="email" class="login__input" type="text" />
+    <button type="button" class="login__btn">註冊帳號</button>
+
+    <label class="login__label" for="password">密碼</label>
+    <input formControlName="password" class="login__input" type="text" />
+    <button type="button" class="login__btn">忘記密碼</button>
+
+    <button type="submit" class="login__submit">登入</button>
+
+    <p class="login__notice">登入即代表您同意我們的</p>
+    <div class="login__terms">
+      <button type="button" class="login__terms__term">服務條款</button> |
+      <button type="button" class="login__terms__term">隱私權政策</button>
+    </div>
+  </form>
+</main>

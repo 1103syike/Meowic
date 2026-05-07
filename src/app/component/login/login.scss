@@ -1,0 +1,91 @@
+@use 'sass:map';
+@use 'variables' as *;
+.login {
+  &__mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: $color-ts-gray;
+  }
+
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  display: flex;
+  color: $color-blue;
+  &__container {
+    width: 400px;
+    @include block(20px, 40px);
+    margin: auto auto;
+  }
+
+  &__header {
+    width: 100%;
+    text-align: center;
+    font-size: map-get($font-sizes, '2xl');
+    margin-bottom: 12px;
+  }
+
+  &__label {
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  &__input {
+    border-color: $color-blue;
+    outline-color: $color-blue;
+    font-weight: 400px;
+    border-radius: 4px;
+    width: 100%;
+    height: 36px;
+    display: block;
+    padding: 0 8px;
+    margin-bottom: 4px;
+  }
+
+  &__btn {
+    padding: 0;
+    display: block;
+    background: none;
+    color: $color-ts-gray;
+    margin-bottom: 12px;
+  }
+
+  &__submit {
+    cursor: pointer;
+    color: $color-white;
+    background: $color-ts-green;
+    height: 36px;
+    width: 100%;
+    margin-bottom: 12px;
+    border-radius: 4px;
+
+    &:hover {
+      background: $color-green;
+    }
+  }
+
+  &__notice {
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-size: map-get($font-sizes, 'sm');
+    margin-bottom: 12px;
+  }
+
+  &__terms {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    color: $color-ts-green;
+
+    &__term {
+      background: none;
+      color: $color-ts-green;
+    }
+  }
+}
