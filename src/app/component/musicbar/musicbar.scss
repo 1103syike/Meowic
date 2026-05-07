@@ -1,4 +1,6 @@
 @use 'variables' as *;
+
+
 .musicbar {
   width: 100%;
   height: 100%;
@@ -59,4 +61,31 @@
       }
     }
   }
+
+  &__not-login-area {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  &__login-request {
+    color: $color-blue;
+    text-align: center;
+    font-size: map-get($font-sizes, 'lg');
+  }
+
+  &__login-btn {
+    @include nav-button;
+    margin-top: 12px;
+    background: none;
+    font-size: map-get($font-sizes, 'base');
+    padding: 6px 12px;
+
+  }
+}
+
+.no-login{
+  background: $color-ts-blue;
 }
