@@ -36,6 +36,11 @@
   gap: 20px;
   margin-left: auto;
 
+  &__name{
+    color: $color-blue;
+    font-size: map-get($font-sizes, 'xl');
+
+  }
   &__login{
       @include nav-button;
 
