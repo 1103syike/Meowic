@@ -1,0 +1,34 @@
+@use 'variables' as *;
+
+.artist {
+  width: 400px;
+  height: 100%;
+  overflow: auto;
+  @include block(40px, 40px);
+  box-shadow: none;
+
+  &__header {
+    color: $color-blue;
+    font-size: map-get($font-sizes, 'xl');
+  }
+
+  &__image {
+    margin: 16px auto;
+    width: 150px;
+    height: 150px;
+    border-radius: 200px;
+  }
+
+  &__name {
+    text-align: center;
+    color: $color-blue;
+    font-size: map-get($font-sizes, 'base');
+    margin-bottom: 20px;
+  }
+
+  &__intro {
+    color: $color-blue;
+
+    font-size: map-get($font-sizes, 'lg');
+  }
+}

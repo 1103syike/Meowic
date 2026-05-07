@@ -1,0 +1,36 @@
+@use 'variables' as *;
+.lyric {
+  display: block;
+  width: 100%;
+  height: 100%;
+  @include block(40px, 40px);
+  box-shadow: none;
+
+  &__header {
+    color:$color-blue;
+    font-size: map-get($font-sizes, 'xl');
+  }
+  &__container {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  &__item {
+    font-size: map-get($font-sizes, 'xl');
+    text-align: center;
+    color: $color-ts-gray;
+
+    &--prev,
+    &--next {
+      font-size: map-get($font-sizes, '2xl');
+
+      color: $color-ts-prev-lyric;
+    }
+
+    &--active {
+      font-size: map-get($font-sizes, '3xl');
+
+      color: $color-green;
+    }
+  }
+}
