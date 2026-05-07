@@ -1,0 +1,62 @@
+@use 'variables' as *;
+.musicbar {
+  width: 100%;
+  height: 100%;
+  @include block(20px, 40px);
+  @include flex(column, start, start);
+
+  &__header {
+    width: 100%;
+
+    font-size: map-get($font-sizes, 'xl');
+    color: $color-blue;
+    @include flex(row, space-between, center);
+
+    &__btn {
+      font-size: map-get($font-sizes, 'base');
+      @include flex(row, center, center);
+      @include capsule-btn();
+    }
+  }
+  &__btn {
+    @include long-button;
+    @include flex(row, start, center);
+  }
+
+  &__list {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    &__item {
+      font-size: map-get($font-sizes, 'base');
+      width: 100%;
+      display: grid;
+      gap: 0px 10px;
+      grid-template-rows: 60p 1fr;
+      grid-template-columns: 60px 1fr;
+      list-style: none;
+      grid-template-areas:
+        'image  title'
+        'image artist';
+      color: $color-blue;
+      box-sizing: border-box;
+      &__image {
+        grid-area: image;
+        width: 60px;
+        height: 60px;
+      }
+      &__title {
+        margin-top: auto;
+        grid-area: title;
+      }
+      &__artist {
+        grid-area: artist;
+        font-weight: 500;
+      }
+    }
+  }
+}
