@@ -284,6 +284,7 @@
       "id": 1,
       "coverPath": "./mock/album/album-1.png",
       "name": "冬眠覺醒",
+      "type": "album",
       "artist": "北國少女",
       "like": 52
     },
