@@ -23,6 +23,7 @@
     "json-server": "^0.17.4",
     "jsonwebtoken": "^9.0.3",
     "rxjs": "~7.8.0",
+    "sweetalert2": "^11.26.24",
     "tslib": "^2.3.0"
   },
   "devDependencies": {

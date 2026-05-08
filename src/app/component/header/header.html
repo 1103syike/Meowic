@@ -13,7 +13,7 @@
   <div class="user">
     @if (!!auth.currentUserStatus()) {
       <div class="user__name">{{this.auth.user()?.name}}</div>
-      <button class="user__login" (click)="this.auth.logout()">登出</button>
+      <button class="user__login" (click)=" logout()">登出</button>
     } @else {
       <button class="user__login" (click)="openLoginDialog()">登入</button>
     }
