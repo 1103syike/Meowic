@@ -36,7 +36,7 @@
         }
       }
       <div class="lyric__title">{{ this.passedCurrentSong()?.songTitle }}</div>
-      <div class="lyric__artist">{{ this.passedCurrentSong()?.artist }}</div>
+      <div class="lyric__artist">{{ this.passedCurrentSong()!.artist!.name }}</div>
     </main>
   } @else {
     <main class="lyric__container">

@@ -1,10 +1,10 @@
 <section class="player-container">
   <!-- 左側音樂資訊 -->
   <section class="song">
-    <img class="song__image" src="./mock/album/img-1.png" alt="" />
+    <img class="song__image" [src]="this.currentSong()?.album?.albumCover" alt="" />
     <section class="song__info">
-      <span class="song__info__title">歌名</span>
-      <span class="song__info__artist">歌手</span>
+      <span class="song__info__title">{{ this.currentSong()?.songTitle }}</span>
+      <span class="song__info__artist">{{ this.currentSong()!.artist!.name }}</span>
     </section>
   </section>
 
@@ -16,18 +16,30 @@
       <mat-icon class="player__play-tool__icon player__play-tool__icon--skip"
         >skip_previous</mat-icon
       >
-      <mat-icon class="player__play-tool__icon player__play-tool__icon--play">play_circle</mat-icon>
+      @if (this.status() === 'play') {
+        <mat-icon
+          class="player__play-tool__icon player__play-tool__icon--play"
+          (click)="playMusic()"
+          >play_circle</mat-icon
+        >
+      } @else if (this.status() === 'pause') {
+        <mat-icon
+          class="player__play-tool__icon player__play-tool__icon--pause"
+          (click)="playMusic()"
+          >pause_circle</mat-icon
+        >
+      }
       <mat-icon class="player__play-tool__icon player__play-tool__icon--skip">skip_next</mat-icon>
       <mat-icon class="player__play-tool__icon">repeat</mat-icon>
     </div>
 
     <!-- 下方音樂播放進度條區域 -->
     <div class="player__time-tool">
-      <span class="player__start-time">3:52</span>
+      <span class="player__start-time">{{ this.playedTime() }}</span>
       <div class="player__time-length">
-        <div class="player__current-time"></div>
+        <div class="player__current-time" [style]="`width:${this.currentTimePer()}%`"></div>
       </div>
-      <span class="player__end-time">4:55</span>
+      <span class="player__end-time">{{ this.currentSong()?.length }}</span>
     </div>
   </section>
 

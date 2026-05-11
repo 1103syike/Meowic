@@ -17,13 +17,19 @@ $color-table: rgba($color-blue, 0.01);
 
 // 2. Font Sizes
 $font-sizes: (
-  '3xl': 2.25rem,   // 36px
-  '2xl': 1.5rem,    // 24px
-  'xl': 1.25rem,    // 20px
-  'lg': 1.125rem,   // 18px
-  'base': 1rem,     // 16px
-  'sm': 0.875rem,   // 14px
-  'xs': 0.75rem,    // 12px
+  '3xl': 2.25rem,
+  // 36px
+  '2xl': 1.5rem,
+  // 24px
+  'xl': 1.25rem,
+  // 20px
+  'lg': 1.125rem,
+  // 18px
+  'base': 1rem,
+  // 16px
+  'sm': 0.875rem,
+  // 14px
+  'xs': 0.75rem, // 12px
 );
 
 // 3. Border Radius
@@ -38,6 +44,7 @@ $radius: (
 $space-base: 20px;
 $space-xl: 24px;
 $space-2xl: 40px;
+
 
 /* ==========================================================================
    Typography - 字體設定
@@ -98,8 +105,8 @@ $space-2xl: 40px;
 // 推薦歌曲
 @mixin recommand-btn {
   background: $color-ts-blue;
-  @include radius( 'small');
-  overflow: hidden
+  @include radius('small');
+  overflow: hidden;
 }
 
 // 導覽按鈕
@@ -137,7 +144,6 @@ $space-2xl: 40px;
     transform: translateY(-2px); // 補上 px 單位
   }
 }
-
 // 5. Flex Layout Helper
 @mixin flex($dir: row, $justify: flex-start, $align: center) {
   display: flex;
@@ -160,4 +166,11 @@ $space-2xl: 40px;
 
   justify-content: if(map-has-key($j-map, $justify), map-get($j-map, $justify), $justify);
   align-items: if(map-has-key($a-map, $align), map-get($a-map, $align), $align);
+}
+
+
+@media (max-width: 1280px) {
+  html {
+    font-size: 12px;
+  }
 }

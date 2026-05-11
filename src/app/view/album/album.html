@@ -36,7 +36,7 @@
           <!-- <img class="table__image" [src]="element.imgPath" alt="" /> -->
           <section class="table__info">
             <span class="table__info__title">{{ element.songTitle }}</span>
-            <span class="table__info__artist">{{ element.artist }}</span>
+            <span class="table__info__artist">{{ element.artist.name }}</span>
           </section>
         </td>
       </ng-container>
@@ -61,8 +61,8 @@
       <ng-container matColumnDef="tool">
         <th class="table__th table__th--tool" mat-header-cell *matHeaderCellDef>動作</th>
         <td class="table__td table__td--tool" mat-cell *matCellDef="let element">
-          <mat-icon aria-hidden="true" class="">favorite</mat-icon>
-          <mat-icon aria-hidden="true" class="">playlist_add</mat-icon>
+          <mat-icon aria-hidden="true" class="table__td__icon">favorite</mat-icon>
+          <mat-icon aria-hidden="true" class="table__td__icon">playlist_add</mat-icon>
         </td>
       </ng-container>
 
@@ -70,6 +70,7 @@
       <tr
         mat-row
         *matRowDef="let row; columns: displayedColumns"
+        (click)="setPlayer(row.id)"
         [routerLink]="['/song', row.id]"
       ></tr>
     </table>

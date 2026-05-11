@@ -2,10 +2,11 @@ import { Component, signal, inject } from '@angular/core';
 import { AuthService } from '../../@service/auth.service';
 import { Login } from '../login/login';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-header',
-  imports: [Login],
+  imports: [Login, RouterLink],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })

@@ -2,11 +2,12 @@
 @use 'variables' as *;
 
 .header {
-  height: 100px;
+  height: 100%;
   @include block(20px, 40px);
   @include flex(row, start, center);
 
   &__logo {
+    cursor: pointer;
     font-size: map-get($font-sizes, '3xl');
   }
 

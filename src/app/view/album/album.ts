@@ -3,6 +3,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ApiService, AlbumType, SongType } from '../../@service/api.service';
+import { MusicPlayerService } from '../../@service/music-player.service';
 export interface PeriodicElement {
   name: string;
   id: number;
@@ -22,8 +23,9 @@ export class Album {
   ///////////////////////////////////////////////////////
   private route: ActivatedRoute = inject(ActivatedRoute);
   private api: ApiService = inject(ApiService);
+  private music:MusicPlayerService = inject(MusicPlayerService)
   ///////////////////////////////////////////////////////
-  displayedColumns: string[] = ['id', 'name', 'album', 'time', 'tool'];
+  public displayedColumns: string[] = ['id', 'name', 'album', 'time', 'tool'];
   public songlist = signal<SongType[] | null>(null);
   public currentAlbum = signal<AlbumType | null>(null);
   ///////////////////////////////////////////////////////
@@ -39,8 +41,6 @@ export class Album {
     this.api.getAlbumByAlbumId(albumId).subscribe({
       next: (res: AlbumType[]) => {
         this.currentAlbum.set(res[0]);
-        console.log(this.currentAlbum());
-
       },
       error: (err) => {},
     });
@@ -52,5 +52,10 @@ export class Album {
       },
       error: (err) => {},
     });
+  }
+
+  public setPlayer(id:string){
+    this.music.setPlayer(id)
+    this.music.setIsClose(false)
   }
 }

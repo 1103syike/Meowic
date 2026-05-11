@@ -9,22 +9,22 @@ export class ApiService {
   //////////////////////////////////////////////////////
 
   getAllAlbum(): Observable<AlbumType[]> {
-    return this.http.get<AlbumType[]>('http://localhost:3000/albums');
+    return this.http.get<AlbumType[]>('http://localhost:3000/album');
   }
 
   getAlbumByAlbumId(id: string): Observable<AlbumType[]> {
     const params = { id: id };
-    return this.http.get<AlbumType[]>('http://localhost:3000/albums', { params });
+    return this.http.get<AlbumType[]>('http://localhost:3000/album', { params });
   }
 
   getAllSongByAlbumId(id: string): Observable<SongType[]> {
     const params = { 'album.albumId': id };
-    return this.http.get<SongType[]>('http://localhost:3000/songs', { params });
+    return this.http.get<SongType[]>('http://localhost:3000/song', { params });
   }
 
   getSongById(id: string): Observable<SongType[]> {
     const params = { id: id };
-    return this.http.get<SongType[]>('http://localhost:3000/songs', { params });
+    return this.http.get<SongType[]>('http://localhost:3000/song', { params });
   }
 }
 
@@ -32,7 +32,7 @@ export interface SongType {
   id: number;
   imgPath: string;
   songTitle: string;
-  artist: string;
+  artist: ArtistType;
   album: WithAlbum;
   length: string;
   like: number;
@@ -49,6 +49,12 @@ export interface AlbumType {
   type: string;
   name: string;
   engname: string;
-  artist: string;
+  artist: ArtistType;
   like: number;
+}
+
+export interface ArtistType {
+  id: number;
+  imgPath: string;
+  name: string;
 }

@@ -13,7 +13,7 @@
 
   padding: var(--page-padding);
 
-  grid-template-rows: var(--header-height) auto var(--header-player);
+  grid-template-rows: var(--header-height) auto auto;
   grid-template-columns: var(--sidebar-width) 1fr;
   grid-template-areas:
     'header  header'
@@ -51,4 +51,12 @@ app-musicbar {
 .music-list-container {
   flex: 1;
   overflow-y: auto;
+}
+
+@media (max-width: 1280px) {
+  :host {
+    --header-height: 80px;
+    --header-player: 120px;
+    --sidebar-width: 340px;
+  }
 }
