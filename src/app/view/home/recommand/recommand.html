@@ -3,7 +3,7 @@
   <ul class="recommand__list">
     @for (recommand of recommandAlbumList(); track $index) {
       <li [routerLink]="['album',recommand.id]"  class="recommand__item">
-        <img class="recommand__item__image" [src]="recommand.coverPath" alt="" />
+        <img class="recommand__item__image" [src]="recommand.imgPath" alt="" />
         <div class="recommand__item__artist">{{ recommand.name }}</div>
       </li>
     }

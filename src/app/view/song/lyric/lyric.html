@@ -5,7 +5,7 @@
         aria-hidden="false"
         aria-label="返回首頁"
         class="lyric__back-btn__icon"
-        [routerLink]="['/album',this.passedCurrentSong()?.album?.albumId]"
+        [routerLink]="['/album',this.passedCurrentSong()?.album?.id]"
         >arrow_back_ios</mat-icon
       >
     </button>
@@ -29,14 +29,14 @@
     <main class="lyric__container">
       @if (this.passedCurrentSong(); as song) {
         <!-- 確保有專輯資料才渲染圖片 -->
-        @if (song.album!.albumCover) {
+        @if (song.album!.imgPath) {
           <div class="lyric__float">
-            <img class="lyric__cover" [src]="song.album.albumCover" alt="專輯封面" />
+            <img class="lyric__cover" [src]="song.album.imgPath" alt="專輯封面" />
           </div>
         }
       }
-      <div class="lyric__title">{{ this.passedCurrentSong()?.songTitle }}</div>
-      <div class="lyric__artist">{{ this.passedCurrentSong()!.artist!.name }}</div>
+      <div class="lyric__title">{{ this.passedCurrentSong()?.name }}</div>
+      <div class="lyric__artist">{{ this.passedCurrentSong()?.artist?.name }}</div>
     </main>
   } @else {
     <main class="lyric__container">

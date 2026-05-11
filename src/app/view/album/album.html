@@ -7,13 +7,13 @@
 
   <header class="album__header">
     @if (!!this.currentAlbum()) {
-      <img class="album__image" [src]="this.currentAlbum()!.coverPath" alt="" />
+      <img class="album__image" [src]="this.currentAlbum()!.imgPath" alt="" />
       <section class="album__info">
         <h5 class="album__info__type">
           {{ this.currentAlbum()!.type == 'album' ? '專輯' : '播放清單' }}
         </h5>
-        <h1 class="album__info__name">{{ this.currentAlbum()!.name }}</h1>
-        <h3 class="album__info__artist">{{ this.currentAlbum()!.artist }}</h3>
+        <h1 class="album__info__name">{{ this.currentAlbum()?.name }}</h1>
+        <h3 class="album__info__artist">{{ this.currentAlbum()?.artist?.name }}</h3>
         <span class="album__info__record">喜歡人數：{{ this.currentAlbum()?.like }}</span>
       </section>
     }
@@ -24,8 +24,8 @@
       <!-- 歌曲編號 -->
       <ng-container matColumnDef="id">
         <th class="table__th table__th--id" mat-header-cell *matHeaderCellDef>#</th>
-        <td class="table__td table__td--id" mat-cell *matCellDef="let element">
-          {{ element.id }}
+        <td class="table__td table__td--id" mat-cell *matCellDef="let element; let i =index">
+          {{ i+1 }}
         </td>
       </ng-container>
 
@@ -35,7 +35,7 @@
         <td class="table__td table__td--name" mat-cell *matCellDef="let element">
           <!-- <img class="table__image" [src]="element.imgPath" alt="" /> -->
           <section class="table__info">
-            <span class="table__info__title">{{ element.songTitle }}</span>
+            <span class="table__info__title">{{ element.name }}</span>
             <span class="table__info__artist">{{ element.artist.name }}</span>
           </section>
         </td>
@@ -44,8 +44,8 @@
       <!-- 專輯 -->
       <ng-container matColumnDef="album">
         <th class="table__th table__th--album" mat-header-cell *matHeaderCellDef>專輯</th>
-        <td class="table__td table__td--album" mat-cell *matCellDef="let element">
-          {{ element.album.albumName }}
+        <td class="table__td table__td--album" mat-cell *matCellDef="let element ">
+          {{ element.album.name }}
         </td>
       </ng-container>
 

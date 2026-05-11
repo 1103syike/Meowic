@@ -41,6 +41,8 @@ export class Album {
     this.api.getAlbumByAlbumId(albumId).subscribe({
       next: (res: AlbumType[]) => {
         this.currentAlbum.set(res[0]);
+        console.log('專輯是：', res[0]);
+
       },
       error: (err) => {},
     });
@@ -48,6 +50,8 @@ export class Album {
   private getAllSongByAlbumId(albumId: string) {
     this.api.getAllSongByAlbumId(albumId).subscribe({
       next: (res: SongType[]) => {
+        console.log('歌曲列表是：', res);
+
         this.songlist.set(res);
       },
       error: (err) => {},

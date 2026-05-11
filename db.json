@@ -1,5 +1,5 @@
 {
-  "user": [
+  "users": [
     {
       "id": 1,
       "name": "鄭丞恩",
@@ -13,11 +13,11 @@
       "password": "123"
     }
   ],
-  "song": [
+  "songs": [
     {
       "id": 1,
       "imgPath": "./mock/album/imgPath-1.png",
-      "songTitle": "午夜霓虹",
+      "name": "午夜霓虹",
       "artistId": 2,
       "albumId": 6,
       "length": "3:42",
@@ -26,7 +26,7 @@
     {
       "id": 2,
       "imgPath": "./mock/album/imgPath-11.png",
-      "songTitle": "破碎的時光機",
+      "name": "破碎的時光機",
       "artistId": 2,
       "albumId": 6,
       "length": "4:15",
@@ -35,7 +35,7 @@
     {
       "id": 3,
       "imgPath": "./mock/album/imgPath-3.png",
-      "songTitle": "深海呼吸",
+      "name": "深海呼吸",
       "artistId": 2,
       "albumId": 6,
       "length": "5:08",
@@ -44,7 +44,7 @@
     {
       "id": 4,
       "imgPath": "./mock/album/imgPath-4.png",
-      "songTitle": "數位荒野",
+      "name": "數位荒野",
       "artistId": 2,
       "albumId": 6,
       "length": "2:56",
@@ -53,7 +53,7 @@
     {
       "id": 5,
       "imgPath": "./mock/album/imgPath-5.png",
-      "songTitle": "最後一封信",
+      "name": "最後一封信",
       "artistId": 2,
       "albumId": 6,
       "length": "4:33",
@@ -62,7 +62,7 @@
     {
       "id": 6,
       "imgPath": "./mock/album/imgPath-6.png",
-      "songTitle": "宇宙塵埃",
+      "name": "宇宙塵埃",
       "artistId": 2,
       "albumId": 6,
       "length": "3:20",
@@ -71,36 +71,36 @@
     {
       "id": 7,
       "imgPath": "./mock/album/imgPath-7.png",
-      "songTitle": "微光邊緣",
-      "artist": 2,
-      "album": 6,
+      "name": "微光邊緣",
+      "artistId": 2,
+      "albumId": 6,
       "length": "4:47",
       "like": 52
     },
     {
       "id": 8,
       "imgPath": "./mock/album/imgPath-8.png",
-      "songTitle": "雨後的咖啡館",
-      "artist": 2,
-      "album": 6,
+      "name": "雨後的咖啡館",
+      "artistId": 2,
+      "albumId": 6,
       "length": "3:12",
       "like": 52
     },
     {
       "id": 9,
       "imgPath": "./mock/album/imgPath-9.png",
-      "songTitle": "無名高地",
-      "artist": 2,
-      "album": 6,
+      "name": "無名高地",
+      "artistId": 2,
+      "albumId": 6,
       "length": "5:24",
       "like": 52
     },
     {
       "id": 10,
       "imgPath": "./mock/album/imgPath-10.png",
-      "songTitle": "冬眠覺醒",
-      "artist": 1,
-      "album": 1,
+      "name": "冬眠覺醒",
+      "artistId": 1,
+      "albumId": 1,
       "length": "4:01",
       "like": 52,
       "isTitle": true
@@ -109,9 +109,9 @@
     {
       "id": 11,
       "imgPath": "./mock/album/imgPath-11.png",
-      "songTitle": "極光之舞",
-      "artist": 1,
-      "album": 1,
+      "name": "極光之舞",
+      "artistId": 1,
+      "albumId": 1,
       "length": "3:45",
       "like": 128,
       "isTitle": false
@@ -119,9 +119,9 @@
     {
       "id": 12,
       "imgPath": "./mock/album/imgPath-12.png",
-      "songTitle": "零度記憶",
-      "artist": 1,
-      "album": 1,
+      "name": "零度記憶",
+      "artistId": 1,
+      "albumId": 1,
       "length": "4:12",
       "like": 85,
       "isTitle": false
@@ -129,9 +129,9 @@
     {
       "id": 13,
       "imgPath": "./mock/album/imgPath-13.png",
-      "songTitle": "白夜行者",
-      "artist": 1,
-      "album": 1,
+      "name": "白夜行者",
+      "artistId": 1,
+      "albumId": 1,
       "length": "3:58",
       "like": 210,
       "isTitle": false
@@ -139,9 +139,9 @@
     {
       "id": 14,
       "imgPath": "./mock/album/imgPath-14.png",
-      "songTitle": "碎冰之聲",
-      "artist": 1,
-      "album": 1,
+      "name": "碎冰之聲",
+      "artistId": 1,
+      "albumId": 1,
       "length": "4:30",
       "like": 42,
       "isTitle": false
@@ -149,9 +149,9 @@
     {
       "id": 15,
       "imgPath": "./mock/album/imgPath-15.png",
-      "songTitle": "壁爐旁的詩",
-      "artist": 1,
-      "album": 1,
+      "name": "壁爐旁的詩",
+      "artistId": 1,
+      "albumId": 1,
       "length": "3:20",
       "like": 96,
       "isTitle": false
@@ -159,9 +159,9 @@
     {
       "id": 16,
       "imgPath": "./mock/album/imgPath-16.png",
-      "songTitle": "針葉林的風",
-      "artist": 1,
-      "album": 1,
+      "name": "針葉林的風",
+      "artistId": 1,
+      "albumId": 1,
       "length": "5:15",
       "like": 67,
       "isTitle": false
@@ -169,9 +169,9 @@
     {
       "id": 17,
       "imgPath": "./mock/album/imgPath-17.png",
-      "songTitle": "遙遠的馴鹿",
-      "artist": 1,
-      "album": 1,
+      "name": "遙遠的馴鹿",
+      "artistId": 1,
+      "albumId": 1,
       "length": "4:05",
       "like": 153,
       "isTitle": false
@@ -179,9 +179,9 @@
     {
       "id": 18,
       "imgPath": "./mock/album/imgPath-18.png",
-      "songTitle": "糖果屋的灰燼",
-      "artist": 1,
-      "album": 1,
+      "name": "糖果屋的灰燼",
+      "artistId": 1,
+      "albumId": 1,
       "length": "3:50",
       "like": 88,
       "isTitle": false
@@ -189,9 +189,9 @@
     {
       "id": 19,
       "imgPath": "./mock/album/imgPath-19.png",
-      "songTitle": "午夜太陽",
-      "artist": 1,
-      "album": 1,
+      "name": "午夜太陽",
+      "artistId": 1,
+      "albumId": 1,
       "length": "4:42",
       "like": 320,
       "isTitle": true
@@ -199,9 +199,9 @@
     {
       "id": 20,
       "imgPath": "./mock/album/imgPath-20.png",
-      "songTitle": "被遺忘的圍巾",
-      "artist": 1,
-      "album": 1,
+      "name": "被遺忘的圍巾",
+      "artistId": 1,
+      "albumId": 1,
       "length": "3:15",
       "like": 74,
       "isTitle": false
@@ -209,9 +209,9 @@
     {
       "id": 21,
       "imgPath": "./mock/album/imgPath-21.png",
-      "songTitle": "融雪之時",
-      "artist": 1,
-      "album": 1,
+      "name": "融雪之時",
+      "artistId": 1,
+      "albumId": 1,
       "length": "4:55",
       "like": 112,
       "isTitle": false
@@ -219,18 +219,18 @@
     {
       "id": 22,
       "imgPath": "./mock/album/imgPath-22.png",
-      "songTitle": "候鳥的信件",
-      "artist": 1,
-      "album": 1,
+      "name": "候鳥的信件",
+      "artistId": 1,
+      "albumId": 1,
       "length": "3:38",
       "like": 45,
       "isTitle": false
     }
   ],
-  "album": [
+  "albums": [
     {
       "id": 1,
-      "coverPath": "./mock/album/album-1.png",
+      "imgPath": "./mock/album/album-1.png",
       "name": "冬眠覺醒",
       "type": "album",
       "artistId": 1,
@@ -238,46 +238,76 @@
     },
     {
       "id": 2,
-      "coverPath": "./mock/album/album-2.png",
+      "imgPath": "./mock/album/album-2.png",
       "name": "霓虹午夜",
       "artistId": 2,
       "like": 128
     },
     {
       "id": 3,
-      "coverPath": "./mock/album/album-3.png",
+      "imgPath": "./mock/album/album-3.png",
       "name": "琥珀色的午後",
       "artistId": 3,
       "like": 85
     },
     {
       "id": 4,
-      "coverPath": "./mock/album/album-4.png",
+      "imgPath": "./mock/album/album-4.png",
       "name": "數位荒原",
       "artistId": 4,
       "like": 210
     },
     {
       "id": 5,
-      "coverPath": "./mock/album/album-5.png",
+      "imgPath": "./mock/album/album-5.png",
       "name": "夏日碎冰",
       "artistId": 5,
       "like": 43
     },
     {
       "id": 6,
-      "coverPath": "./mock/album/album-6.png",
+      "imgPath": "./mock/album/album-6.png",
       "name": "寂靜深海",
       "artistId": 6,
       "like": 315
     }
   ],
-  "artist": [
+  "artists": [
     {
       "id": 1,
-      "coverPath": "./mock/artist/albartisum-1.jpg",
+      "imgPath": "./mock/artist/artist-1.png",
       "name": "北國少女",
-      "intro": "來自極光交織的國度，溫暖你心靈的純淨之聲。「北國少女 (Northland Girls)」是由三位性格迥異、音樂色彩鮮明的 VTuber 所組成的跨國音樂團體。她們以北國雪原為背景，將家鄉的冷冽轉化為充滿溫度的樂章，橫掃各大數位音樂榜單。成員簡介：雪奈 (Yuki) 是組合中的核心力量，擁有如同初雪般清亮的嗓音，擅長駕馭高難度的流行曲風。小春 (Koharu) 是創作靈魂與療癒擔當，負責大部分的詞曲創作，曲風細膩且充滿民族風情。美月 (Mizuki) 是低音域的魔法師，冷靜且富有魅力的磁性嗓音，為團體增添了神祕而沉穩的厚度。音樂風格融合了 J-Pop、民族歌謠與現代電子樂。歌詞多圍繞著「勇氣」、「思念」與「北國自然美景」，不僅在 YouTube 創下驚人點閱，更是在 Spotify 成為許多人在深夜尋求平靜的必聽清單。「即使在最寒冷的冬夜，我們的歌聲也會像極光一樣，指引你回家的路。」現在就追蹤「北國少女」，將這份北國的禮物加入你的播放清單。"
+      "description": "來自極光交織的國度，溫暖你心靈的純淨之聲。「北國少女 (Northland Girls)」是由三位性格迥異、音樂色彩鮮明的 VTuber 所組成的跨國音樂團體。她們以北國雪原為背景，將家鄉的冷冽轉化為充滿溫度的樂章，橫掃各大數位音樂榜單。成員簡介：雪奈 (Yuki) 是組合中的核心力量，擁有如同初雪般清亮的嗓音，擅長駕馭高難度的流行曲風。小春 (Koharu) 是創作靈魂與療癒擔當，負責大部分的詞曲創作，曲風細膩且充滿民族風情。美月 (Mizuki) 是低音域的魔法師，冷靜且富有魅力的磁性嗓音，為團體增添了神祕而沉穩的厚度。音樂風格融合了 J-Pop、民族歌謠與現代電子樂。歌詞多圍繞著「勇氣」、「思念」與「北國自然美景」，不僅在 YouTube 創下驚人點閱，更是在 Spotify 成為許多人在深夜尋求平靜的必聽清單。「即使在最寒冷的冬夜，我們的歌聲也會像極光一樣，指引你回家的路。」現在就追蹤「北國少女」，將這份北國的禮物加入你的播放清單。"
+    },
+    {
+      "id": 2,
+      "imgPath": "./mock/artist/artist-2.png",
+      "name": "午夜港口",
+      "description": "來自台北地下酒吧圈的 Jazz Fusion 樂團，以薩克斯風與鋼琴即興演奏聞名。作品充滿深夜城市感與微醺氛圍，融合爵士、藍調與 Lo-fi Hip Hop，是許多人加班與深夜閱讀時的固定播放清單。"
+    },
+    {
+      "id": 3,
+      "imgPath": "./mock/artist/artist-3.png",
+      "name": "KAI",
+      "description": "新生代華語 R&B 男歌手，擅長以細膩嗓音描寫戀愛與孤獨情緒。音樂風格融合 Neo Soul 與 Trap Soul，憑藉單曲《凌晨三點半》在串流平台快速爆紅。"
+    },
+    {
+      "id": 4,
+      "imgPath": "./mock/artist/artist-4.png",
+      "name": "白晝訊號",
+      "description": "四人獨立搖滾樂團，曲風受到英搖與日系 Alternative Rock 影響。歌曲多圍繞青春迷惘、城市生活與夢想掙扎，現場演出能量強烈，是音樂祭常客。"
+    },
+    {
+      "id": 5,
+      "imgPath": "./mock/artist/artist-5.png",
+      "name": "DJ Aster",
+      "description": "亞洲知名電子音樂製作人，擅長 Future Bass 與 Progressive House。曾與多位國際歌手合作，作品節奏感強烈且帶有宇宙感音色，是大型電音節熱門壓軸 DJ。"
+    },
+    {
+      "id": 6,
+      "imgPath": "./mock/artist/artist-6.png",
+      "name": "林秋禾",
+      "description": "民謠創作歌手，以木吉他與低沉溫暖的嗓音著稱。歌詞多描寫台灣鄉鎮、人情與成長記憶，風格樸實真誠，被許多樂迷稱為『深夜故事系歌手』。"
     }
   ]
 }

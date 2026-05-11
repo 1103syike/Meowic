@@ -1,10 +1,10 @@
 <section class="player-container">
   <!-- 左側音樂資訊 -->
   <section class="song">
-    <img class="song__image" [src]="this.currentSong()?.album?.albumCover" alt="" />
+    <img class="song__image" [src]="this.currentSong()?.album?.imgPath" alt="" />
     <section class="song__info">
-      <span class="song__info__title">{{ this.currentSong()?.songTitle }}</span>
-      <span class="song__info__artist">{{ this.currentSong()!.artist!.name }}</span>
+      <span class="song__info__title">{{ this.currentSong()?.name }}</span>
+      <span class="song__info__artist">{{ this.currentSong()?.artist?.name }}</span>
     </section>
   </section>
 
@@ -37,6 +37,7 @@
     <div class="player__time-tool">
       <span class="player__start-time">{{ this.playedTime() }}</span>
       <div class="player__time-length">
+        <audio [src]="musicPlayer"></audio>
         <div class="player__current-time" [style]="`width:${this.currentTimePer()}%`"></div>
       </div>
       <span class="player__end-time">{{ this.currentSong()?.length }}</span>
