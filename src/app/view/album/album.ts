@@ -23,7 +23,7 @@ export class Album {
   ///////////////////////////////////////////////////////
   private route: ActivatedRoute = inject(ActivatedRoute);
   private api: ApiService = inject(ApiService);
-  private music:MusicPlayerService = inject(MusicPlayerService)
+  private music: MusicPlayerService = inject(MusicPlayerService);
   ///////////////////////////////////////////////////////
   public displayedColumns: string[] = ['id', 'name', 'album', 'time', 'tool'];
   public songlist = signal<SongType[] | null>(null);
@@ -41,8 +41,8 @@ export class Album {
     this.api.getAlbumByAlbumId(albumId).subscribe({
       next: (res: AlbumType[]) => {
         this.currentAlbum.set(res[0]);
-        console.log('專輯是：', res[0]);
 
+        console.log('專輯是：', res[0]);
       },
       error: (err) => {},
     });
@@ -50,16 +50,35 @@ export class Album {
   private getAllSongByAlbumId(albumId: string) {
     this.api.getAllSongByAlbumId(albumId).subscribe({
       next: (res: SongType[]) => {
-        console.log('歌曲列表是：', res);
-
         this.songlist.set(res);
+
+        res.forEach((song) => {
+          const audio = new Audio(song.audioPath);
+
+          audio.onloadedmetadata = () => {
+            song.length = this.formatTime(audio.duration);
+            this.songlist.set([...res]);
+          };
+
+          audio.onerror = () => {
+            song.length = '--:--';
+            this.songlist.set([...res]);
+          };
+          
+        });
       },
-      error: (err) => {},
     });
   }
 
-  public setPlayer(id:string){
-    this.music.setPlayer(id)
-    this.music.setIsClose(false)
+  public setPlayer(id: string) {
+    this.music.setPlayer(id);
+    this.music.setIsClose(false);
+  }
+
+  formatTime(time: number): string {
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+
+    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
   }
 }

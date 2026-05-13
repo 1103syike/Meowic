@@ -30,12 +30,13 @@ export class ApiService {
 
 export interface SongType {
   id: number;
-  imgPath: string;
+  imgPath?: string;
   name: string;
   artist: ArtistType;
   album: AlbumType;
   length: string;
   like: number;
+  audioPath:string
 }
 interface WithAlbum {
   albumId: number;

@@ -18,7 +18,25 @@
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-areas: 'song  player tool';
 }
+.player__slider {
+  width: 230px;
+}
+:host ::ng-deep .player__slider .mat-mdc-slider{
+  width: 200px;
+}
+:host ::ng-deep .player__slider .mdc-slider__track--active_fill {
+  border-color: #74a57f ;
+}
 
+:host ::ng-deep .player__slider .mdc-slider__track--inactive {
+  background-color:$color-gray ;
+  opacity: 1;
+}
+
+:host ::ng-deep .player__slider .mdc-slider__thumb-knob {
+  background-color: #74a57f;
+  border-color: #74a57f ;
+}
 // 左側音樂資訊
 .song {
   display: flex;
@@ -69,7 +87,7 @@
       height: 28px;
       font-size: 28px;
       &--play {
-        width:var(--player-btn);
+        width: var(--player-btn);
         height: var(--player-btn);
         font-size: var(--player-btn);
         color: $color-green;
@@ -170,7 +188,7 @@
   :host {
     --song-image: 50px;
     --player-btn: 36px;
-  --padding-top: 12px;
+    --padding-top: 12px;
 
     --sidebar-width: 400px;
   }

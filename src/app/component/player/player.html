@@ -1,7 +1,13 @@
 <section class="player-container">
   <!-- 左側音樂資訊 -->
   <section class="song">
-    <img class="song__image" [src]="this.currentSong()?.album?.imgPath" alt="" />
+    <img
+      class="song__image"
+      [src]="
+        this.currentSong()?.imgPath ? this.currentSong()?.imgPath : this.currentSong()?.album?.imgPath
+      "
+      alt=""
+    />
     <section class="song__info">
       <span class="song__info__title">{{ this.currentSong()?.name }}</span>
       <span class="song__info__artist">{{ this.currentSong()?.artist?.name }}</span>
@@ -16,16 +22,16 @@
       <mat-icon class="player__play-tool__icon player__play-tool__icon--skip"
         >skip_previous</mat-icon
       >
-      @if (this.status() === 'play') {
+      @if (player.paused) {
         <mat-icon
           class="player__play-tool__icon player__play-tool__icon--play"
-          (click)="playMusic()"
+          (click)="player.play()"
           >play_circle</mat-icon
         >
-      } @else if (this.status() === 'pause') {
+      } @else {
         <mat-icon
           class="player__play-tool__icon player__play-tool__icon--pause"
-          (click)="playMusic()"
+          (click)="player.pause()"
           >pause_circle</mat-icon
         >
       }
@@ -35,12 +41,21 @@
 
     <!-- 下方音樂播放進度條區域 -->
     <div class="player__time-tool">
-      <span class="player__start-time">{{ this.playedTime() }}</span>
-      <div class="player__time-length">
-        <audio [src]="musicPlayer"></audio>
-        <div class="player__current-time" [style]="`width:${this.currentTimePer()}%`"></div>
+      <audio
+        #player
+        [src]="this.currentSong()?.audioPath"
+        (timeupdate)="currentTime = player.currentTime"
+      ></audio>
+
+      <div class="player__time-tool">
+        <span>{{ formatTime(currentTime) }}</span>
+
+        <mat-slider class="player__slider" min="0" [max]="player.duration || 0">
+          <input matSliderThumb [value]="currentTime" (valueChange)="player.currentTime = $event" />
+        </mat-slider>
+
+        <span>{{ formatTime(player.duration || 0) }}</span>
       </div>
-      <span class="player__end-time">{{ this.currentSong()?.length }}</span>
     </div>
   </section>
 

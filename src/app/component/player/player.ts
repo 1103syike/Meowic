@@ -6,10 +6,11 @@ import { NavigationEnd, Router } from '@angular/router';
 import { filter, interval, Subscription, take } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TimePipe } from '../../@pipe/time-pipe';
+import { MatSliderModule } from '@angular/material/slider';
 
 @Component({
   selector: 'app-player',
-  imports: [MatIcon],
+  imports: [MatIcon, MatSliderModule],
   templateUrl: './player.html',
   styleUrl: './player.scss',
   providers: [TimePipe],
@@ -17,20 +18,21 @@ import { TimePipe } from '../../@pipe/time-pipe';
 export class Player {
   /////////////////////////////////////////////
   private player: MusicPlayerService = inject(MusicPlayerService);
-  private readonly timePipe: TimePipe = inject(TimePipe);
-  private destroyRef = inject(DestroyRef); // 注入銷毀引用
   private router: Router = inject(Router);
-  public status = signal<string>('play');
-  public playedTime = signal<string>('0:00');
   /////////////////////////////////////////////
   public isClose = signal<boolean>(false);
   public currentSongId = signal<string | null>(null);
   public currentSong = signal<SongType | null>(null);
-  private timerSub?: Subscription; // 用來存放計時器訂閱
+  public musicPlayer = new Audio('/audio/Test.mp3');
+  public currentTime = 0;
   /////////////////////////////////////////////
 
   constructor() {
     this.subscribeRouter();
+  }
+
+  ngOnInit() {
+    this.setSongByLocalStorage();
   }
 
   private subscribeRouter() {
@@ -47,13 +49,11 @@ export class Player {
       });
   }
 
-  ngOnInit() {
-    this.setSongByLocalStorage();
-  }
-
   private setSongByLocalStorage() {
     this.currentSongId.set(localStorage.getItem('songId')!);
     this.player.getPlayer(this.currentSongId()!).subscribe((res) => {
+      console.log(this.currentSong());
+
       this.currentSong.set(res[0]);
     });
   }
@@ -62,50 +62,13 @@ export class Player {
     this.player.setIsClose(boolean);
   }
 
-  ///////////////////////////////////////////////////
-  private readonly TICK_MS = 100;
-  private currentMs = 0;
-  public currentTimePer = signal<number>(0);
 
-  public playMusic() {
-    this.timerSub?.unsubscribe();
+  // 轉換秒數方法
+  formatTime(time: number): string {
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
 
-    if (this.status() === 'play') {
-      this.status.set('pause');
-
-      const totalMs = (this.timePipe.transform(this.currentSong()!.length) as number) * 1000;
-
-      this.timerSub = interval(this.TICK_MS)
-        .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe(() => {
-          this.currentMs += this.TICK_MS;
-
-          const currentSecond = Math.floor(this.currentMs / 1000);
-          this.playedTime.set(this.timePipe.transform(currentSecond) as string);
-          this.currentTimePer.set((this.currentMs / totalMs) * 100)
-          console.log(this.currentTimePer());
-
-          if (this.currentMs >= totalMs) {
-            this.stopMusic();
-          }
-        });
-    } else {
-      this.status.set('play');
-    }
+    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
   }
-
-  private stopMusic() {
-    this.timerSub?.unsubscribe();
-
-    this.status.set('play');
-    this.currentMs = 0;
-
-    this.playedTime.set(this.timePipe.transform(0) as string);
-
-    console.log('音樂播放結束或手動停止');
-  }
-
-  public musicPlayer = new Audio('/audio/Test.mp3');
-
   ///////////////////////////////////////////////
 }

@@ -16,298 +16,61 @@
   "songs": [
     {
       "id": 1,
-      "imgPath": "./mock/album/imgPath-1.png",
-      "name": "午夜霓虹",
-      "artistId": 2,
-      "albumId": 6,
-      "length": "3:42",
-      "like": 42
+      "name": "BangBangBang",
+      "artistId": 1,
+      "albumId": 1,
+      "like": 42,
+      "audioPath": "assets/audio/audio-1.mp3"
     },
     {
       "id": 2,
-      "imgPath": "./mock/album/imgPath-11.png",
-      "name": "破碎的時光機",
-      "artistId": 2,
-      "albumId": 6,
-      "length": "4:15",
-      "like": 52
+      "name": "Let's Not Fall in Love",
+      "artistId": 1,
+      "albumId": 1,
+      "like": 42,
+      "audioPath": "assets/audio/audio-2.mp3"
     },
     {
       "id": 3,
-      "imgPath": "./mock/album/imgPath-3.png",
-      "name": "深海呼吸",
-      "artistId": 2,
-      "albumId": 6,
-      "length": "5:08",
-      "like": 52
+      "name": "Loser",
+      "artistId": 1,
+      "albumId": 1,
+      "like": 42,
+      "audioPath": "assets/audio/audio-3.mp3"
     },
     {
       "id": 4,
-      "imgPath": "./mock/album/imgPath-4.png",
-      "name": "數位荒野",
-      "artistId": 2,
-      "albumId": 6,
-      "length": "2:56",
-      "like": 52
+      "name": "Last Dance",
+      "artistId": 1,
+      "albumId": 1,
+      "like": 42,
+      "audioPath": "assets/audio/audio-4.mp3"
     },
     {
       "id": 5,
-      "imgPath": "./mock/album/imgPath-5.png",
-      "name": "最後一封信",
-      "artistId": 2,
-      "albumId": 6,
-      "length": "4:33",
-      "like": 52
-    },
-    {
-      "id": 6,
-      "imgPath": "./mock/album/imgPath-6.png",
-      "name": "宇宙塵埃",
-      "artistId": 2,
-      "albumId": 6,
-      "length": "3:20",
-      "like": 52
-    },
-    {
-      "id": 7,
-      "imgPath": "./mock/album/imgPath-7.png",
-      "name": "微光邊緣",
-      "artistId": 2,
-      "albumId": 6,
-      "length": "4:47",
-      "like": 52
-    },
-    {
-      "id": 8,
-      "imgPath": "./mock/album/imgPath-8.png",
-      "name": "雨後的咖啡館",
-      "artistId": 2,
-      "albumId": 6,
-      "length": "3:12",
-      "like": 52
-    },
-    {
-      "id": 9,
-      "imgPath": "./mock/album/imgPath-9.png",
-      "name": "無名高地",
-      "artistId": 2,
-      "albumId": 6,
-      "length": "5:24",
-      "like": 52
-    },
-    {
-      "id": 10,
-      "imgPath": "./mock/album/imgPath-10.png",
-      "name": "冬眠覺醒",
+      "name": "Fantastic Baby",
       "artistId": 1,
       "albumId": 1,
-      "length": "4:01",
-      "like": 52,
-      "isTitle": true
-    },
-
-    {
-      "id": 11,
-      "imgPath": "./mock/album/imgPath-11.png",
-      "name": "極光之舞",
-      "artistId": 1,
-      "albumId": 1,
-      "length": "3:45",
-      "like": 128,
-      "isTitle": false
-    },
-    {
-      "id": 12,
-      "imgPath": "./mock/album/imgPath-12.png",
-      "name": "零度記憶",
-      "artistId": 1,
-      "albumId": 1,
-      "length": "4:12",
-      "like": 85,
-      "isTitle": false
-    },
-    {
-      "id": 13,
-      "imgPath": "./mock/album/imgPath-13.png",
-      "name": "白夜行者",
-      "artistId": 1,
-      "albumId": 1,
-      "length": "3:58",
-      "like": 210,
-      "isTitle": false
-    },
-    {
-      "id": 14,
-      "imgPath": "./mock/album/imgPath-14.png",
-      "name": "碎冰之聲",
-      "artistId": 1,
-      "albumId": 1,
-      "length": "4:30",
       "like": 42,
-      "isTitle": false
-    },
-    {
-      "id": 15,
-      "imgPath": "./mock/album/imgPath-15.png",
-      "name": "壁爐旁的詩",
-      "artistId": 1,
-      "albumId": 1,
-      "length": "3:20",
-      "like": 96,
-      "isTitle": false
-    },
-    {
-      "id": 16,
-      "imgPath": "./mock/album/imgPath-16.png",
-      "name": "針葉林的風",
-      "artistId": 1,
-      "albumId": 1,
-      "length": "5:15",
-      "like": 67,
-      "isTitle": false
-    },
-    {
-      "id": 17,
-      "imgPath": "./mock/album/imgPath-17.png",
-      "name": "遙遠的馴鹿",
-      "artistId": 1,
-      "albumId": 1,
-      "length": "4:05",
-      "like": 153,
-      "isTitle": false
-    },
-    {
-      "id": 18,
-      "imgPath": "./mock/album/imgPath-18.png",
-      "name": "糖果屋的灰燼",
-      "artistId": 1,
-      "albumId": 1,
-      "length": "3:50",
-      "like": 88,
-      "isTitle": false
-    },
-    {
-      "id": 19,
-      "imgPath": "./mock/album/imgPath-19.png",
-      "name": "午夜太陽",
-      "artistId": 1,
-      "albumId": 1,
-      "length": "4:42",
-      "like": 320,
-      "isTitle": true
-    },
-    {
-      "id": 20,
-      "imgPath": "./mock/album/imgPath-20.png",
-      "name": "被遺忘的圍巾",
-      "artistId": 1,
-      "albumId": 1,
-      "length": "3:15",
-      "like": 74,
-      "isTitle": false
-    },
-    {
-      "id": 21,
-      "imgPath": "./mock/album/imgPath-21.png",
-      "name": "融雪之時",
-      "artistId": 1,
-      "albumId": 1,
-      "length": "4:55",
-      "like": 112,
-      "isTitle": false
-    },
-    {
-      "id": 22,
-      "imgPath": "./mock/album/imgPath-22.png",
-      "name": "候鳥的信件",
-      "artistId": 1,
-      "albumId": 1,
-      "length": "3:38",
-      "like": 45,
-      "isTitle": false
+      "audioPath": "assets/audio/audio-5.mp3"
     }
   ],
   "albums": [
     {
       "id": 1,
-      "imgPath": "./mock/album/album-1.png",
-      "name": "冬眠覺醒",
+      "imgPath": "./mock/album/album-1.webp",
+      "name": "Made",
       "type": "album",
       "artistId": 1,
       "like": 52
-    },
-    {
-      "id": 2,
-      "imgPath": "./mock/album/album-2.png",
-      "name": "霓虹午夜",
-      "artistId": 2,
-      "like": 128
-    },
-    {
-      "id": 3,
-      "imgPath": "./mock/album/album-3.png",
-      "name": "琥珀色的午後",
-      "artistId": 3,
-      "like": 85
-    },
-    {
-      "id": 4,
-      "imgPath": "./mock/album/album-4.png",
-      "name": "數位荒原",
-      "artistId": 4,
-      "like": 210
-    },
-    {
-      "id": 5,
-      "imgPath": "./mock/album/album-5.png",
-      "name": "夏日碎冰",
-      "artistId": 5,
-      "like": 43
-    },
-    {
-      "id": 6,
-      "imgPath": "./mock/album/album-6.png",
-      "name": "寂靜深海",
-      "artistId": 6,
-      "like": 315
     }
   ],
   "artists": [
     {
       "id": 1,
-      "imgPath": "./mock/artist/artist-1.png",
-      "name": "北國少女",
-      "description": "來自極光交織的國度，溫暖你心靈的純淨之聲。「北國少女 (Northland Girls)」是由三位性格迥異、音樂色彩鮮明的 VTuber 所組成的跨國音樂團體。她們以北國雪原為背景，將家鄉的冷冽轉化為充滿溫度的樂章，橫掃各大數位音樂榜單。成員簡介：雪奈 (Yuki) 是組合中的核心力量，擁有如同初雪般清亮的嗓音，擅長駕馭高難度的流行曲風。小春 (Koharu) 是創作靈魂與療癒擔當，負責大部分的詞曲創作，曲風細膩且充滿民族風情。美月 (Mizuki) 是低音域的魔法師，冷靜且富有魅力的磁性嗓音，為團體增添了神祕而沉穩的厚度。音樂風格融合了 J-Pop、民族歌謠與現代電子樂。歌詞多圍繞著「勇氣」、「思念」與「北國自然美景」，不僅在 YouTube 創下驚人點閱，更是在 Spotify 成為許多人在深夜尋求平靜的必聽清單。「即使在最寒冷的冬夜，我們的歌聲也會像極光一樣，指引你回家的路。」現在就追蹤「北國少女」，將這份北國的禮物加入你的播放清單。"
-    },
-    {
-      "id": 2,
-      "imgPath": "./mock/artist/artist-2.png",
-      "name": "午夜港口",
-      "description": "來自台北地下酒吧圈的 Jazz Fusion 樂團，以薩克斯風與鋼琴即興演奏聞名。作品充滿深夜城市感與微醺氛圍，融合爵士、藍調與 Lo-fi Hip Hop，是許多人加班與深夜閱讀時的固定播放清單。"
-    },
-    {
-      "id": 3,
-      "imgPath": "./mock/artist/artist-3.png",
-      "name": "KAI",
-      "description": "新生代華語 R&B 男歌手，擅長以細膩嗓音描寫戀愛與孤獨情緒。音樂風格融合 Neo Soul 與 Trap Soul，憑藉單曲《凌晨三點半》在串流平台快速爆紅。"
-    },
-    {
-      "id": 4,
-      "imgPath": "./mock/artist/artist-4.png",
-      "name": "白晝訊號",
-      "description": "四人獨立搖滾樂團，曲風受到英搖與日系 Alternative Rock 影響。歌曲多圍繞青春迷惘、城市生活與夢想掙扎，現場演出能量強烈，是音樂祭常客。"
-    },
-    {
-      "id": 5,
-      "imgPath": "./mock/artist/artist-5.png",
-      "name": "DJ Aster",
-      "description": "亞洲知名電子音樂製作人，擅長 Future Bass 與 Progressive House。曾與多位國際歌手合作，作品節奏感強烈且帶有宇宙感音色，是大型電音節熱門壓軸 DJ。"
-    },
-    {
-      "id": 6,
-      "imgPath": "./mock/artist/artist-6.png",
-      "name": "林秋禾",
-      "description": "民謠創作歌手，以木吉他與低沉溫暖的嗓音著稱。歌詞多描寫台灣鄉鎮、人情與成長記憶，風格樸實真誠，被許多樂迷稱為『深夜故事系歌手』。"
+      "imgPath": "./mock/artist/artist-1.webp",
+      "name": "BigBang",
+      "description": "BIGBANG（韓語：빅뱅；日語：ビッグバン）是韓國YG娛樂於2006年推出的男子團體，最初由太陽、G-Dragon、大聲[2]、T.O.P以及勝利五位成員組成，G-Dragon擔任隊長一職。團體以「宇宙大爆炸」為名，意味著將對於韓國音樂界，甚至在全世界帶來爆炸性的影響。官方的歌迷名稱則是「V.I.P」，其意思為「Very Important Person」，是根據第二張單曲《BIGBANG Is V.I.P》命名，有著粉絲是非常重要的人的含義。"
     }
   ]
 }
