@@ -2,9 +2,12 @@
   <!-- 左側音樂資訊 -->
   <section class="song">
     <img
+      [routerLink]="['/song', this.currentSong()?.id]"
       class="song__image"
       [src]="
-        this.currentSong()?.imgPath ? this.currentSong()?.imgPath : this.currentSong()?.album?.imgPath
+        this.currentSong()?.imgPath
+          ? this.currentSong()?.imgPath
+          : this.currentSong()?.album?.imgPath
       "
       alt=""
     />
@@ -45,8 +48,9 @@
         #player
         [src]="this.currentSong()?.audioPath"
         (timeupdate)="currentTime = player.currentTime"
-      ></audio>
 
+      ></audio>
+<!-- autoplay -->
       <div class="player__time-tool">
         <span>{{ formatTime(currentTime) }}</span>
 

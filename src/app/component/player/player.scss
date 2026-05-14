@@ -4,10 +4,10 @@
   --song-image: 70px;
   --player-btn: 50px;
   --padding-top: 20px;
-  --sidebar-width: 400px;
 }
 
 .player-container {
+  box-sizing: border-box;
   width: 100%;
   height: 100%;
   overflow-x: auto;
@@ -21,21 +21,21 @@
 .player__slider {
   width: 230px;
 }
-:host ::ng-deep .player__slider .mat-mdc-slider{
+:host ::ng-deep .player__slider .mat-mdc-slider {
   width: 200px;
 }
 :host ::ng-deep .player__slider .mdc-slider__track--active_fill {
-  border-color: #74a57f ;
+  border-color: #74a57f;
 }
 
 :host ::ng-deep .player__slider .mdc-slider__track--inactive {
-  background-color:$color-gray ;
+  background-color: $color-gray;
   opacity: 1;
 }
 
 :host ::ng-deep .player__slider .mdc-slider__thumb-knob {
   background-color: #74a57f;
-  border-color: #74a57f ;
+  border-color: #74a57f;
 }
 // 左側音樂資訊
 .song {
@@ -49,6 +49,7 @@
   &__image {
     width: var(--song-image);
     height: var(--song-image);
+    cursor: pointer;
   }
 
   &__info {
@@ -186,10 +187,18 @@
 @media (max-width: 1280px) {
   // var(--player-btn)
   :host {
-    --song-image: 50px;
+    --song-image: 70px;
     --player-btn: 36px;
     --padding-top: 12px;
 
     --sidebar-width: 400px;
+  }
+
+  .player-container {
+    padding: 10px 30px 10px 20px;
+  }
+
+  .player {
+    gap: 0px;
   }
 }

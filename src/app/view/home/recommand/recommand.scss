@@ -14,6 +14,7 @@
     cursor: pointer;
     display: flex;
     align-items: center;
+    border: 1px solid $color-ts-gray;
     gap: 24px;
 
     &:hover{

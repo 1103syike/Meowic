@@ -1,0 +1,30 @@
+<main class="playlist-bar" [class.no-login]="!this.auth.isLoggedIn()">
+  <header class="playlist-bar__header">
+    <span>你的音樂庫</span>
+    @if (!!this.auth.isLoggedIn()) {
+      <button class="playlist-bar__header__btn"><mat-icon aria-hidden="true">add</mat-icon>新增</button>
+    }
+  </header>
+
+  @if (!!this.auth.isLoggedIn()) {
+    <ul class="playlist-bar__list">
+      @for (playlist of this.ownedPlaylist(); track playlist.id) {
+        <li class="playlist-bar__list__item" [routerLink]="['/playlist', playlist.playlist.id]">
+          <img class="playlist-bar__list__item__image" src="./mock/unnamed.png" alt="" />
+          <div class="playlist-bar__list__item__title">{{ playlist.playlist.name}}</div>
+          <div class="playlist-bar__list__item__artist">{{ playlist.user.name}}</div>
+        </li>
+      }
+
+    </ul>
+  } @else {
+    <div class="playlist-bar__not-login-area">
+      <div class="playlist-bar__login-request">您必須登入才能觀看個人音樂庫</div>
+      <button class="playlist-bar__login-btn" (click)="openLoginDialog() ">立即登入</button>
+    </div>
+  }
+</main>
+
+@if (this.isLoginDialogOpen()) {
+  <app-login (close)="isLoginDialogOpen.set(false)"></app-login>
+}

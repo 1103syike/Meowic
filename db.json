@@ -53,6 +53,86 @@
       "albumId": 1,
       "like": 42,
       "audioPath": "assets/audio/audio-5.mp3"
+    },
+    {
+      "id": 6,
+      "name": "Way 4 Luv",
+      "artistId": 2,
+      "albumId": 2,
+      "like": 42,
+      "audioPath": "assets/audio/audio-6.mp3"
+    },
+    {
+      "id": 7,
+      "name": "Barricades",
+      "artistId": 3,
+      "albumId": 3,
+      "like": 42,
+      "audioPath": "assets/audio/Barricades.mp3"
+    },
+    {
+      "id": 8,
+      "name": "Bauklötze",
+      "artistId": 3,
+      "albumId": 3,
+      "like": 42,
+      "audioPath": "assets/audio/Bauklötze.mp3"
+    },
+    {
+      "id": 9,
+      "name": "Call of Silence",
+      "artistId": 3,
+      "albumId": 3,
+      "like": 42,
+      "audioPath": "assets/audio/Call_of_Silence.mp3"
+    },
+    {
+      "id": 10,
+      "name": "Call your name",
+      "artistId": 3,
+      "albumId": 3,
+      "like": 42,
+      "audioPath": "assets/audio/Call_your_name.mp3"
+    },
+    {
+      "id": 11,
+      "name": "SymphonicSuite",
+      "artistId": 3,
+      "albumId": 3,
+      "like": 42,
+      "audioPath": "assets/audio/SymphonicSuite.mp3"
+    },
+    {
+      "id": 12,
+      "name": "T-KT",
+      "artistId": 3,
+      "albumId": 3,
+      "like": 42,
+      "audioPath": "assets/audio/T-KT.mp3"
+    },
+    {
+      "id": 13,
+      "name": "YouSeeBIGGIRL_TT",
+      "artistId": 3,
+      "albumId": 3,
+      "like": 42,
+      "audioPath": "assets/audio/YouSeeBIGGIRL_TT.mp3"
+    },
+    {
+      "id": 14,
+      "name": "Zero Eclipse",
+      "artistId": 3,
+      "albumId": 3,
+      "like": 42,
+      "audioPath": "assets/audio/Zero_Eclipse.mp3"
+    },
+    {
+      "id": 15,
+      "name": "시대를 초월한 마음",
+      "artistId": 4,
+      "albumId": 4,
+      "like": 42,
+      "audioPath": "assets/audio/시대를_초월한_마음.mp3"
     }
   ],
   "albums": [
@@ -63,6 +143,30 @@
       "type": "album",
       "artistId": 1,
       "like": 52
+    },
+    {
+      "id": 2,
+      "imgPath": "./mock/album/album-2.jpg",
+      "name": "ASTERUM : 134-1",
+      "type": "album",
+      "artistId": 2,
+      "like": 52
+    },
+    {
+      "id": 3,
+      "imgPath": "./mock/album/album-3.jpg",
+      "name": "澤野弘之的播放清單",
+      "type": "playlist",
+      "artistId": 3,
+      "like": 52
+    },
+    {
+      "id": 4,
+      "imgPath": "./mock/album/album-4.jpg",
+      "name": "鄭丞恩的播放清單",
+      "type": "playlist",
+      "artistId": 1,
+      "like": 52
     }
   ],
   "artists": [
@@ -71,6 +175,85 @@
       "imgPath": "./mock/artist/artist-1.webp",
       "name": "BigBang",
       "description": "BIGBANG（韓語：빅뱅；日語：ビッグバン）是韓國YG娛樂於2006年推出的男子團體，最初由太陽、G-Dragon、大聲[2]、T.O.P以及勝利五位成員組成，G-Dragon擔任隊長一職。團體以「宇宙大爆炸」為名，意味著將對於韓國音樂界，甚至在全世界帶來爆炸性的影響。官方的歌迷名稱則是「V.I.P」，其意思為「Very Important Person」，是根據第二張單曲《BIGBANG Is V.I.P》命名，有著粉絲是非常重要的人的含義。"
+    },
+    {
+      "id": 2,
+      "imgPath": "./mock/artist/artist-2.jpg",
+      "name": "PLAVE",
+      "description": "PLAVE（韓語：플레이브；日語：プレイブ）是韓國VLAST於2023年推出的虛擬男子團體，由五位成員組成，分別為諾亞、藝俊、斑比、銀虎與河玟，並由藝俊擔任隊長。"
+    },
+    {
+      "id": 3,
+      "imgPath": "./mock/artist/artist-3.jpg",
+      "name": "澤野弘之",
+      "description": "澤野弘之，日本作曲家、編曲家，出生於東京都。代表配樂作品有電視劇《醫龍》系列、動畫《機動戰士鋼彈UC》、《罪惡王冠》、《進擊的巨人》、《KILL la KILL》、《青之驅魔師》、《終結的熾天使》、《七大罪》等。"
+    },
+    {
+      "id": 4,
+      "imgPath": "./mock/artist/DIAN.jpg",
+      "name": "DIAN",
+      "description": "以獨特聲線與細膩情感受到關注的韓國創作者型歌手。DIAN 擅長將日常情緒與青春感融入音樂之中，結合柔和旋律、輕電子與 K-Indie 氛圍，打造帶有深夜感性的作品風格。除了音樂創作外，也透過 YouTube 分享生活與創作日常，以真實自然的魅力累積全球粉絲喜愛。"
+    }
+  ],
+  "playlists": [
+    {
+      "id": 1,
+      "name": "Dandy的最愛",
+      "userId": 1,
+      "type": "playlist"
+    },
+    {
+      "id": 2,
+      "name": "Wendy的最愛",
+      "userId": 2,
+      "type": "playlist"
+    },
+    {
+      "id": 3,
+      "name": "Dandy和Wendy的最愛",
+      "userId": 1,
+      "type": "playlist"
+    }
+  ],
+
+  "playlistUsers": [
+    {
+      "id": 1,
+      "playlistId": 1,
+      "userId": 1
+    },
+    {
+      "id": 2,
+      "playlistId": 2,
+      "userId": 2
+    },
+    {
+      "id":3,
+      "playlistId": 3,
+      "userId": 1
+    },
+    {
+      "id": 4,
+      "playlistId": 3,
+      "userId": 2
+    }
+  ],
+
+  "playlistSongs": [
+    {
+      "id": 1,
+      "playlistId": 1,
+      "songId": 1
+    },
+    {
+      "id": 2,
+      "playlistId": 2,
+      "songId": 2
+    },
+    {
+      "id": 3,
+      "playlistId": 3,
+      "songId": 3
     }
   ]
 }

@@ -1,6 +1,6 @@
 :host {
   --header-height: 100px;
-  --header-player: 120px;
+  --header-player: 146px;
   --sidebar-width: 400px;
   --main-gap: 20px;
   --page-padding: 20px;
@@ -13,7 +13,7 @@
 
   padding: var(--page-padding);
 
-  grid-template-rows: var(--header-height) auto auto;
+  grid-template-rows: var(--header-height) auto var(--header-player);
   grid-template-columns: var(--sidebar-width) 1fr;
   grid-template-areas:
     'header  header'
@@ -41,7 +41,7 @@
   min-height: 0;
 }
 
-app-musicbar {
+app-playlist-bar {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -56,7 +56,7 @@ app-musicbar {
 @media (max-width: 1280px) {
   :host {
     --header-height: 80px;
-    --header-player: 120px;
+    --header-player: auto;
     --sidebar-width: 340px;
   }
 }

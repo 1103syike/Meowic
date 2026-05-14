@@ -12,7 +12,12 @@ export const routes: Routes = [
       {
         path: 'album/:id',
         data: { pageName: '專輯' },
-        loadComponent: () => import('./view/album/album').then((m) => m.Album),
+        loadComponent: () => import('./view/collectionDetail/collectionDetail').then((m) => m.CollectionDetailComponent),
+      },
+      {
+        path: 'playlist/:id',
+        data: { pageName: '播放清單' },
+        loadComponent: () => import('./view/collectionDetail/collectionDetail').then((m) => m.CollectionDetailComponent),
       },
       {
         path: 'song/:id',

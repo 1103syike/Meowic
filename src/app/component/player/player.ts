@@ -2,7 +2,7 @@ import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MusicPlayerService } from '../../@service/music-player.service';
 import { SongType } from '../../@service/api.service';
-import { NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { filter, interval, Subscription, take } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TimePipe } from '../../@pipe/time-pipe';
@@ -10,7 +10,7 @@ import { MatSliderModule } from '@angular/material/slider';
 
 @Component({
   selector: 'app-player',
-  imports: [MatIcon, MatSliderModule],
+  imports: [MatIcon, MatSliderModule, RouterLink],
   templateUrl: './player.html',
   styleUrl: './player.scss',
   providers: [TimePipe],
