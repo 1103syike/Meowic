@@ -17,6 +17,17 @@
       font-size: map-get($font-sizes, 'base');
       @include flex(row, center, center);
       @include capsule-btn();
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+
+      &:hover {
+        cursor: pointer;
+        background: $color-ts-green;
+        color: $color-white;
+        transform: translateY(-1px);
+      }
     }
   }
   &__btn {
@@ -36,27 +47,76 @@
       font-size: map-get($font-sizes, 'base');
       width: 100%;
       display: grid;
-      gap: 0px 10px;
-      grid-template-rows: 60p 1fr;
-      grid-template-columns: 60px 1fr;
+      gap: 10px;
+      grid-template-columns: 60px minmax(0, 1fr) 44px;
       list-style: none;
-      grid-template-areas:
-        'image  title'
-        'image artist';
+      grid-template-areas: 'image content delete';
       color: $color-blue;
       box-sizing: border-box;
+      align-items: center;
+      min-height: 60px;
+      padding: 0;
+
+      &--favorite {
+        grid-template-columns: 60px minmax(0, 1fr);
+        grid-template-areas: 'image content';
+      }
+
       &__image {
         grid-area: image;
         width: 60px;
         height: 60px;
+        object-fit: cover;
+        align-self: center;
+        display: block;
+      }
+      &__content {
+        grid-area: content;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 2px;
       }
       &__title {
-        margin-top: auto;
-        grid-area: title;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
       &__artist {
-        grid-area: artist;
         font-weight: 500;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      &__delete {
+        grid-area: delete;
+        width: 32px;
+        height: 32px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        justify-self: center;
+        align-self: center;
+        padding: 0;
+        box-sizing: border-box;
+        border: 2px solid $color-ts-blue;
+        background: $color-white;
+        color: $color-blue;
+        @include radius('circle');
+
+        mat-icon {
+          width: 18px;
+          height: 18px;
+          font-size: 18px;
+          line-height: 18px;
+        }
+
+        &:hover {
+          cursor: pointer;
+          background: $color-green;
+          color: $color-white;
+        }
       }
 
       &:hover{
@@ -96,6 +156,107 @@
 
 @media (max-width: 1280px) {
   .playlist-bar {
-    padding: 20px 30px;
+    padding: 16px 18px;
+    gap: 12px;
+
+    &__header {
+      font-size: map-get($font-sizes, 'lg');
+
+      &__btn {
+        height: 34px;
+        padding: 0 12px;
+        font-size: map-get($font-sizes, 'sm');
+      }
+    }
+
+    &__list {
+      gap: 10px;
+
+      &__item {
+        grid-template-columns: 48px minmax(0, 1fr) 42px;
+        font-size: map-get($font-sizes, 'sm');
+        min-height: 48px;
+
+        &--favorite {
+          grid-template-columns: 48px minmax(0, 1fr);
+        }
+
+        &__image {
+          width: 48px;
+          height: 48px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .playlist-bar {
+    padding: 12px;
+    gap: 10px;
+
+    &__header {
+      font-size: map-get($font-sizes, 'base');
+
+      &__btn {
+        height: 32px;
+        padding: 0 10px;
+      }
+    }
+
+    &__list {
+      gap: 8px;
+
+      &__item {
+        grid-template-columns: 42px minmax(0, 1fr) 38px;
+        font-size: map-get($font-sizes, 'sm');
+        min-height: 42px;
+
+        &--favorite {
+          grid-template-columns: 42px minmax(0, 1fr);
+        }
+
+        &__image {
+          width: 42px;
+          height: 42px;
+        }
+
+        &__delete {
+          width: 30px;
+          height: 30px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 350px) {
+  .playlist-bar {
+    padding: 10px;
+
+    &__header__btn {
+      padding: 0 8px;
+      font-size: map-get($font-sizes, 'xs');
+    }
+
+    &__list__item {
+      grid-template-columns: 36px minmax(0, 1fr) 34px;
+      min-height: 36px;
+
+      &--favorite {
+        grid-template-columns: 36px minmax(0, 1fr);
+      }
+
+      &__image {
+        width: 36px;
+        height: 36px;
+      }
+
+      &__delete {
+        width: 28px;
+        height: 28px;
+        border-width: 1px;
+      }
+    }
   }
 }

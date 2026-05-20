@@ -5,7 +5,7 @@
         aria-hidden="false"
         aria-label="返回首頁"
         class="lyric__back-btn__icon"
-        [routerLink]="['/album',this.passedCurrentSong()?.album?.id]"
+        [routerLink]="backUrl()"
         >arrow_back_ios</mat-icon
       >
     </button>

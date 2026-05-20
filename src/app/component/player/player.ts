@@ -7,10 +7,11 @@ import { filter, interval, Subscription, take } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TimePipe } from '../../@pipe/time-pipe';
 import { MatSliderModule } from '@angular/material/slider';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-player',
-  imports: [MatIcon, MatSliderModule, RouterLink],
+  imports: [MatIcon, MatSliderModule, RouterLink, FormsModule],
   templateUrl: './player.html',
   styleUrl: './player.scss',
   providers: [TimePipe],
@@ -23,8 +24,12 @@ export class Player {
   public isClose = signal<boolean>(false);
   public currentSongId = signal<string | null>(null);
   public currentSong = signal<SongType | null>(null);
-  public musicPlayer = new Audio('/audio/Test.mp3');
+  public musicPlayer = new Audio('');
   public currentTime = 0;
+  public currentVolume = 0;
+  value = 0;
+  showTicks = false;
+  duration = signal<number>(0);
   /////////////////////////////////////////////
 
   constructor() {
@@ -35,6 +40,16 @@ export class Player {
     this.setSongByLocalStorage();
   }
 
+  onVolumeInput(volume: number) {
+    this.currentVolume = volume;
+  }
+
+  onLoadedMetadata(player: HTMLAudioElement) {
+    if (Number.isFinite(player.duration)) {
+      this.duration.set(player.duration);
+    }
+  }
+  
   private subscribeRouter() {
     this.router.events
       .pipe(
@@ -52,8 +67,6 @@ export class Player {
   private setSongByLocalStorage() {
     this.currentSongId.set(localStorage.getItem('songId')!);
     this.player.getPlayer(this.currentSongId()!).subscribe((res) => {
-      console.log(this.currentSong());
-
       this.currentSong.set(res[0]);
     });
   }
@@ -61,7 +74,6 @@ export class Player {
   closePlayer(boolean: boolean) {
     this.player.setIsClose(boolean);
   }
-
 
   // 轉換秒數方法
   formatTime(time: number): string {

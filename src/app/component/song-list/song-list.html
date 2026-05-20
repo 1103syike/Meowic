@@ -1,0 +1,61 @@
+<section class="song-list">
+  <header class="song-list__header">
+    <div>
+      <h1>{{ title }}</h1>
+      <span>{{ filteredSongs().length }} 首歌曲</span>
+    </div>
+  </header>
+
+  <div class="song-list__table">
+    <div class="song-list__row song-list__row--head">
+      <span>#</span>
+      <span>歌曲</span>
+      <span>專輯</span>
+      <span>動作</span>
+    </div>
+
+    @for (song of pagedSongs(); track song.id; let i = $index) {
+      <div class="song-list__row" (click)="playSong(song)">
+        <span class="song-list__index">{{ (currentPage() - 1) * pageSize + i + 1 }}</span>
+        <div class="song-list__song">
+          <img [src]="songImage(song)" alt="" />
+          <div>
+            <strong>{{ song.name }}</strong>
+            <span>{{ song.artist.name }}</span>
+          </div>
+        </div>
+        <span class="song-list__album">{{ song.album.name }}</span>
+        <div class="song-list__actions">
+          <button
+            class="song-list__favorite"
+            type="button"
+            (click)="addToFavorite(song.id, $event)"
+            [class.song-list__favorite--active]="isFavorite(song.id)"
+            title="加入最愛"
+          >
+            <mat-icon aria-hidden="true">favorite</mat-icon>
+          </button>
+          <button type="button" (click)="addToPlaylist(song.id, $event)" title="加入播放清單">
+            <mat-icon aria-hidden="true">playlist_add</mat-icon>
+          </button>
+        </div>
+      </div>
+    } @empty {
+      <div class="song-list__empty">{{ emptyText }}</div>
+    }
+  </div>
+
+  <footer class="song-list__pager">
+    <button type="button" [disabled]="currentPage() === 1" (click)="setPage(currentPage() - 1)">
+      上一頁
+    </button>
+    <span>{{ currentPage() }} / {{ totalPages() }}</span>
+    <button
+      type="button"
+      [disabled]="currentPage() === totalPages()"
+      (click)="setPage(currentPage() + 1)"
+    >
+      下一頁
+    </button>
+  </footer>
+</section>

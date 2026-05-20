@@ -6,6 +6,7 @@
 @use 'assets/_reset';
 @use 'assets/_variables' as vars;
 @use '@angular/material' as mat;
+@use 'sass:map';
 
 html {
   height: 100%;
@@ -48,4 +49,66 @@ body {
   width: 0px;
   height: 0px;
   background-color: #d9d9d9;
+}
+
+.swal2-popup {
+  border: 2px solid vars.$color-ts-blue;
+  border-radius: map-get(vars.$radius, 'large');
+  color: vars.$color-blue;
+  background: vars.$color-white;
+  box-shadow: 4px 4px 20px 0 rgba(vars.$color-green, 0.2);
+}
+
+.swal2-title {
+  color: vars.$color-blue;
+  font-size: map-get(vars.$font-sizes, '2xl');
+}
+
+.swal2-html-container,
+.swal2-input-label,
+.swal2-validation-message {
+  color: vars.$color-blue;
+}
+
+.swal2-input,
+.swal2-select {
+  border: 2px solid vars.$color-ts-blue;
+  border-radius: map-get(vars.$radius, 'small');
+  color: vars.$color-blue;
+  box-shadow: none;
+
+  &:focus {
+    border-color: vars.$color-green;
+    box-shadow: 0 0 0 3px rgba(vars.$color-green, 0.18);
+  }
+}
+
+.swal2-actions {
+  gap: 12px;
+}
+
+.swal2-styled.swal2-confirm,
+.swal2-styled.swal2-cancel {
+  min-width: 96px;
+  border: 2px solid vars.$color-ts-blue;
+  border-radius: map-get(vars.$radius, 'large');
+  padding: 10px 24px;
+  color: vars.$color-blue;
+  background: vars.$color-white;
+  box-shadow: 4px 4px 20px 0 rgba(vars.$color-green, 0.16);
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+
+  &:hover {
+    background: vars.$color-green;
+    color: vars.$color-white;
+    transform: translateY(-1px);
+  }
+}
+
+.swal2-validation-message {
+  border-radius: map-get(vars.$radius, 'small');
+  background: vars.$color-ts-blue;
 }

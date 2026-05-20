@@ -23,15 +23,25 @@
   box-sizing: border-box;
 }
 
+.main-layout--player-closed {
+  grid-template-rows: var(--header-height) 1fr;
+  grid-template-areas:
+    'header  header'
+    'sidebar content';
+}
+
 .header-area {
   grid-area: header;
 }
 .content-area {
   grid-area: content;
   overflow-y: auto;
+  min-width: 0;
+  min-height: 0;
 }
 .player-area {
   grid-area: player;
+  min-width: 0;
 }
 .sidebar-area {
   grid-area: sidebar;
@@ -57,6 +67,76 @@ app-playlist-bar {
   :host {
     --header-height: 80px;
     --header-player: auto;
-    --sidebar-width: 340px;
+    --sidebar-width: 280px;
+    --main-gap: 14px;
+    --page-padding: 14px;
+  }
+}
+
+@media (max-width: 1024px) {
+  :host {
+    --header-height: auto;
+    --sidebar-width: 220px;
+    --main-gap: 12px;
+    --page-padding: 12px;
+  }
+
+  .main-layout {
+    grid-template-rows: auto 1fr var(--header-player);
+  }
+}
+
+@media (max-width: 900px) {
+  .main-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr var(--header-player);
+    grid-template-areas:
+      'header'
+      'sidebar'
+      'content'
+      'player';
+  }
+
+  .main-layout--player-closed {
+    grid-template-rows: auto auto 1fr;
+    grid-template-areas:
+      'header'
+      'sidebar'
+      'content';
+  }
+
+  .sidebar-area {
+    max-height: 260px;
+  }
+}
+
+@media (max-width: 600px) {
+  :host {
+    --main-gap: 10px;
+    --page-padding: 10px;
+  }
+
+  .main-layout {
+    min-width: 0;
+    grid-template-rows: auto auto minmax(0, 1fr) auto;
+  }
+
+  .main-layout--player-closed {
+    grid-template-rows: auto auto minmax(0, 1fr);
+  }
+
+  .sidebar-area {
+    max-height: 220px;
+  }
+}
+
+@media (max-width: 350px) {
+  :host {
+    --main-gap: 8px;
+    --page-padding: 8px;
+  }
+
+  .sidebar-area {
+    max-height: 200px;
   }
 }

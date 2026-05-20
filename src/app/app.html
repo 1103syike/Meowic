@@ -1,4 +1,4 @@
-<div class="main-layout">
+<div class="main-layout" [class.main-layout--player-closed]="this.player.getIsClose()">
   <!-- Top: 標題與用戶資訊 -->
   <app-header class="header-area"></app-header>
 
@@ -16,3 +16,4 @@
     <app-player class="player-area"></app-player>
   }
 </div>
+

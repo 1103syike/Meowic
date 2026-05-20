@@ -25,41 +25,52 @@
       <mat-icon class="player__play-tool__icon player__play-tool__icon--skip"
         >skip_previous</mat-icon
       >
-      @if (player.paused) {
+      @if (musicPlayer.paused) {
         <mat-icon
           class="player__play-tool__icon player__play-tool__icon--play"
-          (click)="player.play()"
+          (click)="musicPlayer.play()"
           >play_circle</mat-icon
         >
       } @else {
         <mat-icon
           class="player__play-tool__icon player__play-tool__icon--pause"
-          (click)="player.pause()"
+          (click)="musicPlayer.pause()"
           >pause_circle</mat-icon
         >
       }
       <mat-icon class="player__play-tool__icon player__play-tool__icon--skip">skip_next</mat-icon>
-      <mat-icon class="player__play-tool__icon">repeat</mat-icon>
+      <mat-icon
+        class="player__play-tool__icon player__play-tool__icon--repeat"
+        [class.player__play-tool__icon--active]="musicPlayer.loop"
+        (click)="musicPlayer.loop = !musicPlayer.loop"
+      >
+        {{ !!musicPlayer.loop ? 'repeat_one_on' : 'repeat' }}
+      </mat-icon>
     </div>
 
     <!-- 下方音樂播放進度條區域 -->
     <div class="player__time-tool">
       <audio
-        #player
+        #musicPlayer
+        (loadedmetadata)="onLoadedMetadata(musicPlayer)"
         [src]="this.currentSong()?.audioPath"
-        (timeupdate)="currentTime = player.currentTime"
-
+        (timeupdate)="currentTime = musicPlayer.currentTime"
+        [volume]="value / 100"
+        autoplay
+        loop
       ></audio>
-<!-- autoplay -->
-      <div class="player__time-tool">
-        <span>{{ formatTime(currentTime) }}</span>
-
-        <mat-slider class="player__slider" min="0" [max]="player.duration || 0">
-          <input matSliderThumb [value]="currentTime" (valueChange)="player.currentTime = $event" />
+      <span>{{ formatTime(currentTime) }}</span>
+      @if (!!this.duration()) {
+        <mat-slider class="player__slider" min="0" [max]="this.duration()">
+          <input
+            matSliderThumb
+            [value]="currentTime"
+            (input)="musicPlayer.currentTime = +$any($event.target).value"
+          />
         </mat-slider>
+      }
 
-        <span>{{ formatTime(player.duration || 0) }}</span>
-      </div>
+      <span>{{ formatTime(musicPlayer.duration || 0) }}</span>
     </div>
   </section>
 
@@ -68,11 +79,42 @@
     <mat-icon class="tool__lyrics">lyrics</mat-icon>
     <mat-icon class="tool__playlist">queue_music</mat-icon>
     <mat-icon class="tool__volume">volume_up</mat-icon>
-    <div class="tool__music">
-      <div class="tool__music__current"></div>
-    </div>
+
+    <mat-slider class="tool__volume-slider" min="0" max="100" [showTickMarks]="showTicks">
+      <input
+        matSliderThumb
+        [value]="musicPlayer.volume * 100"
+        (input)="onVolumeInput(value)"
+        [(ngModel)]="value"
+      />
+    </mat-slider>
+
     <button class="tool__close" (click)="closePlayer(true)">
       <mat-icon>close</mat-icon>
     </button>
   </section>
 </section>
+
+<!--
+<section class="queue">
+  <h2 class="queue__title">播放清單</h2>
+  <div class="queue__list">
+    <div
+      class="queue__list__item"
+      *ngFor="let song of queue; let i = index"
+      [class.queue__list__item--current]="song.id === currentSong()?.id"
+      >
+      (click)="playSong(song)"
+      <img
+        class="queue__list__item__image"
+        [src]="song.imgPath ? song.imgPath : song.album?.imgPath"
+        alt=""
+      />
+      <div class="queue__list__item__info">
+        <span class="queue__list__item__info__title">{{ song.name }}</span>
+        <span class="queue__list__item__info__artist">{{ song.artist?.name }}</span>
+      </div>
+    </div>
+  </div>
+
+</section> -->

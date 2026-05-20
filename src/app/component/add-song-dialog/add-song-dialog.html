@@ -1,0 +1,88 @@
+<div class="dialog-mask" (click)="closeDialog()"></div>
+
+<section class="dialog" role="dialog" aria-modal="true" aria-labelledby="add-song-title">
+  <header class="dialog__header">
+    <h2 id="add-song-title">新增歌曲</h2>
+    <button class="dialog__close" type="button" (click)="closeDialog()" aria-label="關閉">×</button>
+  </header>
+
+  <form class="song-form" (ngSubmit)="submit()">
+    <div class="song-form__grid">
+      <label class="song-form__field song-form__field--wide">
+        <span>歌曲名稱</span>
+        <input name="songName" [(ngModel)]="songName" placeholder="輸入歌曲名稱" />
+      </label>
+
+      <div class="song-form__field song-form__field--suggest">
+        <label for="artist-name">歌手</label>
+        <input
+          id="artist-name"
+          name="artistName"
+          [(ngModel)]="artistName"
+          placeholder="輸入或選擇歌手"
+          autocomplete="off"
+          (focus)="isArtistSuggestionsOpen.set(true)"
+          (input)="isArtistSuggestionsOpen.set(true)"
+          (blur)="hideArtistSuggestions()"
+        />
+        @if (isArtistSuggestionsOpen() && filteredArtists().length > 0) {
+          <ul class="suggestions">
+            @for (artist of filteredArtists(); track artist.id) {
+              <li class="suggestions__item" (mousedown)="selectArtist(artist.name)">
+                <span>{{ artist.name }}</span>
+              </li>
+            }
+          </ul>
+        }
+      </div>
+
+      <div class="song-form__field song-form__field--suggest">
+        <label for="album-name">專輯</label>
+        <input
+          id="album-name"
+          name="albumName"
+          [(ngModel)]="albumName"
+          placeholder="輸入或選擇專輯"
+          autocomplete="off"
+          (focus)="isAlbumSuggestionsOpen.set(true)"
+          (input)="isAlbumSuggestionsOpen.set(true)"
+          (blur)="hideAlbumSuggestions()"
+        />
+        @if (isAlbumSuggestionsOpen() && filteredAlbums().length > 0) {
+          <ul class="suggestions">
+            @for (album of filteredAlbums(); track album.id) {
+              <li class="suggestions__item" (mousedown)="selectAlbum(album.name)">
+                <span>{{ album.name }}</span>
+              </li>
+            }
+          </ul>
+        }
+      </div>
+    </div>
+
+    <div class="song-form__uploads">
+      <label class="song-form__upload">
+        <span class="song-form__upload-title">歌曲檔案</span>
+        <span class="song-form__upload-hint">上傳後存到 assets/audio</span>
+        <input type="file" accept="audio/*" (change)="setAudioFile($event)" />
+      </label>
+
+      <label class="song-form__upload">
+        <span class="song-form__upload-title">圖片檔案</span>
+        <span class="song-form__upload-hint">上傳後存到 mock/upload</span>
+        <input type="file" accept="image/*" (change)="setImageFile($event)" />
+      </label>
+    </div>
+
+    @if (errorMessage()) {
+      <div class="song-form__error">{{ errorMessage() }}</div>
+    }
+
+    <footer class="song-form__actions">
+      <button class="song-form__btn" type="button" (click)="closeDialog()">取消</button>
+      <button class="song-form__btn song-form__btn--primary" type="submit" [disabled]="isSubmitting()">
+        {{ isSubmitting() ? '新增中...' : '新增' }}
+      </button>
+    </footer>
+  </form>
+</section>

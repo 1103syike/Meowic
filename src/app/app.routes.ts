@@ -12,17 +12,28 @@ export const routes: Routes = [
       {
         path: 'album/:id',
         data: { pageName: '專輯' },
-        loadComponent: () => import('./view/collectionDetail/collectionDetail').then((m) => m.CollectionDetailComponent),
+        loadComponent: () =>
+          import('./view/collectionDetail/collectionDetail').then(
+            (m) => m.CollectionDetailComponent,
+          ),
       },
       {
         path: 'playlist/:id',
         data: { pageName: '播放清單' },
-        loadComponent: () => import('./view/collectionDetail/collectionDetail').then((m) => m.CollectionDetailComponent),
+        loadComponent: () =>
+          import('./view/collectionDetail/collectionDetail').then(
+            (m) => m.CollectionDetailComponent,
+          ),
       },
       {
         path: 'song/:id',
         data: { pageName: '歌曲' },
         loadComponent: () => import('./view/song/song').then((m) => m.Song),
+      },
+      {
+        path: 'songs',
+        data: { pageName: '所有歌曲' },
+        loadComponent: () => import('./view/songs/songs').then((m) => m.Songs),
       },
     ],
   },

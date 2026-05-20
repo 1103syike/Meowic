@@ -16,8 +16,6 @@ export class App {
   protected readonly title = signal('meowic');
 
   /////////////////////////////////////////////
-  public isClose = signal<boolean>(false);
-  /////////////////////////////////////////////
   public player: MusicPlayerService = inject(MusicPlayerService);
   /////////////////////////////////////////////
 

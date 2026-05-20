@@ -1,0 +1,42 @@
+<div class="dialog-mask" (click)="closeDialog()"></div>
+
+<section class="dialog" role="dialog" aria-modal="true" aria-labelledby="pro-dialog-title">
+  <header class="dialog__header">
+    <div>
+      <h2 id="pro-dialog-title">Meowic Pro</h2>
+      <p>選一個適合你的聽歌節奏，目前僅供方案展示。</p>
+    </div>
+    <button class="dialog__close" type="button" (click)="closeDialog()" aria-label="關閉">×</button>
+  </header>
+
+  <div class="plan-list">
+    @for (plan of plans; track plan.id) {
+      <button
+        class="plan-card"
+        type="button"
+        [class.plan-card--selected]="selectedPlanId() === plan.id"
+        (click)="selectPlan(plan.id)"
+      >
+        <span class="plan-card__radio" aria-hidden="true"></span>
+        @if (plan.badge) {
+          <span class="plan-card__badge">{{ plan.badge }}</span>
+        }
+        <span class="plan-card__name">{{ plan.name }}</span>
+        <span class="plan-card__price">{{ plan.price }}<small>{{ plan.period }}</small></span>
+        <span class="plan-card__description">{{ plan.description }}</span>
+        <span class="plan-card__features">
+          @for (feature of plan.features; track feature) {
+            <span>{{ feature }}</span>
+          }
+        </span>
+      </button>
+    }
+  </div>
+
+  <footer class="dialog__actions">
+    <button class="dialog__btn" type="button" (click)="closeDialog()">取消</button>
+    <button class="dialog__btn dialog__btn--primary" type="button" (click)="confirmPlan()">
+      選擇方案
+    </button>
+  </footer>
+</section>

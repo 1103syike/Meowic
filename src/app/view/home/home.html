@@ -1,5 +1,13 @@
-<main class="home">
-  <app-recommand></app-recommand>
-  <app-popular></app-popular>
-  <app-celebrity></app-celebrity>
+<main class="home" [class.home--search]="searchState.isSearchOpen()">
+  @if (searchState.isSearchOpen()) {
+    <app-song-list
+      title="搜尋歌曲"
+      [searchTerm]="searchState.query()"
+      emptyText="找不到符合搜尋的歌曲"
+    ></app-song-list>
+  } @else {
+    <app-recommand></app-recommand>
+    <app-popular></app-popular>
+    <app-celebrity></app-celebrity>
+  }
 </main>

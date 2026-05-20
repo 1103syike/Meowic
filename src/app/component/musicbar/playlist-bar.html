@@ -1,26 +1,43 @@
-<main class="playlist-bar" [class.no-login]="!this.auth.isLoggedIn()">
+<main class="playlist-bar" [class.no-login]="!this.auth.currentUserStatus()">
   <header class="playlist-bar__header">
     <span>你的音樂庫</span>
-    @if (!!this.auth.isLoggedIn()) {
-      <button class="playlist-bar__header__btn"><mat-icon aria-hidden="true">add</mat-icon>新增</button>
+    @if (!!this.auth.currentUserStatus()) {
+      <button class="playlist-bar__header__btn" (click)="createPlaylist()">
+        <mat-icon aria-hidden="true">add</mat-icon>新增
+      </button>
     }
   </header>
 
-  @if (!!this.auth.isLoggedIn()) {
+  @if (!!this.auth.currentUserStatus()) {
     <ul class="playlist-bar__list">
-      @for (playlist of this.ownedPlaylist(); track playlist.id) {
-        <li class="playlist-bar__list__item" [routerLink]="['/playlist', playlist.playlist.id]">
+      @for (playlist of this.ownedPlaylists(); track playlist.id) {
+        <li
+          class="playlist-bar__list__item"
+          [class.playlist-bar__list__item--favorite]="playlist.playlist.type === 'favorite'"
+          [routerLink]="['/playlist', playlist.playlist.id]"
+        >
           <img class="playlist-bar__list__item__image" src="./mock/unnamed.png" alt="" />
-          <div class="playlist-bar__list__item__title">{{ playlist.playlist.name}}</div>
-          <div class="playlist-bar__list__item__artist">{{ playlist.user.name}}</div>
+          <div class="playlist-bar__list__item__content">
+            <div class="playlist-bar__list__item__title">{{ playlist.playlist.name }}</div>
+            <div class="playlist-bar__list__item__artist">{{ playlist.user.name }}</div>
+          </div>
+          @if (playlist.playlist.type !== 'favorite') {
+            <button
+              class="playlist-bar__list__item__delete"
+              type="button"
+              aria-label="刪除播放清單"
+              (click)="deletePlaylist($event, playlist)"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          }
         </li>
       }
-
     </ul>
   } @else {
     <div class="playlist-bar__not-login-area">
-      <div class="playlist-bar__login-request">您必須登入才能觀看個人音樂庫</div>
-      <button class="playlist-bar__login-btn" (click)="openLoginDialog() ">立即登入</button>
+      <div class="playlist-bar__login-request">登入後即可查看你的音樂庫</div>
+      <button class="playlist-bar__login-btn" (click)="openLoginDialog()">立即登入</button>
     </div>
   }
 </main>

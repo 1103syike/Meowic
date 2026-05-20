@@ -156,7 +156,7 @@
       "id": 3,
       "imgPath": "./mock/album/album-3.jpg",
       "name": "澤野弘之的播放清單",
-      "type": "playlist",
+      "type": "album",
       "artistId": 3,
       "like": 52
     },
@@ -164,7 +164,7 @@
       "id": 4,
       "imgPath": "./mock/album/album-4.jpg",
       "name": "鄭丞恩的播放清單",
-      "type": "playlist",
+      "type": "album",
       "artistId": 1,
       "like": 52
     }
@@ -213,9 +213,32 @@
       "name": "Dandy和Wendy的最愛",
       "userId": 1,
       "type": "playlist"
+    },
+    {
+      "name": "我喜歡的歌曲",
+      "userId": 1,
+      "type": "favorite",
+      "id": 5
+    },
+    {
+      "name": "我喜歡的歌曲",
+      "userId": 1,
+      "type": "favorite",
+      "id": 6
+    },
+    {
+      "name": "我喜歡的歌曲",
+      "userId": 1,
+      "type": "favorite",
+      "id": 7
+    },
+    {
+      "name": "垃圾幫",
+      "userId": 1,
+      "type": "playlist",
+      "id": 8
     }
   ],
-
   "playlistUsers": [
     {
       "id": 1,
@@ -228,7 +251,7 @@
       "userId": 2
     },
     {
-      "id":3,
+      "id": 3,
       "playlistId": 3,
       "userId": 1
     },
@@ -236,24 +259,103 @@
       "id": 4,
       "playlistId": 3,
       "userId": 2
+    },
+    {
+      "playlistId": 5,
+      "userId": 1,
+      "id": 6
+    },
+    {
+      "playlistId": 6,
+      "userId": 1,
+      "id": 7
+    },
+    {
+      "playlistId": 7,
+      "userId": 1,
+      "id": 8
+    },
+    {
+      "playlistId": 8,
+      "userId": 1,
+      "id": 9
     }
   ],
-
   "playlistSongs": [
-    {
-      "id": 1,
-      "playlistId": 1,
-      "songId": 1
-    },
-    {
-      "id": 2,
-      "playlistId": 2,
-      "songId": 2
-    },
     {
       "id": 3,
       "playlistId": 3,
       "songId": 3
+    },
+    {
+      "playlistId": 3,
+      "songId": 8,
+      "id": 7
+    },
+    {
+      "playlistId": 3,
+      "songId": 15,
+      "id": 9
+    },
+    {
+      "playlistId": 3,
+      "songId": 3,
+      "id": 10
+    },
+    {
+      "playlistId": 3,
+      "songId": 3,
+      "id": 11
+    },
+    {
+      "playlistId": 3,
+      "songId": 15,
+      "id": 12
+    },
+    {
+      "playlistId": 1,
+      "songId": 3,
+      "id": 13
+    },
+    {
+      "playlistId": 5,
+      "songId": 5,
+      "id": 15
+    },
+    {
+      "playlistId": 5,
+      "songId": 7,
+      "id": 16
+    },
+    {
+      "playlistId": 5,
+      "songId": 8,
+      "id": 17
+    },
+    {
+      "playlistId": 5,
+      "songId": 9,
+      "id": 18
+    },
+    {
+      "playlistId": 5,
+      "songId": 10,
+      "id": 19
+    },
+    {
+      "playlistId": 5,
+      "songId": 1,
+      "id": 20
+    },
+    {
+      "playlistId": 5,
+      "songId": 2,
+      "id": 21
+    },
+    {
+      "playlistId": 5,
+      "songId": 15,
+      "id": 22
     }
   ]
 }

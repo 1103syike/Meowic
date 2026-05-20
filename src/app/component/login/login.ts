@@ -7,8 +7,9 @@ import {
   Output,
   signal,
 } from '@angular/core';
-import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
+import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 import { AuthService, LoginData } from '../../@service/auth.service';
+
 @Component({
   selector: 'app-login',
   imports: [ReactiveFormsModule],
@@ -17,11 +18,13 @@ import { AuthService, LoginData } from '../../@service/auth.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Login {
-  public closeOpenDialog = signal(false);
   @Output() close = new EventEmitter<void>();
+
   private auth: AuthService = inject(AuthService);
+
+  public closeOpenDialog = signal(false);
   public user = signal(null);
-  loginForm = new FormGroup({
+  public loginForm = new FormGroup({
     email: new FormControl(),
     password: new FormControl(),
   });
@@ -30,23 +33,25 @@ export class Login {
     this.close.emit();
   }
 
-  simpleAlert(title: string, icon: SweetAlertIcon, text: string) {
-    Swal.fire({ title: title, text: text, icon: icon });
+  showAlert(title: string, icon: SweetAlertIcon, text: string) {
+    Swal.fire({ title, text, icon });
   }
+
   onLogin() {
     if (!this.loginForm.controls.email.value || !this.loginForm.controls.password.value) {
-      this.simpleAlert('錯誤', 'error', '帳號或密碼不可為空');
-    } else {
-      this.auth.login(this.loginForm.value as LoginData).subscribe({
-        next: (res) => {
-          this.simpleAlert('歡迎', 'success', '登入成功');
-          this.closingLoginDialog();
-          this.auth.handleLoginSuccess(res.accessToken);
-        },
-        error: (err) => {
-          this.simpleAlert('錯誤', 'error', '帳號或密碼錯誤');
-        },
-      });
+      this.showAlert('錯誤', 'error', '帳號或密碼不可為空');
+      return;
     }
+
+    this.auth.login(this.loginForm.value as LoginData).subscribe({
+      next: (res) => {
+        this.showAlert('歡迎', 'success', '登入成功');
+        this.closingLoginDialog();
+        this.auth.handleLoginSuccess(res.accessToken);
+      },
+      error: () => {
+        this.showAlert('錯誤', 'error', '帳號或密碼錯誤');
+      },
+    });
   }
 }

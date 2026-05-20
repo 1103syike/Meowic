@@ -20,6 +20,7 @@
 }
 .player__slider {
   width: 230px;
+  max-width: 100%;
 }
 :host ::ng-deep .player__slider .mat-mdc-slider {
   width: 200px;
@@ -45,17 +46,21 @@
   grid-area: song;
   gap: 20px;
   color: $color-blue;
+  min-width: 0;
 
   &__image {
     width: var(--song-image);
     height: var(--song-image);
     cursor: pointer;
+    object-fit: cover;
+    flex: 0 0 auto;
   }
 
   &__info {
     display: flex;
     flex-direction: column;
     gap: 4px;
+    min-width: 0;
 
     &__title {
       font-size: map-get($font-sizes, 'lg');
@@ -63,6 +68,13 @@
 
     &__artist {
       font-weight: normal;
+    }
+
+    &__title,
+    &__artist {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 }
@@ -83,10 +95,11 @@
 
     &__icon {
       cursor: pointer;
-      color: $color-ts-green;
+      color: $color-green;
       width: 28px;
       height: 28px;
       font-size: 28px;
+
       &--play {
         width: var(--player-btn);
         height: var(--player-btn);
@@ -98,15 +111,22 @@
         width: var(--player-btn);
         height: var(--player-btn);
         font-size: var(--player-btn);
-        color: $color-ts-green;
+        color: $color-green;
       }
 
+      &--repeat {
+        color: $color-ts-green;
+      }
       &--skip {
         width: 36px;
         height: 36px;
         font-size: 36px;
+        color: $color-green;
       }
       &:hover {
+        color: $color-green;
+      }
+      &--active {
         color: $color-green;
       }
     }
@@ -119,6 +139,9 @@
     align-items: center;
     gap: 12px;
     color: $color-green;
+    width: 100%;
+    justify-content: center;
+    min-width: 0;
   }
   &__start-time,
   &__end-time {
@@ -150,6 +173,7 @@
   gap: 12px;
   grid-area: tool;
   color: $color-green;
+  min-width: 0;
 
   &__music {
     width: 150px;
@@ -164,6 +188,12 @@
       height: 6px;
       background: $color-green;
     }
+  }
+
+  &__volume-slider {
+    width: 150px;
+    height: 6px;
+    margin-bottom: 9px;
   }
   &__close {
     cursor: pointer;
@@ -201,4 +231,164 @@
   .player {
     gap: 0px;
   }
+}
+
+@media (max-width: 900px) {
+  :host {
+    --song-image: 52px;
+    --player-btn: 38px;
+  }
+
+  .player-container {
+    height: auto;
+    min-height: 124px;
+    overflow: visible;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      'song tool'
+      'player player';
+    row-gap: 8px;
+    column-gap: 12px;
+    padding: 12px 14px;
+  }
+
+  .song {
+    gap: 10px;
+  }
+
+  .song__info__title {
+    font-size: map-get($font-sizes, 'base');
+  }
+
+  .song__info__artist {
+    font-size: map-get($font-sizes, 'sm');
+  }
+
+  .player {
+    min-width: 0;
+  }
+
+  .player__time-tool {
+    gap: 8px;
+  }
+
+  .player__slider {
+    width: min(56vw, 260px);
+  }
+
+  :host ::ng-deep .player__slider .mat-mdc-slider {
+    width: 100%;
+  }
+
+  .tool {
+    position: static;
+    height: auto;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+
+  .tool__close {
+    position: static;
+    margin: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  :host {
+    --song-image: 44px;
+    --player-btn: 36px;
+  }
+
+  .player-container {
+    min-height: 118px;
+    padding: 10px;
+  }
+
+  .tool__lyrics,
+  .tool__playlist,
+  .tool__volume,
+  .tool__volume-slider {
+    display: none;
+  }
+
+  .player__play-tool {
+    gap: 6px;
+  }
+
+  .player__play-tool__icon {
+    width: 24px;
+    height: 24px;
+    font-size: 24px;
+
+    &--skip {
+      width: 30px;
+      height: 30px;
+      font-size: 30px;
+    }
+  }
+
+  .player__time-tool {
+    font-size: map-get($font-sizes, 'sm');
+  }
+}
+
+@media (max-width: 350px) {
+  :host {
+    --song-image: 40px;
+    --player-btn: 34px;
+  }
+
+  .player-container {
+    min-height: 110px;
+    padding: 8px;
+    row-gap: 6px;
+  }
+
+  .song {
+    gap: 8px;
+  }
+
+  .player__play-tool {
+    gap: 4px;
+  }
+
+  .player__play-tool__icon:not(.player__play-tool__icon--play):not(.player__play-tool__icon--pause):not(.player__play-tool__icon--skip) {
+    display: none;
+  }
+
+  .player__slider {
+    width: min(48vw, 160px);
+  }
+}
+:host ::ng-deep .tool__volume-slider .mat-mdc-slider {
+  width: 200px;
+}
+:host ::ng-deep .tool__volume-slider .mdc-slider__track--active_fill {
+  border-top-width: 10px;
+  border-color: #74a57f;
+}
+
+:host ::ng-deep .tool__volume-slider .mdc-slider__track--inactive {
+  background-color: $color-gray;
+  height: 6px;
+  opacity: 1;
+}
+:host ::ng-deep .tool__volume-slider .mdc-slider__thumb-knob {
+  background-color: #74a57f;
+  border-color: #74a57f;
+  display: none;
+}
+
+:host ::ng-deep .tool__volume-slider .mdc-slider__track--active {
+  height: 6px;
+}
+
+:host ::ng-deep .tool__volume-slider .mdc-slider__thumb {
+  display: none;
+}
+
+:host ::ng-deep .tool__volume-slider .mdc-slider__input {
+  height: 6px;
 }

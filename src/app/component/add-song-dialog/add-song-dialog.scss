@@ -1,0 +1,231 @@
+@use 'sass:map';
+@use 'variables' as *;
+
+.dialog-mask {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba($color-blue, 0.36);
+}
+
+.dialog {
+  position: fixed;
+  z-index: 1001;
+  top: 50%;
+  left: 50%;
+  width: min(720px, calc(100vw - 40px));
+  max-height: calc(100vh - 40px);
+  transform: translate(-50%, -50%);
+  overflow: auto;
+  color: $color-blue;
+  box-sizing: border-box;
+  @include block(28px, 32px);
+}
+
+.dialog__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+
+  h2 {
+    margin: 0;
+    font-size: map-get($font-sizes, '2xl');
+  }
+}
+
+.dialog__close {
+  width: 40px;
+  height: 40px;
+  border: 2px solid $color-ts-blue;
+  background: $color-white;
+  color: $color-blue;
+  font-size: map-get($font-sizes, '2xl');
+  line-height: 1;
+  @include radius('circle');
+
+  &:hover {
+    cursor: pointer;
+    background: $color-green;
+    color: $color-white;
+  }
+}
+
+.song-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.song-form__grid,
+.song-form__uploads {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.song-form__field {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: map-get($font-sizes, 'base');
+}
+
+.song-form__field--wide {
+  grid-column: 1 / -1;
+}
+
+.song-form__field--suggest {
+  z-index: 2;
+}
+
+.song-form__field--suggest:focus-within {
+  z-index: 4;
+}
+
+.song-form__field input {
+  width: 100%;
+  height: 48px;
+  border: 2px solid $color-ts-blue;
+  color: $color-blue;
+  background: $color-white;
+  box-sizing: border-box;
+  padding: 0 14px;
+  font-size: map-get($font-sizes, 'base');
+  outline: none;
+  @include radius('small');
+
+  &:focus {
+    border-color: $color-green;
+    box-shadow: 0 0 0 3px rgba($color-green, 0.18);
+  }
+}
+
+.suggestions {
+  position: absolute;
+  z-index: 10;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  max-height: 188px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0;
+  padding: 8px;
+  list-style: none;
+  color: $color-blue;
+  background: $color-white;
+  border: 2px solid $color-ts-blue;
+  box-shadow: 4px 4px 20px 0 rgba($color-green, 0.18);
+  box-sizing: border-box;
+  @include radius('medium');
+}
+
+.suggestions__item {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  box-sizing: border-box;
+  font-size: map-get($font-sizes, 'base');
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+  @include radius('small');
+
+  &:hover {
+    cursor: pointer;
+    color: $color-white;
+    background: $color-green;
+  }
+}
+
+.song-form__upload {
+  min-height: 118px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  border: 2px dashed $color-ts-gray;
+  background: $color-ts-blue;
+  padding: 16px;
+  box-sizing: border-box;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+  @include radius('medium');
+
+  &:hover {
+    border-color: $color-green;
+    background: rgba($color-green, 0.08);
+  }
+
+  input {
+    width: 100%;
+    font-size: map-get($font-sizes, 'sm');
+  }
+}
+
+.song-form__upload-title {
+  font-size: map-get($font-sizes, 'base');
+}
+
+.song-form__upload-hint {
+  font-size: map-get($font-sizes, 'xs');
+  color: rgba($color-blue, 0.75);
+}
+
+.song-form__error {
+  color: $color-blue;
+  background: $color-ts-blue;
+  border: 2px solid $color-ts-blue;
+  padding: 10px 12px;
+  @include radius('small');
+}
+
+.song-form__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.song-form__btn {
+  min-width: 96px;
+  border: 2px solid $color-ts-blue;
+  padding: 10px 24px;
+  color: $color-blue;
+  background: $color-white;
+  box-shadow: 4px 4px 20px 0 rgba($color-green, 0.16);
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+  @include radius('large');
+
+  &:hover:not(:disabled) {
+    cursor: pointer;
+    background: $color-green;
+    color: $color-white;
+    transform: translateY(-1px);
+  }
+
+  &:disabled {
+    cursor: wait;
+    opacity: 0.7;
+  }
+}
+
+.song-form__btn--primary {
+  background: $color-ts-green;
+}
+
+@media (max-width: 720px) {
+  .song-form__grid,
+  .song-form__uploads {
+    grid-template-columns: 1fr;
+  }
+}

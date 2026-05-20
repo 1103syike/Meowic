@@ -1,10 +1,12 @@
 import { Component, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
+import { SearchStateService } from '../../@service/search-state.service';
 
 @Component({
   selector: 'app-toolbar',
-  imports: [MatIconModule, RouterLink],
+  imports: [FormsModule, MatIconModule, RouterLink],
   templateUrl: './toolbar.html',
   styleUrl: './toolbar.scss',
   host: {
@@ -12,11 +14,13 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
   },
 })
 export class Toolbar {
-  private route: ActivatedRoute = inject(ActivatedRoute);
+  public searchState: SearchStateService = inject(SearchStateService);
 
-  ngOnInit() {
-    console.log(this.route.pathFromRoot);
+  public openSearch(): void {
+    this.searchState.openSearch();
+  }
 
-
+  public updateSearch(query: string): void {
+    this.searchState.setQuery(query);
   }
 }
