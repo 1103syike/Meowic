@@ -1,159 +1,159 @@
-@use 'sass:map'; //
+@use 'sass:map';
 @use 'variables' as *;
 
 .header {
   height: 100%;
-  @include block(14px, 28px);
-  @include flex(row, start, center);
   min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 14px 24px;
+  color: $color-blue;
+  background: $color-white;
+  border: 1px solid $color-ts-blue;
+  box-shadow: 0 10px 24px rgba($color-blue, 0.06);
+  box-sizing: border-box;
+  @include radius('small');
+}
 
-  &__logo {
+.header__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+
+  &:hover {
     cursor: pointer;
-    font-size: map-get($font-sizes, '3xl');
   }
+}
 
-  &__patch {
-    font-size: map.get($font-sizes, 'xs');
-    background: $color-ts-green;
+.header__logo {
+  color: #101828;
+  font-size: map-get($font-sizes, '3xl');
+  line-height: 1;
+}
 
-    @include flex(row, center, center);
-    width: 44px;
-    height: 44px;
+.header__patch {
+  min-height: 30px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 8px;
+  color: $color-white;
+  background: $color-green;
+  font-size: map.get($font-sizes, 'xs');
+  @include radius('small');
+}
+
+.header__nav {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px;
+  background: $color-ts-blue;
+  @include radius('small');
+}
+
+.header__nav__btn,
+.user__login {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  padding: 0 18px;
+  color: $color-blue;
+  background: transparent;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+  @include radius('small');
+
+  &:hover {
+    cursor: pointer;
     color: $color-white;
-    @include radius('small');
+    background: $color-green;
+    border-color: $color-green;
+    box-shadow: 0 8px 18px rgba($color-green, 0.2);
+    transform: translateY(-1px);
   }
 
-  &__nav {
-    @include flex(row, start, center);
-    min-width: 0;
-
-    &__btn {
-      @include nav-button;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      transition:
-        background-color 0.2s ease,
-        color 0.2s ease,
-        transform 0.2s ease;
-
-      &:hover {
-        cursor: pointer;
-        background: $color-ts-green;
-        color: $color-white;
-        transform: translateY(-1px);
-      }
-    }
+  &:active {
+    transform: translateY(0);
   }
 }
 
 .user {
+  min-width: 0;
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 12px;
   margin-left: auto;
+}
+
+.user__profile {
   min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 
-  &__name{
-    color: $color-blue;
-    font-size: map-get($font-sizes, 'xl');
+.user__name {
+  max-width: 120px;
+  overflow: hidden;
+  color: $color-blue;
+  font-size: map-get($font-sizes, 'base');
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
-  }
-  &__profile {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    min-width: 0;
-  }
-  &__badge {
-    flex: 0 0 auto;
-    padding: 4px 10px;
-    border: 2px solid $color-ts-blue;
-    color: $color-blue;
-    background: $color-ts-green;
-    font-size: map-get($font-sizes, 'xs');
-    font-weight: 700;
-    @include radius('large');
-  }
-  &__login{
-      @include nav-button;
-      transition:
-        background-color 0.2s ease,
-        color 0.2s ease,
-        transform 0.2s ease;
+.user__badge {
+  flex: 0 0 auto;
+  padding: 3px 8px;
+  color: $color-green;
+  background: rgba($color-green, 0.12);
+  font-size: map-get($font-sizes, 'xs');
+  @include radius('small');
+}
 
-      &:hover {
-        cursor: pointer;
-        background: $color-ts-green;
-        color: $color-white;
-        transform: translateY(-1px);
-      }
-
-  }
+.user__login {
+  background: $color-white;
+  border-color: $color-ts-blue;
 }
 
 @media (max-width: 1280px) {
   .header {
-    padding: 12px 18px;
     gap: 12px;
-
-    &__logo {
-      font-size: map-get($font-sizes, '2xl');
-    }
-
-    &__patch {
-      width: 38px;
-      height: 38px;
-    }
-
-    &__nav {
-      gap: 10px;
-
-      &__btn {
-        padding: 10px 16px;
-        font-size: map-get($font-sizes, 'base');
-        white-space: nowrap;
-      }
-    }
+    padding: 12px 18px;
   }
 
-  .user {
-    gap: 10px;
+  .header__logo {
+    font-size: map-get($font-sizes, '2xl');
+  }
 
-    &__name {
-      max-width: 96px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      font-size: map-get($font-sizes, 'base');
-    }
-
-    &__badge {
-      padding: 3px 8px;
-    }
-
-    &__login {
-      padding: 10px 16px;
-      font-size: map-get($font-sizes, 'base');
-    }
+  .header__nav__btn,
+  .user__login {
+    min-height: 38px;
+    padding: 0 14px;
+    font-size: map-get($font-sizes, 'sm');
   }
 }
 
 @media (max-width: 1024px) {
   .header {
-    flex-wrap: wrap;
     height: auto;
-
-    &__nav {
-      order: 3;
-      width: 100%;
-      overflow-x: auto;
-    }
+    flex-wrap: wrap;
   }
 
-  .user {
-    margin-left: auto;
+  .header__nav {
+    order: 3;
+    width: 100%;
+    overflow-x: auto;
   }
 }
 
@@ -161,75 +161,24 @@
   .header {
     padding: 12px;
     gap: 8px;
-
-    &__logo {
-      font-size: map-get($font-sizes, 'xl');
-    }
-
-    &__patch {
-      width: 36px;
-      height: 36px;
-    }
-
-    &__nav {
-      gap: 8px;
-
-      &__btn {
-        padding: 8px 12px;
-        font-size: map-get($font-sizes, 'sm');
-      }
-    }
   }
 
-  .user {
-    gap: 8px;
-
-    &__name {
-      max-width: 72px;
-      font-size: map-get($font-sizes, 'sm');
-    }
-
-    &__profile {
-      gap: 6px;
-    }
-
-    &__badge {
-      padding: 2px 7px;
-      font-size: map-get($font-sizes, 'xs');
-    }
-
-    &__login {
-      padding: 8px 12px;
-      font-size: map-get($font-sizes, 'sm');
-    }
+  .header__logo {
+    font-size: map-get($font-sizes, 'xl');
   }
-}
 
-@media (max-width: 350px) {
-  .header {
-    padding: 10px;
+  .header__patch {
+    min-height: 26px;
+    padding: 0 7px;
+  }
 
-    &__logo {
-      font-size: map-get($font-sizes, 'lg');
-    }
-
-    &__patch {
-      display: none;
-    }
-
-    &__nav__btn {
-      padding: 7px 10px;
-    }
+  .header__nav__btn,
+  .user__login {
+    min-height: 34px;
+    padding: 0 10px;
   }
 
   .user__name {
-    max-width: 58px;
-  }
-
-  .user__badge {
-    max-width: 42px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    max-width: 76px;
   }
 }

@@ -3,7 +3,7 @@
     <div>
       <span>Music Library</span>
       <h2>歌曲管理</h2>
-      <p>新增歌曲、調整歌手與專輯歸屬，並維護歌曲封面。</p>
+      <p>新增歌曲、調整歌手與專輯資料，並維護歌曲封面。</p>
     </div>
     <button class="cms-page__primary-btn" type="button" (click)="openAddSongDialog()">新增歌曲</button>
   </header>
@@ -12,8 +12,18 @@
     <section class="cms-panel">
       <div class="cms-panel__head">
         <h3>歌曲列表</h3>
-        <span>{{ songs().length }} 首</span>
+        <span>{{ filteredSongs().length }} / {{ songs().length }} 首</span>
       </div>
+
+      <label class="cms-search">
+        <span>搜尋歌曲</span>
+        <input
+          type="search"
+          [ngModel]="keyword()"
+          (ngModelChange)="setKeyword($event)"
+          placeholder="輸入歌名、歌手或專輯"
+        />
+      </label>
 
       <div class="cms-table">
         <div class="cms-table__row cms-table__row--head">
@@ -21,7 +31,7 @@
           <span>歌手</span>
           <span>專輯</span>
         </div>
-        @for (song of songs(); track song.id) {
+        @for (song of pagedSongs(); track song.id) {
           <button
             class="cms-table__row cms-table__row--button"
             type="button"
@@ -36,9 +46,15 @@
             <span>{{ song.album.name }}</span>
           </button>
         } @empty {
-          <div class="cms-empty">目前沒有歌曲</div>
+          <div class="cms-empty">找不到符合條件的歌曲</div>
         }
       </div>
+
+      <footer class="cms-pagination">
+        <button type="button" [disabled]="page() === 1" (click)="changePage(-1)">上一頁</button>
+        <span>{{ page() }} / {{ pageCount() }}</span>
+        <button type="button" [disabled]="page() === pageCount()" (click)="changePage(1)">下一頁</button>
+      </footer>
     </section>
 
     <aside class="cms-panel cms-editor">
@@ -90,7 +106,7 @@
             取消變更
           </button>
           <button class="cms-page__primary-btn" type="button" [disabled]="isSaving()" (click)="saveSong()">
-            {{ isSaving() ? '儲存中' : '儲存歌曲' }}
+            {{ isSaving() ? '儲存中...' : '儲存歌曲' }}
           </button>
         </div>
       } @else {

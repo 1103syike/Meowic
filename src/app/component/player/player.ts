@@ -1,15 +1,15 @@
-import { Component, DestroyRef, inject, signal } from '@angular/core';
-import { MatIcon } from '@angular/material/icon';
-import { MusicPlayerService } from '../../@service/music-player.service';
-import { ApiService, SongType } from '../../@service/api.service';
-import { NavigationEnd, Router, RouterLink } from '@angular/router';
-import { filter, interval, Subscription, take } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { TimePipe } from '../../@pipe/time-pipe';
-import { MatSliderModule } from '@angular/material/slider';
+import { Component, effect, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { PlaybackQueueService } from '../../@service/playback-queue.service';
+import { MatIcon } from '@angular/material/icon';
+import { MatSliderModule } from '@angular/material/slider';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
+import { filter } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ApiService, SongType } from '../../@service/api.service';
 import { AuthService } from '../../@service/auth.service';
+import { MusicPlayerService } from '../../@service/music-player.service';
+import { PlaybackQueueService } from '../../@service/playback-queue.service';
+import { TimePipe } from '../../@pipe/time-pipe';
 
 @Component({
   selector: 'app-player',
@@ -19,13 +19,12 @@ import { AuthService } from '../../@service/auth.service';
   providers: [TimePipe],
 })
 export class Player {
-  /////////////////////////////////////////////
   public player: MusicPlayerService = inject(MusicPlayerService);
   private router: Router = inject(Router);
   private api: ApiService = inject(ApiService);
   private auth: AuthService = inject(AuthService);
   public playbackQueue: PlaybackQueueService = inject(PlaybackQueueService);
-  /////////////////////////////////////////////
+
   public isClose = signal<boolean>(false);
   public currentSongId = signal<string | null>(null);
   public currentSong = signal<SongType | null>(null);
@@ -43,9 +42,16 @@ export class Player {
   value = this.getStoredVolume();
   showTicks = false;
   duration = signal<number>(0);
-  /////////////////////////////////////////////
 
   constructor() {
+    effect(() => {
+      const songId = this.playbackQueue.currentSongId();
+      if (!songId || songId.toString() === this.currentSongId()) {
+        return;
+      }
+
+      this.setSongByLocalStorage();
+    });
     this.subscribeRouter();
   }
 
@@ -204,7 +210,7 @@ export class Player {
 
     return this.previousVolume || 70;
   }
-  
+
   private subscribeRouter() {
     this.router.events
       .pipe(
@@ -289,12 +295,10 @@ export class Player {
     this.player.setIsClose(boolean);
   }
 
-  // 轉換秒數方法
   formatTime(time: number): string {
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
 
     return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
   }
-  ///////////////////////////////////////////////
 }

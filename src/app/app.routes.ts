@@ -74,6 +74,13 @@ export const routes: Routes = [
               import('./view/cms/artists/cms-artists').then((m) => m.CmsArtists),
           },
           {
+            path: 'home',
+            loadComponent: () =>
+              import('./view/cms/home-recommendations/cms-home-recommendations').then(
+                (m) => m.CmsHomeRecommendations,
+              ),
+          },
+          {
             path: 'albums',
             loadComponent: () =>
               import('./view/cms/albums/cms-albums').then((m) => m.CmsAlbums),

@@ -1,50 +1,79 @@
 @use 'sass:map';
 @use 'variables' as *;
-.login {
-  z-index: 999;
-  &__mask {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: $color-ts-gray;
-  }
 
+::ng-deep .swal2-container {
+  z-index: 1300;
+}
+
+:host {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  pointer-events: none;
+}
+
+.login {
+  z-index: 1201;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  position: absolute;
+  position: fixed;
   display: flex;
   color: $color-blue;
+  pointer-events: auto;
+
+  &__mask {
+    position: fixed;
+    inset: 0;
+    z-index: 1200;
+    width: 100%;
+    height: 100%;
+    background: rgba($color-blue, 0.42);
+    pointer-events: auto;
+  }
+
   &__container {
-    width: 400px;
+    width: min(400px, calc(100vw - 32px));
+    max-height: calc(100vh - 48px);
+    overflow-y: auto;
     @include block(20px, 40px);
-    margin: auto auto;
+    margin: auto;
   }
 
   &__header {
     width: 100%;
     text-align: center;
     font-size: map-get($font-sizes, '2xl');
-    margin-bottom: 12px;
+    margin-bottom: 16px;
   }
 
   &__label {
     display: block;
     margin-bottom: 4px;
+    font-weight: 600;
   }
 
   &__input {
-    border-color: $color-blue;
+    border: 1px solid $color-blue;
     outline-color: $color-blue;
-    font-weight: 400px;
+    font-weight: 400;
     border-radius: 4px;
     width: 100%;
     height: 36px;
     display: block;
     padding: 0 8px;
-    margin-bottom: 4px;
+    margin-bottom: 10px;
+
+    &--inline {
+      margin-bottom: 0;
+    }
+  }
+
+  &__inline {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 104px;
+    gap: 8px;
+    margin-bottom: 12px;
   }
 
   &__btn {
@@ -52,7 +81,31 @@
     display: block;
     background: none;
     color: $color-ts-gray;
+    margin: -4px 0 12px auto;
+  }
+
+  &__ghost-btn,
+  &__secondary {
+    cursor: pointer;
+    min-height: 36px;
+    border: 1px solid $color-ts-green;
+    border-radius: 4px;
+    background: $color-white;
+    color: $color-ts-green;
+  }
+
+  &__ghost-btn {
+    padding: 0 10px;
+    white-space: nowrap;
+  }
+
+  &__secondary {
+    width: 100%;
     margin-bottom: 12px;
+
+    &:hover {
+      background: rgba($color-ts-green, 0.08);
+    }
   }
 
   &__submit {
@@ -69,12 +122,39 @@
     }
   }
 
+  &__segmented {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid $color-ts-green;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 12px;
+
+    button {
+      height: 34px;
+      color: $color-ts-green;
+      background: $color-white;
+
+      &.is-active {
+        color: $color-white;
+        background: $color-ts-green;
+      }
+    }
+  }
+
+  &__hint {
+    line-height: 1.5;
+    font-size: map-get($font-sizes, 'sm');
+    color: $color-ts-gray;
+    margin-bottom: 12px;
+  }
+
   &__notice {
     display: block;
     width: 100%;
     text-align: center;
     font-size: map-get($font-sizes, 'sm');
-    margin-bottom: 12px;
+    margin-bottom: 8px;
   }
 
   &__terms {
@@ -85,8 +165,40 @@
     color: $color-ts-green;
 
     &__term {
+      padding: 4px 8px;
       background: none;
-      color: $color-ts-green;
+      color: $color-green;
+      border-radius: 4px;
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+
+      &:hover {
+        cursor: pointer;
+        color: $color-white;
+        background: $color-green;
+        box-shadow: 0 6px 16px rgba($color-green, 0.26);
+        transform: translateY(-1px);
+      }
+
+      &:focus-visible {
+        outline: 3px solid rgba($color-green, 0.28);
+        outline-offset: 2px;
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+    }
+  }
+
+  &__document {
+    p {
+      line-height: 1.6;
+      color: $color-ts-gray;
+      margin-bottom: 12px;
     }
   }
 }

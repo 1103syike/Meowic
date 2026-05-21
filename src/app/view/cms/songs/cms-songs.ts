@@ -21,6 +21,9 @@ export class CmsSongs {
   public songs = signal<SongType[]>([]);
   public selectedSong = signal<SongType | null>(null);
   public message = signal('');
+  public keyword = signal('');
+  public page = signal(1);
+  public readonly pageSize = 8;
 
   public editForm = {
     name: '',
@@ -34,6 +37,24 @@ export class CmsSongs {
     const song = this.selectedSong();
     return this.imagePreview() || song?.imgPath || song?.album?.imgPath || './mock/unnamed.png';
   });
+
+  public filteredSongs = computed(() => {
+    const keyword = this.keyword().trim().toLowerCase();
+    if (!keyword) return this.songs();
+
+    return this.songs().filter((song) =>
+      [song.name, song.artist?.name, song.album?.name].some((value) =>
+        (value ?? '').toLowerCase().includes(keyword),
+      ),
+    );
+  });
+
+  public pagedSongs = computed(() => {
+    const start = (this.page() - 1) * this.pageSize;
+    return this.filteredSongs().slice(start, start + this.pageSize);
+  });
+
+  public pageCount = computed(() => Math.max(1, Math.ceil(this.filteredSongs().length / this.pageSize)));
 
   public hasPendingChanges(): boolean {
     const song = this.selectedSong();
@@ -68,6 +89,15 @@ export class CmsSongs {
   public selectSong(song: SongType): void {
     this.selectedSong.set(song);
     this.resetEditor(song);
+  }
+
+  public setKeyword(keyword: string): void {
+    this.keyword.set(keyword);
+    this.page.set(1);
+  }
+
+  public changePage(direction: -1 | 1): void {
+    this.page.update((page) => Math.min(Math.max(page + direction, 1), this.pageCount()));
   }
 
   public async setImageFile(event: Event): Promise<void> {
@@ -145,6 +175,8 @@ export class CmsSongs {
     } else if (songs.length) {
       this.selectSong(songs[0]);
     }
+
+    this.page.set(Math.min(Math.max(this.page(), 1), this.pageCount()));
   }
 
   private async uploadImage(file: File): Promise<string> {

@@ -3,7 +3,7 @@
     <div>
       <span>Artist Profile</span>
       <h2>藝人管理</h2>
-      <p>維護藝人名稱、介紹文字與頭像，前台藝人資訊會跟著更新。</p>
+      <p>維護藝人名稱、介紹文字與頭像，前台藝人資訊會同步更新。</p>
     </div>
   </header>
 
@@ -11,11 +11,21 @@
     <section class="cms-panel">
       <div class="cms-panel__head">
         <h3>藝人列表</h3>
-        <span>{{ artists().length }} 位</span>
+        <span>{{ filteredArtists().length }} / {{ artists().length }} 位</span>
       </div>
 
+      <label class="cms-search">
+        <span>搜尋藝人</span>
+        <input
+          type="search"
+          [ngModel]="keyword()"
+          (ngModelChange)="setKeyword($event)"
+          placeholder="輸入藝人名稱或介紹"
+        />
+      </label>
+
       <div class="cms-list">
-        @for (artist of artists(); track artist.id) {
+        @for (artist of pagedArtists(); track artist.id) {
           <button
             class="cms-list__item"
             type="button"
@@ -29,9 +39,15 @@
             </div>
           </button>
         } @empty {
-          <div class="cms-empty">目前沒有藝人資料</div>
+          <div class="cms-empty">找不到符合條件的藝人</div>
         }
       </div>
+
+      <footer class="cms-pagination">
+        <button type="button" [disabled]="page() === 1" (click)="changePage(-1)">上一頁</button>
+        <span>{{ page() }} / {{ pageCount() }}</span>
+        <button type="button" [disabled]="page() === pageCount()" (click)="changePage(1)">下一頁</button>
+      </footer>
     </section>
 
     <aside class="cms-panel cms-editor">
@@ -70,7 +86,7 @@
             取消變更
           </button>
           <button class="cms-page__primary-btn" type="button" [disabled]="isSaving()" (click)="saveArtist()">
-            {{ isSaving() ? '儲存中' : '儲存藝人' }}
+            {{ isSaving() ? '儲存中...' : '儲存藝人' }}
           </button>
         </div>
       } @else {

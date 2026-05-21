@@ -1,5 +1,4 @@
 <section class="player-container">
-  <!-- 左側音樂資訊 -->
   <section class="song">
     <img
       [routerLink]="['/song', this.currentSong()?.id]"
@@ -17,9 +16,7 @@
     </section>
   </section>
 
-  <!-- 中間音樂撥放器 -->
   <section class="player">
-    <!-- 上方播放、循環撥放等等按鈕 -->
     <div class="player__play-tool">
       <mat-icon
         class="player__play-tool__icon player__play-tool__icon--mode"
@@ -62,7 +59,6 @@
       </mat-icon>
     </div>
 
-    <!-- 下方音樂播放進度條區域 -->
     <div class="player__time-tool">
       <audio
         #musicPlayer
@@ -90,7 +86,6 @@
     </div>
   </section>
 
-  <!-- 右側工具列 -->
   <section class="tool">
     <mat-icon class="tool__lyrics">lyrics</mat-icon>
     <button
@@ -142,7 +137,7 @@
 
     <div class="queue__list">
       @if (playbackQueue.manualSongs().length > 0) {
-        <div class="queue__section-title">我要播的歌</div>
+        <div class="queue__section-title">我要播放的歌</div>
       }
 
       @for (song of playbackQueue.manualSongs(); track song.id; let index = $index) {

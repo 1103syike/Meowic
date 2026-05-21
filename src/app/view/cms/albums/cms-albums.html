@@ -11,11 +11,21 @@
     <section class="cms-panel">
       <div class="cms-panel__head">
         <h3>專輯列表</h3>
-        <span>{{ albums().length }} 張</span>
+        <span>{{ filteredAlbums().length }} / {{ albums().length }} 張</span>
       </div>
 
+      <label class="cms-search">
+        <span>搜尋專輯</span>
+        <input
+          type="search"
+          [ngModel]="keyword()"
+          (ngModelChange)="setKeyword($event)"
+          placeholder="輸入專輯或歌手"
+        />
+      </label>
+
       <div class="cms-albums">
-        @for (album of albums(); track album.id) {
+        @for (album of pagedAlbums(); track album.id) {
           <button
             class="cms-albums__item"
             type="button"
@@ -29,9 +39,15 @@
             </div>
           </button>
         } @empty {
-          <div class="cms-empty">目前沒有專輯</div>
+          <div class="cms-empty">找不到符合條件的專輯</div>
         }
       </div>
+
+      <footer class="cms-pagination">
+        <button type="button" [disabled]="page() === 1" (click)="changePage(-1)">上一頁</button>
+        <span>{{ page() }} / {{ pageCount() }}</span>
+        <button type="button" [disabled]="page() === pageCount()" (click)="changePage(1)">下一頁</button>
+      </footer>
 
       <div class="cms-panel__subhead">
         <h3>專輯歌曲</h3>
@@ -107,7 +123,7 @@
             取消變更
           </button>
           <button class="cms-page__primary-btn" type="button" [disabled]="isSaving()" (click)="saveAlbum()">
-            {{ isSaving() ? '儲存中' : '儲存專輯' }}
+            {{ isSaving() ? '儲存中...' : '儲存專輯' }}
           </button>
         </div>
       } @else {

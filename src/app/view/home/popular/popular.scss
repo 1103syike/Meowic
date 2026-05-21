@@ -1,54 +1,147 @@
 @use 'variables' as *;
 
 .popular {
-  margin-top: 28px;
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid $color-ts-blue;
+  background: rgba($color-white, 0.9);
+  @include radius('small');
+}
 
-  &__header {
-    margin-bottom: 12px;
+.popular__header {
+  margin-bottom: 12px;
+
+  h2,
+  p {
+    margin: 0;
   }
 
-  &__list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 16px;
+  h2 {
+    font-size: map-get($font-sizes, 'lg');
+    line-height: 1.2;
   }
 
-  &__item {
-    border-radius: 12px;
-    padding: 10px;
-    background: $color-ts-blue;
-    &__image {
-      width: 100%;
-      aspect-ratio: 1;
-      object-fit: cover;
-      border-radius: 8px;
-      margin-bottom: 10px;
-    }
-
-    &__title {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      font-size: map-get($font-sizes, 'base');
-      margin-bottom: 6px;
-    }
-    &__artist {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      font-size: map-get($font-sizes, 'sm');
-      font-weight: 500;
-    }
+  p {
+    margin-top: 4px;
+    color: rgba($color-blue, 0.66);
+    font-size: map-get($font-sizes, 'sm');
+    font-weight: 600;
   }
 }
 
-@media (max-width: 1280px) {
-  .popular {
-    margin-top: 24px;
+.popular__list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
 
-    &__list {
-      grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
-      gap: 12px;
-    }
+.popular__item {
+  width: 100%;
+  min-height: 66px;
+  display: grid;
+  grid-template-columns: 34px 52px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 7px 10px;
+  border: 1px solid $color-ts-blue;
+  color: $color-blue;
+  background: rgba($color-white, 0.86);
+  text-align: left;
+  text-decoration: none;
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    color 0.18s ease,
+    transform 0.18s ease;
+  @include radius('small');
+
+  &:hover {
+    color: $color-white;
+    background: $color-green;
+    border-color: $color-green;
+    box-shadow: 0 10px 22px rgba($color-green, 0.22);
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.popular__rank {
+  color: rgba($color-blue, 0.62);
+  text-align: center;
+  font-size: map-get($font-sizes, 'sm');
+  font-weight: 800;
+}
+
+.popular__item:hover .popular__rank {
+  color: rgba($color-white, 0.78);
+}
+
+.popular__image {
+  width: 52px;
+  height: 52px;
+  object-fit: cover;
+  @include radius('small');
+}
+
+.popular__meta {
+  min-width: 0;
+
+  strong,
+  small {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  strong {
+    font-size: map-get($font-sizes, 'base');
+  }
+
+  small {
+    margin-top: 3px;
+    color: rgba($color-blue, 0.68);
+    font-size: map-get($font-sizes, 'sm');
+    font-weight: 500;
+  }
+}
+
+.popular__item:hover .popular__meta small {
+  color: rgba($color-white, 0.78);
+}
+
+.popular__play {
+  padding: 5px 10px;
+  color: $color-green;
+  background: rgba($color-green, 0.12);
+  font-size: map-get($font-sizes, 'xs');
+  font-weight: 800;
+  @include radius('small');
+}
+
+.popular__item:hover .popular__play {
+  color: $color-green;
+  background: $color-white;
+}
+
+@media (max-width: 600px) {
+  .popular__item {
+    grid-template-columns: 28px 46px minmax(0, 1fr);
+  }
+
+  .popular__play {
+    display: none;
+  }
+
+  .popular__image {
+    width: 46px;
+    height: 46px;
   }
 }

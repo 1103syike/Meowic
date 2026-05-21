@@ -1,60 +1,111 @@
 @use 'variables' as *;
 
 .recommand {
-  &__header{
-    margin-bottom: 12px;
-  }
-  &__list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 12px;
-  }
-  &__item {
-    cursor: pointer;
-    display: flex;
-    align-items: stretch;
-    border: 1px solid $color-ts-gray;
-    gap: 24px;
+  min-width: 0;
+  padding: 16px 20px;
+  border: 1px solid $color-ts-blue;
+  background: rgba($color-white, 0.9);
+  @include radius('small');
+}
 
-    &:hover{
-      background: $color-ts-green;
-      color: $color-white;
+.recommand__header {
+  margin-bottom: 12px;
 
-    }
-    @include recommand-btn;
-    min-height: 96px;
-    &__image {
-      width: 96px;
-      height: auto;
-      flex: 0 0 auto;
-      object-fit: cover;
-    }
-    &__artist {
-      display: flex;
-      align-items: center;
-      min-width: 0;
-      padding-right: 12px;
-    }
-    &__title {
-      font-size: map-get($font-sizes, 'base');
-    }
+  h2,
+  p {
+    margin: 0;
+  }
+
+  h2 {
+    font-size: map-get($font-sizes, 'lg');
+    line-height: 1.2;
+  }
+
+  p {
+    margin-top: 4px;
+    color: rgba($color-blue, 0.66);
+    font-size: map-get($font-sizes, 'sm');
+    font-weight: 600;
   }
 }
 
+.recommand__list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.recommand__item {
+  min-height: 76px;
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  border: 1px solid $color-ts-blue;
+  color: $color-blue;
+  background: rgba($color-white, 0.86);
+  overflow: hidden;
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    color 0.18s ease,
+    transform 0.18s ease;
+  @include radius('small');
+
+  &:hover {
+    cursor: pointer;
+    color: $color-white;
+    background: $color-green;
+    border-color: $color-green;
+    box-shadow: 0 10px 22px rgba($color-green, 0.22);
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.recommand__item__image {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  @include radius('small');
+}
+
+.recommand__item__content {
+  min-width: 0;
+  padding-right: 0;
+
+  strong,
+  span {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  strong {
+    font-size: map-get($font-sizes, 'sm');
+  }
+
+  span {
+    margin-top: 4px;
+    color: rgba($color-blue, 0.62);
+    font-size: map-get($font-sizes, 'xs');
+    font-weight: 700;
+  }
+}
+
+.recommand__item:hover .recommand__item__content span {
+  color: rgba($color-white, 0.8);
+}
+
 @media (max-width: 1280px) {
-  .recommand {
-    &__list {
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    }
-
-    &__item {
-      gap: 16px;
-
-      &__image {
-        width: 84px;
-        height: auto;
-      }
-    }
+  .recommand__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 

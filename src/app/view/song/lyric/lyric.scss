@@ -67,13 +67,18 @@
 
   &:hover {
     cursor: pointer;
-    color: $color-blue;
+    color: $color-white;
+    background: $color-green;
   }
 }
 
 .lyric__tab--active {
   color: $color-white;
   background: $color-green;
+
+  &:hover {
+    color: $color-white;
+  }
 }
 
 .song-hero {

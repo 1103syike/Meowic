@@ -31,6 +31,29 @@ export class ApiService {
     return this.http.get<UserType[]>('http://localhost:3000/users');
   }
 
+  getHomeRecommendations(): Observable<HomeRecommendationType[]> {
+    return this.http.get<HomeRecommendationType[]>('http://localhost:3000/homeRecommendations');
+  }
+
+  createHomeRecommendations(
+    recommendation: CreateHomeRecommendationType,
+  ): Observable<HomeRecommendationType> {
+    return this.http.post<HomeRecommendationType>(
+      'http://localhost:3000/homeRecommendations',
+      recommendation,
+    );
+  }
+
+  updateHomeRecommendations(
+    id: number,
+    recommendation: Partial<HomeRecommendationType>,
+  ): Observable<HomeRecommendationType> {
+    return this.http.patch<HomeRecommendationType>(
+      `http://localhost:3000/homeRecommendations/${id}`,
+      recommendation,
+    );
+  }
+
   createUser(user: CreateUserType): Observable<UserType> {
     return this.http.post<UserType>('http://localhost:3000/users', user);
   }
@@ -263,9 +286,21 @@ export interface UserType {
   id: number;
   name: string;
   email: string;
+  phone?: string;
   password: string;
   role?: string;
   canAccessCms?: boolean;
+}
+
+export interface HomeRecommendationType {
+  id: number;
+  popularSongIds: number[];
+  popularArtistIds: number[];
+}
+
+export interface CreateHomeRecommendationType {
+  popularSongIds: number[];
+  popularArtistIds: number[];
 }
 
 export interface PlaylistUsersType {

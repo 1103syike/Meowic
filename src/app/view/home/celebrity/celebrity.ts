@@ -1,23 +1,30 @@
-import { Component } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { catchError, forkJoin, of } from 'rxjs';
+import { ApiService, ArtistType } from '../../../@service/api.service';
 
 @Component({
   selector: 'app-celebrity',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './celebrity.html',
   styleUrl: './celebrity.scss',
 })
 export class Celebrity {
-  public path: string = './mock/home/musicbar/image 1.png';
+  private api: ApiService = inject(ApiService);
 
-  public celebrities = [
-    { name: 'Justin Bieber', career: '歌手', path: './mock/home/celebrity/img-1.png' },
-    { name: 'Billie Eilish', career: '歌手', path: './mock/home/celebrity/img-2.png' },
-    { name: '周杰倫', career: '歌手', path: './mock/home/celebrity/img-3.png' },
-    { name: 'Ardie Son', career: '作曲家', path: './mock/home/celebrity/img-4.png' },
-    { name: 'IVE', career: '團體歌手', path: './mock/home/celebrity/img-5.png' },
-  ];
+  public celebrities = signal<ArtistType[]>([]);
 
-  printImage(path: string) {
-    this.path = path;
+  ngOnInit() {
+    forkJoin({
+      artists: this.api.getAllArtist(),
+      recommendations: this.api.getHomeRecommendations().pipe(catchError(() => of([]))),
+    }).subscribe(({ artists, recommendations }) => {
+      const popularArtistIds = recommendations[0]?.popularArtistIds ?? [];
+      const selectedArtists = popularArtistIds
+        .map((id) => artists.find((artist) => artist.id === id))
+        .filter((artist): artist is ArtistType => !!artist);
+
+      this.celebrities.set(selectedArtists.length ? selectedArtists : artists.slice(0, 5));
+    });
   }
 }

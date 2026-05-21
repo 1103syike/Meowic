@@ -43,15 +43,22 @@ server.post('/upload', largeJsonParser, largeUrlencodedParser, (req, res) => {
 });
 
 server.post('/login', largeJsonParser, largeUrlencodedParser, (req, res) => {
-  const { email, password } = req.body;
+  const { account, email, password } = req.body;
+  const identifier = (account || email || '').trim();
   const users = router.db.get('users').value();
 
-  const user = users.find((u) => u.email === email && u.password === password);
+  const user = users.find(
+    (u) => (u.email === identifier || u.phone === identifier) && u.password === password,
+  );
 
   if (user) {
-    const accessToken = jwt.sign({ id: user.id, email: user.email }, SECRET_KEY, {
-      expiresIn: EXPIRES_IN,
-    });
+    const accessToken = jwt.sign(
+      { id: user.id, account: user.email || user.phone, email: user.email, phone: user.phone },
+      SECRET_KEY,
+      {
+        expiresIn: EXPIRES_IN,
+      },
+    );
     res.status(200).json({ accessToken });
   } else {
     res.status(401).json({ message: '帳號或密碼錯誤' });
@@ -95,6 +102,52 @@ server.post('/songPlays', largeJsonParser, largeUrlencodedParser, (req, res) => 
   }
 
   res.status(201).json(play);
+});
+
+server.get('/homeRecommendations', (req, res) => {
+  if (!router.db.has('homeRecommendations').value()) {
+    router.db.set('homeRecommendations', []).write();
+  }
+
+  res.status(200).json(router.db.get('homeRecommendations').value());
+});
+
+server.post('/homeRecommendations', largeJsonParser, largeUrlencodedParser, (req, res) => {
+  if (!router.db.has('homeRecommendations').value()) {
+    router.db.set('homeRecommendations', []).write();
+  }
+
+  const nextId = (router.db.get('homeRecommendations').map('id').max().value() || 0) + 1;
+  const recommendation = {
+    id: nextId,
+    popularSongIds: Array.isArray(req.body.popularSongIds) ? req.body.popularSongIds : [],
+    popularArtistIds: Array.isArray(req.body.popularArtistIds) ? req.body.popularArtistIds : [],
+  };
+
+  router.db.get('homeRecommendations').push(recommendation).write();
+  res.status(201).json(recommendation);
+});
+
+server.patch('/homeRecommendations/:id', largeJsonParser, largeUrlencodedParser, (req, res) => {
+  if (!router.db.has('homeRecommendations').value()) {
+    router.db.set('homeRecommendations', []).write();
+  }
+
+  const id = Number(req.params.id);
+  const recommendation = router.db.get('homeRecommendations').find({ id });
+
+  if (!recommendation.value()) {
+    return res.status(404).json({ message: '首頁推薦不存在' });
+  }
+
+  recommendation
+    .assign({
+      popularSongIds: Array.isArray(req.body.popularSongIds) ? req.body.popularSongIds : [],
+      popularArtistIds: Array.isArray(req.body.popularArtistIds) ? req.body.popularArtistIds : [],
+    })
+    .write();
+
+  res.status(200).json(recommendation.value());
 });
 
 server.use(router);

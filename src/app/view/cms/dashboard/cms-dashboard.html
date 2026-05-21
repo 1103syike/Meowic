@@ -1,21 +1,131 @@
 <section class="cms-dashboard">
-  <header class="cms-dashboard__header">
-    <h2>總覽</h2>
-    <p>管理 Meowic 的內容、營運區塊與設定。</p>
+  <header class="dashboard-hero">
+    <div>
+      <span>Overview</span>
+      <h2>總覽</h2>
+      <p>快速檢查內容庫、首頁推薦、播放狀態與待整理項目。</p>
+    </div>
+    <a class="dashboard-hero__action" routerLink="/cms/home">管理首頁推薦</a>
   </header>
 
-  <div class="cms-dashboard__stats">
-    <article>
-      <span>歌曲</span>
-      <strong>{{ songCount() }}</strong>
-    </article>
-    <article>
-      <span>專輯</span>
-      <strong>{{ albumCount() }}</strong>
-    </article>
-    <article>
-      <span>歌手</span>
-      <strong>{{ artistCount() }}</strong>
-    </article>
-  </div>
+  @if (isLoading()) {
+    <section class="dashboard-panel">
+      <p class="dashboard-empty">載入儀表板資料中...</p>
+    </section>
+  } @else {
+    <div class="dashboard-kpis">
+      <article>
+        <span>歌曲</span>
+        <strong>{{ songs().length }}</strong>
+        <small>{{ totalPlays() }} 次播放</small>
+      </article>
+      <article>
+        <span>專輯</span>
+        <strong>{{ albumCount() }}</strong>
+        <small>{{ albumsWithoutSongs() }} 張尚無歌曲</small>
+      </article>
+      <article>
+        <span>藝人</span>
+        <strong>{{ artists().length }}</strong>
+        <small>{{ artistsMissingDescription() }} 位待補介紹</small>
+      </article>
+      <article>
+        <span>使用者</span>
+        <strong>{{ users().length }}</strong>
+        <small>{{ plays().length }} 筆播放紀錄</small>
+      </article>
+    </div>
+
+    <div class="dashboard-content-grid">
+      <div class="dashboard-primary">
+        <section class="dashboard-panel">
+          <header class="dashboard-panel__head">
+            <div>
+              <h3>待整理項目</h3>
+              <span>還需要補齊或確認的內容</span>
+            </div>
+          </header>
+          <div class="todo-list">
+            <a routerLink="/cms/songs">
+              <strong>{{ songsMissingCover() }}</strong>
+              <span>歌曲缺少可用封面</span>
+            </a>
+            <a routerLink="/cms/albums">
+              <strong>{{ albumsWithoutSongs() }}</strong>
+              <span>專輯尚無歌曲</span>
+            </a>
+            <a routerLink="/cms/artists">
+              <strong>{{ artistsMissingDescription() }}</strong>
+              <span>藝人尚未建立介紹</span>
+            </a>
+            <a routerLink="/cms/home">
+              <strong>{{ recommendedSongCount() }} / {{ recommendedArtistCount() }}</strong>
+              <span>首頁歌曲 / 藝人推薦</span>
+            </a>
+          </div>
+        </section>
+
+        <section class="dashboard-panel dashboard-panel--latest">
+          <header class="dashboard-panel__head">
+            <div>
+              <h3>最近新增</h3>
+              <span>最新建立的歌曲資料</span>
+            </div>
+            <a routerLink="/cms/songs">查看全部</a>
+          </header>
+          <div class="latest-grid">
+            @for (song of latestSongs(); track song.id) {
+              <a class="latest-card" [routerLink]="['/cms/songs']">
+                <img [src]="song.imgPath || song.album.imgPath || './mock/unnamed.png'" alt="" />
+                <span>
+                  <strong>{{ song.name }}</strong>
+                  <small>{{ song.artist.name }} · {{ song.album.name }}</small>
+                </span>
+                <b>#{{ song.id }}</b>
+              </a>
+            }
+          </div>
+        </section>
+      </div>
+
+      <aside class="dashboard-secondary">
+        <section class="dashboard-panel">
+          <header class="dashboard-panel__head">
+            <div>
+              <h3>快捷入口</h3>
+              <span>常用管理動作</span>
+            </div>
+          </header>
+          <div class="quick-links">
+            <a routerLink="/cms/songs">歌曲管理</a>
+            <a routerLink="/cms/albums">專輯管理</a>
+            <a routerLink="/cms/artists">藝人管理</a>
+            <a routerLink="/cms/home">首頁推薦</a>
+          </div>
+        </section>
+
+        <section class="dashboard-panel">
+          <header class="dashboard-panel__head">
+            <div>
+              <h3>熱門歌曲</h3>
+              <span>依播放次數排序</span>
+            </div>
+          </header>
+          <div class="song-stack">
+            @for (song of topSongs(); track song.id; let i = $index) {
+              <a class="song-row" [routerLink]="['/song', song.id]">
+                <span class="song-row__rank">{{ i + 1 }}</span>
+                <img [src]="song.imgPath || song.album.imgPath || './mock/unnamed.png'" alt="" />
+                <span class="song-row__meta">
+                  <strong>{{ song.name }}</strong>
+                  <small>{{ song.artist.name }}</small>
+                </span>
+                <b>{{ song.playCount || 0 }}</b>
+              </a>
+            }
+          </div>
+        </section>
+      </aside>
+    </div>
+  }
 </section>

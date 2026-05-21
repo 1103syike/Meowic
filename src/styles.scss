@@ -16,7 +16,7 @@ html {
         primary: mat.$azure-palette,
         tertiary: mat.$blue-palette,
       ),
-      typography: Roboto,
+      typography: vars.$font-family-base,
       density: 0,
     )
   );
@@ -33,7 +33,10 @@ body {
   // variables at https://material.angular.dev/guide/system-variables
   background-color: var(--mat-sys-surface);
   color: var(--mat-sys-on-surface);
-  font: var(--mat-sys-body-medium);
+  font-family: vars.$font-family-base;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
 
   // Reset the user agent margin.
   margin: 0;
@@ -62,6 +65,7 @@ body {
 .swal2-title {
   color: vars.$color-blue;
   font-size: map-get(vars.$font-sizes, '2xl');
+  font-weight: 800;
 }
 
 .swal2-html-container,

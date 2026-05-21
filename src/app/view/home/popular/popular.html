@@ -1,12 +1,22 @@
 <section class="popular">
-  <header class="popular__header">熱門歌曲</header>
-  <ul class="popular__list">
-    @for (popular of populars; track $index) {
-      <li class="popular__item">
-        <img class="popular__item__image" [src]="popular.path" alt="" />
-        <div class="popular__item__title">{{ popular.title }}</div>
-        <div class="popular__item__artist">{{ popular.artist }}</div>
+  <header class="popular__header">
+    <h2>熱門歌曲</h2>
+    <p>最多人播放的歌曲</p>
+  </header>
+
+  <ol class="popular__list">
+    @for (popular of populars(); track popular.id; let i = $index) {
+      <li>
+        <button class="popular__item" type="button" (click)="playSong(popular)">
+          <span class="popular__rank">{{ i + 1 }}</span>
+          <img class="popular__image" [src]="popular.imgPath || popular.album.imgPath" alt="" />
+          <span class="popular__meta">
+            <strong>{{ popular.name }}</strong>
+            <small>{{ popular.artist.name }}</small>
+          </span>
+          <span class="popular__play">播放</span>
+        </button>
       </li>
     }
-  </ul>
+  </ol>
 </section>

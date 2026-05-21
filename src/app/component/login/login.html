@@ -1,22 +1,120 @@
 <div class="login__mask" (click)="closingLoginDialog()"></div>
 <main class="login">
-  <form [formGroup]="loginForm" class="login__container" (ngSubmit)="onLogin()">
-    <header class="login__header">登入</header>
+  @if (mode() === 'login') {
+    <form [formGroup]="loginForm" class="login__container" (ngSubmit)="onLogin()">
+      <header class="login__header">登入</header>
 
-    <label class="login__label" for="account">帳號</label>
-    <input formControlName="email" class="login__input" type="text" />
-    <button type="button" class="login__btn">註冊帳號</button>
+      <label class="login__label" for="account">手機或信箱</label>
+      <input id="account" formControlName="account" class="login__input" type="text" autocomplete="username" />
 
-    <label class="login__label" for="password">密碼</label>
-    <input formControlName="password" class="login__input" type="text" />
-    <button type="button" class="login__btn">忘記密碼</button>
+      <label class="login__label" for="password">密碼</label>
+      <input id="password" formControlName="password" class="login__input" type="password" autocomplete="current-password" />
+      <button type="button" class="login__btn" (click)="switchMode('forgot')">忘記密碼</button>
 
-    <button type="submit" class="login__submit">登入</button>
+      <label class="login__label" for="otp">OTP / 驗證碼</label>
+      <div class="login__inline">
+        <input id="otp" formControlName="otp" class="login__input login__input--inline" type="text" inputmode="numeric" autocomplete="one-time-code" />
+        <button type="button" class="login__ghost-btn" (click)="sendLoginOtp()">取得驗證碼</button>
+      </div>
 
-    <p class="login__notice">登入即代表您同意我們的</p>
-    <div class="login__terms">
-      <button type="button" class="login__terms__term">服務條款</button> |
-      <button type="button" class="login__terms__term">隱私權政策</button>
-    </div>
-  </form>
+      <button type="submit" class="login__submit">登入</button>
+      <button type="button" class="login__secondary" (click)="switchMode('register')">註冊帳號</button>
+
+      <p class="login__notice">登入即代表您同意我們的</p>
+      <div class="login__terms">
+        <button type="button" class="login__terms__term" (click)="switchMode('terms')">服務條款</button>
+        <span>|</span>
+        <button type="button" class="login__terms__term" (click)="switchMode('privacy')">隱私權政策</button>
+      </div>
+    </form>
+  }
+
+  @if (mode() === 'register') {
+    <form [formGroup]="registerForm" class="login__container" (ngSubmit)="onRegister()">
+      <header class="login__header">註冊帳號</header>
+
+      <label class="login__label" for="name">暱稱</label>
+      <input id="name" formControlName="name" class="login__input" type="text" autocomplete="nickname" />
+
+      <div class="login__segmented" aria-label="選擇註冊方式">
+        <button type="button" [class.is-active]="registerContactType() === 'email'" (click)="setRegisterContactType('email')">信箱</button>
+        <button type="button" [class.is-active]="registerContactType() === 'phone'" (click)="setRegisterContactType('phone')">手機</button>
+      </div>
+
+      @if (registerContactType() === 'email') {
+        <label class="login__label" for="registerEmail">信箱</label>
+        <input id="registerEmail" formControlName="email" class="login__input" type="email" autocomplete="email" />
+      } @else {
+        <label class="login__label" for="registerPhone">手機</label>
+        <input id="registerPhone" formControlName="phone" class="login__input" type="tel" autocomplete="tel" />
+      }
+
+      <label class="login__label" for="registerPassword">密碼</label>
+      <input id="registerPassword" formControlName="password" class="login__input" type="password" autocomplete="new-password" />
+
+      <label class="login__label" for="confirmPassword">確認密碼</label>
+      <input id="confirmPassword" formControlName="confirmPassword" class="login__input" type="password" autocomplete="new-password" />
+
+      <button type="submit" class="login__submit">建立帳號</button>
+      <button type="button" class="login__secondary" (click)="switchMode('login')">返回登入</button>
+
+      <p class="login__notice">註冊即代表您同意我們的</p>
+      <div class="login__terms">
+        <button type="button" class="login__terms__term" (click)="switchMode('terms')">服務條款</button>
+        <span>|</span>
+        <button type="button" class="login__terms__term" (click)="switchMode('privacy')">隱私權政策</button>
+      </div>
+    </form>
+  }
+
+  @if (mode() === 'forgot') {
+    <form [formGroup]="forgotForm" class="login__container" (ngSubmit)="onForgotSubmit()">
+      <header class="login__header">忘記密碼</header>
+
+      @if (forgotStep() === 'request') {
+        <p class="login__hint">輸入註冊手機或信箱，我們會假裝發送手機驗證碼。</p>
+        <label class="login__label" for="forgotContact">手機或信箱</label>
+        <input id="forgotContact" formControlName="contact" class="login__input" type="text" autocomplete="username" />
+        <button type="submit" class="login__submit">發送驗證碼</button>
+      }
+
+      @if (forgotStep() === 'verify') {
+        <p class="login__hint">這是展示用驗證流程，輸入任何內容都會通過。</p>
+        <label class="login__label" for="resetCode">手機驗證碼</label>
+        <input id="resetCode" formControlName="code" class="login__input" type="text" inputmode="numeric" autocomplete="one-time-code" />
+        <button type="submit" class="login__submit">驗證</button>
+      }
+
+      @if (forgotStep() === 'reset') {
+        <label class="login__label" for="newPassword">新密碼</label>
+        <input id="newPassword" formControlName="password" class="login__input" type="password" autocomplete="new-password" />
+
+        <label class="login__label" for="newPasswordConfirm">確認新密碼</label>
+        <input id="newPasswordConfirm" formControlName="confirmPassword" class="login__input" type="password" autocomplete="new-password" />
+        <button type="submit" class="login__submit">重設密碼</button>
+      }
+
+      <button type="button" class="login__secondary" (click)="switchMode('login')">返回登入</button>
+    </form>
+  }
+
+  @if (mode() === 'terms') {
+    <section class="login__container login__document">
+      <header class="login__header">服務條款</header>
+      <p>歡迎使用 Meowic。使用本服務時，您同意以合法且尊重他人的方式瀏覽、收藏與管理音樂內容。</p>
+      <p>帳號資料需由您自行妥善保管。若發現未授權使用，請盡快重設密碼或聯繫服務管理者。</p>
+      <p>本平台可能因維護、測試或內容調整而暫時中斷服務，並會盡力維持穩定體驗。</p>
+      <button type="button" class="login__submit" (click)="switchMode('login')">我知道了</button>
+    </section>
+  }
+
+  @if (mode() === 'privacy') {
+    <section class="login__container login__document">
+      <header class="login__header">隱私權政策</header>
+      <p>Meowic 會使用您提供的手機或信箱作為登入、註冊與重設密碼識別用途。</p>
+      <p>系統僅會保存必要帳號資料與使用狀態，並用於提供播放、收藏、後台權限等功能。</p>
+      <p>除非法律要求或取得您的同意，我們不會將您的個人資料提供給無關第三方。</p>
+      <button type="button" class="login__submit" (click)="switchMode('login')">我知道了</button>
+    </section>
+  }
 </main>

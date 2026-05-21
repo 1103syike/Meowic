@@ -2,8 +2,12 @@
   @if (searchState.isSearchOpen()) {
     <app-search-results></app-search-results>
   } @else {
-    <app-recommand></app-recommand>
-    <app-popular></app-popular>
-    <app-celebrity></app-celebrity>
+    <div class="home__section">
+      <app-recommand></app-recommand>
+    </div>
+    <div class="home__section home__section--main">
+      <app-popular></app-popular>
+      <app-celebrity></app-celebrity>
+    </div>
   }
 </main>

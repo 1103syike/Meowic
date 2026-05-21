@@ -18,14 +18,22 @@
   background: #ffffff;
   text-align: left;
   transition:
+    color 0.2s ease,
     background-color 0.2s ease,
     border-color 0.2s ease,
-    box-shadow 0.2s ease;
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
   border-radius: 8px;
 
-  &:hover,
-  &.cms-list__item--active {
+  &:hover {
     cursor: pointer;
+    color: #ffffff;
+    border-color: #0b4778;
+    background: #0b4778;
+    transform: translateY(-1px);
+  }
+
+  &.cms-list__item--active {
     border-color: #9fb8d2;
     background: #edf6ff;
   }
@@ -58,6 +66,10 @@
 
   span {
     color: #66728a;
+  }
+
+  &:hover span {
+    color: rgba(255, 255, 255, 0.76);
   }
 }
 

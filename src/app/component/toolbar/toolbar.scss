@@ -2,16 +2,49 @@
 @use 'sass:map';
 
 .toolbar {
-  --toolbar-control-height: 56px;
-  @include block(20px, 20px);
+  --toolbar-control-height: 48px;
+  @include block(18px, 18px);
   @include flex(column, start, start);
+  gap: 10px;
 
   &__btn {
     width: 100%;
     min-height: var(--toolbar-control-height);
     box-sizing: border-box;
-    @include long-button;
     @include flex(row, start, center);
+    gap: 14px;
+    padding: 0 14px;
+    border: 1px solid transparent;
+    color: $color-blue;
+    background: transparent;
+    font-size: map-get($font-sizes, 'base');
+    font-weight: 700;
+    text-align: left;
+    transition:
+      background-color 0.18s ease,
+      border-color 0.18s ease,
+      color 0.18s ease,
+      transform 0.18s ease;
+    @include radius('small');
+
+    mat-icon {
+      width: 21px;
+      height: 21px;
+      font-size: 21px;
+      color: inherit;
+    }
+
+    &:hover {
+      cursor: pointer;
+      color: $color-white;
+      background: $color-green;
+      border-color: $color-green;
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
   }
 
   &__search {
@@ -20,11 +53,12 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 8px;
+    padding: 0 12px;
     box-sizing: border-box;
     color: $color-blue;
     background: $color-white;
-    border: 2px solid $color-ts-blue;
+    border: 1px solid $color-ts-blue;
+    box-shadow: 0 8px 18px rgba($color-blue, 0.08);
     @include radius('small');
 
     input {
@@ -36,26 +70,19 @@
       color: $color-blue;
       background: transparent;
       font-size: map-get($font-sizes, 'base');
+      font-weight: 600;
     }
   }
 }
+
 @media (max-width: 1280px) {
   .toolbar {
-    --toolbar-control-height: 48px;
+    --toolbar-control-height: 46px;
     padding: 16px 18px;
     gap: 10px;
 
     &__btn {
-      font-size: map-get($font-sizes, 'lg');
-      padding: 8px 12px;
-    }
-  }
-}
-
-@media (max-width: 1024px) {
-  .toolbar {
-    &__btn {
-      font-size: map-get($font-sizes, 'base');
+      padding: 0 12px;
     }
   }
 }
@@ -67,13 +94,11 @@
     gap: 8px;
 
     &__btn {
-      padding: 7px 10px;
       font-size: map-get($font-sizes, 'sm');
     }
 
     &__search {
       gap: 8px;
-      padding: 6px 8px;
 
       input {
         font-size: map-get($font-sizes, 'sm');
@@ -86,9 +111,5 @@
   .toolbar {
     --toolbar-control-height: 40px;
     padding: 10px;
-
-    &__btn {
-      padding: 6px 8px;
-    }
   }
 }

@@ -1,8 +1,8 @@
 <header class="header">
-  <div class="header__logo" routerLink="/" (click)="searchState.closeSearch()">Meowic</div>
-  <button class="header__patch">
-    <div>BETA</div>
-  </button>
+  <div class="header__brand" routerLink="/" (click)="searchState.closeSearch()">
+    <span class="header__logo">Meowic</span>
+    <span class="header__patch">BETA</span>
+  </div>
 
   <nav class="header__nav">
     <button class="header__nav__btn" routerLink="/songs" (click)="searchState.closeSearch()">所有歌曲</button>

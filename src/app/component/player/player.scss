@@ -3,20 +3,22 @@
 :host {
   --song-image: 58px;
   --player-btn: 42px;
-  --padding-top: 12px;
+  --player-inline-padding: 28px;
 }
 
 .player-container {
   box-sizing: border-box;
   width: 100%;
   height: 100%;
-  overflow-x: auto;
-  @include block(var(--padding-top), 28px);
+  min-width: 0;
+  overflow: hidden;
+  @include block(12px, var(--player-inline-padding));
   align-items: center;
   display: grid;
   grid-template-rows: 1fr;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: minmax(210px, 1fr) minmax(320px, 0.9fr) minmax(230px, 1fr);
   grid-template-areas: 'song  player tool';
+  gap: 16px;
 }
 .player__slider {
   width: 230px;
@@ -47,6 +49,7 @@
   gap: 20px;
   color: $color-blue;
   min-width: 0;
+  overflow: hidden;
 
   &__image {
     width: var(--song-image);
@@ -54,6 +57,7 @@
     cursor: pointer;
     object-fit: cover;
     flex: 0 0 auto;
+    @include radius('small');
   }
 
   &__info {
@@ -86,12 +90,14 @@
   align-items: center;
   grid-area: player;
   gap: 4px;
+  min-width: 0;
 
   // 上方 播放、循環撥放等等按鈕
   &__play-tool {
     display: flex;
     align-items: center;
     gap: 8px;
+    min-width: 0;
 
     &__icon {
       cursor: pointer;
@@ -205,12 +211,12 @@
   height: 100%;
   display: flex;
   justify-content: end;
-
-  align-items: end;
+  align-items: center;
   gap: 10px;
   grid-area: tool;
   color: $color-green;
   min-width: 0;
+  overflow: hidden;
 
   &__music {
     width: 150px;
@@ -228,9 +234,10 @@
   }
 
   &__volume-slider {
-    width: 150px;
+    width: clamp(84px, 12vw, 150px);
     height: 6px;
-    margin-bottom: 9px;
+    margin-bottom: 0;
+    flex: 0 1 150px;
   }
   &__volume-btn {
     width: 30px;
@@ -278,10 +285,10 @@
     color: $color-ts-green;
     display: block;
     background: none;
-    margin-bottom: auto;
+    margin-bottom: 0;
     position: absolute;
-    right: -24px;
-    top: -4px;
+    right: 0;
+    top: 0;
 
     &:hover {
       color: $color-green;
@@ -294,12 +301,14 @@
   :host {
     --song-image: 52px;
     --player-btn: 34px;
-    --padding-top: 10px;
+    --player-inline-padding: 22px;
 
     --sidebar-width: 400px;
   }
 
   .player-container {
+    grid-template-columns: minmax(180px, 1fr) minmax(280px, 0.9fr) minmax(210px, 0.8fr);
+    gap: 12px;
     padding: 8px 24px 8px 18px;
   }
 
@@ -317,7 +326,7 @@
   .player-container {
     height: auto;
     min-height: 124px;
-    overflow: visible;
+    overflow: hidden;
     grid-template-columns: minmax(0, 1fr) auto;
     grid-template-rows: auto auto;
     grid-template-areas:
@@ -639,7 +648,7 @@
   }
 }
 :host ::ng-deep .tool__volume-slider .mat-mdc-slider {
-  width: 200px;
+  width: 100%;
 }
 :host ::ng-deep .tool__volume-slider .mdc-slider__track--active_fill {
   border-top-width: 10px;

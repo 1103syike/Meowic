@@ -1,0 +1,158 @@
+<section class="cms-page">
+  <header class="cms-page__header">
+    <div>
+      <span>Home Curation</span>
+      <h2>首頁推薦</h2>
+      <p>管理首頁熱門歌曲與熱門藝人，搜尋後勾選內容，下方可調整顯示順序。</p>
+    </div>
+    <button class="cms-page__primary-btn" type="button" [disabled]="isSaving()" (click)="save()">
+      {{ isSaving() ? '儲存中...' : '儲存首頁推薦' }}
+    </button>
+  </header>
+
+  @if (message()) {
+    <p class="cms-message">{{ message() }}</p>
+  }
+
+  @if (isLoading()) {
+    <section class="cms-panel">
+      <p class="cms-empty">載入首頁推薦資料中...</p>
+    </section>
+  } @else {
+    <div class="cms-page__grid">
+      <section class="cms-panel">
+        <div class="cms-panel__head">
+          <div>
+            <h3>可上稿歌曲</h3>
+            <span>{{ selectedSongIds().length }} 首已選 · 共 {{ filteredSongs().length }} 筆</span>
+          </div>
+        </div>
+
+        <label class="cms-search">
+          <span>搜尋歌曲</span>
+          <input
+            type="search"
+            [ngModel]="songKeyword()"
+            (ngModelChange)="setSongKeyword($event)"
+            placeholder="輸入歌名、歌手或專輯"
+          />
+        </label>
+
+        <div class="cms-choice-list">
+          @for (song of pagedSongs(); track song.id) {
+            <button
+              class="cms-choice"
+              type="button"
+              [class.cms-choice--active]="isSongSelected(song.id)"
+              (click)="toggleSong(song.id)"
+            >
+              <img [src]="song.imgPath || song.album.imgPath || './mock/unnamed.png'" alt="" />
+              <span>
+                <strong>{{ song.name }}</strong>
+                <small>{{ song.artist.name }}</small>
+              </span>
+              <i>{{ isSongSelected(song.id) ? '已選' : '加入' }}</i>
+            </button>
+          } @empty {
+            <p class="cms-empty">找不到符合條件的歌曲。</p>
+          }
+        </div>
+
+        <footer class="cms-pagination">
+          <button type="button" [disabled]="songPage() === 1" (click)="changeSongPage(-1)">上一頁</button>
+          <span>{{ songPage() }} / {{ songPageCount() }}</span>
+          <button type="button" [disabled]="songPage() === songPageCount()" (click)="changeSongPage(1)">下一頁</button>
+        </footer>
+      </section>
+
+      <section class="cms-panel">
+        <div class="cms-panel__head">
+          <div>
+            <h3>可上稿藝人</h3>
+            <span>{{ selectedArtistIds().length }} 位已選 · 共 {{ filteredArtists().length }} 筆</span>
+          </div>
+        </div>
+
+        <label class="cms-search">
+          <span>搜尋藝人</span>
+          <input
+            type="search"
+            [ngModel]="artistKeyword()"
+            (ngModelChange)="setArtistKeyword($event)"
+            placeholder="輸入藝人名稱或介紹"
+          />
+        </label>
+
+        <div class="cms-choice-list">
+          @for (artist of pagedArtists(); track artist.id) {
+            <button
+              class="cms-choice"
+              type="button"
+              [class.cms-choice--active]="isArtistSelected(artist.id)"
+              (click)="toggleArtist(artist.id)"
+            >
+              <img [src]="artist.imgPath || './mock/unnamed.png'" alt="" />
+              <span>
+                <strong>{{ artist.name }}</strong>
+                <small>藝人</small>
+              </span>
+              <i>{{ isArtistSelected(artist.id) ? '已選' : '加入' }}</i>
+            </button>
+          } @empty {
+            <p class="cms-empty">找不到符合條件的藝人。</p>
+          }
+        </div>
+
+        <footer class="cms-pagination">
+          <button type="button" [disabled]="artistPage() === 1" (click)="changeArtistPage(-1)">上一頁</button>
+          <span>{{ artistPage() }} / {{ artistPageCount() }}</span>
+          <button type="button" [disabled]="artistPage() === artistPageCount()" (click)="changeArtistPage(1)">下一頁</button>
+        </footer>
+      </section>
+    </div>
+
+    <div class="cms-page__grid">
+      <section class="cms-panel">
+        <div class="cms-panel__head">
+          <div>
+            <h3>首頁歌曲順序</h3>
+            <span>{{ selectedSongs().length }} 首</span>
+          </div>
+        </div>
+        <div class="cms-rank-list">
+          @for (song of selectedSongs(); track song.id; let i = $index) {
+            <div class="cms-rank">
+              <span>{{ i + 1 }}</span>
+              <strong>{{ song.name }}</strong>
+              <button type="button" (click)="moveSong(song.id, -1)">上移</button>
+              <button type="button" (click)="moveSong(song.id, 1)">下移</button>
+            </div>
+          } @empty {
+            <p class="cms-empty">尚未選擇歌曲。</p>
+          }
+        </div>
+      </section>
+
+      <section class="cms-panel">
+        <div class="cms-panel__head">
+          <div>
+            <h3>首頁藝人順序</h3>
+            <span>{{ selectedArtists().length }} 位</span>
+          </div>
+        </div>
+        <div class="cms-rank-list">
+          @for (artist of selectedArtists(); track artist.id; let i = $index) {
+            <div class="cms-rank">
+              <span>{{ i + 1 }}</span>
+              <strong>{{ artist.name }}</strong>
+              <button type="button" (click)="moveArtist(artist.id, -1)">上移</button>
+              <button type="button" (click)="moveArtist(artist.id, 1)">下移</button>
+            </div>
+          } @empty {
+            <p class="cms-empty">尚未選擇藝人。</p>
+          }
+        </div>
+      </section>
+    </div>
+  }
+</section>

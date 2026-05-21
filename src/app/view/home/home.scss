@@ -1,14 +1,14 @@
 @use 'variables' as *;
+
 .home {
   display: block;
   height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
-  font-size: map-get($font-sizes, 'xl');
   color: $color-blue;
-  @include block(28px, 30px);
+  font-size: map-get($font-sizes, 'xl');
+  @include block(24px, 26px);
   box-shadow: none;
-
 }
 
 .home.home--search {
@@ -21,10 +21,35 @@
   box-shadow: none;
 }
 
+.home__section {
+  min-width: 0;
+}
+
+.home__section + .home__section {
+  margin-top: 22px;
+}
+
+.home__section--main {
+  display: grid;
+  grid-template-columns: minmax(0, 1.8fr) minmax(260px, 0.7fr);
+  gap: 18px;
+  align-items: start;
+}
+
 @media (max-width: 1280px) {
   .home {
     padding: 22px;
     font-size: map-get($font-sizes, 'lg');
+  }
+
+  .home__section--main {
+    gap: 14px;
+  }
+}
+
+@media (max-width: 980px) {
+  .home__section--main {
+    grid-template-columns: 1fr;
   }
 }
 

@@ -1,11 +1,19 @@
 <section class="celebrity">
-  <header class="celebrity__header">熱門藝人</header>
+  <header class="celebrity__header">
+    <h2>熱門藝人</h2>
+    <p>近期被推薦的創作者</p>
+  </header>
+
   <ul class="celebrity__list">
-    @for(celebrity of celebrities; track $index) {
-      <li class="celebrity__item">
-        <img class="celebrity__item__image" [src]="celebrity.path" alt="" />
-        <div class="celebrity__item__artist">{{celebrity.name}} </div>
-        <div class="celebrity__item__carrer">{{celebrity.career}}</div>
+    @for (celebrity of celebrities(); track celebrity.id) {
+      <li>
+        <a class="celebrity__item" [routerLink]="['/artist', celebrity.id]">
+          <img class="celebrity__image" [src]="celebrity.imgPath" alt="" />
+          <span class="celebrity__meta">
+            <strong>{{ celebrity.name }}</strong>
+            <small>藝人</small>
+          </span>
+        </a>
       </li>
     }
   </ul>

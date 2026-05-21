@@ -3,36 +3,41 @@
 
 :host {
   display: block;
-  min-height: 100vh;
+  height: 100vh;
   background: #eef1f8;
+  overflow: hidden;
 }
 
 .cms {
-  min-height: 100vh;
+  height: 100vh;
   display: grid;
   grid-template-columns: 250px minmax(0, 1fr);
   color: #1f2a44;
   background: #eef1f8;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .cms__sidebar {
-  min-height: 100vh;
+  height: 100vh;
+  min-height: 0;
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  padding: 28px 0;
+  padding: 0;
   background: #ffffff;
   border-right: 1px solid #d7dcea;
   box-shadow: 8px 0 24px rgba(31, 42, 68, 0.08);
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .cms__brand {
+  flex: 0 0 auto;
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 0 22px 18px;
+  min-height: 98px;
+  padding: 0 22px;
   border-bottom: 1px solid #d7dcea;
 
   h1 {
@@ -62,8 +67,12 @@
 }
 
 .cms__nav {
+  min-height: 0;
+  flex: 1;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
+  padding: 20px 0;
 }
 
 .cms__nav a {
@@ -106,9 +115,11 @@
   min-height: 0;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .cms__topbar {
+  flex: 0 0 auto;
   min-height: 74px;
   display: flex;
   align-items: center;
@@ -165,17 +176,29 @@
 
 @media (max-width: 900px) {
   .cms {
+    height: 100vh;
     grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(0, 1fr);
   }
 
   .cms__sidebar {
+    height: auto;
     min-height: auto;
     padding: 18px 0 0;
+    overflow: visible;
+  }
+
+  .cms__brand {
+    min-height: auto;
+    padding: 0 22px 18px;
   }
 
   .cms__nav {
+    flex: 0 0 auto;
     flex-direction: row;
     overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0;
     border-top: 1px solid #d7dcea;
   }
 

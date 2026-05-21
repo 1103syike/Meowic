@@ -17,6 +17,9 @@ export class CmsArtists {
   public selectedArtist = signal<ArtistType | null>(null);
   public isSaving = signal(false);
   public message = signal('');
+  public keyword = signal('');
+  public page = signal(1);
+  public readonly pageSize = 8;
 
   public editForm = {
     name: '',
@@ -29,6 +32,26 @@ export class CmsArtists {
     const artist = this.selectedArtist();
     return this.imagePreview() || artist?.imgPath || './mock/unnamed.png';
   });
+
+  public filteredArtists = computed(() => {
+    const keyword = this.keyword().trim().toLowerCase();
+    if (!keyword) return this.artists();
+
+    return this.artists().filter((artist) =>
+      [artist.name, artist.description].some((value) =>
+        (value ?? '').toLowerCase().includes(keyword),
+      ),
+    );
+  });
+
+  public pagedArtists = computed(() => {
+    const start = (this.page() - 1) * this.pageSize;
+    return this.filteredArtists().slice(start, start + this.pageSize);
+  });
+
+  public pageCount = computed(() =>
+    Math.max(1, Math.ceil(this.filteredArtists().length / this.pageSize)),
+  );
 
   public hasPendingChanges(): boolean {
     const artist = this.selectedArtist();
@@ -50,6 +73,15 @@ export class CmsArtists {
   public selectArtist(artist: ArtistType): void {
     this.selectedArtist.set(artist);
     this.resetEditor(artist);
+  }
+
+  public setKeyword(keyword: string): void {
+    this.keyword.set(keyword);
+    this.page.set(1);
+  }
+
+  public changePage(direction: -1 | 1): void {
+    this.page.update((page) => Math.min(Math.max(page + direction, 1), this.pageCount()));
   }
 
   public async setImageFile(event: Event): Promise<void> {
@@ -119,6 +151,8 @@ export class CmsArtists {
     } else if (artists.length) {
       this.selectArtist(artists[0]);
     }
+
+    this.page.set(Math.min(Math.max(this.page(), 1), this.pageCount()));
   }
 
   private async uploadImage(file: File): Promise<string> {

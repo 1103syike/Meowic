@@ -51,18 +51,21 @@ $space-2xl: 40px;
    Typography - 字體設定
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;600;700;800&display=swap');
+
+$font-family-base: 'Inter', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
 
 @mixin font-nunito($weight: 700) {
   font-optical-sizing: auto;
-  font-family: 'Nunito', 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+  font-family: $font-family-base;
   font-weight: $weight;
   font-style: normal;
 }
 
 // 全域初始化 (排除 Material Icons)
 *:not(.material-icons) {
-  @include font-nunito(700);
+  font-family: $font-family-base;
+  font-weight: inherit;
   line-height: 1.5;
 }
 

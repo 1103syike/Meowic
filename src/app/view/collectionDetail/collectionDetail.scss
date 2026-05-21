@@ -8,23 +8,27 @@
 }
 
 .album {
+  position: relative;
   display: block;
   height: 100%;
   overflow-x: auto;
   @include block(40px, 40px);
   box-shadow: none;
   &__back-btn {
-    margin-bottom: 40px;
+    position: absolute;
+    z-index: 2;
+    top: 22px;
+    left: 28px;
     cursor: pointer;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    background: none;
+    width: 32px;
+    height: 32px;
+    background: $color-white;
     border: 2px solid $color-ts-blue;
-    box-shadow: 4px 4px 20px 0 rgba($color-green, 0.2);
-    border-radius: 100px;
+    box-shadow: 4px 4px 20px 0 rgba($color-green, 0.16);
+    border-radius: map-get($radius, 'circle');
     color: $color-blue;
     &:hover {
       background: $color-green;
@@ -32,7 +36,7 @@
     }
 
     &__icon {
-      transform: translateX(20%);
+      transform: translateX(2px);
     }
   }
   &__image {
@@ -44,6 +48,7 @@
   &__header {
     display: flex;
     gap: 40px;
+    margin-top: 68px;
     margin-bottom: 40px;
   }
 
@@ -233,11 +238,13 @@
     padding: 24px;
 
     &__back-btn {
-      margin-bottom: 24px;
+      top: 20px;
+      left: 20px;
     }
 
     &__header {
       gap: 24px;
+      margin-top: 56px;
       margin-bottom: 24px;
     }
 
@@ -334,13 +341,15 @@
     padding: 16px;
 
     &__back-btn {
-      width: 36px;
-      height: 36px;
-      margin-bottom: 16px;
+      top: 18px;
+      left: 18px;
+      width: 32px;
+      height: 32px;
     }
 
     &__header {
       gap: 14px;
+      margin-top: 50px;
       margin-bottom: 18px;
       align-items: center;
     }

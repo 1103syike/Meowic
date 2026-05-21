@@ -3,36 +3,52 @@
 .playlist-bar {
   width: 100%;
   height: 100%;
-  @include block(18px, 22px);
+  @include block(18px, 18px);
   @include flex(column, start, start);
+  gap: 14px;
 
   &__header {
     width: 100%;
-
-    font-size: map-get($font-sizes, 'xl');
     color: $color-blue;
+    font-size: map-get($font-sizes, 'lg');
+    font-weight: 800;
     @include flex(row, space-between, center);
 
     &__btn {
-      font-size: map-get($font-sizes, 'base');
+      height: 38px;
+      padding: 0 14px;
+      border: 1px solid $color-ts-blue;
+      color: $color-blue;
+      background: $color-white;
+      font-size: map-get($font-sizes, 'sm');
+      font-weight: 800;
       @include flex(row, center, center);
-      @include capsule-btn();
+      gap: 6px;
       transition:
-        background-color 0.2s ease,
-        color 0.2s ease,
-        transform 0.2s ease;
+        background-color 0.18s ease,
+        border-color 0.18s ease,
+        color 0.18s ease,
+        transform 0.18s ease;
+      @include radius('circle');
+
+      mat-icon {
+        width: 18px;
+        height: 18px;
+        font-size: 18px;
+      }
 
       &:hover {
         cursor: pointer;
-        background: $color-ts-green;
         color: $color-white;
+        background: $color-green;
+        border-color: $color-green;
         transform: translateY(-1px);
       }
+
+      &:active {
+        transform: translateY(0);
+      }
     }
-  }
-  &__btn {
-    @include long-button;
-    @include flex(row, start, center);
   }
 
   &__list {
@@ -42,20 +58,27 @@
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 8px;
+
     &__item {
-      font-size: map-get($font-sizes, 'base');
       width: 100%;
+      min-height: 62px;
       display: grid;
-      gap: 10px;
-      grid-template-columns: 52px minmax(0, 1fr) 40px;
-      list-style: none;
+      grid-template-columns: 52px minmax(0, 1fr) 34px;
       grid-template-areas: 'image content delete';
-      color: $color-blue;
-      box-sizing: border-box;
       align-items: center;
-      min-height: 52px;
-      padding: 0;
+      gap: 10px;
+      padding: 8px;
+      box-sizing: border-box;
+      border: 1px solid transparent;
+      color: $color-blue;
+      list-style: none;
+      transition:
+        background-color 0.18s ease,
+        border-color 0.18s ease,
+        color 0.18s ease,
+        transform 0.18s ease;
+      @include radius('small');
 
       &--favorite {
         grid-template-columns: 52px minmax(0, 1fr);
@@ -67,62 +90,84 @@
         width: 52px;
         height: 52px;
         object-fit: cover;
-        align-self: center;
         display: block;
+        @include radius('small');
       }
+
       &__content {
         grid-area: content;
         min-width: 0;
         display: flex;
         flex-direction: column;
         justify-content: center;
-        gap: 2px;
+        gap: 3px;
       }
-      &__title {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
+
+      &__title,
       &__artist {
-        font-weight: 500;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
       }
+
+      &__title {
+        font-size: map-get($font-sizes, 'sm');
+        font-weight: 800;
+      }
+
+      &__artist {
+        color: rgba($color-blue, 0.72);
+        font-size: map-get($font-sizes, 'xs');
+        font-weight: 700;
+      }
+
       &__delete {
         grid-area: delete;
-        width: 32px;
-        height: 32px;
+        width: 30px;
+        height: 30px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
         justify-self: center;
-        align-self: center;
         padding: 0;
-        box-sizing: border-box;
-        border: 2px solid $color-ts-blue;
+        border: 1px solid $color-ts-blue;
         background: $color-white;
         color: $color-blue;
+        transition:
+          background-color 0.18s ease,
+          border-color 0.18s ease,
+          color 0.18s ease;
         @include radius('circle');
 
         mat-icon {
-          width: 18px;
-          height: 18px;
-          font-size: 18px;
-          line-height: 18px;
+          width: 17px;
+          height: 17px;
+          font-size: 17px;
+          line-height: 17px;
         }
 
         &:hover {
           cursor: pointer;
-          background: $color-green;
+          background: $color-blue;
+          border-color: $color-blue;
           color: $color-white;
         }
       }
 
-      &:hover{
+      &:hover {
         cursor: pointer;
-        background: $color-ts-green;
+        background: $color-green;
+        border-color: $color-green;
         color: $color-white;
+        transform: translateY(-1px);
+      }
+
+      &:hover &__artist {
+        color: rgba($color-white, 0.78);
+      }
+
+      &:active {
+        transform: translateY(0);
       }
     }
   }
@@ -134,24 +179,43 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 12px;
   }
+
   &__login-request {
     color: $color-blue;
     text-align: center;
-    font-size: map-get($font-sizes, 'lg');
+    font-size: map-get($font-sizes, 'base');
+    font-weight: 700;
   }
 
   &__login-btn {
-    @include nav-button;
-    margin-top: 12px;
-    background: none;
-    font-size: map-get($font-sizes, 'base');
-    padding: 6px 12px;
+    height: 36px;
+    padding: 0 14px;
+    border: 1px solid $color-ts-blue;
+    color: $color-blue;
+    background: $color-white;
+    font-size: map-get($font-sizes, 'sm');
+    font-weight: 800;
+    transition:
+      background-color 0.18s ease,
+      border-color 0.18s ease,
+      color 0.18s ease,
+      transform 0.18s ease;
+    @include radius('circle');
+
+    &:hover {
+      cursor: pointer;
+      color: $color-white;
+      background: $color-green;
+      border-color: $color-green;
+      transform: translateY(-1px);
+    }
   }
 }
 
 .no-login {
-  background: $color-ts-blue;
+  background: $color-white;
 }
 
 @media (max-width: 1280px) {
@@ -160,31 +224,25 @@
     gap: 12px;
 
     &__header {
-      font-size: map-get($font-sizes, 'lg');
+      font-size: map-get($font-sizes, 'base');
 
       &__btn {
         height: 34px;
         padding: 0 12px;
-        font-size: map-get($font-sizes, 'sm');
       }
     }
 
-    &__list {
-      gap: 10px;
+    &__list__item {
+      grid-template-columns: 48px minmax(0, 1fr) 34px;
+      min-height: 58px;
 
-      &__item {
-        grid-template-columns: 48px minmax(0, 1fr) 42px;
-        font-size: map-get($font-sizes, 'sm');
-        min-height: 48px;
+      &--favorite {
+        grid-template-columns: 48px minmax(0, 1fr);
+      }
 
-        &--favorite {
-          grid-template-columns: 48px minmax(0, 1fr);
-        }
-
-        &__image {
-          width: 48px;
-          height: 48px;
-        }
+      &__image {
+        width: 48px;
+        height: 48px;
       }
     }
   }
@@ -195,67 +253,18 @@
     padding: 12px;
     gap: 10px;
 
-    &__header {
-      font-size: map-get($font-sizes, 'base');
-
-      &__btn {
-        height: 32px;
-        padding: 0 10px;
-      }
-    }
-
-    &__list {
-      gap: 8px;
-
-      &__item {
-        grid-template-columns: 42px minmax(0, 1fr) 38px;
-        font-size: map-get($font-sizes, 'sm');
-        min-height: 42px;
-
-        &--favorite {
-          grid-template-columns: 42px minmax(0, 1fr);
-        }
-
-        &__image {
-          width: 42px;
-          height: 42px;
-        }
-
-        &__delete {
-          width: 30px;
-          height: 30px;
-        }
-      }
-    }
-  }
-}
-
-@media (max-width: 350px) {
-  .playlist-bar {
-    padding: 10px;
-
-    &__header__btn {
-      padding: 0 8px;
-      font-size: map-get($font-sizes, 'xs');
-    }
-
     &__list__item {
-      grid-template-columns: 36px minmax(0, 1fr) 34px;
-      min-height: 36px;
+      grid-template-columns: 42px minmax(0, 1fr) 32px;
+      min-height: 52px;
+      padding: 6px;
 
       &--favorite {
-        grid-template-columns: 36px minmax(0, 1fr);
+        grid-template-columns: 42px minmax(0, 1fr);
       }
 
       &__image {
-        width: 36px;
-        height: 36px;
-      }
-
-      &__delete {
-        width: 28px;
-        height: 28px;
-        border-width: 1px;
+        width: 42px;
+        height: 42px;
       }
     }
   }
