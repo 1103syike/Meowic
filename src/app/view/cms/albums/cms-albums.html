@@ -1,0 +1,112 @@
+<section class="cms-page">
+  <header class="cms-page__header">
+    <div>
+      <span>Album Catalog</span>
+      <h2>專輯管理</h2>
+      <p>編輯專輯封面、所屬歌手，並管理專輯內歌曲清單。</p>
+    </div>
+  </header>
+
+  <div class="cms-page__grid">
+    <section class="cms-panel">
+      <div class="cms-panel__head">
+        <h3>專輯列表</h3>
+        <span>{{ albums().length }} 張</span>
+      </div>
+
+      <div class="cms-albums">
+        @for (album of albums(); track album.id) {
+          <button
+            class="cms-albums__item"
+            type="button"
+            [class.cms-albums__item--active]="selectedAlbum()?.id === album.id"
+            (click)="selectAlbum(album)"
+          >
+            <img [src]="album.imgPath || './mock/unnamed.png'" alt="" />
+            <div>
+              <strong>{{ album.name }}</strong>
+              <span>{{ album.artist?.name || '未指定歌手' }}</span>
+            </div>
+          </button>
+        } @empty {
+          <div class="cms-empty">目前沒有專輯</div>
+        }
+      </div>
+
+      <div class="cms-panel__subhead">
+        <h3>專輯歌曲</h3>
+        <span>{{ albumSongs().length }} 首</span>
+      </div>
+
+      <div class="cms-song-list">
+        @for (song of albumSongs(); track song.id) {
+          <article class="cms-song-list__item">
+            <img [src]="song.imgPath || song.album.imgPath || './mock/unnamed.png'" alt="" />
+            <div>
+              <strong>{{ song.name }}</strong>
+              <span>{{ song.artist.name }}</span>
+            </div>
+            <button type="button" (click)="removeSongFromAlbum(song)">移出</button>
+          </article>
+        } @empty {
+          <div class="cms-empty">這張專輯目前沒有歌曲</div>
+        }
+      </div>
+    </section>
+
+    <aside class="cms-panel cms-editor">
+      <div class="cms-panel__head">
+        <h3>編輯專輯</h3>
+        @if (selectedAlbum()) {
+          <span>#{{ selectedAlbum()?.id }}</span>
+        }
+      </div>
+
+      @if (selectedAlbum()) {
+        <img class="cms-editor__cover" [src]="selectedAlbum()?.imgPath || './mock/unnamed.png'" alt="" />
+
+        <label class="cms-field">
+          <span>專輯名稱</span>
+          <input name="albumName" [(ngModel)]="editForm.name" />
+        </label>
+
+        <label class="cms-field">
+          <span>所屬歌手</span>
+          <select name="albumArtist" [(ngModel)]="editForm.artistId">
+            @for (artist of artists(); track artist.id) {
+              <option [ngValue]="artist.id">{{ artist.name }}</option>
+            }
+          </select>
+        </label>
+
+        <label class="cms-upload">
+          <span>專輯圖片</span>
+          <input type="file" accept="image/*" (change)="setImageFile($event)" />
+        </label>
+
+        <div class="cms-add-song">
+          <label class="cms-field">
+            <span>新增歌曲到專輯</span>
+            <select name="albumSong" [ngModel]="selectedSongId()" (ngModelChange)="selectedSongId.set($event)">
+              <option [ngValue]="0">選擇歌曲</option>
+              @for (song of availableSongs(); track song.id) {
+                <option [ngValue]="song.id">{{ song.name }} - {{ song.artist.name }}</option>
+              }
+            </select>
+          </label>
+          <button class="cms-page__secondary-btn" type="button" (click)="addSongToAlbum()">加入</button>
+        </div>
+
+        @if (message()) {
+          <p class="cms-editor__message">{{ message() }}</p>
+        }
+
+        <button class="cms-page__primary-btn" type="button" [disabled]="isSaving()" (click)="saveAlbum()">
+          {{ isSaving() ? '儲存中' : '儲存專輯' }}
+        </button>
+      } @else {
+        <div class="cms-empty">請先選擇一張專輯</div>
+      }
+    </aside>
+  </div>
+</section>

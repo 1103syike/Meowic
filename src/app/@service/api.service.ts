@@ -29,6 +29,10 @@ export class ApiService {
     return this.http.post<ArtistType>('http://localhost:3000/artists', body);
   }
 
+  updateArtist(id: number, artist: Partial<ArtistType>): Observable<ArtistType> {
+    return this.http.patch<ArtistType>(`http://localhost:3000/artists/${id}`, artist);
+  }
+
   createAlbum(name: string, artistId: number, imgPath: string): Observable<AlbumType> {
     const body = {
       name,
@@ -38,6 +42,10 @@ export class ApiService {
       like: 0,
     };
     return this.http.post<AlbumType>('http://localhost:3000/albums', body);
+  }
+
+  updateAlbum(id: number, album: Partial<AlbumType>): Observable<AlbumType> {
+    return this.http.patch<AlbumType>(`http://localhost:3000/albums/${id}`, album);
   }
 
   getPlaylistByPlaylistId(id: string): Observable<AlbumType[]> {
@@ -114,6 +122,10 @@ export class ApiService {
     return this.http.post<SongType>('http://localhost:3000/songs', song);
   }
 
+  updateSong(id: number, song: Partial<CreateSongType>): Observable<SongType> {
+    return this.http.patch<SongType>(`http://localhost:3000/songs/${id}`, song);
+  }
+
   uploadFile(fileName: string, dataUrl: string, fileType: string): Observable<UploadResponse> {
     return this.http.post<UploadResponse>('http://localhost:3000/upload', {
       fileName,
@@ -152,6 +164,8 @@ export interface SongType {
   id: number;
   playlistSongId?: number;
   imgPath?: string;
+  artistId?: number;
+  albumId?: number;
   name: string;
   album: AlbumType;
   artist: ArtistType;
@@ -164,6 +178,7 @@ export interface AlbumType {
   imgPath: string;
   type: string;
   name: string;
+  artistId?: number;
   engname?: string;
   artist?: ArtistType;
   user?: UserType;

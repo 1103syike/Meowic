@@ -1,19 +1,22 @@
-<div class="main-layout" [class.main-layout--player-closed]="this.player.getIsClose()">
-  <!-- Top: 標題與用戶資訊 -->
-  <app-header class="header-area"></app-header>
+@if (isCmsRoute()) {
+  <router-outlet />
+} @else {
+  <div class="main-layout" [class.main-layout--player-closed]="this.player.getIsClose()">
+    <!-- Top: 標題與用戶資訊 -->
+    <app-header class="header-area"></app-header>
 
-  <!-- Left: 導覽與音樂庫 (Sidebar) -->
-  <aside class="sidebar-area">
-    <app-toolbar></app-toolbar>
-    <app-playlist-bar></app-playlist-bar>
-  </aside>
+    <!-- Left: 導覽與音樂庫 (Sidebar) -->
+    <aside class="sidebar-area">
+      <app-toolbar></app-toolbar>
+      <app-playlist-bar></app-playlist-bar>
+    </aside>
 
-  <!-- Right: 內容顯示區 -->
-  <main class="content-area">
-    <router-outlet />
-  </main>
-  @if (!this.player.getIsClose()) {
-    <app-player class="player-area"></app-player>
-  }
-</div>
-
+    <!-- Right: 內容顯示區 -->
+    <main class="content-area">
+      <router-outlet />
+    </main>
+    @if (!this.player.getIsClose()) {
+      <app-player class="player-area"></app-player>
+    }
+  </div>
+}

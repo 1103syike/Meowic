@@ -1,0 +1,58 @@
+@use 'sass:map';
+@use 'variables' as *;
+
+.cms-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.cms-dashboard__header {
+  h2 {
+    margin: 0;
+    color: #0b4778;
+    font-size: map-get($font-sizes, '2xl');
+  }
+
+  p {
+    margin: 8px 0 0;
+    color: #66728a;
+  }
+}
+
+.cms-dashboard__stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+
+  article {
+    min-height: 118px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+    padding: 20px;
+    border: 1px solid #d7dcea;
+    color: #1f2a44;
+    background: #ffffff;
+    box-shadow: 0 10px 24px rgba(31, 42, 68, 0.06);
+    box-sizing: border-box;
+    @include radius('small');
+  }
+
+  span {
+    color: #66728a;
+    font-size: map-get($font-sizes, 'base');
+  }
+
+  strong {
+    color: #0b4778;
+    font-size: map-get($font-sizes, '3xl');
+  }
+}
+
+@media (max-width: 700px) {
+  .cms-dashboard__stats {
+    grid-template-columns: 1fr;
+  }
+}

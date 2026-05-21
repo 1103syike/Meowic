@@ -21,8 +21,16 @@
   <section class="player">
     <!-- 上方播放、循環撥放等等按鈕 -->
     <div class="player__play-tool">
-      <mat-icon class="player__play-tool__icon">shuffle</mat-icon>
-      <mat-icon class="player__play-tool__icon player__play-tool__icon--skip"
+      <mat-icon
+        class="player__play-tool__icon player__play-tool__icon--mode"
+        [class.player__play-tool__icon--active]="playbackQueue.playbackMode() === 'shuffle'"
+        title="隨機播放"
+        (click)="toggleShuffleMode()"
+        >shuffle</mat-icon
+      >
+      <mat-icon
+        class="player__play-tool__icon player__play-tool__icon--skip"
+        (click)="playPrevious()"
         >skip_previous</mat-icon
       >
       @if (musicPlayer.paused) {
@@ -38,13 +46,19 @@
           >pause_circle</mat-icon
         >
       }
-      <mat-icon class="player__play-tool__icon player__play-tool__icon--skip">skip_next</mat-icon>
+      <mat-icon class="player__play-tool__icon player__play-tool__icon--skip" (click)="playNext()"
+        >skip_next</mat-icon
+      >
       <mat-icon
         class="player__play-tool__icon player__play-tool__icon--repeat"
-        [class.player__play-tool__icon--active]="musicPlayer.loop"
-        (click)="musicPlayer.loop = !musicPlayer.loop"
+        [class.player__play-tool__icon--active]="
+          playbackQueue.playbackMode() === 'repeat-one' ||
+          playbackQueue.playbackMode() === 'repeat-all'
+        "
+        [title]="playbackModeLabel()"
+        (click)="cycleRepeatMode()"
       >
-        {{ !!musicPlayer.loop ? 'repeat_one_on' : 'repeat' }}
+        {{ repeatIcon() }}
       </mat-icon>
     </div>
 
@@ -55,9 +69,9 @@
         (loadedmetadata)="onLoadedMetadata(musicPlayer)"
         [src]="this.currentSong()?.audioPath"
         (timeupdate)="currentTime = musicPlayer.currentTime"
+        (ended)="handlePlaybackEnded(musicPlayer)"
         [volume]="value / 100"
         autoplay
-        loop
       ></audio>
       <span>{{ formatTime(currentTime) }}</span>
       @if (!!this.duration()) {
@@ -77,14 +91,30 @@
   <!-- 右側工具列 -->
   <section class="tool">
     <mat-icon class="tool__lyrics">lyrics</mat-icon>
-    <mat-icon class="tool__playlist">queue_music</mat-icon>
-    <mat-icon class="tool__volume">volume_up</mat-icon>
+    <button
+      class="tool__queue-btn"
+      type="button"
+      [class.tool__queue-btn--active]="isQueueOpen()"
+      (click)="toggleQueue()"
+      aria-label="播放佇列"
+    >
+      <mat-icon class="tool__playlist">queue_music</mat-icon>
+    </button>
+    <button
+      class="tool__volume-btn"
+      type="button"
+      [class.tool__volume-btn--muted]="isMuted() || value === 0"
+      (click)="toggleMute()"
+      aria-label="切換靜音"
+    >
+      <mat-icon class="tool__volume">{{ volumeIcon() }}</mat-icon>
+    </button>
 
     <mat-slider class="tool__volume-slider" min="0" max="100" [showTickMarks]="showTicks">
       <input
         matSliderThumb
-        [value]="musicPlayer.volume * 100"
-        (input)="onVolumeInput(value)"
+        [value]="value"
+        (input)="onVolumeInput(+$any($event.target).value)"
         [(ngModel)]="value"
       />
     </mat-slider>
@@ -95,26 +125,63 @@
   </section>
 </section>
 
-<!--
-<section class="queue">
-  <h2 class="queue__title">播放清單</h2>
-  <div class="queue__list">
-    <div
-      class="queue__list__item"
-      *ngFor="let song of queue; let i = index"
-      [class.queue__list__item--current]="song.id === currentSong()?.id"
-      >
-      (click)="playSong(song)"
-      <img
-        class="queue__list__item__image"
-        [src]="song.imgPath ? song.imgPath : song.album?.imgPath"
-        alt=""
-      />
-      <div class="queue__list__item__info">
-        <span class="queue__list__item__info__title">{{ song.name }}</span>
-        <span class="queue__list__item__info__artist">{{ song.artist?.name }}</span>
+@if (isQueueOpen()) {
+  <aside class="queue" aria-label="播放佇列">
+    <header class="queue__header">
+      <div>
+        <h2>播放佇列</h2>
+        <span>{{ playbackQueue.queue().title }}</span>
+        <small>{{ playbackModeLabel() }}</small>
       </div>
-    </div>
-  </div>
+      <button class="queue__close" type="button" (click)="toggleQueue()" aria-label="關閉佇列">
+        <mat-icon>close</mat-icon>
+      </button>
+    </header>
 
-</section> -->
+    <div class="queue__list">
+      @if (playbackQueue.manualSongs().length > 0) {
+        <div class="queue__section-title">我要播的歌</div>
+      }
+
+      @for (song of playbackQueue.manualSongs(); track song.id; let index = $index) {
+        <button
+          class="queue__item"
+          type="button"
+          [class.queue__item--current]="song.id === currentSong()?.id"
+          (click)="playQueuedSong(song)"
+        >
+          <span class="queue__index">{{ index + 1 }}</span>
+          <img class="queue__image" [src]="songImage(song)" alt="" />
+          <span class="queue__info">
+            <strong>{{ song.name }}</strong>
+            <span>{{ song.artist?.name }}</span>
+          </span>
+        </button>
+      }
+
+      @if (playbackQueue.autoSongs().length > 0) {
+        <div class="queue__divider"><span>以下為自動新增</span></div>
+      }
+
+      @for (song of playbackQueue.autoSongs(); track song.id; let index = $index) {
+        <button
+          class="queue__item queue__item--auto"
+          type="button"
+          [class.queue__item--current]="song.id === currentSong()?.id"
+          (click)="playQueuedSong(song)"
+        >
+          <span class="queue__index">{{ playbackQueue.manualSongs().length + index + 1 }}</span>
+          <img class="queue__image" [src]="songImage(song)" alt="" />
+          <span class="queue__info">
+            <strong>{{ song.name }}</strong>
+            <span>{{ song.artist?.name }}</span>
+          </span>
+        </button>
+      }
+
+      @if (playbackQueue.displaySongs().length === 0) {
+        <div class="queue__empty">目前沒有播放佇列</div>
+      }
+    </div>
+  </aside>
+}

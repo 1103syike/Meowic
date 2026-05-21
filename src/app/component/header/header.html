@@ -7,7 +7,15 @@
   <nav class="header__nav">
     <button class="header__nav__btn" routerLink="/songs" (click)="searchState.closeSearch()">所有歌曲</button>
     <button class="header__nav__btn" (click)="openProDialog()">Meowic Pro</button>
-    <button class="header__nav__btn" (click)="openAddSongDialog()">新增歌曲</button>
+    <a
+      class="header__nav__btn"
+      routerLink="/cms"
+      target="_blank"
+      rel="noopener"
+      (click)="searchState.closeSearch()"
+    >
+      CMS
+    </a>
   </nav>
 
   <div class="user">
@@ -27,10 +35,6 @@
 
 @if (this.isLoginDialogOpen()) {
   <app-login (close)="isLoginDialogOpen.set(false)"></app-login>
-}
-
-@if (this.isAddSongDialogOpen()) {
-  <app-add-song-dialog (close)="isAddSongDialogOpen.set(false)"></app-add-song-dialog>
 }
 
 @if (this.isProDialogOpen()) {

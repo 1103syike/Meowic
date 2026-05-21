@@ -133,6 +133,15 @@
       "albumId": 4,
       "like": 42,
       "audioPath": "assets/audio/시대를_초월한_마음.mp3"
+    },
+    {
+      "name": "Catch Catch",
+      "artistId": 5,
+      "albumId": 5,
+      "like": 0,
+      "audioPath": "http://localhost:3000/assets/audio/catch-catch.mp3",
+      "imgPath": "http://localhost:3000/mock/upload/Yena-YH-Enter-768x768.jpg",
+      "id": 16
     }
   ],
   "albums": [
@@ -167,6 +176,14 @@
       "type": "album",
       "artistId": 1,
       "like": 52
+    },
+    {
+      "name": "LOVE CATCHER",
+      "type": "album",
+      "artistId": 5,
+      "imgPath": "http://localhost:3000/mock/upload/Yena-YH-Enter-768x768.jpg",
+      "like": 0,
+      "id": 5
     }
   ],
   "artists": [
@@ -193,6 +210,12 @@
       "imgPath": "./mock/artist/DIAN.jpg",
       "name": "DIAN",
       "description": "以獨特聲線與細膩情感受到關注的韓國創作者型歌手。DIAN 擅長將日常情緒與青春感融入音樂之中，結合柔和旋律、輕電子與 K-Indie 氛圍，打造帶有深夜感性的作品風格。除了音樂創作外，也透過 YouTube 分享生活與創作日常，以真實自然的魅力累積全球粉絲喜愛。"
+    },
+    {
+      "name": "崔叡娜",
+      "imgPath": "./mock/unnamed.png",
+      "description": "",
+      "id": 5
     }
   ],
   "playlists": [
@@ -219,18 +242,6 @@
       "userId": 1,
       "type": "favorite",
       "id": 5
-    },
-    {
-      "name": "我喜歡的歌曲",
-      "userId": 1,
-      "type": "favorite",
-      "id": 6
-    },
-    {
-      "name": "我喜歡的歌曲",
-      "userId": 1,
-      "type": "favorite",
-      "id": 7
     },
     {
       "name": "垃圾幫",
@@ -264,16 +275,6 @@
       "playlistId": 5,
       "userId": 1,
       "id": 6
-    },
-    {
-      "playlistId": 6,
-      "userId": 1,
-      "id": 7
-    },
-    {
-      "playlistId": 7,
-      "userId": 1,
-      "id": 8
     },
     {
       "playlistId": 8,
@@ -356,6 +357,11 @@
       "playlistId": 5,
       "songId": 15,
       "id": 22
+    },
+    {
+      "playlistId": 5,
+      "songId": 3,
+      "id": 23
     }
   ]
 }

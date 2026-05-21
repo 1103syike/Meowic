@@ -21,9 +21,16 @@ export class Song {
   /////////////////////////////////////////////
 
   ngOnInit() {
-    this.player.getPlayer(localStorage.getItem('songId')!).subscribe((res) => {
-      this.currentSong.set(res[0]);
+    this.route.paramMap.subscribe((params) => {
+      const songId = params.get('id') ?? localStorage.getItem('songId');
+      if (!songId) {
+        return;
+      }
+
+      this.player.setPlayer(songId);
+      this.player.getPlayer(songId).subscribe((res) => {
+        this.currentSong.set(res[0]);
+      });
     });
   }
-
 }

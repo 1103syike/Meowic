@@ -1,5 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { filter } from 'rxjs';
 import { Toolbar } from './component/toolbar/toolbar';
 import { PlaylistBar } from './component/musicbar/playlist-bar';
 import { Header } from './component/header/header';
@@ -17,7 +18,18 @@ export class App {
 
   /////////////////////////////////////////////
   public player: MusicPlayerService = inject(MusicPlayerService);
+  private router: Router = inject(Router);
+  public isCmsRoute = signal(false);
   /////////////////////////////////////////////
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.setIsCmsRoute(this.router.url);
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event) => this.setIsCmsRoute(event.urlAfterRedirects));
+  }
+
+  private setIsCmsRoute(url: string): void {
+    this.isCmsRoute.set(url.startsWith('/cms'));
+  }
 }

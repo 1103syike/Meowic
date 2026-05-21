@@ -3,13 +3,12 @@ import { RouterLink } from '@angular/router';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
 import { AuthService } from '../../@service/auth.service';
 import { SearchStateService } from '../../@service/search-state.service';
-import { AddSongDialog } from '../add-song-dialog/add-song-dialog';
 import { Login } from '../login/login';
 import { ProDialog } from '../pro-dialog/pro-dialog';
 
 @Component({
   selector: 'app-header',
-  imports: [Login, RouterLink, AddSongDialog, ProDialog],
+  imports: [Login, RouterLink, ProDialog],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
@@ -18,21 +17,11 @@ export class Header {
   public searchState: SearchStateService = inject(SearchStateService);
   public userInfo = this.auth.getUserInfo();
   public isLoginDialogOpen = signal(false);
-  public isAddSongDialogOpen = signal(false);
   public isProDialogOpen = signal(false);
   public selectedProPlan = signal('');
 
   openLoginDialog() {
     this.isLoginDialogOpen.set(true);
-  }
-
-  openAddSongDialog() {
-    if (!this.auth.currentUserStatus()) {
-      this.openLoginDialog();
-      return;
-    }
-
-    this.isAddSongDialogOpen.set(true);
   }
 
   openProDialog() {

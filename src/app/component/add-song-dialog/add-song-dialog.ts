@@ -1,5 +1,6 @@
 import { Component, EventEmitter, inject, Output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import Swal from 'sweetalert2';
 import { AlbumType, ApiService, ArtistType } from '../../@service/api.service';
@@ -122,7 +123,7 @@ export class AddSongDialog {
       Swal.fire({ title: '新增成功', text: '歌曲已新增到資料庫', icon: 'success' });
     } catch (err) {
       console.error('新增歌曲失敗：', err);
-      this.errorMessage.set('新增歌曲失敗，請再試一次');
+      this.errorMessage.set(this.getSubmitErrorMessage(err));
     } finally {
       this.isSubmitting.set(false);
     }
@@ -146,6 +147,18 @@ export class AddSongDialog {
     const dataUrl = await this.readFileAsDataUrl(file);
     const result = await firstValueFrom(this.api.uploadFile(file.name, dataUrl, file.type));
     return result.path;
+  }
+
+  private getSubmitErrorMessage(err: unknown): string {
+    if (err instanceof HttpErrorResponse && err.status === 404 && err.url?.endsWith('/upload')) {
+      return '找不到上傳 API，請確認後端是用 npm run api 啟動，而不是純 json-server。';
+    }
+
+    if (err instanceof HttpErrorResponse && err.status === 413) {
+      return '檔案太大，請換小一點的音樂或圖片檔案。';
+    }
+
+    return '新增歌曲失敗，請再試一次';
   }
 
   private readFileAsDataUrl(file: File): Promise<string> {

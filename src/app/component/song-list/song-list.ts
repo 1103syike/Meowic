@@ -8,6 +8,7 @@ import { AuthService } from '../../@service/auth.service';
 import { FavoritePlaylistService } from '../../@service/favorite-playlist.service';
 import { MusicPlayerService } from '../../@service/music-player.service';
 import { NavigationContextService } from '../../@service/navigation-context.service';
+import { PlaybackQueueService } from '../../@service/playback-queue.service';
 import { SearchStateService } from '../../@service/search-state.service';
 
 @Component({
@@ -21,6 +22,7 @@ export class SongList {
   private auth: AuthService = inject(AuthService);
   private favoritePlaylist: FavoritePlaylistService = inject(FavoritePlaylistService);
   private music: MusicPlayerService = inject(MusicPlayerService);
+  private playbackQueue: PlaybackQueueService = inject(PlaybackQueueService);
   private router: Router = inject(Router);
   private navigationContext: NavigationContextService = inject(NavigationContextService);
   private searchState: SearchStateService = inject(SearchStateService);
@@ -74,6 +76,19 @@ export class SongList {
   }
 
   public playSong(song: SongType): void {
+    this.playbackQueue.setQueue(
+      {
+        title: this.title,
+        source: 'search',
+        songs: [song],
+        autoSongs: this.shuffleSongs(
+          this.filteredSongs().filter((item) => item.id !== song.id),
+          song.id,
+        ),
+        recommendationPool: this.filteredSongs(),
+      },
+      song.id,
+    );
     this.music.setPlayer(song.id.toString());
     this.music.setIsClose(false);
     this.navigationContext.setSongBackUrl(this.router.url);
@@ -110,11 +125,19 @@ export class SongList {
     const playlistUsers = await firstValueFrom(
       this.api.getPlaylistUsersByUserId(currentUser.id.toString()),
     );
+    const editablePlaylistUsers = playlistUsers.filter(
+      (playlistUser) => playlistUser.playlist.type !== 'favorite',
+    );
+
+    if (editablePlaylistUsers.length === 0) {
+      this.showAlert('沒有可加入的播放清單', '請先建立播放清單後再加入歌曲。', 'info');
+      return;
+    }
 
     const result = await Swal.fire({
       title: '加入播放清單',
       input: 'select',
-      inputOptions: playlistUsers.reduce<Record<string, string>>((options, item) => {
+      inputOptions: editablePlaylistUsers.reduce<Record<string, string>>((options, item) => {
         options[item.playlist.id] = item.playlist.name;
         return options;
       }, {}),
@@ -144,6 +167,12 @@ export class SongList {
     if (result.isConfirmed) {
       this.showAlert('加入成功', '歌曲已加入播放清單。', 'success', 1200);
     }
+  }
+
+  public addToQueue(song: SongType, event: MouseEvent): void {
+    event.stopPropagation();
+    this.playbackQueue.addToQueue(song, this.filteredSongs());
+    this.showAlert('已加入佇列', '歌曲已加入播放佇列。', 'success', 900);
   }
 
   public songImage(song: SongType): string {
@@ -190,5 +219,17 @@ export class SongList {
       timer,
       showConfirmButton: timer === undefined,
     });
+  }
+
+  private shuffleSongs(songs: SongType[], currentSongId: number): SongType[] {
+    const currentSong = songs.find((item) => item.id === currentSongId);
+    const restSongs = songs.filter((item) => item.id !== currentSongId);
+
+    for (let index = restSongs.length - 1; index > 0; index -= 1) {
+      const randomIndex = Math.floor(Math.random() * (index + 1));
+      [restSongs[index], restSongs[randomIndex]] = [restSongs[randomIndex], restSongs[index]];
+    }
+
+    return currentSong ? [currentSong, ...restSongs] : restSongs;
   }
 }

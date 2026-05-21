@@ -154,7 +154,7 @@
       display: flex;
       justify-content: center;
       gap: 8px;
-      min-width: 142px;
+      min-width: 192px;
       overflow: visible;
     }
   }
@@ -288,7 +288,7 @@
       &--tool {
         width: 24%;
         gap: 6px;
-        min-width: 126px;
+        min-width: 168px;
       }
     }
 
@@ -319,7 +319,7 @@
     :host &__th--tool,
     :host &__td--tool {
       width: 30%;
-      min-width: 126px;
+      min-width: 168px;
     }
   }
 }
@@ -409,7 +409,7 @@
     :host &__th--tool,
     :host &__td--tool {
       width: 36%;
-      min-width: 104px;
+      min-width: 132px;
     }
 
     :host &__td--tool {
@@ -481,7 +481,7 @@
     :host &__th--tool,
     :host &__td--tool {
       width: 38%;
-      min-width: 96px;
+      min-width: 120px;
     }
 
     &__tool-btn {

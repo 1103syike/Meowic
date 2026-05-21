@@ -117,6 +117,13 @@
       &--repeat {
         color: $color-ts-green;
       }
+      &--mode,
+      &--repeat {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+      }
       &--skip {
         width: 36px;
         height: 36px;
@@ -127,7 +134,8 @@
         color: $color-green;
       }
       &--active {
-        color: $color-green;
+        color: $color-white;
+        background: $color-green;
       }
     }
   }
@@ -194,6 +202,44 @@
     width: 150px;
     height: 6px;
     margin-bottom: 9px;
+  }
+  &__volume-btn {
+    width: 30px;
+    height: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 0;
+    color: $color-green;
+    background: transparent;
+    @include radius('circle');
+
+    &:hover,
+    &--muted {
+      cursor: pointer;
+      color: $color-white;
+      background: $color-green;
+    }
+  }
+  &__queue-btn {
+    width: 30px;
+    height: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 0;
+    color: $color-green;
+    background: transparent;
+    @include radius('circle');
+
+    &:hover,
+    &--active {
+      cursor: pointer;
+      color: $color-white;
+      background: $color-green;
+    }
   }
   &__close {
     cursor: pointer;
@@ -295,6 +341,180 @@
   }
 }
 
+.queue {
+  position: fixed;
+  right: 20px;
+  bottom: 166px;
+  z-index: 900;
+  width: min(360px, calc(100vw - 40px));
+  max-height: min(520px, calc(100vh - 220px));
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+  color: $color-blue;
+  box-sizing: border-box;
+  @include block(18px, 18px);
+}
+
+.queue__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+
+  h2 {
+    margin: 0;
+    font-size: map-get($font-sizes, 'xl');
+  }
+
+  span {
+    display: block;
+    margin-top: 4px;
+    font-size: map-get($font-sizes, 'sm');
+    color: rgba($color-blue, 0.76);
+  }
+
+  small {
+    display: inline-flex;
+    margin-top: 8px;
+    padding: 4px 10px;
+    color: $color-white;
+    background: $color-ts-green;
+    font-size: map-get($font-sizes, 'xs');
+    font-weight: 700;
+    @include radius('large');
+  }
+}
+
+.queue__close {
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  padding: 0;
+  border: 2px solid $color-ts-blue;
+  color: $color-white;
+  background: $color-ts-green;
+  @include radius('circle');
+
+  &:hover {
+    cursor: pointer;
+    color: $color-white;
+    background: $color-green;
+  }
+}
+
+.queue__list {
+  min-height: 0;
+  max-height: none;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-bottom: 8px;
+}
+
+.queue__item {
+  width: 100%;
+  min-height: 58px;
+  display: grid;
+  grid-template-columns: 26px 46px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  padding: 6px;
+  border: 2px solid transparent;
+  color: $color-blue;
+  background: transparent;
+  text-align: left;
+  box-sizing: border-box;
+  @include radius('small');
+
+  &:hover,
+  &--current {
+    cursor: pointer;
+    border-color: $color-ts-blue;
+    color: $color-white;
+    background: $color-ts-green;
+  }
+}
+
+.queue__item--auto {
+  opacity: 0.86;
+}
+
+.queue__section-title {
+  width: fit-content;
+  padding: 4px 10px;
+  color: $color-white;
+  background: $color-ts-green;
+  font-size: map-get($font-sizes, 'sm');
+  font-weight: 700;
+  @include radius('large');
+}
+
+.queue__divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 0 4px;
+  color: $color-white;
+  font-size: map-get($font-sizes, 'xs');
+  font-weight: 700;
+
+  span {
+    padding: 4px 10px;
+    background: $color-ts-green;
+    @include radius('large');
+  }
+
+  &::before,
+  &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: $color-ts-green;
+  }
+}
+
+.queue__index {
+  text-align: center;
+  font-size: map-get($font-sizes, 'sm');
+}
+
+.queue__image {
+  width: 46px;
+  height: 46px;
+  object-fit: cover;
+  @include radius('small');
+}
+
+.queue__info {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+
+  strong,
+  span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  span {
+    font-size: map-get($font-sizes, 'sm');
+    font-weight: 500;
+  }
+}
+
+.queue__empty {
+  padding: 24px 8px;
+  text-align: center;
+}
+
 @media (max-width: 600px) {
   :host {
     --song-image: 44px;
@@ -307,8 +527,7 @@
   }
 
   .tool__lyrics,
-  .tool__playlist,
-  .tool__volume,
+  .tool__volume-btn,
   .tool__volume-slider {
     display: none;
   }
@@ -331,6 +550,30 @@
 
   .player__time-tool {
     font-size: map-get($font-sizes, 'sm');
+  }
+}
+
+@media (max-width: 600px) {
+  .queue {
+    right: 10px;
+    bottom: 138px;
+    width: calc(100vw - 20px);
+    max-height: min(380px, calc(100vh - 190px));
+    padding: 14px;
+  }
+
+  .queue__list {
+    max-height: none;
+  }
+}
+
+@media (max-width: 350px) {
+  .queue {
+    right: 8px;
+    bottom: 122px;
+    width: calc(100vw - 16px);
+    max-height: min(340px, calc(100vh - 160px));
+    padding: 12px;
   }
 }
 

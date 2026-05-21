@@ -9,6 +9,7 @@ import { AuthService } from '../../@service/auth.service';
 import { FavoritePlaylistService } from '../../@service/favorite-playlist.service';
 import { MusicPlayerService } from '../../@service/music-player.service';
 import { NavigationContextService } from '../../@service/navigation-context.service';
+import { PlaybackQueueService } from '../../@service/playback-queue.service';
 
 @Component({
   selector: 'app-album',
@@ -20,6 +21,7 @@ export class CollectionDetailComponent {
   private route: ActivatedRoute = inject(ActivatedRoute);
   private api: ApiService = inject(ApiService);
   private music: MusicPlayerService = inject(MusicPlayerService);
+  private playbackQueue: PlaybackQueueService = inject(PlaybackQueueService);
   private auth: AuthService = inject(AuthService);
   private favoritePlaylist: FavoritePlaylistService = inject(FavoritePlaylistService);
   private navigationContext: NavigationContextService = inject(NavigationContextService);
@@ -132,9 +134,25 @@ export class CollectionDetailComponent {
   }
 
   public setPlayer(id: string) {
+    const currentSongId = Number(id);
+    this.playbackQueue.setQueue(
+      {
+        title: this.currentCollection()?.name ?? '播放佇列',
+        source: this.currentRouteType === 'playlist' ? 'playlist' : 'album',
+        songs: this.songList() ?? [],
+        recommendationPool: this.songList() ?? [],
+      },
+      currentSongId,
+    );
     this.music.setPlayer(id);
     this.music.setIsClose(false);
     this.navigationContext.setSongBackUrl(this.currentRouteType === 'playlist' ? `/playlist/${this.currentRouteId}` : `/album/${this.currentRouteId}`);
+  }
+
+  public addToQueue(song: SongType, $event: MouseEvent): void {
+    $event.stopPropagation();
+    this.playbackQueue.addToQueue(song, this.songList() ?? []);
+    this.showAlert('已加入佇列', '歌曲已加入播放佇列。', 'success', 900);
   }
 
   public formatTime(time: number): string {
@@ -156,8 +174,11 @@ export class CollectionDetailComponent {
     const playlistUsers = await firstValueFrom(
       this.api.getPlaylistUsersByUserId(currentUser.id.toString()),
     );
+    const editablePlaylistUsers = playlistUsers.filter(
+      (playlistUser) => playlistUser.playlist.type !== 'favorite',
+    );
 
-    if (playlistUsers.length === 0) {
+    if (editablePlaylistUsers.length === 0) {
       this.showAlert('沒有可加入的播放清單', '請先建立播放清單後再加入歌曲。', 'info');
       return;
     }
@@ -165,7 +186,7 @@ export class CollectionDetailComponent {
     const result = await Swal.fire({
       title: '加入播放清單',
       input: 'select',
-      inputOptions: this.buildPlaylistOptions(playlistUsers),
+      inputOptions: this.buildPlaylistOptions(editablePlaylistUsers),
       inputPlaceholder: '選擇播放清單',
       showCancelButton: true,
       confirmButtonText: '加入',

@@ -1,0 +1,75 @@
+<section class="cms-page">
+  <header class="cms-page__header">
+    <div>
+      <span>Artist Profile</span>
+      <h2>藝人管理</h2>
+      <p>維護藝人名稱、介紹文字與頭像，前台藝人資訊會跟著更新。</p>
+    </div>
+  </header>
+
+  <div class="cms-page__grid">
+    <section class="cms-panel">
+      <div class="cms-panel__head">
+        <h3>藝人列表</h3>
+        <span>{{ artists().length }} 位</span>
+      </div>
+
+      <div class="cms-list">
+        @for (artist of artists(); track artist.id) {
+          <button
+            class="cms-list__item"
+            type="button"
+            [class.cms-list__item--active]="selectedArtist()?.id === artist.id"
+            (click)="selectArtist(artist)"
+          >
+            <img [src]="artist.imgPath || './mock/unnamed.png'" alt="" />
+            <div>
+              <strong>{{ artist.name }}</strong>
+              <span>{{ artist.description || '尚未建立介紹' }}</span>
+            </div>
+          </button>
+        } @empty {
+          <div class="cms-empty">目前沒有藝人資料</div>
+        }
+      </div>
+    </section>
+
+    <aside class="cms-panel cms-editor">
+      <div class="cms-panel__head">
+        <h3>編輯藝人</h3>
+        @if (selectedArtist()) {
+          <span>#{{ selectedArtist()?.id }}</span>
+        }
+      </div>
+
+      @if (selectedArtist()) {
+        <img class="cms-editor__cover cms-editor__cover--portrait" [src]="selectedArtist()?.imgPath || './mock/unnamed.png'" alt="" />
+
+        <label class="cms-field">
+          <span>藝人名稱</span>
+          <input name="artistName" [(ngModel)]="editForm.name" />
+        </label>
+
+        <label class="cms-field">
+          <span>介紹</span>
+          <textarea name="artistDescription" rows="7" [(ngModel)]="editForm.description"></textarea>
+        </label>
+
+        <label class="cms-upload">
+          <span>藝人圖片</span>
+          <input type="file" accept="image/*" (change)="setImageFile($event)" />
+        </label>
+
+        @if (message()) {
+          <p class="cms-editor__message">{{ message() }}</p>
+        }
+
+        <button class="cms-page__primary-btn" type="button" [disabled]="isSaving()" (click)="saveArtist()">
+          {{ isSaving() ? '儲存中' : '儲存藝人' }}
+        </button>
+      } @else {
+        <div class="cms-empty">請先選擇一位藝人</div>
+      }
+    </aside>
+  </div>
+</section>

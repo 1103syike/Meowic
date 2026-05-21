@@ -38,6 +38,9 @@
           <button type="button" (click)="addToPlaylist(song.id, $event)" title="加入播放清單">
             <mat-icon aria-hidden="true">playlist_add</mat-icon>
           </button>
+          <button type="button" (click)="addToQueue(song, $event)" title="加入佇列">
+            <mat-icon aria-hidden="true">queue</mat-icon>
+          </button>
         </div>
       </div>
     } @empty {

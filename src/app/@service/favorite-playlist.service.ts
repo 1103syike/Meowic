@@ -25,12 +25,13 @@ export class FavoritePlaylistService {
 
   private async loadOrCreateFavoritePlaylist(userId: number): Promise<PlaylistType> {
     const playlistUsers = await firstValueFrom(this.api.getPlaylistUsersByUserId(userId.toString()));
-    const favorite = playlistUsers
-      .map((item) => item.playlist)
-      .filter((playlist) => playlist.type === 'favorite')
-      .sort((a, b) => a.id - b.id)[0];
+    const favoritePlaylistUsers = playlistUsers
+      .filter((item) => item.playlist.type === 'favorite')
+      .sort((a, b) => a.playlist.id - b.playlist.id);
+    const favorite = favoritePlaylistUsers[0]?.playlist;
 
     if (favorite) {
+      await this.removeDuplicateFavoritePlaylists(favoritePlaylistUsers.slice(1));
       return favorite;
     }
 
@@ -39,6 +40,26 @@ export class FavoritePlaylistService {
     );
     await firstValueFrom(this.api.createPlaylistUser(playlist.id, userId));
     return playlist;
+  }
+
+  private async removeDuplicateFavoritePlaylists(
+    playlistUsers: { id: number; playlist: PlaylistType }[],
+  ): Promise<void> {
+    await Promise.all(
+      playlistUsers.map(async (playlistUser) => {
+        const playlistSongs = await firstValueFrom(
+          this.api.getAllSongByPlaylistId(playlistUser.playlist.id.toString()),
+        );
+
+        await Promise.all(
+          playlistSongs.map((playlistSong) =>
+            firstValueFrom(this.api.deleteSongFromPlaylist(playlistSong.id)),
+          ),
+        );
+        await firstValueFrom(this.api.deletePlaylistUser(playlistUser.id));
+        await firstValueFrom(this.api.deletePlaylist(playlistUser.playlist.id));
+      }),
+    );
   }
 
   public async getFavoriteSongIds(userId: number): Promise<Set<number>> {

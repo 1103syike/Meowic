@@ -86,6 +86,14 @@
           >
             <mat-icon aria-hidden="true" class="table__td__icon">playlist_add</mat-icon>
           </button>
+          <button
+            class="table__tool-btn"
+            type="button"
+            title="加入佇列"
+            (click)="addToQueue(element, $event)"
+          >
+            <mat-icon aria-hidden="true" class="table__td__icon">queue</mat-icon>
+          </button>
           @if (this.currentCollection()!.type !== 'album') {
             <button
               class="table__tool-btn"

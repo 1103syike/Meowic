@@ -1,0 +1,56 @@
+<main class="cms">
+  <aside class="cms__sidebar">
+    <header class="cms__brand">
+      <div class="cms__brand-mark">M</div>
+      <div>
+        <h1>Meowic CMS</h1>
+        <span>Content Studio</span>
+      </div>
+    </header>
+
+    <nav class="cms__nav">
+      <a routerLink="/cms" routerLinkActive="cms__nav-link--active" [routerLinkActiveOptions]="{ exact: true }">
+        <mat-icon aria-hidden="true">dashboard</mat-icon>
+        總覽
+      </a>
+      <a routerLink="/cms/songs" routerLinkActive="cms__nav-link--active">
+        <mat-icon aria-hidden="true">library_music</mat-icon>
+        歌曲管理
+      </a>
+      <a routerLink="/cms/albums" routerLinkActive="cms__nav-link--active">
+        <mat-icon aria-hidden="true">album</mat-icon>
+        專輯管理
+      </a>
+      <a routerLink="/cms/artists" routerLinkActive="cms__nav-link--active">
+        <mat-icon aria-hidden="true">person</mat-icon>
+        藝人管理
+      </a>
+      <a class="cms__nav-link--disabled">
+        <mat-icon aria-hidden="true">workspace_premium</mat-icon>
+        Pro 方案
+      </a>
+      <a class="cms__nav-link--disabled">
+        <mat-icon aria-hidden="true">campaign</mat-icon>
+        廣告版位
+      </a>
+    </nav>
+  </aside>
+
+  <section class="cms__workspace">
+    <header class="cms__topbar">
+      <div>
+        <span class="cms__eyebrow">後台管理</span>
+        <strong>Meowic Content Management System</strong>
+      </div>
+      <div class="cms__account">
+        <span>自動登出 20:00</span>
+        <div class="cms__avatar">{{ auth.user()?.name?.slice(0, 1) || 'M' }}</div>
+        <strong>{{ auth.user()?.name || 'Admin' }}</strong>
+      </div>
+    </header>
+
+    <section class="cms__content">
+      <router-outlet></router-outlet>
+    </section>
+  </section>
+</main>
