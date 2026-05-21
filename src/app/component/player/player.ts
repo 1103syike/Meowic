@@ -1,7 +1,7 @@
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MusicPlayerService } from '../../@service/music-player.service';
-import { SongType } from '../../@service/api.service';
+import { ApiService, SongType } from '../../@service/api.service';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { filter, interval, Subscription, take } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -9,6 +9,7 @@ import { TimePipe } from '../../@pipe/time-pipe';
 import { MatSliderModule } from '@angular/material/slider';
 import { FormsModule } from '@angular/forms';
 import { PlaybackQueueService } from '../../@service/playback-queue.service';
+import { AuthService } from '../../@service/auth.service';
 
 @Component({
   selector: 'app-player',
@@ -19,8 +20,10 @@ import { PlaybackQueueService } from '../../@service/playback-queue.service';
 })
 export class Player {
   /////////////////////////////////////////////
-  private player: MusicPlayerService = inject(MusicPlayerService);
+  public player: MusicPlayerService = inject(MusicPlayerService);
   private router: Router = inject(Router);
+  private api: ApiService = inject(ApiService);
+  private auth: AuthService = inject(AuthService);
   public playbackQueue: PlaybackQueueService = inject(PlaybackQueueService);
   /////////////////////////////////////////////
   public isClose = signal<boolean>(false);
@@ -35,6 +38,8 @@ export class Player {
   private readonly mutedStorageKey = 'playerMuted';
   private readonly previousVolumeStorageKey = 'playerPreviousVolume';
   private previousVolume = 70;
+  private countedForCurrentPlay = false;
+  private trackedSongId: number | null = null;
   value = this.getStoredVolume();
   showTicks = false;
   duration = signal<number>(0);
@@ -99,6 +104,11 @@ export class Player {
     }
   }
 
+  public handleTimeUpdate(player: HTMLAudioElement): void {
+    this.currentTime = player.currentTime;
+    this.recordPlayCountIfQualified(player);
+  }
+
   public toggleQueue(): void {
     this.isQueueOpen.update((isOpen) => !isOpen);
   }
@@ -106,19 +116,19 @@ export class Player {
   public playQueuedSong(song: SongType): void {
     this.player.setPlayer(song.id.toString());
     this.player.setIsClose(false);
-    this.router.navigate(['/song', song.id]);
+    this.setSongByLocalStorage();
   }
 
   public playNext(): void {
     const nextSongId = this.playbackQueue.next();
     if (nextSongId) {
       this.setSongByLocalStorage();
-      this.router.navigate(['/song', nextSongId]);
     }
   }
 
   public handlePlaybackEnded(player: HTMLAudioElement): void {
     if (this.playbackQueue.playbackMode() === 'repeat-one') {
+      this.countedForCurrentPlay = false;
       player.currentTime = 0;
       player.play();
       return;
@@ -127,7 +137,6 @@ export class Player {
     const nextSongId = this.playbackQueue.nextAfterEnded();
     if (nextSongId) {
       this.setSongByLocalStorage();
-      this.router.navigate(['/song', nextSongId]);
     }
   }
 
@@ -135,7 +144,6 @@ export class Player {
     const previousSongId = this.playbackQueue.previous();
     if (previousSongId) {
       this.setSongByLocalStorage();
-      this.router.navigate(['/song', previousSongId]);
     }
   }
 
@@ -221,8 +229,55 @@ export class Player {
     this.player.getPlayer(songId).subscribe((res) => {
       this.currentSong.set(res[0]);
       if (res[0]) {
+        if (this.trackedSongId !== res[0].id) {
+          this.trackedSongId = res[0].id;
+          this.countedForCurrentPlay = false;
+        }
         this.playbackQueue.ensureSingleSongQueue(res[0]);
       }
+    });
+  }
+
+  private recordPlayCountIfQualified(player: HTMLAudioElement): void {
+    const song = this.currentSong();
+    if (!song || this.countedForCurrentPlay || !Number.isFinite(player.duration)) {
+      return;
+    }
+
+    const threshold = player.duration >= 30 ? 10 : player.duration * 0.5;
+    if (player.currentTime < threshold) {
+      return;
+    }
+
+    this.countedForCurrentPlay = true;
+    this.api.createSongPlay({
+      songId: song.id,
+      userId: this.auth.user()?.id ?? null,
+      playedAt: new Date().toISOString(),
+      duration: Math.round(player.duration),
+      listenedSeconds: Math.round(player.currentTime),
+    }).subscribe({
+      next: () => this.currentSong.set({ ...song, playCount: (song.playCount ?? 0) + 1 }),
+      error: (err) => {
+        if (err?.status === 404) {
+          this.updateSongPlayCountFallback(song);
+          return;
+        }
+
+        this.countedForCurrentPlay = false;
+        console.error('記錄播放事件失敗：', err);
+      },
+    });
+  }
+
+  private updateSongPlayCountFallback(song: SongType): void {
+    const nextPlayCount = (song.playCount ?? 0) + 1;
+    this.api.updateSong(song.id, { playCount: nextPlayCount }).subscribe({
+      next: () => this.currentSong.set({ ...song, playCount: nextPlayCount }),
+      error: (err) => {
+        this.countedForCurrentPlay = false;
+        console.error('更新播放次數失敗：', err);
+      },
     });
   }
 

@@ -68,7 +68,9 @@
         #musicPlayer
         (loadedmetadata)="onLoadedMetadata(musicPlayer)"
         [src]="this.currentSong()?.audioPath"
-        (timeupdate)="currentTime = musicPlayer.currentTime"
+        (play)="player.setIsPlaying(true)"
+        (pause)="player.setIsPlaying(false)"
+        (timeupdate)="handleTimeUpdate(musicPlayer)"
         (ended)="handlePlaybackEnded(musicPlayer)"
         [volume]="value / 100"
         autoplay

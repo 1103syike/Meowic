@@ -1,9 +1,9 @@
 @use 'sass:map';
 @use 'variables' as *;
 :host {
-  --song-image: 70px;
-  --player-btn: 50px;
-  --padding-top: 20px;
+  --song-image: 58px;
+  --player-btn: 42px;
+  --padding-top: 12px;
 }
 
 .player-container {
@@ -11,7 +11,7 @@
   width: 100%;
   height: 100%;
   overflow-x: auto;
-  @include block(var(--padding-top), 40px);
+  @include block(var(--padding-top), 28px);
   align-items: center;
   display: grid;
   grid-template-rows: 1fr;
@@ -99,6 +99,12 @@
       width: 28px;
       height: 28px;
       font-size: 28px;
+      line-height: 1;
+      transition:
+        background-color 0.2s ease,
+        box-shadow 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
 
       &--play {
         width: var(--player-btn);
@@ -122,7 +128,14 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
+        width: 34px;
+        height: 34px;
+        flex: 0 0 34px;
         border-radius: 50%;
+        font-size: 24px;
+        color: $color-green;
+        background: rgba($color-green, 0.1);
+        box-sizing: border-box;
       }
       &--skip {
         width: 36px;
@@ -130,10 +143,26 @@
         font-size: 36px;
         color: $color-green;
       }
-      &:hover {
+      &--mode:hover,
+      &--repeat:hover {
+        color: $color-white;
+        background: rgba($color-green, 0.76);
+        transform: translateY(-1px);
+      }
+
+      &--skip:hover,
+      &--play:hover,
+      &--pause:hover {
         color: $color-green;
+        transform: translateY(-1px);
       }
       &--active {
+        color: $color-white;
+        background: $color-green;
+        box-shadow: 0 8px 18px rgba($color-green, 0.26);
+      }
+
+      &--active:hover {
         color: $color-white;
         background: $color-green;
       }
@@ -178,7 +207,7 @@
   justify-content: end;
 
   align-items: end;
-  gap: 12px;
+  gap: 10px;
   grid-area: tool;
   color: $color-green;
   min-width: 0;
@@ -263,15 +292,15 @@
 @media (max-width: 1280px) {
   // var(--player-btn)
   :host {
-    --song-image: 70px;
-    --player-btn: 36px;
-    --padding-top: 12px;
+    --song-image: 52px;
+    --player-btn: 34px;
+    --padding-top: 10px;
 
     --sidebar-width: 400px;
   }
 
   .player-container {
-    padding: 10px 30px 10px 20px;
+    padding: 8px 24px 8px 18px;
   }
 
   .player {
@@ -597,8 +626,12 @@
     gap: 4px;
   }
 
-  .player__play-tool__icon:not(.player__play-tool__icon--play):not(.player__play-tool__icon--pause):not(.player__play-tool__icon--skip) {
-    display: none;
+  .player__play-tool__icon--mode,
+  .player__play-tool__icon--repeat {
+    width: 28px;
+    height: 28px;
+    flex-basis: 28px;
+    font-size: 20px;
   }
 
   .player__slider {

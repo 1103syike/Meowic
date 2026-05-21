@@ -10,6 +10,7 @@ export class MusicPlayerService {
   //////////////////////////////////////////////////////
   private currentSong = signal<SongType | null>(null);
   private isClose = signal<boolean>(false);
+  private isPlaying = signal<boolean>(false);
   //////////////////////////////////////////////////////
 
   setPlayer(songId: string) {
@@ -27,6 +28,14 @@ export class MusicPlayerService {
 
   getIsClose() {
     return this.isClose();
+  }
+
+  setIsPlaying(isPlaying: boolean): void {
+    this.isPlaying.set(isPlaying);
+  }
+
+  getIsPlaying(): boolean {
+    return this.isPlaying();
   }
 
   // localStorage.setItem('token', token);

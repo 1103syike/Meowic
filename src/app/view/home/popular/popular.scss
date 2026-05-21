@@ -1,36 +1,54 @@
 @use 'variables' as *;
 
 .popular {
-  margin-top: 40px;
+  margin-top: 28px;
 
   &__header {
     margin-bottom: 12px;
   }
 
   &__list {
-    display: flex;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: repeat(1, auto);
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 16px;
   }
 
   &__item {
     border-radius: 12px;
-    padding: 12px;
+    padding: 10px;
     background: $color-ts-blue;
     &__image {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
       border-radius: 8px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     &__title {
-      font-size: map-get($font-sizes, 'lg');
-      margin-bottom: 8px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: map-get($font-sizes, 'base');
+      margin-bottom: 6px;
     }
     &__artist {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
       font-size: map-get($font-sizes, 'sm');
       font-weight: 500;
+    }
+  }
+}
+
+@media (max-width: 1280px) {
+  .popular {
+    margin-top: 24px;
+
+    &__list {
+      grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
+      gap: 12px;
     }
   }
 }

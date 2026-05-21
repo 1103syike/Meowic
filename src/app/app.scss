@@ -1,9 +1,9 @@
 :host {
-  --header-height: 100px;
-  --header-player: 146px;
-  --sidebar-width: 400px;
-  --main-gap: 20px;
-  --page-padding: 20px;
+  --header-height: 88px;
+  --sidebar-width: 300px;
+  --main-gap: 16px;
+  --page-padding: 16px;
+  --player-height: 108px;
 }
 
 .main-layout {
@@ -13,21 +13,17 @@
 
   padding: var(--page-padding);
 
-  grid-template-rows: var(--header-height) auto var(--header-player);
+  grid-template-rows: var(--header-height) minmax(0, 1fr);
   grid-template-columns: var(--sidebar-width) 1fr;
   grid-template-areas:
     'header  header'
-    'sidebar content'
-    'player player';
+    'sidebar content';
 
   box-sizing: border-box;
 }
 
 .main-layout--player-closed {
-  grid-template-rows: var(--header-height) 1fr;
-  grid-template-areas:
-    'header  header'
-    'sidebar content';
+  --player-height: 0px;
 }
 
 .header-area {
@@ -38,9 +34,16 @@
   overflow-y: auto;
   min-width: 0;
   min-height: 0;
+  padding-bottom: calc(var(--player-height) + 12px);
+  box-sizing: border-box;
 }
 .player-area {
-  grid-area: player;
+  position: fixed;
+  z-index: 800;
+  right: var(--page-padding);
+  bottom: var(--page-padding);
+  left: var(--page-padding);
+  height: var(--player-height);
   min-width: 0;
 }
 .sidebar-area {
@@ -56,6 +59,8 @@ app-playlist-bar {
   display: flex;
   flex-direction: column;
   min-height: 0;
+  padding-bottom: calc(var(--player-height) + 12px);
+  box-sizing: border-box;
 }
 
 .music-list-container {
@@ -65,40 +70,28 @@ app-playlist-bar {
 
 @media (max-width: 1280px) {
   :host {
-    --header-height: 80px;
-    --header-player: auto;
-    --sidebar-width: 280px;
-    --main-gap: 14px;
-    --page-padding: 14px;
+    --header-height: 76px;
+    --sidebar-width: 230px;
+    --main-gap: 12px;
+    --page-padding: 12px;
+    --player-height: 102px;
   }
 }
 
 @media (max-width: 1024px) {
   :host {
     --header-height: auto;
-    --sidebar-width: 220px;
+    --sidebar-width: 210px;
     --main-gap: 12px;
     --page-padding: 12px;
-  }
-
-  .main-layout {
-    grid-template-rows: auto 1fr var(--header-player);
+    --player-height: 108px;
   }
 }
 
 @media (max-width: 900px) {
   .main-layout {
     grid-template-columns: 1fr;
-    grid-template-rows: auto auto 1fr var(--header-player);
-    grid-template-areas:
-      'header'
-      'sidebar'
-      'content'
-      'player';
-  }
-
-  .main-layout--player-closed {
-    grid-template-rows: auto auto 1fr;
+    grid-template-rows: auto auto minmax(0, 1fr);
     grid-template-areas:
       'header'
       'sidebar'
@@ -106,7 +99,8 @@ app-playlist-bar {
   }
 
   .sidebar-area {
-    max-height: 260px;
+    max-height: 210px;
+    padding-bottom: 0;
   }
 }
 
@@ -118,15 +112,17 @@ app-playlist-bar {
 
   .main-layout {
     min-width: 0;
-    grid-template-rows: auto auto minmax(0, 1fr) auto;
-  }
-
-  .main-layout--player-closed {
     grid-template-rows: auto auto minmax(0, 1fr);
   }
 
   .sidebar-area {
-    max-height: 220px;
+    max-height: 184px;
+  }
+
+  .player-area {
+    right: 8px;
+    bottom: 8px;
+    left: 8px;
   }
 }
 
@@ -137,6 +133,6 @@ app-playlist-bar {
   }
 
   .sidebar-area {
-    max-height: 200px;
+    max-height: 168px;
   }
 }

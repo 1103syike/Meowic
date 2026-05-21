@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { firstValueFrom, forkJoin } from 'rxjs';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
 import { ApiService, AlbumType, SongType, UserType } from '../../@service/api.service';
@@ -19,6 +19,7 @@ import { PlaybackQueueService } from '../../@service/playback-queue.service';
 })
 export class CollectionDetailComponent {
   private route: ActivatedRoute = inject(ActivatedRoute);
+  private router: Router = inject(Router);
   private api: ApiService = inject(ApiService);
   private music: MusicPlayerService = inject(MusicPlayerService);
   private playbackQueue: PlaybackQueueService = inject(PlaybackQueueService);
@@ -30,6 +31,10 @@ export class CollectionDetailComponent {
   public songList = signal<SongType[] | null>(null);
   public currentCollection = signal<AlbumType | null>(null);
   public favoriteSongIds = signal<Set<number>>(new Set());
+
+  public goBack(): void {
+    this.router.navigateByUrl('/');
+  }
 
   ngOnInit() {
     this.loadFavoriteSongs();

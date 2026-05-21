@@ -15,6 +15,7 @@ export class CmsSongs {
 
   public albums = signal<AlbumType[]>([]);
   public artists = signal<ArtistType[]>([]);
+  public imagePreview = signal('');
   public isAddSongDialogOpen = signal(false);
   public isSaving = signal(false);
   public songs = signal<SongType[]>([]);
@@ -31,8 +32,22 @@ export class CmsSongs {
 
   public selectedSongImage = computed(() => {
     const song = this.selectedSong();
-    return song?.imgPath || song?.album?.imgPath || './mock/unnamed.png';
+    return this.imagePreview() || song?.imgPath || song?.album?.imgPath || './mock/unnamed.png';
   });
+
+  public hasPendingChanges(): boolean {
+    const song = this.selectedSong();
+    if (!song) {
+      return false;
+    }
+
+    return (
+      !!this.imagePreview() ||
+      this.editForm.name !== song.name ||
+      Number(this.editForm.artistId) !== (song.artistId ?? song.artist?.id ?? 0) ||
+      Number(this.editForm.albumId) !== (song.albumId ?? song.album?.id ?? 0)
+    );
+  }
 
   ngOnInit() {
     this.loadData();
@@ -52,17 +67,22 @@ export class CmsSongs {
 
   public selectSong(song: SongType): void {
     this.selectedSong.set(song);
-    this.message.set('');
-    this.imageFile = null;
-    this.editForm = {
-      name: song.name,
-      artistId: song.artistId ?? song.artist?.id ?? 0,
-      albumId: song.albumId ?? song.album?.id ?? 0,
-    };
+    this.resetEditor(song);
   }
 
-  public setImageFile(event: Event): void {
-    this.imageFile = (event.target as HTMLInputElement).files?.[0] ?? null;
+  public async setImageFile(event: Event): Promise<void> {
+    const file = (event.target as HTMLInputElement).files?.[0] ?? null;
+    this.imageFile = file;
+    this.imagePreview.set(file ? await this.readFileAsDataUrl(file) : '');
+    this.message.set(file ? '圖片已預覽，按下儲存後才會更新' : '');
+  }
+
+  public cancelChanges(): void {
+    const song = this.selectedSong();
+    if (song) {
+      this.resetEditor(song);
+      this.message.set('已取消未儲存變更');
+    }
   }
 
   public async saveSong(): Promise<void> {
@@ -93,6 +113,17 @@ export class CmsSongs {
     } finally {
       this.isSaving.set(false);
     }
+  }
+
+  private resetEditor(song: SongType): void {
+    this.message.set('');
+    this.imageFile = null;
+    this.imagePreview.set('');
+    this.editForm = {
+      name: song.name,
+      artistId: song.artistId ?? song.artist?.id ?? 0,
+      albumId: song.albumId ?? song.album?.id ?? 0,
+    };
   }
 
   private async loadData(): Promise<void> {

@@ -7,6 +7,7 @@ import { UserType } from './api.service';
 })
 export class AuthService {
   private http: HttpClient = inject(HttpClient);
+  private readonly cmsDefaultAdmins = new Set(['dandy', 'wendy']);
 
   public currentUserStatus = signal<boolean>(!!localStorage.getItem('token'));
   public user = signal<UserType | null>(null);
@@ -23,6 +24,7 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('token');
     this.currentUserStatus.set(false);
+    this.user.set(null);
   }
 
   getToken(): string | null {
@@ -36,18 +38,40 @@ export class AuthService {
   }
 
   getUserInfo() {
-    const token = localStorage.getItem('token');
-    if (!token) return null;
-
-    const payload = token.split('.')[1];
-    const decodedJson = atob(payload);
-    const email = JSON.parse(decodedJson).email;
+    const email = this.getTokenEmail();
+    if (!email) return null;
 
     this.getUserByEmail(email).subscribe((res) => {
       this.user.set(res[0]);
     });
 
     return this.getUserByEmail(email);
+  }
+
+  canAccessCms(): boolean {
+    const currentUser = this.user();
+    return this.canUserAccessCms(currentUser) || this.isDefaultCmsAdmin(this.getTokenEmail());
+  }
+
+  canUserAccessCms(user: UserType | null | undefined): boolean {
+    return !!user?.canAccessCms || user?.role === 'admin' || this.isDefaultCmsAdmin(user?.email);
+  }
+
+  getTokenEmail(): string | null {
+    const token = localStorage.getItem('token');
+    if (!token) return null;
+
+    try {
+      const payload = token.split('.')[1];
+      const decodedJson = atob(payload);
+      return JSON.parse(decodedJson).email ?? null;
+    } catch {
+      return null;
+    }
+  }
+
+  private isDefaultCmsAdmin(email: string | null | undefined): boolean {
+    return !!email && this.cmsDefaultAdmins.has(email.trim().toLowerCase());
   }
 }
 

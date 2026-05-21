@@ -1,0 +1,53 @@
+<main class="artist-page">
+  <button class="artist-page__back" type="button" (click)="goBack()" aria-label="返回首頁">
+    <mat-icon aria-hidden="true">arrow_back_ios</mat-icon>
+  </button>
+
+  @if (artist()) {
+    <header class="artist-hero">
+      <img class="artist-hero__image" [src]="artist()!.imgPath || './mock/unnamed.png'" alt="" />
+      <section class="artist-hero__info">
+        <span class="artist-hero__type">藝人</span>
+        <h1>{{ artist()!.name }}</h1>
+        <p>{{ artist()!.description }}</p>
+        <div class="artist-hero__stats">
+          <span>{{ albums().length }} 張專輯</span>
+          <span>{{ songs().length }} 首歌曲</span>
+          <span>{{ totalPlays() }} 次播放</span>
+        </div>
+      </section>
+    </header>
+
+    <section class="artist-section artist-section--songs">
+      <app-song-list
+        title="熱門歌曲"
+        [songsInput]="topSongs()"
+        [sortByPlayCount]="true"
+        emptyText="這位藝人目前沒有歌曲"
+      ></app-song-list>
+    </section>
+
+    <section class="artist-section">
+      <header class="artist-section__header">
+        <h2>專輯</h2>
+      </header>
+      @if (albums().length > 0) {
+        <div class="album-grid">
+          @for (album of albums(); track album.id) {
+            <a class="album-card" [routerLink]="['/album', album.id]">
+              <img class="album-card__image" [src]="album.imgPath || './mock/unnamed.png'" alt="" />
+              <span class="album-card__content">
+                <span class="album-card__title">{{ album.name }}</span>
+                <span class="album-card__meta">專輯</span>
+              </span>
+            </a>
+          }
+        </div>
+      } @else {
+        <p class="artist-section__empty">這位藝人目前沒有專輯</p>
+      }
+    </section>
+  } @else {
+    <section class="artist-page__empty">找不到這位藝人</section>
+  }
+</main>

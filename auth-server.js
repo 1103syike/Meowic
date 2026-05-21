@@ -58,6 +58,45 @@ server.post('/login', largeJsonParser, largeUrlencodedParser, (req, res) => {
   }
 });
 
+server.get('/songPlays', (req, res) => {
+  if (!router.db.has('songPlays').value()) {
+    router.db.set('songPlays', []).write();
+  }
+
+  res.status(200).json(router.db.get('songPlays').value());
+});
+
+server.post('/songPlays', largeJsonParser, largeUrlencodedParser, (req, res) => {
+  if (!router.db.has('songPlays').value()) {
+    router.db.set('songPlays', []).write();
+  }
+
+  const songId = Number(req.body.songId);
+  if (!songId) {
+    return res.status(400).json({ message: 'songId is required' });
+  }
+
+  const nextId = (router.db.get('songPlays').map('id').max().value() || 0) + 1;
+  const play = {
+    id: nextId,
+    songId,
+    userId: req.body.userId ?? null,
+    playedAt: req.body.playedAt || new Date().toISOString(),
+    duration: Number(req.body.duration) || 0,
+    listenedSeconds: Number(req.body.listenedSeconds) || 0,
+  };
+
+  router.db.get('songPlays').push(play).write();
+
+  const song = router.db.get('songs').find({ id: songId });
+  if (song.value()) {
+    const currentPlayCount = Number(song.get('playCount').value()) || 0;
+    song.assign({ playCount: currentPlayCount + 1 }).write();
+  }
+
+  res.status(201).json(play);
+});
+
 server.use(router);
 
 server.listen(3000, () => {

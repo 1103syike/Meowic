@@ -1,0 +1,76 @@
+<section class="popular">
+  <header class="popular__header">
+    <div>
+      <span>Top 50</span>
+      <h1>熱門歌曲</h1>
+      <p>依有效播放次數統計排行。播放滿 10 秒，或短歌聽超過一半，就會計入一次。</p>
+    </div>
+
+    <nav class="popular__tabs" aria-label="熱門歌曲區間">
+      @for (range of ranges; track range.key) {
+        <button
+          type="button"
+          [class.popular__tab--active]="activeRange() === range.key"
+          (click)="setRange(range.key)"
+        >
+          {{ range.label }}
+        </button>
+      }
+    </nav>
+  </header>
+
+  <section class="popular__table">
+    <div class="popular__row popular__row--head">
+      <span>#</span>
+      <span>歌曲</span>
+      <span class="popular__right popular__right--head">
+        <span>專輯</span>
+        <span>播放</span>
+        <span>動作</span>
+      </span>
+    </div>
+
+    @for (item of rankedSongs(); track item.song.id; let index = $index) {
+      <div
+        class="popular__row popular__row--button"
+        role="button"
+        tabindex="0"
+        (click)="playSong(item.song)"
+        (keydown.enter)="playSong(item.song)"
+        (keydown.space)="playSong(item.song)"
+      >
+        <span class="popular__rank">{{ index + 1 }}</span>
+        <span class="popular__song">
+          <img [src]="songImage(item.song)" alt="" />
+          <span>
+            <strong>{{ item.song.name }}</strong>
+            <small>{{ item.song.artist.name }}</small>
+          </span>
+        </span>
+        <span class="popular__right">
+          <span class="popular__album">{{ item.song.album.name }}</span>
+          <strong class="popular__plays">{{ item.plays }}</strong>
+          <span class="popular__actions">
+            <button
+              class="popular__favorite"
+              type="button"
+              (click)="addToFavorite(item.song.id, $event)"
+              [class.popular__favorite--active]="isFavorite(item.song.id)"
+              title="加入喜歡"
+            >
+              <mat-icon aria-hidden="true">favorite</mat-icon>
+            </button>
+            <button type="button" (click)="addToPlaylist(item.song.id, $event)" title="加入播放清單">
+              <mat-icon aria-hidden="true">playlist_add</mat-icon>
+            </button>
+            <button type="button" (click)="addToQueue(item.song, $event)" title="加入佇列">
+              <mat-icon aria-hidden="true">queue</mat-icon>
+            </button>
+          </span>
+        </span>
+      </div>
+    } @empty {
+      <div class="popular__empty">這個區間還沒有播放紀錄</div>
+    }
+  </section>
+</section>

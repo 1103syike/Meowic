@@ -1,0 +1,34 @@
+<section class="search-results">
+  <header class="search-results__header">
+    <h1>搜尋結果</h1>
+    <span>{{ matchedArtists().length }} 位藝人 · {{ matchedSongs().length }} 首歌曲</span>
+  </header>
+
+  <div class="result-list">
+    @for (result of results(); track result.type + '-' + result.id) {
+      @if (result.type === 'artist') {
+        <a class="result-row" [routerLink]="['/artist', result.artist.id]" (click)="searchState.closeSearch()">
+          <img class="result-row__image result-row__image--artist" [src]="result.artist.imgPath || './mock/unnamed.png'" alt="" />
+          <span class="result-row__content">
+            <span class="result-row__title">{{ result.artist.name }}</span>
+            <span class="result-row__meta">藝人 · {{ artistSongCount(result.artist.id) }} 首歌曲</span>
+          </span>
+          <span class="result-row__type">藝人</span>
+          <mat-icon class="result-row__arrow" aria-hidden="true">chevron_right</mat-icon>
+        </a>
+      } @else {
+        <button class="result-row" type="button" (click)="playSong(result.song)">
+          <img class="result-row__image" [src]="songImage(result.song)" alt="" />
+          <span class="result-row__content">
+            <span class="result-row__title">{{ result.song.name }}</span>
+            <span class="result-row__meta">歌曲 · {{ result.song.artist.name }} · {{ result.song.album.name }}</span>
+          </span>
+          <span class="result-row__type">歌曲</span>
+          <mat-icon class="result-row__arrow" aria-hidden="true">play_arrow</mat-icon>
+        </button>
+      }
+    } @empty {
+      <p class="search-results__empty">找不到符合的藝人或歌曲</p>
+    }
+  </div>
+</section>

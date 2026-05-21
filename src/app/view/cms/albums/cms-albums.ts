@@ -14,6 +14,7 @@ export class CmsAlbums {
 
   public albums = signal<AlbumType[]>([]);
   public artists = signal<ArtistType[]>([]);
+  public imagePreview = signal('');
   public songs = signal<SongType[]>([]);
   public selectedAlbum = signal<AlbumType | null>(null);
   public selectedSongId = signal(0);
@@ -26,6 +27,24 @@ export class CmsAlbums {
   };
 
   private imageFile: File | null = null;
+
+  public selectedAlbumImage = computed(() => {
+    const album = this.selectedAlbum();
+    return this.imagePreview() || album?.imgPath || './mock/unnamed.png';
+  });
+
+  public hasPendingChanges(): boolean {
+    const album = this.selectedAlbum();
+    if (!album) {
+      return false;
+    }
+
+    return (
+      !!this.imagePreview() ||
+      this.editForm.name !== album.name ||
+      Number(this.editForm.artistId) !== (album.artistId ?? album.artist?.id ?? 0)
+    );
+  }
 
   public albumSongs = computed(() => {
     const album = this.selectedAlbum();
@@ -52,16 +71,22 @@ export class CmsAlbums {
   public selectAlbum(album: AlbumType): void {
     this.selectedAlbum.set(album);
     this.selectedSongId.set(0);
-    this.message.set('');
-    this.imageFile = null;
-    this.editForm = {
-      name: album.name,
-      artistId: album.artistId ?? album.artist?.id ?? 0,
-    };
+    this.resetEditor(album);
   }
 
-  public setImageFile(event: Event): void {
-    this.imageFile = (event.target as HTMLInputElement).files?.[0] ?? null;
+  public async setImageFile(event: Event): Promise<void> {
+    const file = (event.target as HTMLInputElement).files?.[0] ?? null;
+    this.imageFile = file;
+    this.imagePreview.set(file ? await this.readFileAsDataUrl(file) : '');
+    this.message.set(file ? '圖片已預覽，按下儲存後才會更新' : '');
+  }
+
+  public cancelChanges(): void {
+    const album = this.selectedAlbum();
+    if (album) {
+      this.resetEditor(album);
+      this.message.set('已取消未儲存變更');
+    }
   }
 
   public async saveAlbum(): Promise<void> {
@@ -123,6 +148,16 @@ export class CmsAlbums {
       console.error('CMS 移出專輯歌曲失敗：', err);
       this.message.set('移出失敗，請稍後再試');
     }
+  }
+
+  private resetEditor(album: AlbumType): void {
+    this.message.set('');
+    this.imageFile = null;
+    this.imagePreview.set('');
+    this.editForm = {
+      name: album.name,
+      artistId: album.artistId ?? album.artist?.id ?? 0,
+    };
   }
 
   private async loadData(): Promise<void> {

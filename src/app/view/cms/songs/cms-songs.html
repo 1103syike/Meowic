@@ -76,7 +76,8 @@
         </label>
 
         <label class="cms-upload">
-          <span>歌曲圖片</span>
+          <span class="cms-upload__title">歌曲圖片</span>
+          <span class="cms-upload__hint">選擇後會先預覽，儲存後才套用</span>
           <input type="file" accept="image/*" (change)="setImageFile($event)" />
         </label>
 
@@ -84,9 +85,14 @@
           <p class="cms-editor__message">{{ message() }}</p>
         }
 
-        <button class="cms-page__primary-btn" type="button" [disabled]="isSaving()" (click)="saveSong()">
-          {{ isSaving() ? '儲存中' : '儲存歌曲' }}
-        </button>
+        <div class="cms-editor__actions">
+          <button class="cms-page__secondary-btn" type="button" [disabled]="!hasPendingChanges()" (click)="cancelChanges()">
+            取消變更
+          </button>
+          <button class="cms-page__primary-btn" type="button" [disabled]="isSaving()" (click)="saveSong()">
+            {{ isSaving() ? '儲存中' : '儲存歌曲' }}
+          </button>
+        </div>
       } @else {
         <div class="cms-empty">請先選擇一首歌曲</div>
       }

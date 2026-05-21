@@ -11,7 +11,11 @@
       <span>#</span>
       <span>歌曲</span>
       <span>專輯</span>
-      <span>動作</span>
+      <span class="song-list__right song-list__right--head">
+        <span>時間</span>
+        <span>播放</span>
+        <span>動作</span>
+      </span>
     </div>
 
     @for (song of pagedSongs(); track song.id; let i = $index) {
@@ -25,23 +29,27 @@
           </div>
         </div>
         <span class="song-list__album">{{ song.album.name }}</span>
-        <div class="song-list__actions">
-          <button
-            class="song-list__favorite"
-            type="button"
-            (click)="addToFavorite(song.id, $event)"
-            [class.song-list__favorite--active]="isFavorite(song.id)"
-            title="加入最愛"
-          >
-            <mat-icon aria-hidden="true">favorite</mat-icon>
-          </button>
-          <button type="button" (click)="addToPlaylist(song.id, $event)" title="加入播放清單">
-            <mat-icon aria-hidden="true">playlist_add</mat-icon>
-          </button>
-          <button type="button" (click)="addToQueue(song, $event)" title="加入佇列">
-            <mat-icon aria-hidden="true">queue</mat-icon>
-          </button>
-        </div>
+        <span class="song-list__right">
+          <span class="song-list__meta">{{ song.length || '--:--' }}</span>
+          <span class="song-list__meta">{{ songPlayCount(song) }}</span>
+          <span class="song-list__actions">
+            <button
+              class="song-list__favorite"
+              type="button"
+              (click)="addToFavorite(song.id, $event)"
+              [class.song-list__favorite--active]="isFavorite(song.id)"
+              title="加入喜歡"
+            >
+              <mat-icon aria-hidden="true">favorite</mat-icon>
+            </button>
+            <button type="button" (click)="addToPlaylist(song.id, $event)" title="加入播放清單">
+              <mat-icon aria-hidden="true">playlist_add</mat-icon>
+            </button>
+            <button type="button" (click)="addToQueue(song, $event)" title="加入佇列">
+              <mat-icon aria-hidden="true">queue</mat-icon>
+            </button>
+          </span>
+        </span>
       </div>
     } @empty {
       <div class="song-list__empty">{{ emptyText }}</div>

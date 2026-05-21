@@ -2,17 +2,34 @@
 .home {
   display: block;
   height: 100%;
-  overflow-x: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   font-size: map-get($font-sizes, 'xl');
   color: $color-blue;
-  @include block(40px, 40px);
+  @include block(28px, 30px);
   box-shadow: none;
 
 }
 
-.home--search {
+.home.home--search {
+  height: auto;
+  min-height: 100%;
+  overflow: visible;
   padding: 0;
   border: none;
   background: transparent;
   box-shadow: none;
+}
+
+@media (max-width: 1280px) {
+  .home {
+    padding: 22px;
+    font-size: map-get($font-sizes, 'lg');
+  }
+}
+
+@media (max-width: 600px) {
+  .home {
+    padding: 16px;
+  }
 }

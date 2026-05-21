@@ -6,14 +6,13 @@
   }
   &__list {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, auto);
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 12px;
   }
   &__item {
     cursor: pointer;
     display: flex;
-    align-items: center;
+    align-items: stretch;
     border: 1px solid $color-ts-gray;
     gap: 24px;
 
@@ -23,12 +22,44 @@
 
     }
     @include recommand-btn;
+    min-height: 96px;
     &__image {
-      width: 80px;
-      height: 80px;
+      width: 96px;
+      height: auto;
+      flex: 0 0 auto;
+      object-fit: cover;
+    }
+    &__artist {
+      display: flex;
+      align-items: center;
+      min-width: 0;
+      padding-right: 12px;
     }
     &__title {
       font-size: map-get($font-sizes, 'base');
     }
+  }
+}
+
+@media (max-width: 1280px) {
+  .recommand {
+    &__list {
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    &__item {
+      gap: 16px;
+
+      &__image {
+        width: 84px;
+        height: auto;
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .recommand__list {
+    grid-template-columns: 1fr;
   }
 }

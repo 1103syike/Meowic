@@ -1,146 +1,218 @@
+@use 'sass:map';
 @use 'variables' as *;
+
 :host {
-  --album-cover: 340px;
-}
-.lyric {
-  width: 100%;
+  display: block;
   height: 100%;
-  overflow-y: auto;
-  @include block(40px, 40px);
+  min-width: 0;
+}
+
+.lyric {
+  position: relative;
+  height: 100%;
+  min-width: 0;
+  overflow: hidden;
+  color: $color-blue;
+  @include block(22px, 28px);
   box-shadow: none;
-  &__back-btn {
+}
+
+.lyric__topbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+  min-height: 32px;
+}
+
+.lyric__back-btn {
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  z-index: 2;
+  top: 22px;
+  left: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: $color-blue;
+  background: $color-white;
+  border: 2px solid $color-ts-blue;
+  border-radius: map-get($radius, 'circle');
+  box-shadow: 4px 4px 20px 0 rgba($color-green, 0.16);
+
+  &:hover {
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    background: none;
-    border: 2px solid $color-ts-blue;
-    box-shadow: 4px 4px 20px 0 rgba($color-green, 0.2);
-    border-radius: 100px;
+    color: $color-white;
+    background: $color-green;
+  }
+
+  mat-icon {
+    transform: translateX(2px);
+  }
+}
+
+.lyric__tabs {
+  display: inline-flex;
+  padding: 3px;
+  background: $color-ts-blue;
+  border-radius: map-get($radius, 'circle');
+}
+
+.lyric__tab {
+  min-width: 62px;
+  padding: 5px 11px;
+  color: rgba($color-blue, 0.72);
+  background: transparent;
+  border-radius: map-get($radius, 'circle');
+
+  &:hover {
+    cursor: pointer;
     color: $color-blue;
-    &:hover {
-      background: $color-green;
-      color: $color-white;
-    }
-    &__icon {
-      transform: translateX(20%);
-    }
   }
-  &__float {
-    margin: 0 auto;
-    margin-top: 20px;
-    width: fit-content;
-    display: inline-block;
+}
 
-    // animation: floating 4s ease-in-out infinite;
-  }
-  &__cover {
-    width: var(--album-cover);
-    border: 2px solid $color-blue;
+.lyric__tab--active {
+  color: $color-white;
+  background: $color-green;
+}
 
-    border-radius: 200px;
-    animation: spinning 20s linear infinite;
-  }
+.song-hero {
+  display: grid;
+  grid-template-columns: minmax(140px, 190px) minmax(0, 1fr);
+  align-items: end;
+  gap: 20px;
+  padding: 18px 26px;
+  background: linear-gradient(135deg, rgba($color-green, 0.2), rgba($color-blue, 0.08));
+  border-radius: map-get($radius, 'small');
+}
 
-  &__title {
-    color: $color-blue;
+.song-hero__cover {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: map-get($radius, 'small');
+  box-shadow: 0 16px 32px rgba($color-blue, 0.2);
+  transition: transform 0.25s ease;
+}
 
-    margin-top: 20px;
-    text-align: center;
+.song-hero__cover--playing {
+  transform: translateY(-3px);
+}
+
+.song-hero__info {
+  min-width: 0;
+
+  h1 {
+    margin: 4px 0 8px;
     font-size: map-get($font-sizes, '2xl');
+    line-height: 1.1;
+  }
+}
+
+.song-hero__eyebrow {
+  color: rgba($color-blue, 0.75);
+  font-size: map-get($font-sizes, 'sm');
+}
+
+.song-hero__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  color: rgba($color-blue, 0.82);
+
+  span {
+    padding: 5px 10px;
+    background: rgba($color-white, 0.76);
+    border-radius: map-get($radius, 'circle');
+  }
+}
+
+.song-detail {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.song-detail__item {
+  min-width: 0;
+  padding: 16px;
+  background: $color-ts-blue;
+  border-radius: map-get($radius, 'small');
+
+  span,
+  strong {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
-  &__artist {
-    color: $color-blue;
-    font-weight: normal;
-    margin-top: 6px;
-    text-align: center;
+  span {
+    color: rgba($color-blue, 0.7);
+    font-size: map-get($font-sizes, 'sm');
+  }
+
+  strong {
+    margin-top: 4px;
     font-size: map-get($font-sizes, 'base');
   }
-  &__header {
-    gap: 10px;
-    display: flex;
-    align-items: center;
-    font-size: map-get($font-sizes, 'xl');
-    color: $color-blue;
-
-    &__btn {
-      cursor: pointer;
-      color: $color-ts-gray;
-
-      background: none;
-
-      &--active {
-        color: $color-blue;
-      }
-
-      &--unactive {
-        color: $color-ts-gray;
-      }
-
-      &:hover {
-        color: $color-blue;
-      }
-    }
-  }
-  &__container {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-  &__item {
-    font-size: map-get($font-sizes, 'xl');
-    text-align: center;
-    color: $color-ts-gray;
-
-    &--prev,
-    &--next {
-      font-size: map-get($font-sizes, '2xl');
-
-      color: $color-ts-prev-lyric;
-    }
-
-    &--active {
-      font-size: map-get($font-sizes, '3xl');
-
-      color: $color-green;
-    }
-  }
 }
 
-// animation
-@keyframes spinning {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+.lyric-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 18px 22px;
+  max-height: 280px;
+  overflow-y: auto;
+  background: $color-ts-blue;
+  border-radius: map-get($radius, 'small');
 }
 
-@keyframes floating {
-  0% {
-    transform: translateY(0); /* 回到原位 */
-    animation-timing-function: ease-in; /* 下落時加速，更有真實感 */
-  }
-  50% {
-    transform: translateY(-20px); /* 向上飄移 20px */
-    animation-timing-function: ease-out; /* 上升到頂點時減速 */
-  }
-  100% {
-    transform: translateY(0); /* 回到原位 */
-    animation-timing-function: ease-in;
-  }
+.lyric-panel__line {
+  color: rgba($color-blue, 0.62);
+  font-size: map-get($font-sizes, 'base');
+  text-align: center;
+}
+
+.lyric-panel__line--active {
+  color: $color-green;
+  font-size: map-get($font-sizes, 'lg');
 }
 
 @media (max-width: 1280px) {
-  :host {
-    --album-cover: 180px;
-  }
-
   .lyric {
     padding: 20px;
+  }
+
+  .song-hero {
+    grid-template-columns: 136px minmax(0, 1fr);
+    padding: 16px 20px;
+  }
+}
+
+@media (max-width: 700px) {
+  .lyric {
+    padding: 18px;
+  }
+
+  .song-hero {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    padding: 18px;
+  }
+
+  .song-hero__cover {
+    max-width: 220px;
+  }
+
+  .song-hero__info h1 {
+    font-size: map-get($font-sizes, '2xl');
+  }
+
+  .song-detail {
+    grid-template-columns: 1fr;
   }
 }

@@ -29,6 +29,16 @@ export class SongList {
 
   @Input() title = '歌曲';
   @Input() emptyText = '找不到符合條件的歌曲';
+  @Input() sortByPlayCount = false;
+  @Input()
+  set songsInput(value: SongType[] | null | undefined) {
+    if (!value) {
+      return;
+    }
+
+    this.usesExternalSongs = true;
+    this.setSongs(value);
+  }
   @Input()
   set searchTerm(value: string | null | undefined) {
     this.query.set(value ?? '');
@@ -36,13 +46,18 @@ export class SongList {
   }
 
   public songs = signal<SongType[]>([]);
+  public playCounts = signal<Map<number, number>>(new Map());
   public favoriteSongIds = signal<Set<number>>(new Set());
   public query = signal('');
   public currentPage = signal(1);
   public pageSize = 10;
+  private usesExternalSongs = false;
 
   ngOnInit() {
-    this.loadSongs();
+    if (!this.usesExternalSongs) {
+      this.loadSongs();
+    }
+    this.loadPlayCounts();
     this.loadFavoriteSongs();
   }
 
@@ -179,11 +194,53 @@ export class SongList {
     return song.imgPath || song.album?.imgPath || './mock/unnamed.png';
   }
 
+  public songPlayCount(song: SongType): number {
+    return this.playCounts().get(song.id) ?? song.playCount ?? 0;
+  }
+
   private loadSongs(): void {
     this.api.getAllSong().subscribe({
-      next: (songs) => this.songs.set(songs),
+      next: (songs) => {
+        this.setSongs(songs);
+      },
       error: (err) => console.error('取得歌曲失敗：', err),
     });
+  }
+
+  private setSongs(songs: SongType[]): void {
+    const nextSongs = this.sortByPlayCount
+      ? [...songs].sort((a, b) => (b.playCount ?? 0) - (a.playCount ?? 0))
+      : songs;
+
+    this.songs.set(nextSongs);
+    this.checkAudioLoaded(nextSongs);
+  }
+
+  private checkAudioLoaded(songs: SongType[]): void {
+    songs.forEach((song) => {
+      if (song.length && song.length !== '--:--') {
+        return;
+      }
+
+      const audio = new Audio(song.audioPath);
+
+      audio.onloadedmetadata = () => {
+        song.length = this.formatTime(audio.duration);
+        this.songs.set([...this.songs()]);
+      };
+
+      audio.onerror = () => {
+        song.length = '--:--';
+        this.songs.set([...this.songs()]);
+      };
+    });
+  }
+
+  private formatTime(time: number): string {
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+
+    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
   }
 
   private async loadFavoriteSongs(): Promise<void> {
@@ -194,6 +251,17 @@ export class SongList {
     }
 
     this.favoriteSongIds.set(await this.favoritePlaylist.getFavoriteSongIds(user.id));
+  }
+
+  private loadPlayCounts(): void {
+    this.api.getAllSongPlays().subscribe({
+      next: (plays) => {
+        const counts = new Map<number, number>();
+        plays.forEach((play) => counts.set(play.songId, (counts.get(play.songId) ?? 0) + 1));
+        this.playCounts.set(counts);
+      },
+      error: (err) => console.error('取得播放紀錄失敗：', err),
+    });
   }
 
   private async getCurrentUser(): Promise<UserType | null> {

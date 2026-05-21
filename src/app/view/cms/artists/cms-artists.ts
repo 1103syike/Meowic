@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 import { ApiService, ArtistType } from '../../../@service/api.service';
@@ -13,6 +13,7 @@ export class CmsArtists {
   private api: ApiService = inject(ApiService);
 
   public artists = signal<ArtistType[]>([]);
+  public imagePreview = signal('');
   public selectedArtist = signal<ArtistType | null>(null);
   public isSaving = signal(false);
   public message = signal('');
@@ -24,22 +25,46 @@ export class CmsArtists {
 
   private imageFile: File | null = null;
 
+  public selectedArtistImage = computed(() => {
+    const artist = this.selectedArtist();
+    return this.imagePreview() || artist?.imgPath || './mock/unnamed.png';
+  });
+
+  public hasPendingChanges(): boolean {
+    const artist = this.selectedArtist();
+    if (!artist) {
+      return false;
+    }
+
+    return (
+      !!this.imagePreview() ||
+      this.editForm.name !== artist.name ||
+      this.editForm.description !== artist.description
+    );
+  }
+
   ngOnInit() {
     this.loadArtists();
   }
 
   public selectArtist(artist: ArtistType): void {
     this.selectedArtist.set(artist);
-    this.message.set('');
-    this.imageFile = null;
-    this.editForm = {
-      name: artist.name,
-      description: artist.description,
-    };
+    this.resetEditor(artist);
   }
 
-  public setImageFile(event: Event): void {
-    this.imageFile = (event.target as HTMLInputElement).files?.[0] ?? null;
+  public async setImageFile(event: Event): Promise<void> {
+    const file = (event.target as HTMLInputElement).files?.[0] ?? null;
+    this.imageFile = file;
+    this.imagePreview.set(file ? await this.readFileAsDataUrl(file) : '');
+    this.message.set(file ? '圖片已預覽，按下儲存後才會更新' : '');
+  }
+
+  public cancelChanges(): void {
+    const artist = this.selectedArtist();
+    if (artist) {
+      this.resetEditor(artist);
+      this.message.set('已取消未儲存變更');
+    }
   }
 
   public async saveArtist(): Promise<void> {
@@ -69,6 +94,16 @@ export class CmsArtists {
     } finally {
       this.isSaving.set(false);
     }
+  }
+
+  private resetEditor(artist: ArtistType): void {
+    this.message.set('');
+    this.imageFile = null;
+    this.imagePreview.set('');
+    this.editForm = {
+      name: artist.name,
+      description: artist.description,
+    };
   }
 
   private async loadArtists(): Promise<void> {

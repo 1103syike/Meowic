@@ -1,58 +1,70 @@
 <section class="lyric">
-  <header class="lyric__header">
-    <button class="lyric__back-btn">
-      <mat-icon
-        aria-hidden="false"
-        aria-label="返回首頁"
-        class="lyric__back-btn__icon"
-        [routerLink]="backUrl()"
-        >arrow_back_ios</mat-icon
+  <button class="lyric__back-btn" type="button" [routerLink]="backUrl()" aria-label="返回">
+    <mat-icon aria-hidden="true">arrow_back_ios</mat-icon>
+  </button>
+
+  <header class="lyric__topbar">
+    <div class="lyric__tabs">
+      <button
+        type="button"
+        class="lyric__tab"
+        [class.lyric__tab--active]="isShowCover()"
+        (click)="showCover(true)"
       >
-    </button>
-    <button
-      class="lyric__header__btn"
-      [class.lyric__header__btn--active]="!!isShowCover()"
-      (click)="showCover(true)"
-    >
-      封面
-    </button>
-    |
-    <button
-      class="lyric__header__btn"
-      [class.lyric__header__btn--active]="!isShowCover()"
-      (click)="showCover(false)"
-    >
-      歌詞
-    </button>
+        封面
+      </button>
+      <button
+        type="button"
+        class="lyric__tab"
+        [class.lyric__tab--active]="!isShowCover()"
+        (click)="showCover(false)"
+      >
+        歌詞
+      </button>
+    </div>
   </header>
-  @if (!!isShowCover()) {
-    <main class="lyric__container">
-      @if (this.passedCurrentSong(); as song) {
-        <!-- 確保有專輯資料才渲染圖片 -->
-        @if (song.album!.imgPath) {
-          <div class="lyric__float">
-            <img class="lyric__cover" [src]="song.album.imgPath" alt="專輯封面" />
-          </div>
-        }
-      }
-      <div class="lyric__title">{{ this.passedCurrentSong()?.name }}</div>
-      <div class="lyric__artist">{{ this.passedCurrentSong()?.artist?.name }}</div>
-    </main>
-  } @else {
-    <main class="lyric__container">
-      <span class="lyric__item">第一段歌詞</span>
-      <span class="lyric__item">第二段歌詞</span>
-      <span class="lyric__item">第二段歌詞</span>
-      <span class="lyric__item">第二段歌詞</span>
-      <span class="lyric__item">第二段歌詞</span>
-      <span class="lyric__item lyric__item--prev">第三段歌詞</span>
-      <span class="lyric__item lyric__item--active">第四段歌詞</span>
-      <span class="lyric__item lyric__item--next">第五段歌詞</span>
-      <span class="lyric__item">第六段歌詞</span>
-      <span class="lyric__item">第七段歌詞</span>
-      <span class="lyric__item">第七段歌詞</span>
-      <span class="lyric__item">第七段歌詞</span>
-      <span class="lyric__item">第七段歌詞</span>
-    </main>
+
+  @if (passedCurrentSong(); as song) {
+    <section class="song-hero">
+      <img
+        class="song-hero__cover"
+        [class.song-hero__cover--playing]="musicPlayer.getIsPlaying()"
+        [src]="song.imgPath || song.album.imgPath"
+        alt=""
+      />
+
+      <div class="song-hero__info">
+        <span class="song-hero__eyebrow">正在播放</span>
+        <h1>{{ song.name }}</h1>
+        <div class="song-hero__meta">
+          <span>{{ song.artist.name }}</span>
+          <span>{{ song.album.name }}</span>
+          <span>{{ song.length || '--:--' }}</span>
+        </div>
+      </div>
+    </section>
+
+    @if (isShowCover()) {
+      <section class="song-detail">
+        <div class="song-detail__item">
+          <span>專輯</span>
+          <strong>{{ song.album.name }}</strong>
+        </div>
+        <div class="song-detail__item">
+          <span>藝人</span>
+          <strong>{{ song.artist.name }}</strong>
+        </div>
+        <div class="song-detail__item">
+          <span>喜歡</span>
+          <strong>{{ song.like || 0 }}</strong>
+        </div>
+      </section>
+    } @else {
+      <section class="lyric-panel">
+        <span class="lyric-panel__line">這首歌目前還沒有同步歌詞</span>
+        <span class="lyric-panel__line lyric-panel__line--active">播放時可以先欣賞封面與歌曲資訊</span>
+        <span class="lyric-panel__line">之後可在這裡接上正式歌詞資料</span>
+      </section>
+    }
   }
 </section>

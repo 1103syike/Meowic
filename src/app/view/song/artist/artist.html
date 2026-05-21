@@ -1,8 +1,25 @@
-<main class="artist">
-  <header class="artist__header">藝人</header>
-  <img class="artist__image" [src]="this.currentSong()?.artist?.imgPath" alt="" />
-  <div class="artist__name">{{this.currentSong()?.artist?.name}}</div>
-  <div class="artist__description">
-    {{this.currentSong()?.artist?.description}}
-  </div>
-</main>
+<aside class="artist">
+  @if (passedCurrentSong(); as song) {
+    <header class="artist__header">
+      <span>關於藝人</span>
+      <a class="artist__link" [routerLink]="['/artist', song.artist.id]" aria-label="前往藝人頁">
+        <mat-icon aria-hidden="true">chevron_right</mat-icon>
+      </a>
+    </header>
+
+    <a class="artist__profile" [routerLink]="['/artist', song.artist.id]">
+      <img class="artist__image" [src]="song.artist.imgPath || './mock/unnamed.png'" alt="" />
+      <span class="artist__identity">
+        <strong>{{ song.artist.name }}</strong>
+        <span>藝人</span>
+      </span>
+    </a>
+
+    <p class="artist__description">{{ song.artist.description }}</p>
+
+    <section class="artist__album">
+      <span>收錄專輯</span>
+      <strong>{{ song.album.name }}</strong>
+    </section>
+  }
+</aside>

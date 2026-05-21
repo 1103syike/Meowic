@@ -3,6 +3,7 @@ import { SongType } from '../../../@service/api.service';
 import { MatIcon } from "@angular/material/icon";
 import { RouterLink } from '@angular/router';
 import { NavigationContextService } from '../../../@service/navigation-context.service';
+import { MusicPlayerService } from '../../../@service/music-player.service';
 
 @Component({
   selector: 'app-lyric',
@@ -13,6 +14,7 @@ import { NavigationContextService } from '../../../@service/navigation-context.s
 export class Lyric {
   @Input() passedCurrentSong = signal<SongType | null>(null);
   private navigationContext: NavigationContextService = inject(NavigationContextService);
+  public musicPlayer: MusicPlayerService = inject(MusicPlayerService);
   /////////////////////////////////////////////
   public isShowCover = signal<boolean>(true);
   /////////////////////////////////////////////

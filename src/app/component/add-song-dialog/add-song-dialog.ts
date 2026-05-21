@@ -113,6 +113,7 @@ export class AddSongDialog {
           artistId: artist.id,
           albumId: album.id,
           like: 0,
+          playCount: 0,
           audioPath,
           ...(imgPath ? { imgPath } : {}),
         }),

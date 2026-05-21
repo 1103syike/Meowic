@@ -1,4 +1,9 @@
 import { Routes } from '@angular/router';
+import {
+  cmsCanActivateChildGuard,
+  cmsCanActivateGuard,
+  cmsCanMatchGuard,
+} from './@guard/cms.guard';
 
 export const routes: Routes = [
   {
@@ -27,6 +32,11 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'artist/:id',
+        data: { pageName: '藝人' },
+        loadComponent: () => import('./view/artist/artist').then((m) => m.Artist),
+      },
+      {
         path: 'song/:id',
         data: { pageName: '歌曲' },
         loadComponent: () => import('./view/song/song').then((m) => m.Song),
@@ -37,8 +47,16 @@ export const routes: Routes = [
         loadComponent: () => import('./view/songs/songs').then((m) => m.Songs),
       },
       {
+        path: 'popular',
+        data: { pageName: '熱門歌曲' },
+        loadComponent: () => import('./view/popular/popular').then((m) => m.Popular),
+      },
+      {
         path: 'cms',
         data: { pageName: 'CMS' },
+        canMatch: [cmsCanMatchGuard],
+        canActivate: [cmsCanActivateGuard],
+        canActivateChild: [cmsCanActivateChildGuard],
         loadComponent: () => import('./view/cms/cms').then((m) => m.Cms),
         children: [
           {
@@ -59,6 +77,10 @@ export const routes: Routes = [
             path: 'albums',
             loadComponent: () =>
               import('./view/cms/albums/cms-albums').then((m) => m.CmsAlbums),
+          },
+          {
+            path: 'users',
+            loadComponent: () => import('./view/cms/users/cms-users').then((m) => m.CmsUsers),
           },
         ],
       },

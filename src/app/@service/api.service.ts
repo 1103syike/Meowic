@@ -20,6 +20,37 @@ export class ApiService {
     return this.http.get<ArtistType[]>('http://localhost:3000/artists');
   }
 
+  getArtistByArtistId(id: string): Observable<ArtistType[]> {
+    const params = { id: id };
+    return this.http.get<ArtistType[]>('http://localhost:3000/artists', {
+      params,
+    });
+  }
+
+  getAllUsers(): Observable<UserType[]> {
+    return this.http.get<UserType[]>('http://localhost:3000/users');
+  }
+
+  createUser(user: CreateUserType): Observable<UserType> {
+    return this.http.post<UserType>('http://localhost:3000/users', user);
+  }
+
+  updateUser(id: number, user: Partial<UserType>): Observable<UserType> {
+    return this.http.patch<UserType>(`http://localhost:3000/users/${id}`, user);
+  }
+
+  deleteUser(id: number): Observable<void> {
+    return this.http.delete<void>(`http://localhost:3000/users/${id}`);
+  }
+
+  getAllSongPlays(): Observable<SongPlayType[]> {
+    return this.http.get<SongPlayType[]>('http://localhost:3000/songPlays');
+  }
+
+  createSongPlay(play: CreateSongPlayType): Observable<SongPlayType> {
+    return this.http.post<SongPlayType>('http://localhost:3000/songPlays', play);
+  }
+
   createArtist(name: string): Observable<ArtistType> {
     const body = {
       name,
@@ -64,6 +95,20 @@ export class ApiService {
 
   getAllSongByAlbumId(id: string): Observable<SongType[]> {
     const params = { albumId: id };
+    return this.http.get<SongType[]>('http://localhost:3000/songs?_expand=album&_expand=artist', {
+      params,
+    });
+  }
+
+  getAllAlbumByArtistId(id: string): Observable<AlbumType[]> {
+    const params = { artistId: id };
+    return this.http.get<AlbumType[]>('http://localhost:3000/albums?_expand=artist', {
+      params,
+    });
+  }
+
+  getAllSongByArtistId(id: string): Observable<SongType[]> {
+    const params = { artistId: id };
     return this.http.get<SongType[]>('http://localhost:3000/songs?_expand=album&_expand=artist', {
       params,
     });
@@ -154,6 +199,27 @@ export interface CreateSongType {
   like: number;
   audioPath: string;
   imgPath?: string;
+  playCount?: number;
+}
+
+export interface CreateUserType {
+  name: string;
+  email: string;
+  password: string;
+  role: string;
+  canAccessCms: boolean;
+}
+
+export interface CreateSongPlayType {
+  songId: number;
+  userId?: number | null;
+  playedAt: string;
+  duration: number;
+  listenedSeconds: number;
+}
+
+export interface SongPlayType extends CreateSongPlayType {
+  id: number;
 }
 
 export interface UploadResponse {
@@ -171,6 +237,7 @@ export interface SongType {
   artist: ArtistType;
   length: string;
   like: number;
+  playCount?: number;
   audioPath: string;
 }
 export interface AlbumType {
@@ -195,6 +262,10 @@ export interface ArtistType {
 export interface UserType {
   id: number;
   name: string;
+  email: string;
+  password: string;
+  role?: string;
+  canAccessCms?: boolean;
 }
 
 export interface PlaylistUsersType {

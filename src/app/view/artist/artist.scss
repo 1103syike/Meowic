@@ -1,0 +1,219 @@
+@use 'sass:map';
+@use 'variables' as *;
+
+:host {
+  display: block;
+  height: 100%;
+  min-width: 0;
+}
+
+.artist-page {
+  height: 100%;
+  overflow-y: auto;
+  color: $color-blue;
+  @include block(28px, 30px);
+  box-shadow: none;
+}
+
+.artist-page__back {
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  color: $color-blue;
+  background: $color-white;
+  border: 2px solid $color-ts-blue;
+  border-radius: map-get($radius, 'circle');
+
+  &:hover {
+    cursor: pointer;
+    color: $color-white;
+    background: $color-green;
+  }
+
+  mat-icon {
+    transform: translateX(2px);
+  }
+}
+
+.artist-hero {
+  display: grid;
+  grid-template-columns: 124px minmax(0, 1fr);
+  gap: 22px;
+  align-items: center;
+  margin-bottom: 24px;
+  padding: 18px;
+  background: $color-ts-blue;
+  border-radius: map-get($radius, 'small');
+}
+
+.artist-hero__image {
+  width: 124px;
+  height: 124px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.artist-hero__info {
+  min-width: 0;
+
+  h1 {
+    margin: 2px 0 6px;
+    font-size: map-get($font-sizes, '2xl');
+  }
+
+  p {
+    max-width: 920px;
+    max-height: 3em;
+    margin: 0 0 10px;
+    overflow: hidden;
+    color: rgba($color-blue, 0.84);
+    font-size: map-get($font-sizes, 'sm');
+  }
+}
+
+.artist-hero__type,
+.artist-hero__stats {
+  font-size: map-get($font-sizes, 'sm');
+}
+
+.artist-hero__stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  span {
+    padding: 4px 10px;
+    background: rgba($color-white, 0.72);
+    border-radius: map-get($radius, 'circle');
+  }
+}
+
+.artist-section {
+  margin-top: 24px;
+}
+
+.artist-section--songs {
+  margin-top: 0;
+}
+
+.artist-section__header {
+  margin-bottom: 12px;
+
+  h2 {
+    margin: 0;
+    font-size: map-get($font-sizes, 'xl');
+  }
+}
+
+.album-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+}
+
+.album-card {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+  min-height: 92px;
+  padding: 10px;
+  color: $color-blue;
+  text-decoration: none;
+  background: $color-ts-blue;
+  border-radius: map-get($radius, 'small');
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+
+  &:hover {
+    color: $color-white;
+    background: $color-ts-green;
+  }
+}
+
+.album-card__image {
+  width: 92px;
+  height: 92px;
+  object-fit: cover;
+  border-radius: map-get($radius, 'small');
+}
+
+.album-card__content {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.album-card__title,
+.album-card__meta {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.album-card__meta {
+  color: rgba($color-blue, 0.76);
+  font-size: map-get($font-sizes, 'sm');
+}
+
+.album-card:hover .album-card__meta {
+  color: $color-white;
+}
+
+.artist-section__empty,
+.artist-page__empty {
+  padding: 22px;
+  color: rgba($color-blue, 0.76);
+  background: $color-ts-blue;
+  border-radius: map-get($radius, 'small');
+}
+
+@media (max-width: 1280px) {
+  .artist-page {
+    padding: 22px;
+  }
+
+  .artist-hero {
+    grid-template-columns: 108px minmax(0, 1fr);
+  }
+
+  .artist-hero__image {
+    width: 108px;
+    height: 108px;
+  }
+}
+
+@media (max-width: 700px) {
+  .artist-page {
+    padding: 16px;
+  }
+
+  .artist-hero {
+    grid-template-columns: 82px minmax(0, 1fr);
+    gap: 14px;
+    padding: 14px;
+  }
+
+  .artist-hero__image {
+    width: 82px;
+    height: 82px;
+  }
+
+  .artist-hero__info h1 {
+    font-size: map-get($font-sizes, 'xl');
+  }
+
+  .artist-hero__info p {
+    display: none;
+  }
+
+  .album-grid {
+    grid-template-columns: 1fr;
+  }
+}

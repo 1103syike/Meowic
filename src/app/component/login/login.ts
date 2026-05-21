@@ -48,6 +48,7 @@ export class Login {
         this.showAlert('歡迎', 'success', '登入成功');
         this.closingLoginDialog();
         this.auth.handleLoginSuccess(res.accessToken);
+        this.auth.getUserInfo();
       },
       error: () => {
         this.showAlert('錯誤', 'error', '帳號或密碼錯誤');

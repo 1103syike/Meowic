@@ -1,23 +1,14 @@
-import { Component, inject, signal } from '@angular/core';
-import { MusicPlayerService } from '../../../@service/music-player.service';
+import { Component, Input, signal } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { RouterLink } from '@angular/router';
 import { SongType } from '../../../@service/api.service';
 
 @Component({
   selector: 'app-artist',
-  imports: [],
+  imports: [MatIconModule, RouterLink],
   templateUrl: './artist.html',
   styleUrl: './artist.scss',
 })
 export class Artist {
-  /////////////////////////////////////////////
-  private player: MusicPlayerService = inject(MusicPlayerService);
-  /////////////////////////////////////////////
-  public currentSong = signal<SongType | null>(null);
-  /////////////////////////////////////////////
-
-  ngOnInit() {
-    this.player.getPlayer(localStorage.getItem('songId')!).subscribe((res) => {
-      this.currentSong.set(res[0]);
-    });
-  }
+  @Input() passedCurrentSong = signal<SongType | null>(null);
 }

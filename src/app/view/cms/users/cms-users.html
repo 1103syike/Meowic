@@ -1,0 +1,113 @@
+<section class="cms-page">
+  <header class="cms-page__header">
+    <div>
+      <span>Account Center</span>
+      <h2>使用者管理</h2>
+      <p>新增、修改、刪除帳號，並調整角色與 CMS 進入權限。</p>
+    </div>
+    <button class="cms-page__primary-btn" type="button" (click)="startCreateUser()">新增使用者</button>
+  </header>
+
+  <div class="cms-page__grid">
+    <section class="cms-panel">
+      <div class="cms-panel__head">
+        <h3>帳號列表</h3>
+        <span>{{ users().length }} 個帳號</span>
+      </div>
+
+      <div class="cms-user-table">
+        <div class="cms-user-table__row cms-user-table__row--head">
+          <span>使用者</span>
+          <span>帳號</span>
+          <span>密碼</span>
+          <span>權限</span>
+        </div>
+
+        @for (user of users(); track user.id) {
+          <button
+            class="cms-user-table__row cms-user-table__row--button"
+            type="button"
+            [class.cms-user-table__row--active]="selectedUser()?.id === user.id"
+            (click)="selectUser(user)"
+          >
+            <strong>{{ user.name }}</strong>
+            <span>{{ user.email }}</span>
+            <code>{{ user.password }}</code>
+            <span class="cms-role" [class.cms-role--admin]="user.canAccessCms || user.role === 'admin'">
+              {{ user.canAccessCms || user.role === 'admin' ? 'CMS' : '一般' }}
+            </span>
+          </button>
+        } @empty {
+          <div class="cms-empty">目前沒有帳號</div>
+        }
+      </div>
+    </section>
+
+    <aside class="cms-panel cms-editor">
+      <div class="cms-panel__head">
+        <h3>{{ isCreating() ? '新增帳號' : '編輯帳號' }}</h3>
+        @if (selectedUser()) {
+          <span>#{{ selectedUser()?.id }}</span>
+        }
+      </div>
+
+      @if (selectedUser() || isCreating()) {
+        <label class="cms-field">
+          <span>名稱</span>
+          <input name="userName" [(ngModel)]="editForm.name" />
+        </label>
+
+        <label class="cms-field">
+          <span>帳號</span>
+          <input name="userEmail" [(ngModel)]="editForm.email" />
+        </label>
+
+        <label class="cms-field">
+          <span>密碼</span>
+          <input name="userPassword" [(ngModel)]="editForm.password" />
+        </label>
+
+        <label class="cms-field">
+          <span>角色</span>
+          <select name="userRole" [(ngModel)]="editForm.role">
+            <option value="admin">admin</option>
+            <option value="editor">editor</option>
+            <option value="viewer">viewer</option>
+            <option value="user">user</option>
+          </select>
+        </label>
+
+        <label class="cms-switch">
+          <input type="checkbox" name="canAccessCms" [(ngModel)]="editForm.canAccessCms" />
+          <span>允許進入 CMS</span>
+        </label>
+
+        @if (message()) {
+          <p class="cms-editor__message">{{ message() }}</p>
+        }
+
+        <div class="cms-editor__actions">
+          <button class="cms-page__secondary-btn" type="button" [disabled]="!hasPendingChanges()" (click)="cancelChanges()">
+            取消變更
+          </button>
+          <button class="cms-page__primary-btn" type="button" [disabled]="isSaving()" (click)="saveUser()">
+            {{ isSaving() ? '儲存中' : isCreating() ? '新增帳號' : '儲存帳號' }}
+          </button>
+        </div>
+
+        @if (!isCreating()) {
+          <button
+            class="cms-user-delete"
+            type="button"
+            [disabled]="!canDeleteUser(selectedUser()) || isSaving()"
+            (click)="deleteUser()"
+          >
+            刪除使用者
+          </button>
+        }
+      } @else {
+        <div class="cms-empty">請先選擇一個帳號</div>
+      }
+    </aside>
+  </div>
+</section>

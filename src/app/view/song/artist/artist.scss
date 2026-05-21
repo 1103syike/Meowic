@@ -1,45 +1,127 @@
+@use 'sass:map';
 @use 'variables' as *;
 
+:host {
+  display: block;
+  min-height: 100%;
+  min-width: 0;
+}
+
 .artist {
-  width: 400px;
-  height: 100%;
+  min-height: 100%;
+  min-width: 0;
   overflow-y: auto;
-  overflow: auto;
-  @include block(40px, 40px);
+  color: $color-blue;
+  @include block(24px, 24px);
   box-shadow: none;
+}
 
-  &__header {
-    color: $color-blue;
-    font-size: map-get($font-sizes, 'xl');
+.artist__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+  font-size: map-get($font-sizes, 'xl');
+}
+
+.artist__link {
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: $color-blue;
+  text-decoration: none;
+  background: $color-ts-blue;
+  border-radius: map-get($radius, 'circle');
+
+  &:hover {
+    color: $color-white;
+    background: $color-green;
+  }
+}
+
+.artist__profile {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+  color: $color-blue;
+  text-decoration: none;
+}
+
+.artist__image {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.artist__identity {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+
+  strong,
+  span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
-  &__image {
+  span {
+    color: rgba($color-blue, 0.72);
+    font-size: map-get($font-sizes, 'sm');
+  }
+}
+
+.artist__description {
+  display: -webkit-box;
+  margin: 18px 0 0;
+  overflow: hidden;
+  color: rgba($color-blue, 0.86);
+  font-size: map-get($font-sizes, 'base');
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 8;
+}
+
+.artist__album {
+  margin-top: 20px;
+  padding: 14px;
+  background: $color-ts-blue;
+  border-radius: map-get($radius, 'small');
+
+  span,
+  strong {
     display: block;
-
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-
-    object-fit: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    margin: 16px auto;
-    width: 150px;
-    height: 150px;
-    border-radius: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
-  &__name {
-    text-align: center;
-    color: $color-blue;
-    font-size: map-get($font-sizes, 'base');
-    margin-bottom: 20px;
+  span {
+    color: rgba($color-blue, 0.72);
+    font-size: map-get($font-sizes, 'sm');
   }
 
-  &__description {
-    color: $color-blue;
+  strong {
+    margin-top: 4px;
+  }
+}
 
-    font-size: map-get($font-sizes, 'lg');
+@media (max-width: 1280px) {
+  .artist {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 900px) {
+  .artist {
+    height: auto;
+  }
+
+  .artist__description {
+    -webkit-line-clamp: 4;
   }
 }

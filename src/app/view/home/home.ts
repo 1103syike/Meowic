@@ -1,13 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { SearchStateService } from '../../@service/search-state.service';
-import { SongList } from '../../component/song-list/song-list';
+import { SearchResults } from '../../component/search-results/search-results';
 import { Celebrity } from './celebrity/celebrity';
 import { Popular } from './popular/popular';
 import { Recommand } from './recommand/recommand';
 
 @Component({
   selector: 'app-home',
-  imports: [Recommand, Popular, Celebrity, SongList],
+  imports: [Recommand, Popular, Celebrity, SearchResults],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
