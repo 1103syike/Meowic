@@ -1,13 +1,14 @@
 import { Component, Input, inject, signal } from '@angular/core';
-import { SongType } from '../../../@service/api.service';
-import { MatIcon } from "@angular/material/icon";
+import { formatDisplayDate, SongType } from '../../../@service/api.service';
+import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { NavigationContextService } from '../../../@service/navigation-context.service';
 import { MusicPlayerService } from '../../../@service/music-player.service';
 
 @Component({
   selector: 'app-lyric',
-  imports: [MatIcon,RouterLink],
+  standalone: true,
+  imports: [MatIconModule, RouterLink],
   templateUrl: './lyric.html',
   styleUrl: './lyric.scss',
 })
@@ -29,5 +30,13 @@ export class Lyric {
   public backUrl(): string {
     const albumId = this.passedCurrentSong()?.album?.id;
     return this.navigationContext.getSongBackUrl(albumId ? `/album/${albumId}` : '/');
+  }
+
+  public releaseDate(song: SongType): string {
+    return formatDisplayDate(song.releaseDate || song.album?.releaseDate);
+  }
+
+  public uploadedAt(song: SongType): string {
+    return formatDisplayDate(song.uploadedAt);
   }
 }

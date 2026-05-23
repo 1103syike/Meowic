@@ -5,7 +5,8 @@ import { MatSliderModule } from '@angular/material/slider';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { filter } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ApiService, SongType } from '../../@service/api.service';
+import Swal from 'sweetalert2';
+import { ApiService, availabilityMessage, isSongPlayable, SongType } from '../../@service/api.service';
 import { AuthService } from '../../@service/auth.service';
 import { MusicPlayerService } from '../../@service/music-player.service';
 import { PlaybackQueueService } from '../../@service/playback-queue.service';
@@ -235,6 +236,14 @@ export class Player {
     this.player.getPlayer(songId).subscribe((res) => {
       this.currentSong.set(res[0]);
       if (res[0]) {
+        if (!isSongPlayable(res[0])) {
+          this.musicPlayer.pause();
+          this.musicPlayer.removeAttribute('src');
+          this.musicPlayer.load();
+          Swal.fire('無法播放', `這首歌${availabilityMessage(res[0])}。`, 'info');
+          return;
+        }
+
         if (this.trackedSongId !== res[0].id) {
           this.trackedSongId = res[0].id;
           this.countedForCurrentPlay = false;

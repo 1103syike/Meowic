@@ -3,7 +3,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
-import { ApiService, SongType, UserType } from '../../@service/api.service';
+import {
+  ApiService,
+  availabilityMessage,
+  isSongPlayable,
+  SongType,
+  UserType,
+} from '../../@service/api.service';
 import { AuthService } from '../../@service/auth.service';
 import { FavoritePlaylistService } from '../../@service/favorite-playlist.service';
 import { MusicPlayerService } from '../../@service/music-player.service';
@@ -32,10 +38,7 @@ export class SongList {
   @Input() sortByPlayCount = false;
   @Input()
   set songsInput(value: SongType[] | null | undefined) {
-    if (!value) {
-      return;
-    }
-
+    if (!value) return;
     this.usesExternalSongs = true;
     this.setSongs(value);
   }
@@ -63,9 +66,7 @@ export class SongList {
 
   public filteredSongs(): SongType[] {
     const keyword = this.query().trim().toLowerCase();
-    if (!keyword) {
-      return this.songs();
-    }
+    if (!keyword) return this.songs();
 
     return this.songs().filter((song) => {
       const fields = [song.name, song.artist?.name, song.album?.name];
@@ -83,14 +84,16 @@ export class SongList {
   }
 
   public setPage(page: number): void {
-    if (page < 1 || page > this.totalPages()) {
-      return;
-    }
-
+    if (page < 1 || page > this.totalPages()) return;
     this.currentPage.set(page);
   }
 
   public playSong(song: SongType): void {
+    if (!isSongPlayable(song)) {
+      this.showAlert('無法播放', `這首歌曲${availabilityMessage(song)}。`, 'info');
+      return;
+    }
+
     this.playbackQueue.setQueue(
       {
         title: this.title,
@@ -117,7 +120,6 @@ export class SongList {
 
   public async addToFavorite(songId: number, event: MouseEvent): Promise<void> {
     event.stopPropagation();
-
     const currentUser = await this.getCurrentUser();
     if (!currentUser) {
       this.showAlert('請先登入', '登入後才能把歌曲加入最愛。', 'warning');
@@ -130,7 +132,6 @@ export class SongList {
 
   public async addToPlaylist(songId: number, event: MouseEvent): Promise<void> {
     event.stopPropagation();
-
     const currentUser = await this.getCurrentUser();
     if (!currentUser) {
       this.showAlert('請先登入', '登入後才能把歌曲加入播放清單。', 'warning');
@@ -186,6 +187,11 @@ export class SongList {
 
   public addToQueue(song: SongType, event: MouseEvent): void {
     event.stopPropagation();
+    if (!isSongPlayable(song)) {
+      this.showAlert('無法加入佇列', `這首歌曲${availabilityMessage(song)}。`, 'info');
+      return;
+    }
+
     this.playbackQueue.addToQueue(song, this.filteredSongs());
     this.showAlert('已加入佇列', '歌曲已加入播放佇列。', 'success', 900);
   }
@@ -200,9 +206,7 @@ export class SongList {
 
   private loadSongs(): void {
     this.api.getAllSong().subscribe({
-      next: (songs) => {
-        this.setSongs(songs);
-      },
+      next: (songs) => this.setSongs(songs),
       error: (err) => console.error('取得歌曲失敗：', err),
     });
   }
@@ -218,10 +222,7 @@ export class SongList {
 
   private checkAudioLoaded(songs: SongType[]): void {
     songs.forEach((song) => {
-      if (song.length && song.length !== '--:--') {
-        return;
-      }
-
+      if (song.length && song.length !== '--:--') return;
       const audio = new Audio(song.audioPath);
 
       audio.onloadedmetadata = () => {
@@ -239,18 +240,12 @@ export class SongList {
   private formatTime(time: number): string {
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
-
     return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
   }
 
   private async loadFavoriteSongs(): Promise<void> {
     const user = await this.getCurrentUser();
-    if (!user) {
-      this.favoriteSongIds.set(new Set());
-      return;
-    }
-
-    this.favoriteSongIds.set(await this.favoritePlaylist.getFavoriteSongIds(user.id));
+    this.favoriteSongIds.set(user ? await this.favoritePlaylist.getFavoriteSongIds(user.id) : new Set());
   }
 
   private loadPlayCounts(): void {
@@ -266,14 +261,10 @@ export class SongList {
 
   private async getCurrentUser(): Promise<UserType | null> {
     const user = this.auth.user();
-    if (user) {
-      return user;
-    }
+    if (user) return user;
 
     const userRequest = this.auth.getUserInfo();
-    if (!userRequest) {
-      return null;
-    }
+    if (!userRequest) return null;
 
     const users = await firstValueFrom(userRequest);
     return users[0] ?? null;

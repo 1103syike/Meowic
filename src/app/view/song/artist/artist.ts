@@ -5,6 +5,7 @@ import { SongType } from '../../../@service/api.service';
 
 @Component({
   selector: 'app-artist',
+  standalone: true,
   imports: [MatIconModule, RouterLink],
   templateUrl: './artist.html',
   styleUrl: './artist.scss',

@@ -23,7 +23,7 @@
       "albumId": 1,
       "like": 42,
       "audioPath": "assets/audio/audio-1.mp3",
-      "playCount": 13
+      "playCount": 27
     },
     {
       "id": 2,
@@ -32,7 +32,7 @@
       "albumId": 1,
       "like": 42,
       "audioPath": "assets/audio/audio-2.mp3",
-      "playCount": 5
+      "playCount": 7
     },
     {
       "id": 3,
@@ -66,7 +66,8 @@
       "artistId": 2,
       "albumId": 2,
       "like": 42,
-      "audioPath": "assets/audio/audio-6.mp3"
+      "audioPath": "assets/audio/audio-6.mp3",
+      "playCount": 1
     },
     {
       "id": 7,
@@ -83,7 +84,8 @@
       "artistId": 3,
       "albumId": 3,
       "like": 42,
-      "audioPath": "assets/audio/Bauklötze.mp3"
+      "audioPath": "assets/audio/Bauklötze.mp3",
+      "playCount": 1
     },
     {
       "id": 9,
@@ -144,7 +146,7 @@
       "albumId": 4,
       "like": 42,
       "audioPath": "assets/audio/시대를_초월한_마음.mp3",
-      "playCount": 2
+      "playCount": 22
     },
     {
       "name": "Catch Catch",
@@ -154,7 +156,7 @@
       "audioPath": "http://localhost:3000/assets/audio/catch-catch.mp3",
       "imgPath": "http://localhost:3000/mock/upload/Yena-YH-Enter-768x768.jpg",
       "id": 16,
-      "playCount": 13
+      "playCount": 26
     },
     {
       "name": "Walking In The Sun",
@@ -164,7 +166,7 @@
       "audioPath": "http://localhost:3000/assets/audio/1779331985999-565219504.mp3",
       "imgPath": "http://localhost:3000/mock/upload/1779331986106-909800016.jpg",
       "id": 17,
-      "playCount": 1
+      "playCount": 2
     },
     {
       "name": "Haru Haru",
@@ -184,7 +186,46 @@
       "audioPath": "http://localhost:3000/assets/audio/1779332945193-625457454.mp3",
       "imgPath": "http://localhost:3000/mock/upload/1779332945285-241081911.jpg",
       "id": 19,
-      "playCount": 21
+      "playCount": 23
+    },
+    {
+      "name": "兩三句",
+      "artistId": 8,
+      "albumId": 9,
+      "like": 0,
+      "playCount": 1,
+      "audioPath": "http://localhost:3000/assets/audio/1779557111226-824381376.mp3",
+      "releaseDate": "2026-05-23",
+      "uploadedAt": "2026-05-23T17:25:11.030Z",
+      "availableAt": "2026-05-23T17:25:11.030Z",
+      "imgPath": "http://localhost:3000/mock/upload/1779557111265-948095445.jpg",
+      "id": 20
+    },
+    {
+      "name": "曲中人亦散",
+      "artistId": 8,
+      "albumId": 10,
+      "like": 0,
+      "playCount": 3,
+      "audioPath": "http://localhost:3000/assets/audio/1779557190073-231580985.mp3",
+      "releaseDate": "2026-05-23",
+      "uploadedAt": "2026-05-23T17:26:29.930Z",
+      "availableAt": "2026-05-23T17:26:29.930Z",
+      "imgPath": "http://localhost:3000/mock/upload/1779557190111-511020576.jpg",
+      "id": 21
+    },
+    {
+      "name": "遺憾也值得",
+      "artistId": 8,
+      "albumId": 11,
+      "like": 0,
+      "playCount": 2,
+      "audioPath": "http://localhost:3000/assets/audio/1779557227166-784483962.mp3",
+      "releaseDate": "2026-05-23",
+      "uploadedAt": "2026-05-23T17:27:06.942Z",
+      "availableAt": "2026-05-23T17:27:06.942Z",
+      "imgPath": "http://localhost:3000/mock/upload/1779557227198-313589943.jpg",
+      "id": 22
     }
   ],
   "albums": [
@@ -207,18 +248,26 @@
     {
       "id": 3,
       "imgPath": "./mock/album/album-3.jpg",
-      "name": "澤野弘之",
-      "type": "album",
+      "name": "進擊的巨人",
+      "type": "ost",
       "artistId": 3,
-      "like": 52
+      "like": 52,
+      "releaseDate": "2026-05-23",
+      "uploadedAt": "2026-05-23T17:01:00.000Z",
+      "availableAt": "2026-05-23T17:01:00.000Z",
+      "unavailableAt": ""
     },
     {
       "id": 4,
       "imgPath": "./mock/album/album-4.jpg",
       "name": "Golden Hourglass",
-      "type": "album",
+      "type": "single",
       "artistId": 4,
-      "like": 52
+      "like": 52,
+      "releaseDate": "2026-05-23",
+      "uploadedAt": "2026-05-23T17:01:00.000Z",
+      "availableAt": "2026-05-23T17:01:00.000Z",
+      "unavailableAt": ""
     },
     {
       "name": "LOVE CATCHER",
@@ -251,6 +300,39 @@
       "imgPath": "http://localhost:3000/mock/upload/1779333015603-773929815.jpg",
       "like": 0,
       "id": 8
+    },
+    {
+      "name": "兩三句",
+      "type": "album",
+      "artistId": 8,
+      "imgPath": "http://localhost:3000/mock/upload/1779557111265-948095445.jpg",
+      "like": 0,
+      "releaseDate": "2026-05-23",
+      "uploadedAt": "2026-05-23T17:25:11.302Z",
+      "availableAt": "2026-05-23T17:25:11.302Z",
+      "id": 9
+    },
+    {
+      "name": "曲中人亦散",
+      "type": "single",
+      "artistId": 8,
+      "imgPath": "http://localhost:3000/mock/upload/1779557190111-511020576.jpg",
+      "like": 0,
+      "releaseDate": "2026-05-23",
+      "uploadedAt": "2026-05-23T17:26:30.116Z",
+      "availableAt": "2026-05-23T17:26:30.116Z",
+      "id": 10
+    },
+    {
+      "name": "遺憾也值得",
+      "type": "single",
+      "artistId": 8,
+      "imgPath": "http://localhost:3000/mock/upload/1779557227198-313589943.jpg",
+      "like": 0,
+      "releaseDate": "2026-05-23",
+      "uploadedAt": "2026-05-23T17:27:07.202Z",
+      "availableAt": "2026-05-23T17:27:07.202Z",
+      "id": 11
     }
   ],
   "artists": [
@@ -295,12 +377,19 @@
       "imgPath": "http://localhost:3000/mock/upload/1779333500704-393656202.png",
       "description": "《Undertale》是一款由獨立遊戲製作人Toby Fox開發的電子角色扮演遊戲，玩家在遊戲中操控一名誤闖地底世界的人類孩童，在這片隱藏於地表之下、由魔法結界隔絕的廣大空間展開冒險，試圖回到地面。旅途中，玩家會遇見各式各樣的怪物，其中部分會引發戰鬥。",
       "id": 7
+    },
+    {
+      "name": "宋佳野",
+      "imgPath": "http://localhost:3000/mock/upload/1779557636107-219562376.png",
+      "description": "「宋佳野」是一位近來在各大社群平台（如 Threads、TikTok 等）備受討論的音樂人，以翻唱及詮釋帶有抒情、情感豐沛的流行曲目聞名。",
+      "id": 8
     }
   ],
   "homeRecommendations": [
     {
       "id": 1,
       "popularSongIds": [
+        22,
         16,
         19,
         18,
@@ -308,12 +397,68 @@
         1
       ],
       "popularArtistIds": [
-        1,
-        5,
+        8,
         7,
-        6,
+        5,
+        1,
         2
       ]
+    }
+  ],
+  "advertisements": [
+    {
+      "id": 1,
+      "title": "癡情男聲－宋佳野",
+      "subtitle": "本週主打新上架",
+      "description": "宋佳野最新單曲：曲中人亦散現已可供熱播。",
+      "placement": "homeHero",
+      "imagePath": "http://localhost:3000/mock/upload/1779557752783-71345921.png",
+      "buttonText": "查看推薦",
+      "linkType": "song",
+      "linkTarget": "22",
+      "enabled": true,
+      "sortOrder": 1,
+      "startAt": "",
+      "endAt": ""
+    },
+    {
+      "id": 2,
+      "title": "最近新增到 Meowic",
+      "subtitle": "New Uploads",
+      "description": "適合放剛補進資料庫的經典作品。",
+      "placement": "homeSmall",
+      "imagePath": "assets/images/ads/meowic-hero-new-release.png",
+      "buttonText": "去聽聽",
+      "linkType": "none",
+      "linkTarget": "",
+      "enabled": true,
+      "sortOrder": 2
+    },
+    {
+      "id": 3,
+      "title": "Meowic Pro 即將開放",
+      "subtitle": "Coming Soon",
+      "description": "之後可以放 Pro、活動或會員方案。",
+      "placement": "homeSmall",
+      "imagePath": "assets/images/ads/meowic-hero-new-release.png",
+      "buttonText": "了解更多",
+      "linkType": "none",
+      "linkTarget": "",
+      "enabled": true,
+      "sortOrder": 3
+    },
+    {
+      "id": 4,
+      "title": "今日推薦作品",
+      "subtitle": "Editor Pick",
+      "description": "進站時提醒使用者有新的主打內容。",
+      "placement": "entryPopup",
+      "imagePath": "assets/images/ads/meowic-hero-new-release.png",
+      "buttonText": "立即查看",
+      "linkType": "album",
+      "linkTarget": "4",
+      "enabled": true,
+      "sortOrder": 4
     }
   ],
   "playlists": [
@@ -741,6 +886,486 @@
       "playedAt": "2026-05-21T15:16:22.878Z",
       "duration": 280,
       "listenedSeconds": 10
+    },
+    {
+      "id": 34,
+      "songId": 16,
+      "userId": 1,
+      "playedAt": "2026-05-23T15:58:21.620Z",
+      "duration": 180,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 35,
+      "songId": 19,
+      "userId": 1,
+      "playedAt": "2026-05-23T15:59:08.468Z",
+      "duration": 280,
+      "listenedSeconds": 73
+    },
+    {
+      "id": 36,
+      "songId": 16,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:04:35.753Z",
+      "duration": 180,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 37,
+      "songId": 1,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:04:53.705Z",
+      "duration": 224,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 38,
+      "songId": 15,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:05:48.933Z",
+      "duration": 183,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 39,
+      "songId": 17,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:08:31.342Z",
+      "duration": 250,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 40,
+      "songId": 1,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:10:04.789Z",
+      "duration": 224,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 41,
+      "songId": 8,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:13:48.982Z",
+      "duration": 236,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 42,
+      "songId": 1,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:14:17.940Z",
+      "duration": 224,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 43,
+      "songId": 1,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:14:43.260Z",
+      "duration": 224,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 44,
+      "songId": 1,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:14:54.596Z",
+      "duration": 224,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 45,
+      "songId": 1,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:15:15.583Z",
+      "duration": 224,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 46,
+      "songId": 16,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:15:55.556Z",
+      "duration": 180,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 47,
+      "songId": 16,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:16:24.838Z",
+      "duration": 180,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 48,
+      "songId": 16,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:16:35.712Z",
+      "duration": 180,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 49,
+      "songId": 15,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:16:49.510Z",
+      "duration": 183,
+      "listenedSeconds": 44
+    },
+    {
+      "id": 50,
+      "songId": 15,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:17:06.261Z",
+      "duration": 183,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 51,
+      "songId": 15,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:19:22.662Z",
+      "duration": 183,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 52,
+      "songId": 15,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:19:59.862Z",
+      "duration": 183,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 53,
+      "songId": 15,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:20:15.851Z",
+      "duration": 183,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 54,
+      "songId": 1,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:20:58.336Z",
+      "duration": 224,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 55,
+      "songId": 1,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:21:23.272Z",
+      "duration": 224,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 56,
+      "songId": 1,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:21:47.239Z",
+      "duration": 224,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 57,
+      "songId": 16,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:22:30.585Z",
+      "duration": 180,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 58,
+      "songId": 16,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:22:55.052Z",
+      "duration": 180,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 59,
+      "songId": 16,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:23:20.847Z",
+      "duration": 180,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 60,
+      "songId": 16,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:27:34.922Z",
+      "duration": 180,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 61,
+      "songId": 6,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:28:01.095Z",
+      "duration": 220,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 62,
+      "songId": 1,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:29:10.817Z",
+      "duration": 224,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 63,
+      "songId": 1,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:30:43.499Z",
+      "duration": 224,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 64,
+      "songId": 16,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:32:21.608Z",
+      "duration": 180,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 65,
+      "songId": 19,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:35:21.984Z",
+      "duration": 280,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 66,
+      "songId": 16,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:40:03.092Z",
+      "duration": 180,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 67,
+      "songId": 16,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:40:25.516Z",
+      "duration": 180,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 68,
+      "songId": 16,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:40:36.188Z",
+      "duration": 180,
+      "listenedSeconds": 120
+    },
+    {
+      "id": 69,
+      "songId": 15,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:42:38.808Z",
+      "duration": 183,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 70,
+      "songId": 15,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:43:07.439Z",
+      "duration": 183,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 71,
+      "songId": 15,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:43:37.303Z",
+      "duration": 183,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 72,
+      "songId": 15,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:43:49.464Z",
+      "duration": 183,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 73,
+      "songId": 15,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:44:10.893Z",
+      "duration": 183,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 74,
+      "songId": 15,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:46:42.498Z",
+      "duration": 183,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 75,
+      "songId": 15,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:48:45.801Z",
+      "duration": 183,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 76,
+      "songId": 15,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:50:04.241Z",
+      "duration": 183,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 77,
+      "songId": 15,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:51:25.533Z",
+      "duration": 183,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 78,
+      "songId": 15,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:54:28.540Z",
+      "duration": 183,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 79,
+      "songId": 15,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:55:13.322Z",
+      "duration": 183,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 80,
+      "songId": 15,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:57:31.551Z",
+      "duration": 183,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 81,
+      "songId": 15,
+      "userId": 1,
+      "playedAt": "2026-05-23T16:58:16.357Z",
+      "duration": 183,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 82,
+      "songId": 15,
+      "userId": 1,
+      "playedAt": "2026-05-23T17:00:34.583Z",
+      "duration": 183,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 83,
+      "songId": 2,
+      "userId": 1,
+      "playedAt": "2026-05-23T17:01:29.072Z",
+      "duration": 210,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 84,
+      "songId": 2,
+      "userId": 1,
+      "playedAt": "2026-05-23T17:01:51.797Z",
+      "duration": 210,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 85,
+      "songId": 1,
+      "userId": 1,
+      "playedAt": "2026-05-23T17:05:13.395Z",
+      "duration": 224,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 86,
+      "songId": 1,
+      "userId": 1,
+      "playedAt": "2026-05-23T17:12:51.098Z",
+      "duration": 224,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 87,
+      "songId": 1,
+      "userId": 1,
+      "playedAt": "2026-05-23T17:34:30.516Z",
+      "duration": 224,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 88,
+      "songId": 21,
+      "userId": 1,
+      "playedAt": "2026-05-23T17:34:51.688Z",
+      "duration": 224,
+      "listenedSeconds": 31
+    },
+    {
+      "id": 89,
+      "songId": 21,
+      "userId": 1,
+      "playedAt": "2026-05-23T17:37:09.084Z",
+      "duration": 191,
+      "listenedSeconds": 18
+    },
+    {
+      "id": 90,
+      "songId": 22,
+      "userId": 1,
+      "playedAt": "2026-05-23T17:37:12.207Z",
+      "duration": 237,
+      "listenedSeconds": 24
+    },
+    {
+      "id": 91,
+      "songId": 21,
+      "userId": 1,
+      "playedAt": "2026-05-23T17:39:54.155Z",
+      "duration": 191,
+      "listenedSeconds": 24
+    },
+    {
+      "id": 92,
+      "songId": 20,
+      "userId": 1,
+      "playedAt": "2026-05-23T17:40:11.773Z",
+      "duration": 220,
+      "listenedSeconds": 49
+    },
+    {
+      "id": 93,
+      "songId": 22,
+      "userId": 1,
+      "playedAt": "2026-05-23T17:40:24.389Z",
+      "duration": 237,
+      "listenedSeconds": 49
     }
   ]
 }

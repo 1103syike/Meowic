@@ -28,9 +28,9 @@
 
   &:hover {
     cursor: pointer;
-    color: #ffffff;
+    color: #1f2a44;
     border-color: #0b4778;
-    background: #0b4778;
+    background: #edf6ff;
     transform: translateY(-1px);
   }
 
@@ -69,8 +69,11 @@
     color: #66728a;
   }
 
-  &:hover span {
-    color: rgba(255, 255, 255, 0.76);
+  &:hover span,
+  &:hover strong,
+  &.cms-albums__item--active:hover span,
+  &.cms-albums__item--active:hover strong {
+    color: #1f2a44;
   }
 }
 

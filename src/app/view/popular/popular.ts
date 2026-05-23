@@ -3,7 +3,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
-import { ApiService, SongPlayType, SongType, UserType } from '../../@service/api.service';
+import {
+  ApiService,
+  availabilityMessage,
+  isSongPlayable,
+  SongPlayType,
+  SongType,
+  UserType,
+} from '../../@service/api.service';
 import { AuthService } from '../../@service/auth.service';
 import { FavoritePlaylistService } from '../../@service/favorite-playlist.service';
 import { MusicPlayerService } from '../../@service/music-player.service';
@@ -63,6 +70,11 @@ export class Popular {
   }
 
   public playSong(song: SongType): void {
+    if (!isSongPlayable(song)) {
+      this.showAlert('無法播放', `這首歌${availabilityMessage(song)}。`, 'info');
+      return;
+    }
+
     const currentSongs = this.rankedSongs().map((item) => item.song);
     this.playbackQueue.setQueue(
       {
@@ -160,6 +172,11 @@ export class Popular {
 
   public addToQueue(song: SongType, event: MouseEvent): void {
     event.stopPropagation();
+    if (!isSongPlayable(song)) {
+      this.showAlert('無法加入佇列', `這首歌${availabilityMessage(song)}。`, 'info');
+      return;
+    }
+
     this.playbackQueue.addToQueue(song, this.rankedSongs().map((item) => item.song));
     this.showAlert('已加入佇列', '歌曲已加入播放佇列。', 'success', 900);
   }

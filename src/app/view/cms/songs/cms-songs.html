@@ -3,7 +3,7 @@
     <div>
       <span>Music Library</span>
       <h2>歌曲管理</h2>
-      <p>新增歌曲、調整歌手與專輯資料，並維護歌曲封面。</p>
+      <p>新增歌曲、調整歌手與發行作品資料，並維護歌曲封面。</p>
     </div>
     <button class="cms-page__primary-btn" type="button" (click)="openAddSongDialog()">新增歌曲</button>
   </header>
@@ -21,7 +21,7 @@
           type="search"
           [ngModel]="keyword()"
           (ngModelChange)="setKeyword($event)"
-          placeholder="輸入歌名、歌手或專輯"
+          placeholder="輸入歌名、歌手或發行作品"
         />
       </label>
 
@@ -29,7 +29,7 @@
         <div class="cms-table__row cms-table__row--head">
           <span>歌曲</span>
           <span>歌手</span>
-          <span>專輯</span>
+          <span>發行作品</span>
         </div>
         @for (song of pagedSongs(); track song.id) {
           <button
@@ -83,12 +83,32 @@
         </label>
 
         <label class="cms-field">
-          <span>專輯</span>
+          <span>發行作品</span>
           <select name="songAlbum" [(ngModel)]="editForm.albumId">
             @for (album of albums(); track album.id) {
               <option [ngValue]="album.id">{{ album.name }}</option>
             }
           </select>
+        </label>
+
+        <label class="cms-field">
+          <span>發行日</span>
+          <input type="date" name="songReleaseDate" [(ngModel)]="editForm.releaseDate" />
+        </label>
+
+        <label class="cms-field">
+          <span>上傳到 Meowic</span>
+          <input type="datetime-local" name="songUploadedAt" [(ngModel)]="editForm.uploadedAt" />
+        </label>
+
+        <label class="cms-field">
+          <span>可播放時間</span>
+          <input type="datetime-local" name="songAvailableAt" [(ngModel)]="editForm.availableAt" />
+        </label>
+
+        <label class="cms-field">
+          <span>下架時間</span>
+          <input type="datetime-local" name="songUnavailableAt" [(ngModel)]="editForm.unavailableAt" />
         </label>
 
         <label class="cms-upload">

@@ -37,12 +37,12 @@
       </div>
 
       <div class="song-form__field song-form__field--suggest">
-        <label for="album-name">專輯</label>
+        <label for="album-name">發行作品</label>
         <input
           id="album-name"
           name="albumName"
           [(ngModel)]="albumName"
-          placeholder="輸入或選擇專輯"
+          placeholder="選填；不填會建立單曲"
           autocomplete="off"
           (focus)="isAlbumSuggestionsOpen.set(true)"
           (input)="isAlbumSuggestionsOpen.set(true)"
@@ -58,6 +58,15 @@
           </ul>
         }
       </div>
+
+      <label class="song-form__field">
+        <span>未選發行作品時建立</span>
+        <select name="releaseType" [(ngModel)]="releaseType">
+          @for (option of releaseTypeOptions; track option.value) {
+            <option [ngValue]="option.value">{{ option.label }}</option>
+          }
+        </select>
+      </label>
     </div>
 
     <div class="song-form__uploads">

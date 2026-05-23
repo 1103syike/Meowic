@@ -3,7 +3,14 @@ import { FormsModule } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import Swal from 'sweetalert2';
-import { AlbumType, ApiService, ArtistType } from '../../@service/api.service';
+import {
+  AlbumType,
+  ApiService,
+  ArtistType,
+  ReleaseType,
+  releaseTypeOptions,
+  toDateInputValue,
+} from '../../@service/api.service';
 
 @Component({
   selector: 'app-add-song-dialog',
@@ -27,6 +34,8 @@ export class AddSongDialog {
   public songName = '';
   public artistName = '';
   public albumName = '';
+  public releaseType: ReleaseType = 'single';
+  public readonly releaseTypeOptions = releaseTypeOptions;
   private audioFile: File | null = null;
   private imageFile: File | null = null;
 
@@ -91,20 +100,22 @@ export class AddSongDialog {
   public async submit(): Promise<void> {
     this.errorMessage.set('');
 
-    if (!this.songName.trim() || !this.artistName.trim() || !this.albumName.trim() || !this.audioFile) {
-      this.errorMessage.set('請填寫歌曲名稱、歌手、專輯，並選擇歌曲檔案');
+    if (!this.songName.trim() || !this.artistName.trim() || !this.audioFile) {
+      this.errorMessage.set('請填寫歌曲名稱、歌手，並選擇歌曲檔案');
       return;
     }
 
     this.isSubmitting.set(true);
     try {
+      const now = new Date();
       const audioPath = await this.uploadFile(this.audioFile);
       const imgPath = this.imageFile ? await this.uploadFile(this.imageFile) : '';
       const artist = await this.findOrCreateArtist(this.artistName);
       const album = await this.findOrCreateAlbum(
-        this.albumName,
+        this.albumName.trim() || this.songName,
         artist.id,
         imgPath || './mock/unnamed.png',
+        this.albumName.trim() ? 'album' : this.releaseType,
       );
 
       await firstValueFrom(
@@ -115,6 +126,9 @@ export class AddSongDialog {
           like: 0,
           playCount: 0,
           audioPath,
+          releaseDate: album.releaseDate ?? toDateInputValue(now),
+          uploadedAt: now.toISOString(),
+          availableAt: now.toISOString(),
           ...(imgPath ? { imgPath } : {}),
         }),
       );
@@ -137,7 +151,7 @@ export class AddSongDialog {
     ]);
 
     this.artists.set(artists);
-    this.albums.set(collections.filter((collection) => collection.type === 'album'));
+    this.albums.set(collections.filter((collection) => collection.type !== 'playlist'));
   }
 
   private getSelectedFile(event: Event): File | null {
@@ -184,13 +198,14 @@ export class AddSongDialog {
     name: string,
     artistId: number,
     imgPath: string,
+    type: ReleaseType,
   ): Promise<AlbumType> {
     const existingAlbum = this.albums().find((album) => this.isSameName(album.name, name));
     if (existingAlbum) {
       return existingAlbum;
     }
 
-    return firstValueFrom(this.api.createAlbum(name.trim(), artistId, imgPath));
+    return firstValueFrom(this.api.createAlbum(name.trim(), artistId, imgPath, type));
   }
 
   private isSameName(currentName: string, inputName: string): boolean {

@@ -11,7 +11,7 @@
         <h1>{{ artist()!.name }}</h1>
         <p>{{ artist()!.description }}</p>
         <div class="artist-hero__stats">
-          <span>{{ albums().length }} 張專輯</span>
+          <span>{{ albums().length }} 個發行作品</span>
           <span>{{ songs().length }} 首歌曲</span>
           <span>{{ totalPlays() }} 次播放</span>
         </div>
@@ -29,7 +29,7 @@
 
     <section class="artist-section">
       <header class="artist-section__header">
-        <h2>專輯</h2>
+        <h2>發行作品</h2>
       </header>
       @if (albums().length > 0) {
         <div class="album-grid">
@@ -38,13 +38,13 @@
               <img class="album-card__image" [src]="album.imgPath || './mock/unnamed.png'" alt="" />
               <span class="album-card__content">
                 <span class="album-card__title">{{ album.name }}</span>
-                <span class="album-card__meta">專輯</span>
+                <span class="album-card__meta">{{ albumMonth(album) }} · {{ releaseLabel(album) }}</span>
               </span>
             </a>
           }
         </div>
       } @else {
-        <p class="artist-section__empty">這位藝人目前沒有專輯</p>
+        <p class="artist-section__empty">這位藝人目前沒有發行作品</p>
       }
     </section>
   } @else {

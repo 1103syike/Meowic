@@ -39,6 +39,7 @@
         <div class="song-hero__meta">
           <span>{{ song.artist.name }}</span>
           <span>{{ song.album.name }}</span>
+          <span>發行 {{ releaseDate(song) }}</span>
           <span>{{ song.length || '--:--' }}</span>
         </div>
       </div>
@@ -47,7 +48,7 @@
     @if (isShowCover()) {
       <section class="song-detail">
         <div class="song-detail__item">
-          <span>專輯</span>
+          <span>發行作品</span>
           <strong>{{ song.album.name }}</strong>
         </div>
         <div class="song-detail__item">
@@ -57,6 +58,14 @@
         <div class="song-detail__item">
           <span>喜歡</span>
           <strong>{{ song.like || 0 }}</strong>
+        </div>
+        <div class="song-detail__item">
+          <span>發行日</span>
+          <strong>{{ releaseDate(song) }}</strong>
+        </div>
+        <div class="song-detail__item">
+          <span>上傳到 Meowic</span>
+          <strong>{{ uploadedAt(song) }}</strong>
         </div>
       </section>
     } @else {

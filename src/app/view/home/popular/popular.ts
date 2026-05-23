@@ -1,7 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, forkJoin, of } from 'rxjs';
-import { ApiService, SongType } from '../../../@service/api.service';
+import Swal from 'sweetalert2';
+import { ApiService, availabilityMessage, isSongPlayable, SongType } from '../../../@service/api.service';
 import { MusicPlayerService } from '../../../@service/music-player.service';
 import { NavigationContextService } from '../../../@service/navigation-context.service';
 import { PlaybackQueueService } from '../../../@service/playback-queue.service';
@@ -37,6 +38,11 @@ export class Popular {
   }
 
   public playSong(song: SongType): void {
+    if (!isSongPlayable(song)) {
+      Swal.fire('無法播放', `這首歌${availabilityMessage(song)}。`, 'info');
+      return;
+    }
+
     const songs = this.populars();
     this.playbackQueue.setQueue(
       {

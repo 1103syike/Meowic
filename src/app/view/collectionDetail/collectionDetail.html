@@ -1,119 +1,114 @@
-<main class="album">
-  <button class="album__back-btn" type="button" (click)="goBack()" aria-label="返回首頁">
-    <mat-icon aria-hidden="true" class="album__back-btn__icon"
-      >arrow_back_ios</mat-icon
-    >
-  </button>
+<main class="collection-page">
+  @if (currentCollection(); as collection) {
+    <button class="collection-back" type="button" (click)="goBack()" aria-label="返回首頁">
+      <mat-icon aria-hidden="true">arrow_back_ios</mat-icon>
+    </button>
 
-  <header class="album__header">
-    @if (!!this.currentCollection()) {
-      <img
-        class="album__image"
-        [src]="
-          this.currentCollection()!.type == 'album'
-            ? this.currentCollection()!.imgPath
-            : './mock/unnamed.png'
-        "
-        alt=""
-      />
-      <section class="album__info">
-        <h5 class="album__info__type">
-          {{ this.currentCollection()!.type == 'album' ? '專輯' : '播放清單' }}
-        </h5>
-        <h1 class="album__info__name">{{ this.currentCollection()?.name }}</h1>
-        <h3 class="album__info__artist">
-          {{
-            !!this.currentCollection()?.artist
-              ? this.currentCollection()?.artist?.name
-              : this.currentCollection()?.user?.name
-          }}
-        </h3>
-        <span class="album__info__record">喜歡人數：{{ this.currentCollection()?.like }}</span>
-      </section>
-    }
-  </header>
+    <section class="collection-hero">
+      <div
+        class="collection-hero__glow"
+        [style.background-image]="'url(' + collectionImage(collection) + ')'"
+        aria-hidden="true"
+      ></div>
 
-  <main>
-    <table class="table" mat-table [dataSource]="this.songList()!" class="mat-elevation-z8">
-      <ng-container matColumnDef="id">
-        <th class="table__th table__th--id" mat-header-cell *matHeaderCellDef>#</th>
-        <td class="table__td table__td--id" mat-cell *matCellDef="let element; let i = index">
-          {{ i + 1 }}
-        </td>
-      </ng-container>
+      <img class="collection-hero__cover" [src]="collectionImage(collection)" alt="" />
 
-      <ng-container matColumnDef="name">
-        <th class="table__th table__th--name" mat-header-cell *matHeaderCellDef>歌曲</th>
-        <td class="table__td table__td--name" mat-cell *matCellDef="let element">
-          <section class="table__info">
-            <span class="table__info__title">{{ element.name }}</span>
-            <span class="table__info__artist">{{ element.artist.name }}</span>
-          </section>
-        </td>
-      </ng-container>
+      <div class="collection-hero__content">
+        <span class="collection-hero__eyebrow">
+          {{ collectionTypeLabel(collection) }}
+        </span>
+        <h1>{{ collection.name }}</h1>
+        <div class="collection-hero__meta">
+          <span>{{ collection.artist?.name || collection.user?.name }}</span>
+          <span>發行 {{ collectionReleaseDate(collection) }}</span>
+          <span>{{ songList()?.length || 0 }} 首歌曲</span>
+          <span>{{ collection.like || 0 }} 人喜歡</span>
+        </div>
+      </div>
+    </section>
 
-      <ng-container matColumnDef="album">
-        <th class="table__th table__th--album" mat-header-cell *matHeaderCellDef>專輯</th>
-        <td class="table__td table__td--album" mat-cell *matCellDef="let element">
-          {{ element.album.name }}
-        </td>
-      </ng-container>
+    <section class="collection-actions" aria-label="播放操作">
+      <button
+        class="collection-actions__primary"
+        type="button"
+        [disabled]="!songList()?.length"
+        (click)="playFirstSong()"
+      >
+        <mat-icon aria-hidden="true">play_arrow</mat-icon>
+        <span>播放全部</span>
+      </button>
+      <div class="collection-actions__summary">
+        <strong>{{ collection.name }}</strong>
+        <span>{{ collectionSummary(collection) }}</span>
+      </div>
+    </section>
 
-      <ng-container matColumnDef="time">
-        <th class="table__th table__th--time" mat-header-cell *matHeaderCellDef>時間</th>
-        <td class="table__td table__td--time" mat-cell *matCellDef="let element">
-          {{ element.length }}
-        </td>
-      </ng-container>
+    <section class="collection-tracklist">
+      <div class="track-row track-row--head">
+        <span>#</span>
+        <span>歌曲</span>
+        <span>發行作品</span>
+        <span>時間</span>
+        <span>動作</span>
+      </div>
 
-      <ng-container matColumnDef="tool">
-        <th class="table__th table__th--tool" mat-header-cell *matHeaderCellDef>動作</th>
-        <td class="table__td table__td--tool" mat-cell *matCellDef="let element">
-          <button
-            class="table__tool-btn"
-            type="button"
-            title="加入最愛"
-            [class.table__tool-btn--active]="isFavorite(element.id)"
-            (click)="addToFavorite(element.id, $event)"
-          >
-            <mat-icon aria-hidden="true" class="table__td__icon">favorite</mat-icon>
-          </button>
-          <button
-            class="table__tool-btn"
-            type="button"
-            title="加入播放清單"
-            (click)="addToPlaylist(element.id, $event)"
-          >
-            <mat-icon aria-hidden="true" class="table__td__icon">playlist_add</mat-icon>
-          </button>
-          <button
-            class="table__tool-btn"
-            type="button"
-            title="加入佇列"
-            (click)="addToQueue(element, $event)"
-          >
-            <mat-icon aria-hidden="true" class="table__td__icon">queue</mat-icon>
-          </button>
-          @if (this.currentCollection()!.type !== 'album') {
+      @for (song of songList() ?? []; track song.id; let i = $index) {
+        <div class="track-row" (click)="setPlayer(song.id)" [routerLink]="['/song', song.id]">
+          <span class="track-row__index">{{ i + 1 }}</span>
+          <div class="track-row__song">
+            <img [src]="song.imgPath || song.album.imgPath || './mock/unnamed.png'" alt="" />
+            <div>
+              <strong>{{ song.name }}</strong>
+              <span>{{ song.artist.name }}</span>
+            </div>
+          </div>
+          <span class="track-row__album">{{ song.album.name }}</span>
+          <span class="track-row__time">{{ song.length || '--:--' }}</span>
+          <span class="track-row__tools">
             <button
-              class="table__tool-btn"
+              class="track-row__tool"
               type="button"
-              title="刪除"
-              (click)="deleteSong(element.playlistSongId, $event)"
+              title="加入最愛"
+              [class.track-row__tool--active]="isFavorite(song.id)"
+              (click)="addToFavorite(song.id, $event)"
             >
-              <mat-icon aria-hidden="true" class="table__td__icon">delete</mat-icon>
+              <mat-icon aria-hidden="true">favorite</mat-icon>
             </button>
-          }
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr
-        mat-row
-        *matRowDef="let row; columns: displayedColumns"
-        (click)="setPlayer(row.id)"
-        [routerLink]="['/song', row.id]"
-      ></tr>
-    </table>
-  </main>
+            <button
+              class="track-row__tool"
+              type="button"
+              title="加入播放清單"
+              (click)="addToPlaylist(song.id, $event)"
+            >
+              <mat-icon aria-hidden="true">playlist_add</mat-icon>
+            </button>
+            <button
+              class="track-row__tool"
+              type="button"
+              title="加入佇列"
+              (click)="addToQueue(song, $event)"
+            >
+              <mat-icon aria-hidden="true">queue</mat-icon>
+            </button>
+            @if (collection.type === 'playlist') {
+              <button
+                class="track-row__tool"
+                type="button"
+                title="刪除"
+                (click)="deleteSong(song.playlistSongId, $event)"
+              >
+                <mat-icon aria-hidden="true">delete</mat-icon>
+              </button>
+            }
+          </span>
+        </div>
+      } @empty {
+        <div class="collection-empty">
+          <mat-icon aria-hidden="true">library_music</mat-icon>
+          <strong>這裡還沒有歌曲</strong>
+          <span>把喜歡的歌曲加入播放清單後，這裡就會開始熱鬧起來。</span>
+        </div>
+      }
+    </section>
+  }
 </main>

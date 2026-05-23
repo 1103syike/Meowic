@@ -8,6 +8,7 @@ import { PlaybackQueueService } from '../../@service/playback-queue.service';
 
 @Component({
   selector: 'app-song',
+  standalone: true,
   imports: [Lyric, Artist],
   templateUrl: './song.html',
   styleUrl: './song.scss',

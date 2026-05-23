@@ -2,7 +2,15 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
-import { AlbumType, ApiService, ArtistType, SongPlayType, SongType } from '../../@service/api.service';
+import {
+  AlbumType,
+  ApiService,
+  ArtistType,
+  formatDisplayMonth,
+  releaseTypeLabel,
+  SongPlayType,
+  SongType,
+} from '../../@service/api.service';
 import { SearchStateService } from '../../@service/search-state.service';
 import { SongList } from '../../component/song-list/song-list';
 
@@ -75,8 +83,22 @@ export class Artist {
     ]);
 
     this.artist.set(artist[0] ?? null);
-    this.albums.set(albums);
+    this.albums.set(
+      [...albums].sort(
+        (a, b) =>
+          new Date(b.releaseDate || b.availableAt || 0).getTime() -
+          new Date(a.releaseDate || a.availableAt || 0).getTime(),
+      ),
+    );
     this.songs.set(songs);
     this.songPlays.set(plays);
+  }
+
+  public albumMonth(album: AlbumType): string {
+    return formatDisplayMonth(album.releaseDate);
+  }
+
+  public releaseLabel(album: AlbumType): string {
+    return releaseTypeLabel(album.type);
   }
 }

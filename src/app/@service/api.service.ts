@@ -35,6 +35,28 @@ export class ApiService {
     return this.http.get<HomeRecommendationType[]>('http://localhost:3000/homeRecommendations');
   }
 
+  getAdvertisements(): Observable<AdvertisementType[]> {
+    return this.http.get<AdvertisementType[]>('http://localhost:3000/advertisements');
+  }
+
+  createAdvertisement(advertisement: CreateAdvertisementType): Observable<AdvertisementType> {
+    return this.http.post<AdvertisementType>('http://localhost:3000/advertisements', advertisement);
+  }
+
+  updateAdvertisement(
+    id: number,
+    advertisement: Partial<AdvertisementType>,
+  ): Observable<AdvertisementType> {
+    return this.http.patch<AdvertisementType>(
+      `http://localhost:3000/advertisements/${id}`,
+      advertisement,
+    );
+  }
+
+  deleteAdvertisement(id: number): Observable<void> {
+    return this.http.delete<void>(`http://localhost:3000/advertisements/${id}`);
+  }
+
   createHomeRecommendations(
     recommendation: CreateHomeRecommendationType,
   ): Observable<HomeRecommendationType> {
@@ -87,13 +109,22 @@ export class ApiService {
     return this.http.patch<ArtistType>(`http://localhost:3000/artists/${id}`, artist);
   }
 
-  createAlbum(name: string, artistId: number, imgPath: string): Observable<AlbumType> {
+  createAlbum(
+    name: string,
+    artistId: number,
+    imgPath: string,
+    type: ReleaseType = 'album',
+  ): Observable<AlbumType> {
+    const today = toDateInputValue(new Date());
     const body = {
       name,
-      type: 'album',
+      type,
       artistId,
       imgPath,
       like: 0,
+      releaseDate: today,
+      uploadedAt: new Date().toISOString(),
+      availableAt: new Date().toISOString(),
     };
     return this.http.post<AlbumType>('http://localhost:3000/albums', body);
   }
@@ -223,6 +254,10 @@ export interface CreateSongType {
   audioPath: string;
   imgPath?: string;
   playCount?: number;
+  releaseDate?: string;
+  uploadedAt?: string;
+  availableAt?: string;
+  unavailableAt?: string;
 }
 
 export interface CreateUserType {
@@ -262,17 +297,42 @@ export interface SongType {
   like: number;
   playCount?: number;
   audioPath: string;
+  releaseDate?: string;
+  uploadedAt?: string;
+  availableAt?: string;
+  unavailableAt?: string;
 }
 export interface AlbumType {
   id: number;
   imgPath: string;
-  type: string;
+  type: ReleaseType | string;
   name: string;
   artistId?: number;
   engname?: string;
   artist?: ArtistType;
   user?: UserType;
   like?: number;
+  releaseDate?: string;
+  uploadedAt?: string;
+  availableAt?: string;
+  unavailableAt?: string;
+}
+
+export type ReleaseType = 'album' | 'single' | 'ep' | 'ost';
+
+export const releaseTypeOptions: { value: ReleaseType; label: string }[] = [
+  { value: 'album', label: '專輯' },
+  { value: 'single', label: '單曲' },
+  { value: 'ep', label: 'EP' },
+  { value: 'ost', label: '原聲帶' },
+];
+
+export function isReleaseType(type: string | null | undefined): type is ReleaseType {
+  return ['album', 'single', 'ep', 'ost'].includes(type ?? '');
+}
+
+export function releaseTypeLabel(type: string | null | undefined): string {
+  return releaseTypeOptions.find((option) => option.value === type)?.label ?? '發行作品';
 }
 
 export interface ArtistType {
@@ -303,6 +363,28 @@ export interface CreateHomeRecommendationType {
   popularArtistIds: number[];
 }
 
+export type AdvertisementPlacement = 'homeHero' | 'homeSmall' | 'entryPopup';
+export type AdvertisementLinkType = 'none' | 'song' | 'album' | 'artist' | 'url';
+
+export interface CreateAdvertisementType {
+  title: string;
+  subtitle?: string;
+  description?: string;
+  placement: AdvertisementPlacement;
+  imagePath: string;
+  buttonText?: string;
+  linkType: AdvertisementLinkType;
+  linkTarget?: string;
+  enabled: boolean;
+  sortOrder: number;
+  startAt?: string;
+  endAt?: string;
+}
+
+export interface AdvertisementType extends CreateAdvertisementType {
+  id: number;
+}
+
 export interface PlaylistUsersType {
   id: number;
   playlistId: number;
@@ -323,4 +405,102 @@ export interface PlaylistSongType {
   playlistId: number;
   songId: number;
   song: SongType;
+}
+
+export function toDateInputValue(value: Date): string {
+  return value.toISOString().slice(0, 10);
+}
+
+export function toDateTimeInputValue(value: string | Date | null | undefined): string {
+  if (!value) {
+    return '';
+  }
+
+  const date = value instanceof Date ? value : new Date(value);
+  if (Number.isNaN(date.getTime())) {
+    return '';
+  }
+
+  const offsetDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+  return offsetDate.toISOString().slice(0, 16);
+}
+
+export function fromDateTimeInputValue(value: string | null | undefined): string {
+  if (!value) {
+    return '';
+  }
+
+  return new Date(value).toISOString();
+}
+
+export function formatDisplayDate(value: string | null | undefined): string {
+  if (!value) {
+    return '未設定';
+  }
+
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) {
+    return value;
+  }
+
+  return date.toLocaleDateString('zh-TW', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  });
+}
+
+export function formatDisplayMonth(value: string | null | undefined): string {
+  if (!value) {
+    return '未設定發行月';
+  }
+
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) {
+    return value;
+  }
+
+  return date.toLocaleDateString('zh-TW', {
+    year: 'numeric',
+    month: '2-digit',
+  });
+}
+
+export function isCatalogItemPlayable(item: {
+  availableAt?: string;
+  unavailableAt?: string;
+} | null | undefined): boolean {
+  if (!item) {
+    return false;
+  }
+
+  const now = Date.now();
+  const availableAt = item.availableAt ? new Date(item.availableAt).getTime() : 0;
+  const unavailableAt = item.unavailableAt ? new Date(item.unavailableAt).getTime() : Number.POSITIVE_INFINITY;
+
+  return availableAt <= now && now < unavailableAt;
+}
+
+export function isSongPlayable(song: SongType | null | undefined): boolean {
+  return !!song && isCatalogItemPlayable(song) && isCatalogItemPlayable(song.album);
+}
+
+export function availabilityMessage(song: SongType | AlbumType | null | undefined): string {
+  if (!song) {
+    return '找不到這筆資料';
+  }
+
+  const now = Date.now();
+  const availableAt = song.availableAt ? new Date(song.availableAt).getTime() : 0;
+  const unavailableAt = song.unavailableAt ? new Date(song.unavailableAt).getTime() : Number.POSITIVE_INFINITY;
+
+  if (availableAt > now) {
+    return `尚未上架，預計 ${formatDisplayDate(song.availableAt)} 開放`;
+  }
+
+  if (unavailableAt <= now) {
+    return '已下架';
+  }
+
+  return '已上架';
 }

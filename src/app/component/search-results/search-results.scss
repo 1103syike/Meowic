@@ -97,13 +97,21 @@
 }
 
 .result-row__meta,
+.result-row__notice,
 .result-row__type {
   color: rgba($color-blue, 0.78);
   font-size: map-get($font-sizes, 'sm');
   font-weight: 600;
 }
 
+.result-row__notice {
+  margin-top: 2px;
+  color: #b45309;
+  font-weight: 800;
+}
+
 .result-row:hover .result-row__meta,
+.result-row:hover .result-row__notice,
 .result-row:hover .result-row__type {
   color: $color-white;
 }

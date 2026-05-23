@@ -1,0 +1,132 @@
+<section class="cms-ads">
+  <header class="cms-ads__header">
+    <div>
+      <span>Campaign Studio</span>
+      <h2>廣告管理</h2>
+      <p>管理首頁 Hero、小看板與進站彈窗，可設定上稿時間、連結與是否啟用。</p>
+    </div>
+    <button type="button" (click)="newAd()">新增廣告</button>
+  </header>
+
+  @if (message()) {
+    <p class="cms-ads__message">{{ message() }}</p>
+  }
+
+  <div class="cms-ads__grid">
+    <section class="cms-ads__panel">
+      <h3>廣告列表</h3>
+      <div class="cms-ads__list">
+        @for (ad of sortedAds(); track ad.id) {
+          <button
+            type="button"
+            class="cms-ads__item"
+            [class.cms-ads__item--active]="selectedAd()?.id === ad.id"
+            (click)="selectAd(ad)"
+          >
+            <img [src]="ad.imagePath" alt="" />
+            <span>
+              <strong>{{ ad.title }}</strong>
+              <small>{{ ad.placement }} · {{ ad.enabled ? '啟用' : '停用' }}</small>
+            </span>
+          </button>
+        } @empty {
+          <p class="cms-ads__empty">目前沒有廣告</p>
+        }
+      </div>
+    </section>
+
+    <section class="cms-ads__panel cms-ads__editor">
+      <div class="cms-ads__preview">
+        <img [src]="previewImage()" alt="" />
+      </div>
+
+      <label>
+        <span>標題</span>
+        <input [(ngModel)]="editForm.title" name="adTitle" />
+      </label>
+
+      <label>
+        <span>副標</span>
+        <input [(ngModel)]="editForm.subtitle" name="adSubtitle" />
+      </label>
+
+      <label>
+        <span>描述</span>
+        <textarea [(ngModel)]="editForm.description" name="adDescription"></textarea>
+      </label>
+
+      <div class="cms-ads__two">
+        <label>
+          <span>版位</span>
+          <select [(ngModel)]="editForm.placement" name="adPlacement">
+            @for (option of placementOptions; track option.value) {
+              <option [ngValue]="option.value">{{ option.label }}</option>
+            }
+          </select>
+        </label>
+
+        <label>
+          <span>排序</span>
+          <input type="number" [(ngModel)]="editForm.sortOrder" name="adSortOrder" />
+        </label>
+      </div>
+
+      <label>
+        <span>圖片路徑</span>
+        <input [(ngModel)]="editForm.imagePath" name="adImagePath" />
+      </label>
+
+      <label class="cms-ads__upload">
+        <span>上傳圖片</span>
+        <input type="file" accept="image/*" (change)="setImageFile($event)" />
+      </label>
+
+      <div class="cms-ads__two">
+        <label>
+          <span>連結類型</span>
+          <select [(ngModel)]="editForm.linkType" name="adLinkType">
+            @for (option of linkOptions; track option.value) {
+              <option [ngValue]="option.value">{{ option.label }}</option>
+            }
+          </select>
+        </label>
+
+        <label>
+          <span>連結目標</span>
+          <input [(ngModel)]="editForm.linkTarget" name="adLinkTarget" placeholder="例如 1 或 https://..." />
+        </label>
+      </div>
+
+      <label>
+        <span>按鈕文字</span>
+        <input [(ngModel)]="editForm.buttonText" name="adButtonText" />
+      </label>
+
+      <div class="cms-ads__two">
+        <label>
+          <span>開始時間</span>
+          <input type="datetime-local" [(ngModel)]="editForm.startAt" name="adStartAt" />
+        </label>
+
+        <label>
+          <span>結束時間</span>
+          <input type="datetime-local" [(ngModel)]="editForm.endAt" name="adEndAt" />
+        </label>
+      </div>
+
+      <label class="cms-ads__toggle">
+        <input type="checkbox" [(ngModel)]="editForm.enabled" name="adEnabled" />
+        <span>啟用廣告</span>
+      </label>
+
+      <div class="cms-ads__actions">
+        @if (selectedAd()) {
+          <button class="cms-ads__danger" type="button" (click)="deleteAd()">刪除</button>
+        }
+        <button class="cms-ads__save" type="button" [disabled]="isSaving()" (click)="save()">
+          {{ isSaving() ? '儲存中...' : '儲存廣告' }}
+        </button>
+      </div>
+    </section>
+  </div>
+</section>

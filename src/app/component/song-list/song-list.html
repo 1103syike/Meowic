@@ -1,37 +1,43 @@
 <section class="song-list">
   <header class="song-list__header">
     <div>
+      <span>Library</span>
       <h1>{{ title }}</h1>
-      <span>{{ filteredSongs().length }} 首歌曲</span>
+      <p>{{ filteredSongs().length }} 首歌曲</p>
     </div>
   </header>
 
-  <div class="song-list__table">
+  <section class="song-list__table">
     <div class="song-list__row song-list__row--head">
       <span>#</span>
       <span>歌曲</span>
-      <span>專輯</span>
       <span class="song-list__right song-list__right--head">
-        <span>時間</span>
+        <span>發行作品</span>
         <span>播放</span>
         <span>動作</span>
       </span>
     </div>
 
     @for (song of pagedSongs(); track song.id; let i = $index) {
-      <div class="song-list__row" (click)="playSong(song)">
+      <div
+        class="song-list__row song-list__row--button"
+        role="button"
+        tabindex="0"
+        (click)="playSong(song)"
+        (keydown.enter)="playSong(song)"
+        (keydown.space)="playSong(song)"
+      >
         <span class="song-list__index">{{ (currentPage() - 1) * pageSize + i + 1 }}</span>
-        <div class="song-list__song">
+        <span class="song-list__song">
           <img [src]="songImage(song)" alt="" />
-          <div>
+          <span>
             <strong>{{ song.name }}</strong>
-            <span>{{ song.artist.name }}</span>
-          </div>
-        </div>
-        <span class="song-list__album">{{ song.album.name }}</span>
+            <small>{{ song.artist.name }}</small>
+          </span>
+        </span>
         <span class="song-list__right">
-          <span class="song-list__meta">{{ song.length || '--:--' }}</span>
-          <span class="song-list__meta">{{ songPlayCount(song) }}</span>
+          <span class="song-list__album">{{ song.album.name }}</span>
+          <strong class="song-list__plays">{{ songPlayCount(song) }}</strong>
           <span class="song-list__actions">
             <button
               class="song-list__favorite"
@@ -54,7 +60,7 @@
     } @empty {
       <div class="song-list__empty">{{ emptyText }}</div>
     }
-  </div>
+  </section>
 
   <footer class="song-list__pager">
     <button type="button" [disabled]="currentPage() === 1" (click)="setPage(currentPage() - 1)">

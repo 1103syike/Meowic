@@ -192,8 +192,8 @@
 
   &:hover {
     cursor: pointer;
-    color: #ffffff;
-    background: #0b4778;
+    color: #1f2a44;
+    background: #edf6ff;
     transform: translateY(-1px);
   }
 
@@ -206,8 +206,13 @@
   }
 }
 
-.cms-table__row--button:hover .cms-media strong {
-  color: #ffffff;
+.cms-table__row--button:hover,
+.cms-table__row--button:hover span,
+.cms-table__row--button:hover .cms-media strong,
+.cms-table__row--button.cms-table__row--active:hover,
+.cms-table__row--button.cms-table__row--active:hover span,
+.cms-table__row--button.cms-table__row--active:hover .cms-media strong {
+  color: #1f2a44;
 }
 
 .cms-media {

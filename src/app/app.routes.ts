@@ -81,6 +81,10 @@ export const routes: Routes = [
               ),
           },
           {
+            path: 'ads',
+            loadComponent: () => import('./view/cms/ads/cms-ads').then((m) => m.CmsAds),
+          },
+          {
             path: 'albums',
             loadComponent: () =>
               import('./view/cms/albums/cms-albums').then((m) => m.CmsAlbums),

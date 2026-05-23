@@ -1,0 +1,250 @@
+@use 'sass:map';
+@use 'variables' as *;
+
+.home-ad-hero {
+  margin-bottom: 12px;
+  position: relative;
+  min-height: 250px;
+  display: grid;
+  align-items: center;
+  overflow: hidden;
+  border: 1px solid rgba(#d7dcea, 0.9);
+  color: #1f2a44;
+  background: #ffffff;
+  isolation: isolate;
+  cursor: pointer;
+  @include radius('medium');
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(90deg, rgba(#ffffff, 0.98) 0%, rgba(#ffffff, 0.78) 44%, rgba(#ffffff, 0.18) 100%),
+      linear-gradient(135deg, rgba($color-green, 0.2), rgba(#f0a3a3, 0.16));
+  }
+}
+
+.home-ad-hero__image {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.home-ad-hero__content {
+  width: min(560px, 64%);
+  padding: 34px 38px;
+
+  span {
+    display: inline-flex;
+    margin-bottom: 10px;
+    color: $color-green;
+    font-size: map-get($font-sizes, 'sm');
+    font-weight: 900;
+  }
+
+  h1 {
+    margin: 0;
+    color: #1f2a44;
+    font-size: clamp(2rem, 4vw, 4.3rem);
+    line-height: 0.95;
+  }
+
+  p {
+    max-width: 440px;
+    margin: 14px 0 0;
+    color: #526078;
+    font-size: map-get($font-sizes, 'lg');
+    line-height: 1.55;
+  }
+
+  button {
+    min-height: 42px;
+    margin-top: 22px;
+    border: 0;
+    padding: 0 18px;
+    color: #ffffff;
+    background: $color-green;
+    font-weight: 900;
+    cursor: pointer;
+    @include radius('circle');
+  }
+}
+
+.home-ad-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.home-ad-card {
+  position: relative;
+  min-height: 132px;
+  overflow: hidden;
+  border: 1px solid rgba(#d7dcea, 0.9);
+  background: #ffffff;
+  cursor: pointer;
+  @include radius('small');
+
+  img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(#ffffff, 0.96), rgba(#ffffff, 0.46));
+  }
+
+  div {
+    position: relative;
+    z-index: 1;
+    width: 72%;
+    padding: 20px;
+  }
+
+  span,
+  strong {
+    display: block;
+  }
+
+  span {
+    color: $color-green;
+    font-size: map-get($font-sizes, 'sm');
+    font-weight: 900;
+  }
+
+  strong {
+    margin-top: 5px;
+    color: #1f2a44;
+    font-size: map-get($font-sizes, 'xl');
+  }
+
+  button {
+    min-height: 32px;
+    margin-top: 12px;
+    border: 1px solid rgba($color-green, 0.3);
+    padding: 0 12px;
+    color: $color-green;
+    background: rgba(#ffffff, 0.86);
+    font-weight: 900;
+    cursor: pointer;
+    @include radius('circle');
+  }
+}
+
+.home-ad-popup {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(#1f2a44, 0.32);
+  backdrop-filter: blur(6px);
+}
+
+.home-ad-popup__panel {
+  position: relative;
+  width: min(760px, 100%);
+  display: grid;
+  grid-template-columns: minmax(260px, 0.9fr) minmax(0, 1fr);
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow: 0 30px 80px rgba(#1f2a44, 0.24);
+  @include radius('medium');
+
+  > img {
+    width: 100%;
+    height: 100%;
+    min-height: 360px;
+    object-fit: cover;
+  }
+}
+
+.home-ad-popup__close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 2;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  color: #526078;
+  background: rgba(#ffffff, 0.9);
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  @include radius('circle');
+}
+
+.home-ad-popup__content {
+  padding: 34px;
+
+  span {
+    color: $color-green;
+    font-weight: 900;
+  }
+
+  h2 {
+    margin: 10px 0 0;
+    color: #1f2a44;
+    font-size: map-get($font-sizes, '3xl');
+    line-height: 1.05;
+  }
+
+  p {
+    margin: 14px 0 0;
+    color: #526078;
+    line-height: 1.7;
+  }
+}
+
+.home-ad-popup__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 24px;
+
+  button {
+    min-height: 40px;
+    border: 1px solid #d7dcea;
+    padding: 0 16px;
+    color: #526078;
+    background: #ffffff;
+    font-weight: 900;
+    cursor: pointer;
+    @include radius('circle');
+  }
+
+  .home-ad-popup__primary {
+    border-color: $color-green;
+    color: #ffffff;
+    background: $color-green;
+  }
+}
+
+@media (max-width: 760px) {
+  .home-ad-hero__content {
+    width: 100%;
+    padding: 28px;
+  }
+
+  .home-ad-grid,
+  .home-ad-popup__panel {
+    grid-template-columns: 1fr;
+  }
+
+  .home-ad-popup__panel > img {
+    min-height: 210px;
+  }
+}

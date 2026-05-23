@@ -1,7 +1,18 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
-import { AlbumType, ApiService, ArtistType, SongType } from '../../../@service/api.service';
+import {
+  AlbumType,
+  ApiService,
+  ArtistType,
+  fromDateTimeInputValue,
+  ReleaseType,
+  releaseTypeLabel,
+  releaseTypeOptions,
+  SongType,
+  toDateInputValue,
+  toDateTimeInputValue,
+} from '../../../@service/api.service';
 
 @Component({
   selector: 'app-cms-albums',
@@ -23,10 +34,16 @@ export class CmsAlbums {
   public keyword = signal('');
   public page = signal(1);
   public readonly pageSize = 6;
+  public readonly releaseTypeOptions = releaseTypeOptions;
 
   public editForm = {
     name: '',
     artistId: 0,
+    type: 'album' as ReleaseType,
+    releaseDate: '',
+    uploadedAt: '',
+    availableAt: '',
+    unavailableAt: '',
   };
 
   private imageFile: File | null = null;
@@ -63,7 +80,12 @@ export class CmsAlbums {
     return (
       !!this.imagePreview() ||
       this.editForm.name !== album.name ||
-      Number(this.editForm.artistId) !== (album.artistId ?? album.artist?.id ?? 0)
+      this.editForm.type !== album.type ||
+      Number(this.editForm.artistId) !== (album.artistId ?? album.artist?.id ?? 0) ||
+      this.editForm.releaseDate !== (album.releaseDate ?? '') ||
+      this.editForm.uploadedAt !== toDateTimeInputValue(album.uploadedAt) ||
+      this.editForm.availableAt !== toDateTimeInputValue(album.availableAt) ||
+      this.editForm.unavailableAt !== toDateTimeInputValue(album.unavailableAt)
     );
   }
 
@@ -135,13 +157,18 @@ export class CmsAlbums {
         this.api.updateAlbum(album.id, {
           name: this.editForm.name.trim(),
           artistId: Number(this.editForm.artistId),
+          type: this.editForm.type,
           imgPath,
+          releaseDate: this.editForm.releaseDate,
+          uploadedAt: fromDateTimeInputValue(this.editForm.uploadedAt),
+          availableAt: fromDateTimeInputValue(this.editForm.availableAt),
+          unavailableAt: fromDateTimeInputValue(this.editForm.unavailableAt),
         }),
       );
       await this.loadData();
-      this.message.set('專輯已更新');
+      this.message.set('發行作品已更新');
     } catch (err) {
-      console.error('CMS 更新專輯失敗：', err);
+      console.error('CMS 更新發行作品失敗：', err);
       this.message.set('更新失敗，請稍後再試');
     } finally {
       this.isSaving.set(false);
@@ -160,22 +187,22 @@ export class CmsAlbums {
       await firstValueFrom(this.api.updateSong(songId, { albumId: album.id }));
       await this.loadData();
       this.selectedSongId.set(0);
-      this.message.set('歌曲已加入專輯');
+      this.message.set('歌曲已加入發行作品');
     } catch (err) {
-      console.error('CMS 加入專輯歌曲失敗：', err);
+      console.error('CMS 加入發行作品歌曲失敗：', err);
       this.message.set('加入失敗，請稍後再試');
     }
   }
 
   public async removeSongFromAlbum(song: SongType): Promise<void> {
-    const fallbackAlbum = await this.getOrCreateUncategorizedAlbum(song.artistId ?? song.artist?.id);
+    const fallbackAlbum = await this.getOrCreateSingleRelease(song);
 
     try {
       await firstValueFrom(this.api.updateSong(song.id, { albumId: fallbackAlbum.id }));
       await this.loadData();
-      this.message.set('歌曲已移到未分類');
+      this.message.set('歌曲已移到自己的單曲發行作品');
     } catch (err) {
-      console.error('CMS 移出專輯歌曲失敗：', err);
+      console.error('CMS 移出發行作品歌曲失敗：', err);
       this.message.set('移出失敗，請稍後再試');
     }
   }
@@ -187,6 +214,11 @@ export class CmsAlbums {
     this.editForm = {
       name: album.name,
       artistId: album.artistId ?? album.artist?.id ?? 0,
+      type: (album.type as ReleaseType) || 'album',
+      releaseDate: album.releaseDate ?? toDateInputValue(new Date()),
+      uploadedAt: toDateTimeInputValue(album.uploadedAt ?? new Date()),
+      availableAt: toDateTimeInputValue(album.availableAt ?? new Date()),
+      unavailableAt: toDateTimeInputValue(album.unavailableAt),
     };
   }
 
@@ -196,7 +228,7 @@ export class CmsAlbums {
       firstValueFrom(this.api.getAllArtist()),
       firstValueFrom(this.api.getAllSong()),
     ]);
-    const albumItems = albums.filter((album) => album.type === 'album');
+    const albumItems = albums.filter((album) => album.type !== 'playlist');
     this.albums.set(albumItems);
     this.artists.set(artists);
     this.songs.set(songs);
@@ -214,15 +246,24 @@ export class CmsAlbums {
     this.page.set(Math.min(Math.max(this.page(), 1), this.pageCount()));
   }
 
-  private async getOrCreateUncategorizedAlbum(artistId = 0): Promise<AlbumType> {
-    const existing = this.albums().find((album) => album.name === '未分類');
+  public releaseLabel(album: AlbumType | null | undefined): string {
+    return releaseTypeLabel(album?.type);
+  }
+
+  private async getOrCreateSingleRelease(song: SongType): Promise<AlbumType> {
+    const artistId = song.artistId ?? song.artist?.id ?? this.artists()[0]?.id ?? 1;
+    const existing = this.albums().find(
+      (album) =>
+        album.type === 'single' &&
+        album.name.trim().toLowerCase() === song.name.trim().toLowerCase() &&
+        (album.artistId ?? album.artist?.id) === artistId,
+    );
     if (existing) {
       return existing;
     }
 
-    const ownerArtistId = artistId || this.artists()[0]?.id || 1;
     const album = await firstValueFrom(
-      this.api.createAlbum('未分類', ownerArtistId, './mock/unnamed.png'),
+      this.api.createAlbum(song.name, artistId, song.imgPath || song.album?.imgPath || './mock/unnamed.png', 'single'),
     );
     this.albums.set([...this.albums(), album]);
     return album;

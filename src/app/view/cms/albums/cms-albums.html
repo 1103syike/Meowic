@@ -1,26 +1,26 @@
 <section class="cms-page">
   <header class="cms-page__header">
     <div>
-      <span>Album Catalog</span>
-      <h2>專輯管理</h2>
-      <p>編輯專輯封面、所屬歌手，並管理專輯內歌曲清單。</p>
+      <span>Release Catalog</span>
+      <h2>發行作品管理</h2>
+      <p>管理專輯、單曲、EP 的封面、歌手、發行時間與收錄歌曲。</p>
     </div>
   </header>
 
   <div class="cms-page__grid">
     <section class="cms-panel">
       <div class="cms-panel__head">
-        <h3>專輯列表</h3>
+        <h3>發行作品列表</h3>
         <span>{{ filteredAlbums().length }} / {{ albums().length }} 張</span>
       </div>
 
       <label class="cms-search">
-        <span>搜尋專輯</span>
+        <span>搜尋發行作品</span>
         <input
           type="search"
           [ngModel]="keyword()"
           (ngModelChange)="setKeyword($event)"
-          placeholder="輸入專輯或歌手"
+          placeholder="輸入作品、歌手或類型"
         />
       </label>
 
@@ -35,11 +35,11 @@
             <img [src]="album.imgPath || './mock/unnamed.png'" alt="" />
             <div>
               <strong>{{ album.name }}</strong>
-              <span>{{ album.artist?.name || '未指定歌手' }}</span>
+              <span>{{ releaseLabel(album) }} · {{ album.artist?.name || '未指定歌手' }}</span>
             </div>
           </button>
         } @empty {
-          <div class="cms-empty">找不到符合條件的專輯</div>
+          <div class="cms-empty">找不到符合條件的發行作品</div>
         }
       </div>
 
@@ -50,7 +50,7 @@
       </footer>
 
       <div class="cms-panel__subhead">
-        <h3>專輯歌曲</h3>
+        <h3>收錄歌曲</h3>
         <span>{{ albumSongs().length }} 首</span>
       </div>
 
@@ -62,17 +62,17 @@
               <strong>{{ song.name }}</strong>
               <span>{{ song.artist.name }}</span>
             </div>
-            <button type="button" (click)="removeSongFromAlbum(song)">移出</button>
+            <button type="button" (click)="removeSongFromAlbum(song)">轉成單曲</button>
           </article>
         } @empty {
-          <div class="cms-empty">這張專輯目前沒有歌曲</div>
+          <div class="cms-empty">這個發行作品目前沒有歌曲</div>
         }
       </div>
     </section>
 
     <aside class="cms-panel cms-editor">
       <div class="cms-panel__head">
-        <h3>編輯專輯</h3>
+        <h3>編輯發行作品</h3>
         @if (selectedAlbum()) {
           <span>#{{ selectedAlbum()?.id }}</span>
         }
@@ -82,8 +82,17 @@
         <img class="cms-editor__cover" [src]="selectedAlbumImage()" alt="" />
 
         <label class="cms-field">
-          <span>專輯名稱</span>
+          <span>作品名稱</span>
           <input name="albumName" [(ngModel)]="editForm.name" />
+        </label>
+
+        <label class="cms-field">
+          <span>類型</span>
+          <select name="releaseType" [(ngModel)]="editForm.type">
+            @for (option of releaseTypeOptions; track option.value) {
+              <option [ngValue]="option.value">{{ option.label }}</option>
+            }
+          </select>
         </label>
 
         <label class="cms-field">
@@ -95,15 +104,35 @@
           </select>
         </label>
 
+        <label class="cms-field">
+          <span>發行日</span>
+          <input type="date" name="albumReleaseDate" [(ngModel)]="editForm.releaseDate" />
+        </label>
+
+        <label class="cms-field">
+          <span>上傳到 Meowic</span>
+          <input type="datetime-local" name="albumUploadedAt" [(ngModel)]="editForm.uploadedAt" />
+        </label>
+
+        <label class="cms-field">
+          <span>可播放時間</span>
+          <input type="datetime-local" name="albumAvailableAt" [(ngModel)]="editForm.availableAt" />
+        </label>
+
+        <label class="cms-field">
+          <span>下架時間</span>
+          <input type="datetime-local" name="albumUnavailableAt" [(ngModel)]="editForm.unavailableAt" />
+        </label>
+
         <label class="cms-upload">
-          <span class="cms-upload__title">專輯圖片</span>
+          <span class="cms-upload__title">作品圖片</span>
           <span class="cms-upload__hint">選擇後會先預覽，儲存後才套用</span>
           <input type="file" accept="image/*" (change)="setImageFile($event)" />
         </label>
 
         <div class="cms-add-song">
           <label class="cms-field">
-            <span>新增歌曲到專輯</span>
+            <span>新增歌曲到作品</span>
             <select name="albumSong" [ngModel]="selectedSongId()" (ngModelChange)="selectedSongId.set($event)">
               <option [ngValue]="0">選擇歌曲</option>
               @for (song of availableSongs(); track song.id) {
@@ -123,11 +152,11 @@
             取消變更
           </button>
           <button class="cms-page__primary-btn" type="button" [disabled]="isSaving()" (click)="saveAlbum()">
-            {{ isSaving() ? '儲存中...' : '儲存專輯' }}
+            {{ isSaving() ? '儲存中...' : '儲存作品' }}
           </button>
         </div>
       } @else {
-        <div class="cms-empty">請先選擇一張專輯</div>
+        <div class="cms-empty">請先選擇一個發行作品</div>
       }
     </aside>
   </div>

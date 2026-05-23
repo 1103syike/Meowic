@@ -4,7 +4,16 @@ import { MatTableModule } from '@angular/material/table';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { firstValueFrom, forkJoin } from 'rxjs';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
-import { ApiService, AlbumType, SongType, UserType } from '../../@service/api.service';
+import {
+  ApiService,
+  AlbumType,
+  availabilityMessage,
+  formatDisplayDate,
+  isSongPlayable,
+  releaseTypeLabel,
+  SongType,
+  UserType,
+} from '../../@service/api.service';
 import { AuthService } from '../../@service/auth.service';
 import { FavoritePlaylistService } from '../../@service/favorite-playlist.service';
 import { MusicPlayerService } from '../../@service/music-player.service';
@@ -13,6 +22,7 @@ import { PlaybackQueueService } from '../../@service/playback-queue.service';
 
 @Component({
   selector: 'app-album',
+  standalone: true,
   imports: [MatIconModule, MatTableModule, RouterLink],
   templateUrl: './collectionDetail.html',
   styleUrl: './collectionDetail.scss',
@@ -32,26 +42,23 @@ export class CollectionDetailComponent {
   public currentCollection = signal<AlbumType | null>(null);
   public favoriteSongIds = signal<Set<number>>(new Set());
 
-  public goBack(): void {
-    this.router.navigateByUrl('/');
-  }
-
   ngOnInit() {
     this.loadFavoriteSongs();
 
-    if (this.currentRouteType === 'album') {
-      this.route.paramMap.subscribe((data) => {
-        const albumId = data.get('id') as string;
-        this.getAlbumByAlbumId(albumId);
-        this.getAllSongByAlbumId(albumId);
-      });
-    } else if (this.currentRouteType === 'playlist') {
-      this.route.paramMap.subscribe((data) => {
-        const playlistId = data.get('id') as string;
-        this.getPlaylistByPlaylistId(playlistId);
-        this.getAllSongByPlaylistId(playlistId);
-      });
-    }
+    this.route.paramMap.subscribe((data) => {
+      const id = data.get('id') ?? '';
+      if (this.currentRouteType === 'playlist') {
+        this.getPlaylistByPlaylistId(id);
+        this.getAllSongByPlaylistId(id);
+      } else {
+        this.getAlbumByAlbumId(id);
+        this.getAllSongByAlbumId(id);
+      }
+    });
+  }
+
+  public goBack(): void {
+    this.router.navigateByUrl('/');
   }
 
   private get currentRouteType(): string {
@@ -64,12 +71,8 @@ export class CollectionDetailComponent {
 
   private getPlaylistByPlaylistId(playlistId: string) {
     this.api.getPlaylistByPlaylistId(playlistId).subscribe({
-      next: (res: AlbumType[]) => {
-        this.currentCollection.set(res[0]);
-      },
-      error: (err) => {
-        console.error('取得播放清單失敗：', err);
-      },
+      next: (res: AlbumType[]) => this.currentCollection.set(res[0]),
+      error: (err) => console.error('取得播放清單失敗：', err),
     });
   }
 
@@ -82,31 +85,23 @@ export class CollectionDetailComponent {
         }
 
         const requests = res.map((item) => this.api.getSongById(item.songId.toString()));
-
         forkJoin(requests).subscribe((songs) => {
-          this.songList.set(
-            songs.map((song, index) => ({
-              ...song[0],
-              playlistSongId: res[index].id,
-            })),
-          );
-          this.checkAudioLoaded(this.songList()!);
+          const nextSongs = songs.map((song, index) => ({
+            ...song[0],
+            playlistSongId: res[index].id,
+          }));
+          this.songList.set(nextSongs);
+          this.checkAudioLoaded(nextSongs);
         });
       },
-      error: (err) => {
-        console.error('取得播放清單歌曲失敗：', err);
-      },
+      error: (err) => console.error('取得播放清單歌曲失敗：', err),
     });
   }
 
   private getAlbumByAlbumId(albumId: string) {
     this.api.getAlbumByAlbumId(albumId).subscribe({
-      next: (res: AlbumType[]) => {
-        this.currentCollection.set(res[0]);
-      },
-      error: (err) => {
-        console.error('取得專輯失敗：', err);
-      },
+      next: (res: AlbumType[]) => this.currentCollection.set(res[0]),
+      error: (err) => console.error('取得發行作品失敗：', err),
     });
   }
 
@@ -114,32 +109,47 @@ export class CollectionDetailComponent {
     this.api.getAllSongByAlbumId(albumId).subscribe({
       next: (res: SongType[]) => {
         this.songList.set(res);
-        this.checkAudioLoaded(this.songList()!);
+        this.checkAudioLoaded(res);
       },
-      error: (err) => {
-        console.error('取得專輯歌曲失敗：', err);
-      },
+      error: (err) => console.error('取得發行作品歌曲失敗：', err),
     });
   }
 
-  private checkAudioLoaded(res: SongType[]) {
-    res.forEach((song) => {
+  private checkAudioLoaded(songs: SongType[]) {
+    songs.forEach((song) => {
       const audio = new Audio(song.audioPath);
 
       audio.onloadedmetadata = () => {
         song.length = this.formatTime(audio.duration);
-        this.songList.set([...res]);
+        this.songList.set([...songs]);
       };
 
       audio.onerror = () => {
         song.length = '--:--';
-        this.songList.set([...res]);
+        this.songList.set([...songs]);
       };
     });
   }
 
-  public setPlayer(id: string) {
+  public playFirstSong(): void {
+    const firstSong = this.songList()?.find((song) => isSongPlayable(song));
+    if (!firstSong) {
+      this.showAlert('無法播放', '這個發行作品或播放清單目前沒有可播放的歌曲。', 'info');
+      return;
+    }
+
+    this.setPlayer(firstSong.id);
+    this.router.navigate(['/song', firstSong.id]);
+  }
+
+  public setPlayer(id: string | number) {
     const currentSongId = Number(id);
+    const song = this.songList()?.find((item) => item.id === currentSongId);
+    if (!isSongPlayable(song)) {
+      this.showAlert('無法播放', `這首歌曲${availabilityMessage(song)}。`, 'info');
+      return;
+    }
+
     this.playbackQueue.setQueue(
       {
         title: this.currentCollection()?.name ?? '播放佇列',
@@ -149,27 +159,57 @@ export class CollectionDetailComponent {
       },
       currentSongId,
     );
-    this.music.setPlayer(id);
+    this.music.setPlayer(id.toString());
     this.music.setIsClose(false);
-    this.navigationContext.setSongBackUrl(this.currentRouteType === 'playlist' ? `/playlist/${this.currentRouteId}` : `/album/${this.currentRouteId}`);
+    this.navigationContext.setSongBackUrl(
+      this.currentRouteType === 'playlist'
+        ? `/playlist/${this.currentRouteId}`
+        : `/album/${this.currentRouteId}`,
+    );
   }
 
-  public addToQueue(song: SongType, $event: MouseEvent): void {
-    $event.stopPropagation();
+  public addToQueue(song: SongType, event: MouseEvent): void {
+    event.stopPropagation();
+    if (!isSongPlayable(song)) {
+      this.showAlert('無法加入佇列', `這首歌曲${availabilityMessage(song)}。`, 'info');
+      return;
+    }
+
     this.playbackQueue.addToQueue(song, this.songList() ?? []);
     this.showAlert('已加入佇列', '歌曲已加入播放佇列。', 'success', 900);
   }
 
   public formatTime(time: number): string {
+    if (!Number.isFinite(Number(time))) return '--:--';
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
-
     return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
   }
 
-  public async addToPlaylist(songId: number, $event: MouseEvent): Promise<void> {
-    $event.stopPropagation();
+  public collectionReleaseDate(collection: AlbumType): string {
+    return formatDisplayDate(collection.releaseDate);
+  }
 
+  public collectionTypeLabel(collection: AlbumType): string {
+    return collection.type === 'playlist' || this.currentRouteType === 'playlist'
+      ? '播放清單'
+      : releaseTypeLabel(collection.type);
+  }
+
+  public collectionImage(collection: AlbumType): string {
+    return this.currentRouteType === 'playlist'
+      ? './mock/unnamed.png'
+      : collection.imgPath || './mock/unnamed.png';
+  }
+
+  public collectionSummary(collection: AlbumType): string {
+    return this.currentRouteType === 'playlist'
+      ? '你收藏的播放序列'
+      : `${this.collectionTypeLabel(collection)}曲目`;
+  }
+
+  public async addToPlaylist(songId: number, event: MouseEvent): Promise<void> {
+    event.stopPropagation();
     const currentUser = await this.getCurrentUser();
     if (!currentUser) {
       this.showAlert('請先登入', '登入後才能把歌曲加入播放清單。', 'warning');
@@ -202,9 +242,7 @@ export class CollectionDetailComponent {
       allowOutsideClick: () => !Swal.isLoading(),
     });
 
-    if (!result.isConfirmed || !result.value) {
-      return;
-    }
+    if (!result.isConfirmed || !result.value) return;
 
     this.showAlert('加入成功', '歌曲已加入播放清單。', 'success', 1200);
     this.refreshCurrentPlaylistIfNeeded(result.value);
@@ -214,9 +252,8 @@ export class CollectionDetailComponent {
     return this.favoriteSongIds().has(songId);
   }
 
-  public async addToFavorite(songId: number, $event: MouseEvent): Promise<void> {
-    $event.stopPropagation();
-
+  public async addToFavorite(songId: number, event: MouseEvent): Promise<void> {
+    event.stopPropagation();
     const currentUser = await this.getCurrentUser();
     if (!currentUser) {
       this.showAlert('請先登入', '登入後才能把歌曲加入最愛。', 'warning');
@@ -255,14 +292,10 @@ export class CollectionDetailComponent {
 
   private async getCurrentUser(): Promise<UserType | null> {
     const user = this.auth.user();
-    if (user) {
-      return user;
-    }
+    if (user) return user;
 
     const userRequest = this.auth.getUserInfo();
-    if (!userRequest) {
-      return null;
-    }
+    if (!userRequest) return null;
 
     const users = await firstValueFrom(userRequest);
     return users[0] ?? null;
@@ -270,20 +303,12 @@ export class CollectionDetailComponent {
 
   private async loadFavoriteSongs(): Promise<void> {
     const user = await this.getCurrentUser();
-    if (!user) {
-      this.favoriteSongIds.set(new Set());
-      return;
-    }
-
-    this.favoriteSongIds.set(await this.favoritePlaylist.getFavoriteSongIds(user.id));
+    this.favoriteSongIds.set(user ? await this.favoritePlaylist.getFavoriteSongIds(user.id) : new Set());
   }
 
-  public deleteSong(id: number | undefined, $event: MouseEvent): void {
-    $event.stopPropagation();
-
-    if (id === undefined) {
-      return;
-    }
+  public deleteSong(id: number | undefined, event: MouseEvent): void {
+    event.stopPropagation();
+    if (id === undefined) return;
 
     this.confirmAlert('確認', '確定要刪除這首歌嗎？').then((result) => {
       if (result.isConfirmed) {
@@ -315,12 +340,8 @@ export class CollectionDetailComponent {
 
   private confirmDelete(id: number): void {
     this.api.deleteSongFromPlaylist(id).subscribe({
-      next: () => {
-        this.getAllSongByPlaylistId(this.currentRouteId);
-      },
-      error: (err) => {
-        console.error('刪除歌曲失敗：', err);
-      },
+      next: () => this.getAllSongByPlaylistId(this.currentRouteId),
+      error: (err) => console.error('刪除歌曲失敗：', err),
     });
   }
 }

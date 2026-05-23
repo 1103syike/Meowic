@@ -28,7 +28,7 @@ export class CmsDashboard {
   public recommendations = signal<HomeRecommendationType | null>(null);
   public isLoading = signal(true);
 
-  public albumCount = computed(() => this.albums().filter((album) => album.type === 'album').length);
+  public albumCount = computed(() => this.albums().filter((album) => album.type !== 'playlist').length);
   public totalPlays = computed(() =>
     this.songs().reduce((total, song) => total + (Number(song.playCount) || 0), 0),
   );
@@ -43,7 +43,7 @@ export class CmsDashboard {
   public albumsWithoutSongs = computed(() =>
     this.albums().filter(
       (album) =>
-        album.type === 'album' &&
+        album.type !== 'playlist' &&
         !this.songs().some((song) => (song.albumId ?? song.album?.id) === album.id),
     ).length,
   );

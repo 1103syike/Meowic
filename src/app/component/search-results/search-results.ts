@@ -1,7 +1,17 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterLink } from '@angular/router';
-import { ApiService, ArtistType, SongType } from '../../@service/api.service';
+import Swal from 'sweetalert2';
+import {
+  AlbumType,
+  ApiService,
+  ArtistType,
+  availabilityMessage,
+  isCatalogItemPlayable,
+  isSongPlayable,
+  releaseTypeLabel,
+  SongType,
+} from '../../@service/api.service';
 import { MusicPlayerService } from '../../@service/music-player.service';
 import { NavigationContextService } from '../../@service/navigation-context.service';
 import { PlaybackQueueService } from '../../@service/playback-queue.service';
@@ -13,13 +23,19 @@ interface ArtistResult {
   artist: ArtistType;
 }
 
+interface AlbumResult {
+  type: 'album';
+  id: number;
+  album: AlbumType;
+}
+
 interface SongResult {
   type: 'song';
   id: number;
   song: SongType;
 }
 
-type SearchResult = ArtistResult | SongResult;
+type SearchResult = ArtistResult | AlbumResult | SongResult;
 
 @Component({
   selector: 'app-search-results',
@@ -35,6 +51,7 @@ export class SearchResults {
   private router: Router = inject(Router);
   public searchState: SearchStateService = inject(SearchStateService);
 
+  public albums = signal<AlbumType[]>([]);
   public artists = signal<ArtistType[]>([]);
   public songs = signal<SongType[]>([]);
 
@@ -65,8 +82,24 @@ export class SearchResults {
       .slice(0, 3);
   });
 
+  public matchedAlbums = computed(() => {
+    const keyword = this.normalizedQuery();
+
+    if (!keyword) {
+      return [];
+    }
+
+    return this.albums()
+      .filter((album) => {
+        const fields = [album.name, album.artist?.name];
+        return fields.some((field) => this.normalize(field).includes(keyword));
+      })
+      .slice(0, 6);
+  });
+
   public results = computed<SearchResult[]>(() => [
     ...this.matchedArtists().map((artist) => ({ type: 'artist' as const, id: artist.id, artist })),
+    ...this.matchedAlbums().map((album) => ({ type: 'album' as const, id: album.id, album })),
     ...this.matchedSongs().map((song) => ({ type: 'song' as const, id: song.id, song })),
   ]);
 
@@ -76,6 +109,11 @@ export class SearchResults {
       error: (err) => console.error('載入藝人失敗', err),
     });
 
+    this.api.getAllAlbum().subscribe({
+      next: (albums) => this.albums.set(albums.filter((album) => album.type !== 'playlist')),
+      error: (err) => console.error('載入發行作品失敗', err),
+    });
+
     this.api.getAllSong().subscribe({
       next: (songs) => this.songs.set(songs),
       error: (err) => console.error('載入歌曲失敗', err),
@@ -83,6 +121,11 @@ export class SearchResults {
   }
 
   public playSong(song: SongType): void {
+    if (!isSongPlayable(song)) {
+      Swal.fire('尚未開放', `此歌曲或發行作品${availabilityMessage(song)}，目前還不能播放。`, 'info');
+      return;
+    }
+
     const songs = this.matchedSongs();
     this.playbackQueue.setQueue(
       {
@@ -107,6 +150,30 @@ export class SearchResults {
 
   public artistSongCount(artistId: number): number {
     return this.songs().filter((song) => song.artistId === artistId).length;
+  }
+
+  public albumSongCount(albumId: number): number {
+    return this.songs().filter((song) => (song.albumId ?? song.album?.id) === albumId).length;
+  }
+
+  public albumStatus(album: AlbumType): string {
+    return availabilityMessage(album);
+  }
+
+  public releaseLabel(album: AlbumType): string {
+    return releaseTypeLabel(album.type);
+  }
+
+  public songStatus(song: SongType): string {
+    return availabilityMessage(song);
+  }
+
+  public shouldShowAlbumNotice(album: AlbumType): boolean {
+    return !isCatalogItemPlayable(album);
+  }
+
+  public shouldShowSongNotice(song: SongType): boolean {
+    return !isSongPlayable(song);
   }
 
   private normalizedQuery(): string {

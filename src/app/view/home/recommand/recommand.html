@@ -1,7 +1,7 @@
 <section class="recommand">
   <header class="recommand__header">
-    <h2>推薦專輯</h2>
-    <p>近期精選專輯</p>
+    <h2>推薦作品</h2>
+    <p>近期精選發行作品</p>
   </header>
   <ul class="recommand__list">
     @for (recommand of recommandAlbumList(); track $index) {
@@ -9,7 +9,7 @@
         <img class="recommand__item__image" [src]="recommand.imgPath" alt="" />
         <div class="recommand__item__content">
           <strong>{{ recommand.name }}</strong>
-          <span>專輯</span>
+          <span>發行作品</span>
         </div>
       </li>
     }

@@ -1,7 +1,15 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
-import { AlbumType, ApiService, ArtistType, SongType } from '../../../@service/api.service';
+import {
+  AlbumType,
+  ApiService,
+  ArtistType,
+  fromDateTimeInputValue,
+  SongType,
+  toDateInputValue,
+  toDateTimeInputValue,
+} from '../../../@service/api.service';
 import { AddSongDialog } from '../../../component/add-song-dialog/add-song-dialog';
 
 @Component({
@@ -29,6 +37,10 @@ export class CmsSongs {
     name: '',
     artistId: 0,
     albumId: 0,
+    releaseDate: '',
+    uploadedAt: '',
+    availableAt: '',
+    unavailableAt: '',
   };
 
   private imageFile: File | null = null;
@@ -58,15 +70,17 @@ export class CmsSongs {
 
   public hasPendingChanges(): boolean {
     const song = this.selectedSong();
-    if (!song) {
-      return false;
-    }
+    if (!song) return false;
 
     return (
       !!this.imagePreview() ||
       this.editForm.name !== song.name ||
       Number(this.editForm.artistId) !== (song.artistId ?? song.artist?.id ?? 0) ||
-      Number(this.editForm.albumId) !== (song.albumId ?? song.album?.id ?? 0)
+      Number(this.editForm.albumId) !== (song.albumId ?? song.album?.id ?? 0) ||
+      this.editForm.releaseDate !== (song.releaseDate ?? song.album?.releaseDate ?? '') ||
+      this.editForm.uploadedAt !== toDateTimeInputValue(song.uploadedAt) ||
+      this.editForm.availableAt !== toDateTimeInputValue(song.availableAt) ||
+      this.editForm.unavailableAt !== toDateTimeInputValue(song.unavailableAt)
     );
   }
 
@@ -104,7 +118,7 @@ export class CmsSongs {
     const file = (event.target as HTMLInputElement).files?.[0] ?? null;
     this.imageFile = file;
     this.imagePreview.set(file ? await this.readFileAsDataUrl(file) : '');
-    this.message.set(file ? '圖片已預覽，按下儲存後才會更新' : '');
+    this.message.set(file ? '圖片已預覽，按下儲存後才會更新。' : '');
   }
 
   public cancelChanges(): void {
@@ -118,7 +132,7 @@ export class CmsSongs {
   public async saveSong(): Promise<void> {
     const song = this.selectedSong();
     if (!song || !this.editForm.name.trim() || !this.editForm.artistId || !this.editForm.albumId) {
-      this.message.set('請填寫歌名、歌手與專輯');
+      this.message.set('請填寫歌名、歌手與發行作品');
       return;
     }
 
@@ -132,6 +146,10 @@ export class CmsSongs {
           name: this.editForm.name.trim(),
           artistId: Number(this.editForm.artistId),
           albumId: Number(this.editForm.albumId),
+          releaseDate: this.editForm.releaseDate,
+          uploadedAt: fromDateTimeInputValue(this.editForm.uploadedAt),
+          availableAt: fromDateTimeInputValue(this.editForm.availableAt),
+          unavailableAt: fromDateTimeInputValue(this.editForm.unavailableAt),
           ...(imgPath ? { imgPath } : {}),
         }),
       );
@@ -153,6 +171,10 @@ export class CmsSongs {
       name: song.name,
       artistId: song.artistId ?? song.artist?.id ?? 0,
       albumId: song.albumId ?? song.album?.id ?? 0,
+      releaseDate: song.releaseDate ?? song.album?.releaseDate ?? toDateInputValue(new Date()),
+      uploadedAt: toDateTimeInputValue(song.uploadedAt ?? new Date()),
+      availableAt: toDateTimeInputValue(song.availableAt ?? new Date()),
+      unavailableAt: toDateTimeInputValue(song.unavailableAt),
     };
   }
 
@@ -163,7 +185,7 @@ export class CmsSongs {
       firstValueFrom(this.api.getAllArtist()),
     ]);
     this.songs.set(songs);
-    this.albums.set(albums.filter((album) => album.type === 'album'));
+    this.albums.set(albums.filter((album) => album.type !== 'playlist'));
     this.artists.set(artists);
 
     const current = this.selectedSong();

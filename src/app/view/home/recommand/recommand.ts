@@ -18,7 +18,7 @@ export class Recommand {
   ngOnInit() {
     this.api.getAllAlbum().subscribe({
       next: (res: AlbumType[]) => {
-        this.recommandAlbumList.set(res.filter((album) => album.type === 'album').slice(0, 4));
+        this.recommandAlbumList.set(res.filter((album) => album.type !== 'playlist').slice(0, 4));
       },
       error: (err) => {},
     });

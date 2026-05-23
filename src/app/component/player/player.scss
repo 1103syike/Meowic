@@ -185,6 +185,13 @@
     width: 100%;
     justify-content: center;
     min-width: 0;
+
+    > span {
+      width: 48px;
+      flex: 0 0 48px;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+    }
   }
   &__start-time,
   &__end-time {
