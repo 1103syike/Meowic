@@ -5,6 +5,7 @@
 // custom components at https://material.angular.dev/guide/theming
 @use 'assets/_reset';
 @use 'assets/_variables' as vars;
+@use 'assets/_cms';
 @use '@angular/material' as mat;
 @use 'sass:map';
 
@@ -32,10 +33,10 @@ body {
   // Angular Material's system-level CSS variables. Learn more about these
   // variables at https://material.angular.dev/guide/system-variables
   background-color: var(--mat-sys-surface);
-  color: var(--mat-sys-on-surface);
+  color: vars.$text-secondary;
   font-family: vars.$font-family-base;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: map-get(vars.$font-weights, 'body');
   line-height: 1.5;
 
   // Reset the user agent margin.
@@ -63,22 +64,22 @@ body {
 }
 
 .swal2-title {
-  color: vars.$color-blue;
+  color: vars.$text-primary;
   font-size: map-get(vars.$font-sizes, '2xl');
-  font-weight: 800;
+  font-weight: map-get(vars.$font-weights, 'semibold');
 }
 
 .swal2-html-container,
 .swal2-input-label,
 .swal2-validation-message {
-  color: vars.$color-blue;
+  color: vars.$text-secondary;
 }
 
 .swal2-input,
 .swal2-select {
   border: 2px solid vars.$color-ts-blue;
   border-radius: map-get(vars.$radius, 'small');
-  color: vars.$color-blue;
+  color: vars.$text-secondary;
   box-shadow: none;
 
   &:focus {
@@ -97,7 +98,7 @@ body {
   border: 2px solid vars.$color-ts-blue;
   border-radius: map-get(vars.$radius, 'large');
   padding: 10px 24px;
-  color: vars.$color-blue;
+  color: vars.$text-secondary;
   background: vars.$color-white;
   box-shadow: 4px 4px 20px 0 rgba(vars.$color-green, 0.16);
   transition:

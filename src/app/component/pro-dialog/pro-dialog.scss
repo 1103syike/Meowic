@@ -124,12 +124,12 @@
 
 .plan-card__name {
   font-size: map-get($font-sizes, 'xl');
-  font-weight: 700;
+  font-weight: map-get($font-weights, 'semibold');
 }
 
 .plan-card__price {
   font-size: map-get($font-sizes, '2xl');
-  font-weight: 700;
+  font-weight: map-get($font-weights, 'semibold');
 
   small {
     margin-left: 4px;

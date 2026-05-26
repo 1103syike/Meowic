@@ -1,0 +1,93 @@
+@use 'sass:map';
+@use 'variables' as *;
+
+@mixin detail-page {
+  position: relative;
+  box-sizing: border-box;
+  color: $text-secondary;
+}
+
+@mixin detail-back-button {
+  position: absolute;
+  z-index: 3;
+  top: var(--detail-nav-top, 28px);
+  left: var(--detail-nav-x, 28px);
+  width: var(--detail-back-size, 38px);
+  height: var(--detail-back-size, 38px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: $text-secondary;
+  background: rgba($color-white, 0.9);
+  border: 2px solid rgba($color-blue, 0.12);
+  border-radius: map-get($radius, 'circle');
+  box-shadow: 0 10px 30px rgba($color-green, 0.12);
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+
+  &:hover {
+    cursor: pointer;
+    color: $color-white;
+    background: $color-green;
+    transform: translateY(-1px);
+  }
+
+  mat-icon {
+    transform: translateX(2px);
+  }
+}
+
+@mixin detail-topbar {
+  min-height: var(--detail-back-size, 38px);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+@mixin detail-tabs {
+  display: inline-flex;
+  min-height: var(--detail-back-size, 38px);
+  padding: 4px;
+  background: $color-ts-blue;
+  border-radius: map-get($radius, 'circle');
+}
+
+@mixin detail-tab {
+  min-width: 72px;
+  min-height: calc(var(--detail-back-size, 38px) - 8px);
+  padding: 0 16px;
+  color: $text-muted;
+  background: transparent;
+  border-radius: map-get($radius, 'circle');
+  font-size: map-get($font-sizes, 'sm');
+  font-weight: map-get($font-weights, 'semibold');
+  line-height: map-get($line-heights, 'control');
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+
+  &:hover {
+    cursor: pointer;
+    color: $color-white;
+    background: $color-green;
+  }
+}
+
+@mixin detail-tab-active {
+  color: $color-white;
+  background: $color-green;
+
+  &:hover {
+    color: $color-white;
+  }
+}
+
+@mixin detail-nav-compact {
+  --detail-nav-top: 22px;
+  --detail-nav-x: 22px;
+  --detail-back-size: 34px;
+}

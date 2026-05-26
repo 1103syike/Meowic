@@ -1,5 +1,7 @@
 @use 'sass:map';
 @use 'variables' as *;
+@use 'track-list' as track;
+@use 'detail-nav' as detail;
 
 :host {
   display: block;
@@ -8,49 +10,24 @@
   --cover-size: 210px;
   --tool-size: 36px;
   --tool-icon: 19px;
+  --detail-nav-top: 28px;
+  --detail-nav-x: 28px;
+  --detail-back-size: 38px;
+  @include track.track-list-vars(164px);
 }
 
 .collection-page {
-  position: relative;
+  @include detail.detail-page;
   box-sizing: border-box;
   min-height: 100%;
   overflow-y: auto;
-  color: $color-blue;
   @include block(28px, 30px);
-  padding-bottom: 150px;
+  padding-bottom: 230px;
   box-shadow: none;
 }
 
 .collection-back {
-  position: absolute;
-  z-index: 3;
-  top: 28px;
-  left: 42px;
-  width: 38px;
-  height: 38px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: $color-blue;
-  background: rgba($color-white, 0.88);
-  border: 2px solid rgba($color-blue, 0.12);
-  border-radius: map-get($radius, 'circle');
-  box-shadow: 0 10px 30px rgba($color-green, 0.12);
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease,
-    transform 0.2s ease;
-
-  &:hover {
-    cursor: pointer;
-    color: $color-white;
-    background: $color-green;
-    transform: translateY(-1px);
-  }
-
-  mat-icon {
-    transform: translateX(2px);
-  }
+  @include detail.detail-back-button;
 }
 
 .collection-hero {
@@ -99,9 +76,10 @@
     max-width: 920px;
     margin: 8px 0 14px;
     overflow-wrap: anywhere;
-    font-size: clamp(2rem, 4vw, 4.25rem);
-    font-weight: 800;
-    line-height: 1.04;
+    color: $text-primary;
+    font-size: map-get($font-sizes, '2xl');
+    font-weight: map-get($font-weights, 'semibold');
+    line-height: map-get($line-heights, 'heading');
   }
 }
 
@@ -112,7 +90,7 @@
   padding: 4px 12px;
   color: $color-blue;
   font-size: map-get($font-sizes, 'sm');
-  font-weight: 800;
+  font-weight: map-get($font-weights, 'medium');
   background: rgba($color-white, 0.72);
   border: 1px solid rgba($color-blue, 0.1);
   border-radius: map-get($radius, 'circle');
@@ -129,6 +107,8 @@
     align-items: center;
     padding: 4px 12px;
     color: rgba($color-blue, 0.86);
+    font-size: map-get($font-sizes, 'sm');
+    font-weight: map-get($font-weights, 'body');
     background: rgba($color-white, 0.68);
     border-radius: map-get($radius, 'circle');
   }
@@ -153,7 +133,7 @@
   gap: 8px;
   padding: 0 18px;
   color: $color-white;
-  font-weight: 800;
+  font-weight: map-get($font-weights, 'semibold');
   background: $color-green;
   border-radius: map-get($radius, 'circle');
   transition:
@@ -194,8 +174,9 @@
   }
 
   span {
-    color: rgba($color-blue, 0.72);
+    color: $text-soft;
     font-size: map-get($font-sizes, 'sm');
+    font-weight: map-get($font-weights, 'body');
   }
 }
 
@@ -203,16 +184,11 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
+  @include track.track-list-card;
 }
 
 .track-row {
-  display: grid;
-  grid-template-columns: 42px minmax(220px, 1.2fr) minmax(150px, 0.8fr) 76px 174px;
-  gap: 14px;
-  align-items: center;
-  min-height: 68px;
-  padding: 8px 12px;
-  color: $color-blue;
+  @include track.track-list-flat-row;
   border-radius: map-get($radius, 'small');
   transition:
     background-color 0.2s ease,
@@ -227,11 +203,7 @@
 }
 
 .track-row--head {
-  min-height: 38px;
-  color: rgba($color-blue, 0.72);
-  font-size: map-get($font-sizes, 'sm');
-  font-weight: 800;
-  background: rgba($color-blue, 0.055);
+  @include track.track-list-head;
 
   span:nth-child(4),
   span:nth-child(4),
@@ -241,8 +213,8 @@
 }
 
 .track-row__index {
-  font-weight: 800;
-  color: rgba($color-blue, 0.7);
+  font-weight: map-get($font-weights, 'semibold');
+  color: $text-muted;
 }
 
 .track-row:hover .track-row__index,
@@ -253,7 +225,7 @@
 }
 
 .track-row:hover .track-row__song span {
-  color: rgba($color-blue, 0.74);
+  color: $text-soft;
 }
 
 .track-row__song {
@@ -284,8 +256,9 @@
   }
 
   span {
-    color: rgba($color-blue, 0.74);
+    color: $text-soft;
     font-size: map-get($font-sizes, 'sm');
+    font-weight: map-get($font-weights, 'medium');
   }
 }
 
@@ -293,7 +266,7 @@
 .track-row__time {
   min-width: 0;
   overflow: hidden;
-  color: rgba($color-blue, 0.78);
+  color: $text-muted;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -304,9 +277,7 @@
 }
 
 .track-row__tools {
-  display: flex;
-  justify-content: flex-end;
-  gap: 6px;
+  @include track.track-list-actions;
 }
 
 .track-row__tool {
@@ -350,7 +321,7 @@
   gap: 6px;
   padding: 28px;
   text-align: center;
-  color: rgba($color-blue, 0.76);
+  color: $text-soft;
   background: rgba($color-blue, 0.045);
   border: 1px solid rgba($color-blue, 0.08);
   border-radius: map-get($radius, 'small');
@@ -364,25 +335,27 @@
   }
 
   strong {
-    color: $color-blue;
+    color: $text-primary;
     font-size: map-get($font-sizes, 'lg');
+    font-weight: map-get($font-weights, 'semibold');
   }
 }
 
 @media (max-width: 1280px) {
   :host {
+    @include detail.detail-nav-compact;
     --cover-size: 170px;
     --tool-size: 34px;
     --tool-icon: 18px;
+    --track-index: 36px;
+    --track-album: minmax(110px, 0.7fr);
+    --track-actions: 164px;
+    --track-gap: 10px;
   }
 
   .collection-page {
     padding: 22px;
-  }
-
-  .collection-back {
-    top: 22px;
-    left: 34px;
+    padding-bottom: 220px;
   }
 
   .collection-hero {
@@ -390,16 +363,18 @@
     gap: 22px;
     padding: 56px 22px 22px;
   }
-
-  .track-row {
-    grid-template-columns: 36px minmax(200px, 1.2fr) minmax(110px, 0.7fr) 64px 164px;
-    gap: 10px;
-  }
 }
 
 @media (max-width: 1024px) {
+  :host {
+    --track-index: 34px;
+    --track-song: minmax(190px, 1fr);
+    --track-album: minmax(110px, 0.6fr);
+    --track-actions: 150px;
+  }
+
   .track-row {
-    grid-template-columns: 34px minmax(190px, 1fr) minmax(110px, 0.6fr) 150px;
+    grid-template-columns: var(--track-index) var(--track-song) var(--track-album) var(--track-actions);
   }
 
   .track-row > span:nth-child(4),
@@ -413,17 +388,12 @@
     --cover-size: 116px;
     --tool-size: 30px;
     --tool-icon: 16px;
+    @include detail.detail-nav-compact;
   }
 
   .collection-page {
     padding: 16px;
-  }
-
-  .collection-back {
-    top: 16px;
-    left: 28px;
-    width: 34px;
-    height: 34px;
+    padding-bottom: 200px;
   }
 
   .collection-hero {
@@ -462,20 +432,10 @@
     align-items: flex-start;
   }
 
-  .track-row {
-    grid-template-columns: 28px minmax(0, 1fr) 118px;
-    min-height: 62px;
-    gap: 8px;
-    padding: 7px 6px;
-  }
+  @include track.track-list-mobile-flat;
 
   .track-row--head {
-    min-height: 34px;
-  }
-
-  .track-row > span:nth-child(3),
-  .track-row__album {
-    display: none;
+    min-height: var(--track-header-height);
   }
 
   .track-row__song {
@@ -485,10 +445,6 @@
       width: 40px;
       height: 40px;
     }
-  }
-
-  .track-row__tools {
-    gap: 4px;
   }
 }
 

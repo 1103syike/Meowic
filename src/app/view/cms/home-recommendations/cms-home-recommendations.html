@@ -2,11 +2,11 @@
   <header class="cms-page__header">
     <div>
       <span>Home Curation</span>
-      <h2>首頁推薦</h2>
-      <p>管理首頁熱門歌曲與熱門藝人，搜尋後勾選內容，下方可調整顯示順序。</p>
+      <h2>首頁精選</h2>
+      <p>管理首頁人工策展內容。熱門榜單會依播放數據自動更新；精選區上限為歌曲 {{ songLimit }} 首、藝人 {{ artistLimit }} 位、專輯 {{ albumLimit }} 張。</p>
     </div>
     <button class="cms-page__primary-btn" type="button" [disabled]="isSaving()" (click)="save()">
-      {{ isSaving() ? '儲存中...' : '儲存首頁推薦' }}
+      {{ isSaving() ? '儲存中...' : '儲存首頁精選' }}
     </button>
   </header>
 
@@ -23,8 +23,8 @@
       <section class="cms-panel">
         <div class="cms-panel__head">
           <div>
-            <h3>可上稿歌曲</h3>
-            <span>{{ selectedSongIds().length }} 首已選 · 共 {{ filteredSongs().length }} 筆</span>
+            <h3>主打歌曲池</h3>
+            <span>{{ selectedSongIds().length }} / {{ songLimit }} 首已選 · 共 {{ filteredSongs().length }} 筆</span>
           </div>
         </div>
 
@@ -68,8 +68,8 @@
       <section class="cms-panel">
         <div class="cms-panel__head">
           <div>
-            <h3>可上稿藝人</h3>
-            <span>{{ selectedArtistIds().length }} 位已選 · 共 {{ filteredArtists().length }} 筆</span>
+            <h3>焦點藝人池</h3>
+            <span>{{ selectedArtistIds().length }} / {{ artistLimit }} 位已選 · 共 {{ filteredArtists().length }} 筆</span>
           </div>
         </div>
 
@@ -109,13 +109,58 @@
           <button type="button" [disabled]="artistPage() === artistPageCount()" (click)="changeArtistPage(1)">下一頁</button>
         </footer>
       </section>
+
+      <section class="cms-panel">
+        <div class="cms-panel__head">
+          <div>
+            <h3>焦點專輯池</h3>
+            <span>{{ selectedAlbumIds().length }} / {{ albumLimit }} 張已選 · 共 {{ filteredAlbums().length }} 張</span>
+          </div>
+        </div>
+
+        <label class="cms-search">
+          <span>搜尋專輯</span>
+          <input
+            type="search"
+            [ngModel]="albumKeyword()"
+            (ngModelChange)="setAlbumKeyword($event)"
+            placeholder="輸入專輯名稱或藝人"
+          />
+        </label>
+
+        <div class="cms-choice-list">
+          @for (album of pagedAlbums(); track album.id) {
+            <button
+              class="cms-choice"
+              type="button"
+              [class.cms-choice--active]="isAlbumSelected(album.id)"
+              (click)="toggleAlbum(album.id)"
+            >
+              <img [src]="album.imgPath || './mock/unnamed.png'" alt="" />
+              <span>
+                <strong>{{ album.name }}</strong>
+                <small>{{ album.artist?.name || '未知藝人' }}</small>
+              </span>
+              <i>{{ isAlbumSelected(album.id) ? '已選' : '加入' }}</i>
+            </button>
+          } @empty {
+            <p class="cms-empty">沒有符合條件的專輯。</p>
+          }
+        </div>
+
+        <footer class="cms-pagination">
+          <button type="button" [disabled]="albumPage() === 1" (click)="changeAlbumPage(-1)">上一頁</button>
+          <span>{{ albumPage() }} / {{ albumPageCount() }}</span>
+          <button type="button" [disabled]="albumPage() === albumPageCount()" (click)="changeAlbumPage(1)">下一頁</button>
+        </footer>
+      </section>
     </div>
 
     <div class="cms-page__grid">
       <section class="cms-panel">
         <div class="cms-panel__head">
           <div>
-            <h3>首頁歌曲順序</h3>
+            <h3>主打歌曲順序</h3>
             <span>{{ selectedSongs().length }} 首</span>
           </div>
         </div>
@@ -136,7 +181,7 @@
       <section class="cms-panel">
         <div class="cms-panel__head">
           <div>
-            <h3>首頁藝人順序</h3>
+            <h3>焦點藝人順序</h3>
             <span>{{ selectedArtists().length }} 位</span>
           </div>
         </div>
@@ -150,6 +195,27 @@
             </div>
           } @empty {
             <p class="cms-empty">尚未選擇藝人。</p>
+          }
+        </div>
+      </section>
+
+      <section class="cms-panel">
+        <div class="cms-panel__head">
+          <div>
+            <h3>焦點專輯順序</h3>
+            <span>{{ selectedAlbums().length }} 張</span>
+          </div>
+        </div>
+        <div class="cms-rank-list">
+          @for (album of selectedAlbums(); track album.id; let i = $index) {
+            <div class="cms-rank">
+              <span>{{ i + 1 }}</span>
+              <strong>{{ album.name }}</strong>
+              <button type="button" (click)="moveAlbum(album.id, -1)">上移</button>
+              <button type="button" (click)="moveAlbum(album.id, 1)">下移</button>
+            </div>
+          } @empty {
+            <p class="cms-empty">尚未選擇專輯。</p>
           }
         </div>
       </section>

@@ -1,0 +1,131 @@
+@use 'sass:map';
+@use 'variables' as *;
+
+@mixin media-list {
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--media-list-gap, 8px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@mixin media-row($columns: var(--media-thumb-size) minmax(0, 1fr)) {
+  width: 100%;
+  min-height: var(--media-row-height, 64px);
+  display: grid;
+  grid-template-columns: $columns;
+  align-items: center;
+  gap: var(--media-row-gap, 10px);
+  padding: var(--media-row-padding, 8px);
+  border: 1px solid transparent;
+  color: $text-secondary;
+  background: transparent;
+  box-sizing: border-box;
+  font: inherit;
+  line-height: map-get($line-heights, 'body');
+  text-align: left;
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    transform 0.18s ease;
+  @include radius('small');
+}
+
+@mixin media-row-interactive {
+  &:hover,
+  &--active,
+  &--current {
+    cursor: pointer;
+    border-color: $color-green;
+    color: $color-white;
+    background: $color-green;
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+@mixin media-thumb {
+  width: var(--media-thumb-size, 52px);
+  height: var(--media-thumb-size, 52px);
+  display: block;
+  align-self: center;
+  justify-self: center;
+  flex: 0 0 var(--media-thumb-size, 52px);
+  object-fit: cover;
+  @include radius('small');
+}
+
+@mixin media-content {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--media-content-gap, 3px);
+  align-self: center;
+}
+
+@mixin media-title {
+  overflow: hidden;
+  color: currentColor;
+  font-size: map-get($font-sizes, 'sm');
+  font-weight: map-get($font-weights, 'semibold');
+  line-height: map-get($line-heights, 'heading');
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin media-subtitle {
+  overflow: hidden;
+  color: $text-soft;
+  font-size: map-get($font-sizes, 'xs');
+  font-weight: map-get($font-weights, 'medium');
+  line-height: map-get($line-heights, 'heading');
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin media-subtitle-on-active {
+  &:hover,
+  &--active,
+  &--current {
+    .media-subtitle,
+    [data-media-subtitle] {
+      color: rgba($color-white, 0.78);
+    }
+  }
+}
+
+@mixin media-icon-button($size: 30px, $icon-size: 17px) {
+  width: $size;
+  height: $size;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+  padding: 0;
+  border: 1px solid $color-ts-blue;
+  color: $text-secondary;
+  background: $color-white;
+  @include radius('circle');
+
+  mat-icon {
+    width: $icon-size;
+    height: $icon-size;
+    font-size: $icon-size;
+    line-height: $icon-size;
+  }
+
+  &:hover {
+    cursor: pointer;
+    color: $color-white;
+    background: $color-blue;
+    border-color: $color-blue;
+  }
+}

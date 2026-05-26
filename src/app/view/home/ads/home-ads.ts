@@ -47,6 +47,10 @@ export class HomeAds {
     this.router.navigate([routeMap[ad.linkType], ad.linkTarget]);
   }
 
+  public imagePositionStyle(ad: AdvertisementType): string {
+    return `${ad.imagePositionX ?? 50}% ${ad.imagePositionY ?? 50}%`;
+  }
+
   public closePopup(todayOnly = false): void {
     if (todayOnly) {
       localStorage.setItem(this.popupDismissKey, this.todayKey());

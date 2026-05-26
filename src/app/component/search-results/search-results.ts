@@ -59,7 +59,7 @@ export class SearchResults {
     const keyword = this.normalizedQuery();
 
     if (!keyword) {
-      return this.songs().slice(0, 12);
+      return [];
     }
 
     return this.songs()
@@ -102,6 +102,8 @@ export class SearchResults {
     ...this.matchedAlbums().map((album) => ({ type: 'album' as const, id: album.id, album })),
     ...this.matchedSongs().map((song) => ({ type: 'song' as const, id: song.id, song })),
   ]);
+
+  public hasQuery = computed(() => this.normalizedQuery().length > 0);
 
   ngOnInit(): void {
     this.api.getAllArtist().subscribe({

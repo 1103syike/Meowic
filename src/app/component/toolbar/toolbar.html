@@ -1,25 +1,21 @@
 <main class="toolbar">
-  <button class="toolbar__btn" routerLink="/" (click)="searchState.closeSearch()">
-    <mat-icon aria-hidden="true">home</mat-icon>
-    首頁
-  </button>
+  <div class="toolbar__search-shell" [class.toolbar__search-shell--open]="searchState.isSearchOpen()">
+    <button class="toolbar__btn" type="button" (click)="openSearch()">
+      <mat-icon aria-hidden="true">search</mat-icon>
+      搜尋
+    </button>
 
-  @if (searchState.isSearchOpen()) {
-    <label class="toolbar__search">
+    <label class="toolbar__search" [attr.aria-hidden]="!searchState.isSearchOpen()">
       <mat-icon aria-hidden="true">search</mat-icon>
       <input
         #searchInput
         type="text"
-        placeholder="搜尋歌曲、藝人、專輯"
+        placeholder="搜尋歌曲、專輯或藝人"
         [ngModel]="searchState.query()"
         (ngModelChange)="updateSearch($event)"
-        autofocus
+        (blur)="collapseSearchIfEmpty()"
+        [disabled]="!searchState.isSearchOpen()"
       />
     </label>
-  } @else {
-    <button class="toolbar__btn" routerLink="/" (click)="openSearch()">
-      <mat-icon aria-hidden="true">search</mat-icon>
-      搜尋
-    </button>
-  }
+  </div>
 </main>

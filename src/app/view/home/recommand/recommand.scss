@@ -95,7 +95,7 @@
     margin-top: 4px;
     color: rgba($color-blue, 0.62);
     font-size: map-get($font-sizes, 'xs');
-    font-weight: 700;
+    font-weight: map-get($font-weights, 'semibold');
   }
 }
 

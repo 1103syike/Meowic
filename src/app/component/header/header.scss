@@ -6,20 +6,20 @@
   min-width: 0;
   display: flex;
   align-items: center;
-  gap: 20px;
-  padding: 14px 24px;
-  color: $color-blue;
+  gap: 18px;
+  padding: 10px 22px;
+  color: $text-secondary;
   background: $color-white;
-  border: 1px solid $color-ts-blue;
-  box-shadow: 0 10px 24px rgba($color-blue, 0.06);
+  border: 2px solid $color-ts-blue;
+  box-shadow: 4px 4px 20px 0 rgba($color-green, 0.14);
   box-sizing: border-box;
-  @include radius('small');
+  @include radius('large');
 }
 
 .header__brand {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 9px;
   flex: 0 0 auto;
 
   &:hover {
@@ -28,19 +28,22 @@
 }
 
 .header__logo {
-  color: #101828;
-  font-size: map-get($font-sizes, '3xl');
+  color: $color-blue;
+  font-size: map-get($font-sizes, '2xl');
+  font-weight: map-get($font-weights, 'semibold');
   line-height: 1;
+  letter-spacing: 0;
 }
 
 .header__patch {
-  min-height: 30px;
+  min-height: 24px;
   display: inline-flex;
   align-items: center;
-  padding: 0 8px;
+  padding: 0 7px;
   color: $color-white;
   background: $color-green;
   font-size: map.get($font-sizes, 'xs');
+  font-weight: map-get($font-weights, 'semibold');
   @include radius('small');
 }
 
@@ -48,30 +51,32 @@
   min-width: 0;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
   padding: 4px;
   background: $color-ts-blue;
+  overflow-x: auto;
+  flex: 0 1 auto;
   @include radius('small');
 }
 
 .header__nav__btn,
 .user__login {
-  min-height: 42px;
+  min-height: 36px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   border: 1px solid transparent;
-  padding: 0 18px;
-  color: $color-blue;
+  padding: 0 14px;
+  color: $text-muted;
   background: transparent;
+  font-size: map-get($font-sizes, 'sm');
+  font-weight: map-get($font-weights, 'medium');
   text-decoration: none;
   white-space: nowrap;
   transition:
     background-color 0.2s ease,
     border-color 0.2s ease,
-    color 0.2s ease,
-    box-shadow 0.2s ease,
-    transform 0.2s ease;
+    color 0.2s ease;
   @include radius('small');
 
   &:hover {
@@ -79,12 +84,116 @@
     color: $color-white;
     background: $color-green;
     border-color: $color-green;
-    box-shadow: 0 8px 18px rgba($color-green, 0.2);
-    transform: translateY(-1px);
+  }
+}
+
+.header__actions {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1 1 auto;
+  justify-content: flex-end;
+}
+
+.header__search-shell {
+  position: relative;
+  flex: 0 0 auto;
+  width: 38px;
+  height: 38px;
+  transition: width 0.24s ease;
+}
+
+.header__search,
+.header__search-trigger {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  box-sizing: border-box;
+  color: $color-blue;
+  background: $color-ts-blue;
+  border: 1px solid transparent;
+  @include radius('small');
+
+  mat-icon {
+    width: 20px;
+    height: 20px;
+    color: $color-green;
+    font-size: 20px;
+  }
+}
+
+.header__search {
+  padding: 0 12px;
+  background: $color-white;
+  border-color: $color-ts-blue;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(8px) scaleX(0.82);
+  transform-origin: right center;
+  transition:
+    opacity 0.18s ease,
+    transform 0.24s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+
+  input {
+    width: 100%;
+    min-width: 0;
+    border: none;
+    outline: none;
+    color: $text-secondary;
+    background: transparent;
+    font-size: map-get($font-sizes, 'sm');
+    font-weight: map-get($font-weights, 'body');
+    opacity: 0;
+    transition: opacity 0.16s ease 0.06s;
+  }
+}
+
+.header__search-trigger {
+  justify-content: center;
+  padding: 0;
+  transition:
+    opacity 0.16s ease,
+    transform 0.22s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+
+  &:hover {
+    cursor: pointer;
+    color: $color-white;
+    background: $color-green;
+    border-color: $color-green;
+
+    mat-icon {
+      color: $color-white;
+    }
+  }
+}
+
+.header__search-shell--open {
+  width: clamp(160px, 18vw, 260px);
+
+  .header__search {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(0) scaleX(1);
   }
 
-  &:active {
-    transform: translateY(0);
+  .header__search input {
+    opacity: 1;
+  }
+
+  .header__search-trigger {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(-8px) scale(0.86);
   }
 }
 
@@ -92,8 +201,7 @@
   min-width: 0;
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-left: auto;
+  gap: 10px;
 }
 
 .user__profile {
@@ -106,8 +214,9 @@
 .user__name {
   max-width: 120px;
   overflow: hidden;
-  color: $color-blue;
-  font-size: map-get($font-sizes, 'base');
+  color: $text-secondary;
+  font-size: map-get($font-sizes, 'sm');
+  font-weight: map-get($font-weights, 'medium');
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -118,6 +227,7 @@
   color: $color-green;
   background: rgba($color-green, 0.12);
   font-size: map-get($font-sizes, 'xs');
+  font-weight: map-get($font-weights, 'semibold');
   @include radius('small');
 }
 
@@ -128,19 +238,18 @@
 
 @media (max-width: 1280px) {
   .header {
-    gap: 12px;
-    padding: 12px 18px;
+    gap: 14px;
+    padding: 9px 14px;
   }
 
   .header__logo {
-    font-size: map-get($font-sizes, '2xl');
+    font-size: map-get($font-sizes, 'xl');
   }
 
   .header__nav__btn,
   .user__login {
-    min-height: 38px;
-    padding: 0 14px;
-    font-size: map-get($font-sizes, 'sm');
+    min-height: 34px;
+    padding: 0 12px;
   }
 }
 
@@ -153,28 +262,31 @@
   .header__nav {
     order: 3;
     width: 100%;
-    overflow-x: auto;
+  }
+
+  .header__actions {
+    margin-left: auto;
   }
 }
 
 @media (max-width: 600px) {
   .header {
-    padding: 12px;
+    padding: 10px;
     gap: 8px;
   }
 
   .header__logo {
-    font-size: map-get($font-sizes, 'xl');
+    font-size: map-get($font-sizes, 'lg');
   }
 
   .header__patch {
-    min-height: 26px;
-    padding: 0 7px;
+    min-height: 22px;
+    padding: 0 6px;
   }
 
   .header__nav__btn,
   .user__login {
-    min-height: 34px;
+    min-height: 32px;
     padding: 0 10px;
   }
 

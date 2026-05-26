@@ -12,7 +12,7 @@
   height: 100vh;
   display: grid;
   grid-template-columns: 250px minmax(0, 1fr);
-  color: #1f2a44;
+  color: $text-primary;
   background: #eef1f8;
   box-sizing: border-box;
   overflow: hidden;
@@ -49,7 +49,7 @@
   span {
     display: block;
     margin-top: 4px;
-    color: #66728a;
+    color: $text-muted;
     font-size: map-get($font-sizes, 'sm');
   }
 }
@@ -62,7 +62,7 @@
   justify-content: center;
   color: #ffffff;
   background: #0b4778;
-  font-weight: 800;
+  font-weight: map-get($font-weights, 'semibold');
   @include radius('circle');
 }
 
@@ -82,7 +82,7 @@
   gap: 12px;
   padding: 0 22px;
   border-left: 4px solid transparent;
-  color: #1f2a44;
+  color: $text-primary;
   text-decoration: none;
   box-sizing: border-box;
   transition:
@@ -146,10 +146,10 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  color: #1f2a44;
+  color: $text-primary;
 
   span {
-    color: #66728a;
+    color: $text-muted;
     font-size: map-get($font-sizes, 'sm');
   }
 }
@@ -162,7 +162,7 @@
   justify-content: center;
   color: #ffffff;
   background: #2f6fed;
-  font-weight: 700;
+  font-weight: map-get($font-weights, 'semibold');
   @include radius('circle');
 }
 

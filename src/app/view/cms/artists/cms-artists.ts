@@ -2,6 +2,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 import { ApiService, ArtistType } from '../../../@service/api.service';
+import { formatMissingFields, getCmsErrorMessage, showCmsError, showCmsSuccess } from '../cms-feedback';
 
 @Component({
   selector: 'app-cms-artists',
@@ -17,6 +18,7 @@ export class CmsArtists {
   public selectedArtist = signal<ArtistType | null>(null);
   public isSaving = signal(false);
   public message = signal('');
+  public invalidFields = signal<string[]>([]);
   public keyword = signal('');
   public page = signal(1);
   public readonly pageSize = 8;
@@ -27,6 +29,9 @@ export class CmsArtists {
   };
 
   private imageFile: File | null = null;
+  private readonly fieldLabels: Record<string, string> = {
+    name: '藝人名稱',
+  };
 
   public selectedArtistImage = computed(() => {
     const artist = this.selectedArtist();
@@ -36,11 +41,8 @@ export class CmsArtists {
   public filteredArtists = computed(() => {
     const keyword = this.keyword().trim().toLowerCase();
     if (!keyword) return this.artists();
-
     return this.artists().filter((artist) =>
-      [artist.name, artist.description].some((value) =>
-        (value ?? '').toLowerCase().includes(keyword),
-      ),
+      [artist.name, artist.description].some((value) => (value ?? '').toLowerCase().includes(keyword)),
     );
   });
 
@@ -49,24 +51,15 @@ export class CmsArtists {
     return this.filteredArtists().slice(start, start + this.pageSize);
   });
 
-  public pageCount = computed(() =>
-    Math.max(1, Math.ceil(this.filteredArtists().length / this.pageSize)),
-  );
+  public pageCount = computed(() => Math.max(1, Math.ceil(this.filteredArtists().length / this.pageSize)));
 
   public hasPendingChanges(): boolean {
     const artist = this.selectedArtist();
-    if (!artist) {
-      return false;
-    }
-
-    return (
-      !!this.imagePreview() ||
-      this.editForm.name !== artist.name ||
-      this.editForm.description !== artist.description
-    );
+    if (!artist) return false;
+    return !!this.imagePreview() || this.editForm.name !== artist.name || this.editForm.description !== artist.description;
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadArtists();
   }
 
@@ -88,26 +81,34 @@ export class CmsArtists {
     const file = (event.target as HTMLInputElement).files?.[0] ?? null;
     this.imageFile = file;
     this.imagePreview.set(file ? await this.readFileAsDataUrl(file) : '');
-    this.message.set(file ? '圖片已預覽，按下儲存後才會更新' : '');
+    this.message.set(file ? '圖片已選擇，儲存後會更新頭像。' : '');
   }
 
   public cancelChanges(): void {
     const artist = this.selectedArtist();
     if (artist) {
       this.resetEditor(artist);
-      this.message.set('已取消未儲存變更');
+      this.message.set('已還原尚未儲存的變更。');
     }
+  }
+
+  public isInvalid(field: string): boolean {
+    return this.invalidFields().includes(field);
   }
 
   public async saveArtist(): Promise<void> {
     const artist = this.selectedArtist();
-    if (!artist || !this.editForm.name.trim()) {
-      this.message.set('請填寫藝人名稱');
+    const invalidFields = this.validateForm();
+    if (!artist || invalidFields.length) {
+      this.invalidFields.set(invalidFields.length ? invalidFields : ['artist']);
+      this.message.set('請確認紅框欄位是否填寫正確。');
+      await showCmsError('儲存失敗', formatMissingFields(invalidFields, this.fieldLabels, '藝人'));
       return;
     }
 
     this.isSaving.set(true);
     this.message.set('');
+    this.invalidFields.set([]);
 
     try {
       const imgPath = this.imageFile ? await this.uploadImage(this.imageFile) : artist.imgPath;
@@ -119,17 +120,27 @@ export class CmsArtists {
         }),
       );
       await this.loadArtists();
-      this.message.set('藝人資料已更新');
+      this.message.set('藝人已儲存成功。');
+      await showCmsSuccess('藝人已儲存');
     } catch (err) {
       console.error('CMS 更新藝人失敗：', err);
-      this.message.set('更新失敗，請稍後再試');
+      const message = getCmsErrorMessage(err, '儲存失敗，請確認 API server 是否正常。');
+      this.message.set(message);
+      await showCmsError('儲存失敗', message);
     } finally {
       this.isSaving.set(false);
     }
   }
 
+  private validateForm(): string[] {
+    const invalid: string[] = [];
+    if (!this.editForm.name.trim()) invalid.push('name');
+    return invalid;
+  }
+
   private resetEditor(artist: ArtistType): void {
     this.message.set('');
+    this.invalidFields.set([]);
     this.imageFile = null;
     this.imagePreview.set('');
     this.editForm = {
@@ -145,9 +156,7 @@ export class CmsArtists {
     const current = this.selectedArtist();
     if (current) {
       const refreshed = artists.find((artist) => artist.id === current.id);
-      if (refreshed) {
-        this.selectArtist(refreshed);
-      }
+      if (refreshed) this.selectArtist(refreshed);
     } else if (artists.length) {
       this.selectArtist(artists[0]);
     }

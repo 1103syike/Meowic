@@ -1,50 +1,67 @@
 <section class="search-results">
   <header class="search-results__header">
-    <h1>搜尋結果</h1>
-    <span>{{ matchedArtists().length }} 位藝人 · {{ matchedAlbums().length }} 個發行作品 · {{ matchedSongs().length }} 首歌曲</span>
+    <h1>搜尋</h1>
+    @if (hasQuery()) {
+      <span>{{ matchedArtists().length }} 位藝人 · {{ matchedAlbums().length }} 張作品 · {{ matchedSongs().length }} 首歌曲</span>
+    } @else {
+      <span>輸入關鍵字開始搜尋</span>
+    }
   </header>
 
-  <div class="result-list">
-    @for (result of results(); track result.type + '-' + result.id) {
-      @if (result.type === 'artist') {
-        <a class="result-row result-row--artist" [routerLink]="['/artist', result.artist.id]" (click)="searchState.closeSearch()">
-          <img class="result-row__image result-row__image--artist" [src]="result.artist.imgPath || './mock/unnamed.png'" alt="" />
-          <span class="result-row__content">
-            <span class="result-row__title">{{ result.artist.name }}</span>
-            <span class="result-row__meta">藝人 · {{ artistSongCount(result.artist.id) }} 首歌曲</span>
-          </span>
-          <span class="result-row__type">藝人</span>
-          <mat-icon class="result-row__arrow" aria-hidden="true">chevron_right</mat-icon>
-        </a>
-      } @else if (result.type === 'album') {
-        <a class="result-row result-row--album" [routerLink]="['/album', result.album.id]" (click)="searchState.closeSearch()">
-          <img class="result-row__image" [src]="result.album.imgPath || './mock/unnamed.png'" alt="" />
-          <span class="result-row__content">
-            <span class="result-row__title">{{ result.album.name }}</span>
-            <span class="result-row__meta">{{ releaseLabel(result.album) }} · {{ result.album.artist?.name || '未知藝人' }} · {{ albumSongCount(result.album.id) }} 首歌曲</span>
-            @if (shouldShowAlbumNotice(result.album)) {
-              <span class="result-row__notice">此發行作品{{ albumStatus(result.album) }}</span>
-            }
-          </span>
-          <span class="result-row__type">{{ releaseLabel(result.album) }}</span>
-          <mat-icon class="result-row__arrow" aria-hidden="true">album</mat-icon>
-        </a>
-      } @else {
-        <button class="result-row result-row--song" type="button" (click)="playSong(result.song)">
-          <img class="result-row__image" [src]="songImage(result.song)" alt="" />
-          <span class="result-row__content">
-            <span class="result-row__title">{{ result.song.name }}</span>
-            <span class="result-row__meta">歌曲 · {{ result.song.artist.name }} · {{ result.song.album.name }}</span>
-            @if (shouldShowSongNotice(result.song)) {
-              <span class="result-row__notice">此歌曲或發行作品{{ songStatus(result.song) }}</span>
-            }
-          </span>
-          <span class="result-row__type">歌曲</span>
-          <mat-icon class="result-row__arrow" aria-hidden="true">play_arrow</mat-icon>
-        </button>
+  @if (!hasQuery()) {
+    <section class="search-results__prompt" aria-label="搜尋提示">
+      <mat-icon aria-hidden="true">search</mat-icon>
+      <h2>想找什麼音樂？</h2>
+      <p>輸入歌曲、藝人或專輯名稱，Meowic 會整理最接近的結果給你。</p>
+      <div class="search-results__hint-list" aria-label="可搜尋的內容">
+        <span>歌曲</span>
+        <span>藝人</span>
+        <span>專輯</span>
+      </div>
+    </section>
+  } @else {
+    <div class="result-list">
+      @for (result of results(); track result.type + '-' + result.id) {
+        @if (result.type === 'artist') {
+          <a class="result-row result-row--artist" [routerLink]="['/artist', result.artist.id]" (click)="searchState.closeSearch()">
+            <img class="result-row__image result-row__image--artist" [src]="result.artist.imgPath || './mock/unnamed.png'" alt="" />
+            <span class="result-row__content">
+              <span class="result-row__title">{{ result.artist.name }}</span>
+              <span class="result-row__meta">藝人 · {{ artistSongCount(result.artist.id) }} 首歌曲</span>
+            </span>
+            <span class="result-row__type">藝人</span>
+            <mat-icon class="result-row__arrow" aria-hidden="true">chevron_right</mat-icon>
+          </a>
+        } @else if (result.type === 'album') {
+          <a class="result-row result-row--album" [routerLink]="['/album', result.album.id]" (click)="searchState.closeSearch()">
+            <img class="result-row__image" [src]="result.album.imgPath || './mock/unnamed.png'" alt="" />
+            <span class="result-row__content">
+              <span class="result-row__title">{{ result.album.name }}</span>
+              <span class="result-row__meta">{{ releaseLabel(result.album) }} · {{ result.album.artist?.name || '未知藝人' }} · {{ albumSongCount(result.album.id) }} 首歌曲</span>
+              @if (shouldShowAlbumNotice(result.album)) {
+                <span class="result-row__notice">此作品{{ albumStatus(result.album) }}</span>
+              }
+            </span>
+            <span class="result-row__type">{{ releaseLabel(result.album) }}</span>
+            <mat-icon class="result-row__arrow" aria-hidden="true">album</mat-icon>
+          </a>
+        } @else {
+          <button class="result-row result-row--song" type="button" (click)="playSong(result.song)">
+            <img class="result-row__image" [src]="songImage(result.song)" alt="" />
+            <span class="result-row__content">
+              <span class="result-row__title">{{ result.song.name }}</span>
+              <span class="result-row__meta">歌曲 · {{ result.song.artist.name }} · {{ result.song.album.name }}</span>
+              @if (shouldShowSongNotice(result.song)) {
+                <span class="result-row__notice">此歌曲{{ songStatus(result.song) }}</span>
+              }
+            </span>
+            <span class="result-row__type">歌曲</span>
+            <mat-icon class="result-row__arrow" aria-hidden="true">play_arrow</mat-icon>
+          </button>
+        }
+      } @empty {
+        <p class="search-results__empty">找不到符合的藝人、發行作品或歌曲</p>
       }
-    } @empty {
-      <p class="search-results__empty">找不到符合的藝人、發行作品或歌曲</p>
-    }
-  </div>
+    </div>
+  }
 </section>

@@ -1,18 +1,18 @@
 :host {
-  --header-height: 88px;
-  --sidebar-width: 300px;
-  --main-gap: 16px;
-  --page-padding: 16px;
-  --player-height: 108px;
+  --header-height: 72px;
+  --sidebar-width: 276px;
+  --main-gap: 12px;
+  --page-padding: 12px;
+  --player-height: 56px;
+  --player-bottom: 24px;
+  --player-width: 610px;
 }
 
 .main-layout {
   display: grid;
   height: 100vh;
-  gap: var(--main-gap);
-
   padding: var(--page-padding);
-
+  gap: var(--main-gap);
   grid-template-rows: var(--header-height) minmax(0, 1fr);
   grid-template-columns: var(--sidebar-width) 1fr;
   grid-template-areas:
@@ -34,24 +34,28 @@
   overflow-y: auto;
   min-width: 0;
   min-height: 0;
-  padding-bottom: calc(var(--player-height) + 12px);
+  padding-bottom: 0;
   box-sizing: border-box;
 }
 .player-area {
   position: fixed;
   z-index: 800;
-  right: var(--page-padding);
-  bottom: var(--page-padding);
-  left: var(--page-padding);
+  right: auto;
+  bottom: var(--player-bottom);
+  left: 50%;
+  width: min(var(--player-width), calc(100vw - (var(--page-padding) * 2)));
   height: var(--player-height);
   min-width: 0;
+  transform: translateX(-50%);
 }
 .sidebar-area {
   grid-area: sidebar;
   display: flex;
   flex-direction: column;
-  gap: var(--main-gap);
+  gap: 8px;
   min-height: 0;
+  padding-bottom: 0;
+  box-sizing: border-box;
 }
 
 app-playlist-bar {
@@ -59,8 +63,6 @@ app-playlist-bar {
   display: flex;
   flex-direction: column;
   min-height: 0;
-  padding-bottom: calc(var(--player-height) + 12px);
-  box-sizing: border-box;
 }
 
 .music-list-container {
@@ -70,21 +72,24 @@ app-playlist-bar {
 
 @media (max-width: 1280px) {
   :host {
-    --header-height: 76px;
-    --sidebar-width: 230px;
-    --main-gap: 12px;
-    --page-padding: 12px;
-    --player-height: 102px;
+    --header-height: 68px;
+    --sidebar-width: 260px;
+    --main-gap: 10px;
+    --page-padding: 10px;
+    --player-height: 56px;
+    --player-bottom: 20px;
+    --player-width: 590px;
   }
 }
 
 @media (max-width: 1024px) {
   :host {
     --header-height: auto;
-    --sidebar-width: 210px;
-    --main-gap: 12px;
-    --page-padding: 12px;
+    --sidebar-width: 230px;
+    --main-gap: 10px;
+    --page-padding: 10px;
     --player-height: 108px;
+    --player-bottom: 12px;
   }
 }
 
@@ -99,7 +104,7 @@ app-playlist-bar {
   }
 
   .sidebar-area {
-    max-height: 210px;
+    max-height: 240px;
     padding-bottom: 0;
   }
 }
@@ -116,13 +121,14 @@ app-playlist-bar {
   }
 
   .sidebar-area {
-    max-height: 184px;
+    max-height: 210px;
   }
 
   .player-area {
-    right: 8px;
+    right: auto;
     bottom: 8px;
-    left: 8px;
+    left: 50%;
+    width: calc(100vw - 16px);
   }
 }
 
@@ -133,6 +139,6 @@ app-playlist-bar {
   }
 
   .sidebar-area {
-    max-height: 168px;
+    max-height: 190px;
   }
 }

@@ -11,6 +11,7 @@ import {
   toDateTimeInputValue,
 } from '../../../@service/api.service';
 import { AddSongDialog } from '../../../component/add-song-dialog/add-song-dialog';
+import { getCmsErrorMessage, showCmsError, showCmsSuccess } from '../cms-feedback';
 
 @Component({
   selector: 'app-cms-songs',
@@ -29,6 +30,7 @@ export class CmsSongs {
   public songs = signal<SongType[]>([]);
   public selectedSong = signal<SongType | null>(null);
   public message = signal('');
+  public invalidFields = signal<string[]>([]);
   public keyword = signal('');
   public page = signal(1);
   public readonly pageSize = 8;
@@ -84,7 +86,7 @@ export class CmsSongs {
     );
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadData();
   }
 
@@ -118,26 +120,34 @@ export class CmsSongs {
     const file = (event.target as HTMLInputElement).files?.[0] ?? null;
     this.imageFile = file;
     this.imagePreview.set(file ? await this.readFileAsDataUrl(file) : '');
-    this.message.set(file ? '圖片已預覽，按下儲存後才會更新。' : '');
+    this.message.set(file ? '圖片已選擇，儲存後會更新封面。' : '');
   }
 
   public cancelChanges(): void {
     const song = this.selectedSong();
     if (song) {
       this.resetEditor(song);
-      this.message.set('已取消未儲存變更');
+      this.message.set('已還原尚未儲存的變更。');
     }
+  }
+
+  public isInvalid(field: string): boolean {
+    return this.invalidFields().includes(field);
   }
 
   public async saveSong(): Promise<void> {
     const song = this.selectedSong();
-    if (!song || !this.editForm.name.trim() || !this.editForm.artistId || !this.editForm.albumId) {
-      this.message.set('請填寫歌名、歌手與發行作品');
+    const invalidFields = this.validateForm();
+    if (!song || invalidFields.length) {
+      this.invalidFields.set(invalidFields.length ? invalidFields : ['song']);
+      this.message.set('請確認紅框欄位是否填寫正確。');
+      await this.showError('儲存失敗', `請補齊：${this.invalidFieldLabels(invalidFields).join('、') || '歌曲'}`);
       return;
     }
 
     this.isSaving.set(true);
     this.message.set('');
+    this.invalidFields.set([]);
 
     try {
       const imgPath = this.imageFile ? await this.uploadImage(this.imageFile) : song.imgPath;
@@ -154,10 +164,12 @@ export class CmsSongs {
         }),
       );
       await this.loadData();
-      this.message.set('歌曲已更新');
+      this.message.set('歌曲已儲存成功。');
+      await this.showSuccess('歌曲已儲存');
     } catch (err) {
       console.error('CMS 更新歌曲失敗：', err);
-      this.message.set('更新失敗，請稍後再試');
+      this.message.set('儲存失敗，請確認 API server 是否正常。');
+      await this.showError('儲存失敗', this.errorMessage(err));
     } finally {
       this.isSaving.set(false);
     }
@@ -165,6 +177,7 @@ export class CmsSongs {
 
   private resetEditor(song: SongType): void {
     this.message.set('');
+    this.invalidFields.set([]);
     this.imageFile = null;
     this.imagePreview.set('');
     this.editForm = {
@@ -191,14 +204,29 @@ export class CmsSongs {
     const current = this.selectedSong();
     if (current) {
       const refreshed = songs.find((song) => song.id === current.id);
-      if (refreshed) {
-        this.selectSong(refreshed);
-      }
+      if (refreshed) this.selectSong(refreshed);
     } else if (songs.length) {
       this.selectSong(songs[0]);
     }
 
     this.page.set(Math.min(Math.max(this.page(), 1), this.pageCount()));
+  }
+
+  private validateForm(): string[] {
+    const invalid: string[] = [];
+    if (!this.editForm.name.trim()) invalid.push('name');
+    if (!Number(this.editForm.artistId)) invalid.push('artistId');
+    if (!Number(this.editForm.albumId)) invalid.push('albumId');
+    return invalid;
+  }
+
+  private invalidFieldLabels(fields: string[]): string[] {
+    const labels: Record<string, string> = {
+      name: '歌曲名稱',
+      artistId: '藝人',
+      albumId: '發行作品',
+    };
+    return fields.map((field) => labels[field] ?? field);
   }
 
   private async uploadImage(file: File): Promise<string> {
@@ -214,5 +242,17 @@ export class CmsSongs {
       reader.onerror = reject;
       reader.readAsDataURL(file);
     });
+  }
+
+  private async showSuccess(title: string): Promise<void> {
+    await showCmsSuccess(title);
+  }
+
+  private async showError(title: string, text: string): Promise<void> {
+    await showCmsError(title, text);
+  }
+
+  private errorMessage(err: unknown): string {
+    return getCmsErrorMessage(err);
   }
 }

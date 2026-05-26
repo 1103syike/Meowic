@@ -2,8 +2,8 @@
   <header class="playlist-bar__header">
     <span>你的音樂庫</span>
     @if (!!this.auth.currentUserStatus()) {
-      <button class="playlist-bar__header__btn" (click)="createPlaylist()">
-        <mat-icon aria-hidden="true">add</mat-icon>新增
+      <button class="playlist-bar__header__btn" type="button" (click)="createPlaylist()" aria-label="新增播放清單">
+        <mat-icon aria-hidden="true">add</mat-icon>
       </button>
     }
   </header>
@@ -19,7 +19,7 @@
           <img class="playlist-bar__list__item__image" src="./mock/unnamed.png" alt="" />
           <div class="playlist-bar__list__item__content">
             <div class="playlist-bar__list__item__title">{{ playlist.playlist.name }}</div>
-            <div class="playlist-bar__list__item__artist">{{ playlist.user.name }}</div>
+            <div class="playlist-bar__list__item__artist" data-media-subtitle>{{ playlist.user.name }}</div>
           </div>
           @if (playlist.playlist.type !== 'favorite') {
             <button
@@ -36,8 +36,8 @@
     </ul>
   } @else {
     <div class="playlist-bar__not-login-area">
-      <div class="playlist-bar__login-request">登入後即可查看你的音樂庫</div>
-      <button class="playlist-bar__login-btn" (click)="openLoginDialog()">立即登入</button>
+      <div class="playlist-bar__login-request">登入後即可建立並收藏播放清單</div>
+      <button class="playlist-bar__login-btn" type="button" (click)="openLoginDialog()">登入</button>
     </div>
   }
 </main>

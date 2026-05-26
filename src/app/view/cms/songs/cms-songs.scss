@@ -21,7 +21,7 @@
   span {
     color: rgba(255, 255, 255, 0.76);
     font-size: map-get($font-sizes, 'sm');
-    font-weight: 700;
+    font-weight: map-get($font-weights, 'semibold');
     letter-spacing: 0.08em;
     text-transform: uppercase;
   }
@@ -44,7 +44,7 @@
   padding: 0 22px;
   color: #ffffff;
   background: #0b4778;
-  font-weight: 800;
+  font-weight: map-get($font-weights, 'semibold');
   box-shadow: 0 10px 24px rgba(11, 71, 120, 0.18);
   transition:
     background-color 0.2s ease,
@@ -69,7 +69,7 @@
   padding: 0 18px;
   color: #0b4778;
   background: #ffffff;
-  font-weight: 800;
+  font-weight: map-get($font-weights, 'semibold');
   transition:
     background-color 0.2s ease,
     border-color 0.2s ease,
@@ -115,14 +115,14 @@
 
   h3 {
     margin: 0;
-    color: #1f2a44;
+    color: $text-primary;
     font-size: map-get($font-sizes, 'lg');
   }
 
   span {
-    color: #66728a;
+    color: $text-muted;
     font-size: map-get($font-sizes, 'sm');
-    font-weight: 700;
+    font-weight: map-get($font-weights, 'semibold');
   }
 }
 
@@ -137,14 +137,14 @@
   flex-direction: column;
   gap: 8px;
   margin-bottom: 12px;
-  color: #526078;
-  font-weight: 800;
+  color: $text-secondary;
+  font-weight: map-get($font-weights, 'semibold');
 
   input {
     min-height: 42px;
     border: 1px solid #d7dcea;
     padding: 0 12px;
-    color: #1f2a44;
+    color: $text-primary;
     background: #ffffff;
     font: inherit;
     @include radius('small');
@@ -166,7 +166,7 @@
   border: 0;
   border-bottom: 1px solid #e8edf5;
   padding: 10px 14px;
-  color: #1f2a44;
+  color: $text-primary;
   background: #ffffff;
   text-align: left;
   box-sizing: border-box;
@@ -177,10 +177,10 @@
 }
 
 .cms-table__row--head {
-  color: #526078;
+  color: $text-secondary;
   background: #f4f7fc;
   font-size: map-get($font-sizes, 'sm');
-  font-weight: 800;
+  font-weight: map-get($font-weights, 'semibold');
 }
 
 .cms-table__row--button {
@@ -192,7 +192,7 @@
 
   &:hover {
     cursor: pointer;
-    color: #1f2a44;
+    color: $text-primary;
     background: #edf6ff;
     transform: translateY(-1px);
   }
@@ -212,7 +212,7 @@
 .cms-table__row--button.cms-table__row--active:hover,
 .cms-table__row--button.cms-table__row--active:hover span,
 .cms-table__row--button.cms-table__row--active:hover .cms-media strong {
-  color: #1f2a44;
+  color: $text-primary;
 }
 
 .cms-media {
@@ -259,15 +259,15 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  color: #526078;
-  font-weight: 800;
+  color: $text-secondary;
+  font-weight: map-get($font-weights, 'semibold');
 
   input,
   select {
     min-height: 44px;
     border: 1px solid #d7dcea;
     padding: 0 12px;
-    color: #1f2a44;
+    color: $text-primary;
     background: #ffffff;
     font: inherit;
     @include radius('small');
@@ -306,14 +306,14 @@
 }
 
 .cms-upload__title {
-  color: #526078;
+  color: $text-secondary;
   font-size: map-get($font-sizes, 'base');
 }
 
 .cms-upload__hint {
   color: rgba(82, 96, 120, 0.76);
   font-size: map-get($font-sizes, 'xs');
-  font-weight: 700;
+  font-weight: map-get($font-weights, 'semibold');
 }
 
 .cms-editor__actions {
@@ -325,7 +325,7 @@
 .cms-editor__message,
 .cms-empty {
   margin: 0;
-  color: #66728a;
+  color: $text-muted;
 }
 
 .cms-empty {
@@ -339,9 +339,9 @@
   justify-content: flex-end;
   gap: 10px;
   margin-top: 12px;
-  color: #66728a;
+  color: $text-muted;
   font-size: map-get($font-sizes, 'sm');
-  font-weight: 800;
+  font-weight: map-get($font-weights, 'semibold');
 
   button {
     min-height: 34px;
@@ -349,7 +349,7 @@
     padding: 0 12px;
     color: #0b4778;
     background: #ffffff;
-    font-weight: 800;
+    font-weight: map-get($font-weights, 'semibold');
     transition:
       background-color 0.2s ease,
       border-color 0.2s ease,

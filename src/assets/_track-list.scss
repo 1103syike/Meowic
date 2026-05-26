@@ -1,0 +1,150 @@
+@use 'sass:map';
+@use 'variables' as *;
+
+@mixin track-list-vars($actions: 120px) {
+  --track-index: 44px;
+  --track-song: minmax(180px, 1.35fr);
+  --track-album: minmax(96px, 0.95fr);
+  --track-plays: 64px;
+  --track-actions: #{$actions};
+  --track-gap: 12px;
+  --track-padding-x: 14px;
+  --track-header-height: 64px;
+  --track-row-height: 72px;
+  --track-header-bg: rgba(100, 116, 139, 0.1);
+}
+
+@mixin track-list-page {
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+  min-height: 100%;
+  padding-bottom: 136px;
+  color: $text-secondary;
+}
+
+@mixin track-list-card {
+  overflow: hidden;
+  @include block(20px, 24px);
+}
+
+@mixin track-list-nested-row {
+  width: 100%;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: var(--track-index) var(--track-song) minmax(0, 1fr);
+  align-items: center;
+  gap: var(--track-gap);
+  min-height: var(--track-row-height);
+  padding: 10px var(--track-padding-x);
+  color: $text-secondary;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid $color-ts-blue;
+  text-align: left;
+  box-sizing: border-box;
+}
+
+@mixin track-list-flat-row {
+  width: 100%;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: var(--track-index) var(--track-song) var(--track-album) var(--track-plays) var(--track-actions);
+  align-items: center;
+  gap: var(--track-gap);
+  min-height: var(--track-row-height);
+  padding: 10px var(--track-padding-x);
+  color: $text-secondary;
+  box-sizing: border-box;
+}
+
+@mixin track-list-head {
+  min-height: var(--track-header-height);
+  color: $text-muted;
+  background: var(--track-header-bg);
+  border-bottom: 0;
+  font-size: map.get($font-sizes, 'sm');
+  font-weight: map-get($font-weights, 'semibold');
+  @include radius('small');
+}
+
+@mixin track-list-right {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: var(--track-album) var(--track-plays) var(--track-actions);
+  align-items: center;
+  gap: 8px;
+}
+
+@mixin track-list-actions {
+  width: var(--track-actions);
+  min-width: var(--track-actions);
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+  overflow: visible;
+}
+
+@mixin track-list-song-media($size: 52px) {
+  width: $size;
+  height: $size;
+  flex: 0 0 auto;
+  object-fit: cover;
+  @include radius('small');
+}
+
+@mixin track-list-mobile-nested {
+  :host {
+    --track-index: 32px;
+    --track-actions: 108px;
+    --track-gap: 8px;
+    --track-padding-x: 8px;
+  }
+
+  .song-list__row,
+  .popular__row {
+    grid-template-columns: var(--track-index) minmax(0, 1fr) var(--track-actions);
+  }
+
+  .song-list__right,
+  .popular__right {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .song-list__right--head span:not(:last-child),
+  .popular__right--head span:not(:last-child),
+  .song-list__plays,
+  .popular__plays,
+  .song-list__album,
+  .popular__album {
+    display: none;
+  }
+}
+
+@mixin track-list-mobile-flat {
+  :host {
+    --track-index: 28px;
+    --track-actions: 118px;
+    --track-gap: 8px;
+    --track-padding-x: 8px;
+    --track-header-height: 52px;
+    --track-row-height: 62px;
+  }
+
+  .track-row {
+    grid-template-columns: var(--track-index) minmax(0, 1fr) var(--track-actions);
+    padding-block: 7px;
+  }
+
+  .track-row > span:nth-child(3),
+  .track-row__album,
+  .track-row > span:nth-child(4),
+  .track-row__time {
+    display: none;
+  }
+
+  .track-row__tools {
+    gap: 4px;
+  }
+}

@@ -4,6 +4,7 @@ import { firstValueFrom } from 'rxjs';
 import Swal from 'sweetalert2';
 import { ApiService, UserType } from '../../../@service/api.service';
 import { AuthService } from '../../../@service/auth.service';
+import { getCmsErrorMessage, showCmsError, showCmsSuccess } from '../cms-feedback';
 
 @Component({
   selector: 'app-cms-users',
@@ -85,6 +86,7 @@ export class CmsUsers {
   public async saveUser(): Promise<void> {
     if (!this.editForm.name.trim() || !this.editForm.email.trim() || !this.editForm.password) {
       this.message.set('請填寫名稱、帳號與密碼');
+      await showCmsError('儲存失敗', '請填寫名稱、帳號與密碼');
       return;
     }
 
@@ -104,6 +106,7 @@ export class CmsUsers {
         );
         this.isCreating.set(false);
         this.message.set('使用者已新增');
+        await showCmsSuccess('使用者已新增');
       } else {
         const user = this.selectedUser();
         if (!user) {
@@ -120,12 +123,15 @@ export class CmsUsers {
           }),
         );
         this.message.set('使用者資料已更新');
+        await showCmsSuccess('使用者資料已更新');
       }
 
       await this.loadUsers();
     } catch (err) {
       console.error('CMS 儲存使用者失敗：', err);
-      this.message.set('儲存失敗，請稍後再試');
+      const message = getCmsErrorMessage(err, '儲存失敗，請稍後再試');
+      this.message.set(message);
+      await showCmsError('儲存失敗', message);
     } finally {
       this.isSaving.set(false);
     }
@@ -163,9 +169,12 @@ export class CmsUsers {
       this.selectedUser.set(null);
       await this.loadUsers();
       this.message.set('使用者已刪除');
+      await showCmsSuccess('使用者已刪除');
     } catch (err) {
       console.error('CMS 刪除使用者失敗：', err);
-      this.message.set('刪除失敗，請稍後再試');
+      const message = getCmsErrorMessage(err, '刪除失敗，請稍後再試');
+      this.message.set(message);
+      await showCmsError('刪除失敗', message);
     } finally {
       this.isSaving.set(false);
     }

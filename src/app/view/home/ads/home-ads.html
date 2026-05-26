@@ -1,43 +1,46 @@
-@if (heroAd(); as hero) {
-  <section class="home-ad-hero" (click)="openAd(hero)" role="button" tabindex="0" (keydown.enter)="openAd(hero)">
-    <img class="home-ad-hero__image" [src]="hero.imagePath" alt="" />
-    <div class="home-ad-hero__content">
-      <span>{{ hero.subtitle || 'Meowic Select' }}</span>
-      <h1>{{ hero.title }}</h1>
-      @if (hero.description) {
-        <p>{{ hero.description }}</p>
-      }
-      @if (hero.buttonText) {
-        <button type="button" (click)="openAd(hero); $event.stopPropagation()">{{ hero.buttonText }}</button>
-      }
-    </div>
-  </section>
-}
-
-@if (smallAds().length) {
-  <section class="home-ad-grid" aria-label="首頁看板">
-    @for (ad of smallAds(); track ad.id) {
-      <article class="home-ad-card" (click)="openAd(ad)" role="button" tabindex="0" (keydown.enter)="openAd(ad)">
-        <img [src]="ad.imagePath" alt="" />
-        <div>
-          <span>{{ ad.subtitle }}</span>
-          <strong>{{ ad.title }}</strong>
-          @if (ad.buttonText) {
-            <button type="button" (click)="openAd(ad); $event.stopPropagation()">{{ ad.buttonText }}</button>
+﻿@if (heroAd() || smallAds().length) {
+  <section class="home-ad-layout" [class.home-ad-layout--hero-only]="!smallAds().length">
+    @if (heroAd(); as hero) {
+      <section class="home-ad-hero" (click)="openAd(hero)" role="button" tabindex="0" (keydown.enter)="openAd(hero)">
+        <img class="home-ad-hero__image" [src]="hero.imagePath" [style.object-position]="imagePositionStyle(hero)" alt="" />
+        <div class="home-ad-hero__content">
+          <span>{{ hero.subtitle || 'Meowic Select' }}</span>
+          <h1>{{ hero.title }}</h1>
+          @if (hero.description) {
+            <p>{{ hero.description }}</p>
+          }
+          @if (hero.buttonText) {
+            <button type="button" (click)="openAd(hero); $event.stopPropagation()">{{ hero.buttonText }}</button>
           }
         </div>
-      </article>
+      </section>
+    }
+
+    @if (smallAds().length) {
+      <section class="home-ad-grid" aria-label="精選廣告">
+        @for (ad of smallAds(); track ad.id) {
+          <article class="home-ad-card" (click)="openAd(ad)" role="button" tabindex="0" (keydown.enter)="openAd(ad)">
+            <img [src]="ad.imagePath" [style.object-position]="imagePositionStyle(ad)" alt="" />
+            <div>
+              <span>{{ ad.subtitle }}</span>
+              <strong>{{ ad.title }}</strong>
+              @if (ad.buttonText) {
+                <button type="button" (click)="openAd(ad); $event.stopPropagation()">{{ ad.buttonText }}</button>
+              }
+            </div>
+          </article>
+        }
+      </section>
     }
   </section>
 }
-
 @if (isPopupOpen() && popupAd(); as popup) {
   <div class="home-ad-popup" role="dialog" aria-modal="true" aria-label="Meowic 推薦">
     <div class="home-ad-popup__panel">
       <button class="home-ad-popup__close" type="button" (click)="closePopup()" aria-label="關閉">
         ×
       </button>
-      <img [src]="popup.imagePath" alt="" />
+      <img [src]="popup.imagePath" [style.object-position]="imagePositionStyle(popup)" alt="" />
       <div class="home-ad-popup__content">
         <span>{{ popup.subtitle || 'Meowic Pick' }}</span>
         <h2>{{ popup.title }}</h2>

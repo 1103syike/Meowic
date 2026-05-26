@@ -1,0 +1,261 @@
+@use 'sass:map';
+@use 'variables' as *;
+@use 'track-list' as track;
+
+:host {
+  display: block;
+  min-height: 100%;
+  --track-time: minmax(180px, 0.72fr);
+  @include track.track-list-vars(120px);
+}
+
+.new-songs {
+  @include track.track-list-page;
+}
+
+.new-songs__header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+  @include block(18px, 22px);
+
+  span {
+    color: $color-green;
+    font-size: map-get($font-sizes, 'sm');
+    font-weight: map-get($font-weights, 'semibold');
+  }
+
+  h1 {
+    margin: 6px 0;
+    font-size: map-get($font-sizes, 'xl');
+  }
+
+  p {
+    margin: 0;
+    color: rgba($color-blue, 0.72);
+  }
+}
+
+.new-songs__tabs {
+  display: inline-flex;
+  padding: 4px;
+  background: $color-ts-blue;
+  @include radius('circle');
+
+  button {
+    min-height: 36px;
+    border: 0;
+    padding: 0 16px;
+    color: rgba($color-blue, 0.76);
+    background: transparent;
+    font-weight: map-get($font-weights, 'semibold');
+    white-space: nowrap;
+    @include radius('circle');
+
+    &:hover,
+    &.new-songs__tab--active {
+      cursor: pointer;
+      color: $color-white;
+      background: $color-green;
+    }
+  }
+}
+
+.new-songs__summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+
+  article {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 72px;
+    padding: 16px 18px;
+    background: $color-white;
+    border: 2px solid $color-ts-blue;
+    box-shadow: 4px 4px 20px 0 rgba($color-green, 0.1);
+    @include radius('small');
+  }
+
+  span {
+    color: rgba($color-blue, 0.72);
+    font-weight: map-get($font-weights, 'semibold');
+  }
+
+  strong {
+    color: $color-green;
+    font-size: map-get($font-sizes, '2xl');
+  }
+}
+
+.new-songs__list {
+  @include track.track-list-card;
+}
+
+.new-songs__row {
+  @include track.track-list-nested-row;
+}
+
+.new-songs__row--head {
+  @include track.track-list-head;
+}
+
+.new-songs__row--item {
+  border-bottom: 1px solid rgba($color-blue, 0.08);
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+
+  &:hover {
+    cursor: pointer;
+    background: rgba($color-green, 0.1);
+    transform: translateY(-1px);
+  }
+}
+
+.new-songs__rank {
+  text-align: center;
+  color: rgba($color-blue, 0.72);
+  font-weight: map-get($font-weights, 'semibold');
+}
+
+.new-songs__song {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: inherit;
+  text-decoration: none;
+
+  img {
+    @include track.track-list-song-media;
+  }
+
+  > span {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  strong,
+  small {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  small {
+    color: rgba($color-blue, 0.72);
+    font-size: map-get($font-sizes, 'sm');
+  }
+}
+
+.new-songs__right {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: var(--track-time) var(--track-actions);
+  align-items: center;
+  gap: 8px;
+}
+
+.new-songs__right--head {
+  color: rgba($color-blue, 0.76);
+  font-weight: map-get($font-weights, 'semibold');
+}
+
+.new-songs__right--head span:last-child {
+  text-align: center;
+}
+
+.new-songs__time {
+  min-width: 0;
+  overflow: hidden;
+  color: rgba($color-blue, 0.78);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: left;
+}
+
+.new-songs__actions {
+  @include track.track-list-actions;
+
+  button {
+    width: 34px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 34px;
+    border: 2px solid $color-ts-blue;
+    color: $color-blue;
+    background: $color-white;
+    @include radius('circle');
+
+    mat-icon {
+      width: 19px;
+      height: 19px;
+      font-size: 19px;
+      line-height: 19px;
+    }
+
+    &:hover {
+      cursor: pointer;
+      color: $color-white;
+      background: $color-green;
+    }
+  }
+}
+
+.new-songs__favorite--active {
+  background: $color-green !important;
+  color: $color-white !important;
+}
+
+.new-songs__empty {
+  padding: 44px 12px;
+  color: rgba($color-blue, 0.72);
+  text-align: center;
+}
+
+@media (max-width: 700px) {
+  :host {
+    --track-index: 32px;
+    --track-actions: 118px;
+    --track-gap: 8px;
+    --track-padding-x: 8px;
+  }
+
+  .new-songs__header,
+  .new-songs__summary {
+    grid-template-columns: 1fr;
+  }
+
+  .new-songs__tabs {
+    width: fit-content;
+  }
+
+  .new-songs__row {
+    grid-template-columns: var(--track-index) minmax(0, 1fr) var(--track-actions);
+  }
+
+  .new-songs__row--head {
+    display: none;
+  }
+
+  .new-songs__row--item {
+    min-height: 68px;
+  }
+
+  .new-songs__right {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .new-songs__time,
+  .new-songs__right--head span:first-child {
+    display: none;
+  }
+}

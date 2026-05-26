@@ -1,0 +1,32 @@
+@mixin hero-frame {
+  aspect-ratio: 2.62 / 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+@mixin hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@mixin small-frame {
+  min-height: 132px;
+  overflow: hidden;
+}
+
+@mixin small-image {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 10px 16px 10px 36%;
+  object-fit: contain;
+  opacity: 0.72;
+}
+
+@mixin popup-image {
+  width: 100%;
+  height: 100%;
+  min-height: 360px;
+  object-fit: cover;
+}

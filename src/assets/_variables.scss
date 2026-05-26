@@ -1,6 +1,6 @@
 @use 'sass:map';
 /* ==========================================================================
-   Variables - åŸºç¤å®šç¾©
+   Variables - ?ºç?å®šç¾©
    ========================================================================== */
 
 // 1. Colors
@@ -8,8 +8,12 @@ $color-green: #6f9d77;
 $color-blue: #64748b;
 $color-gray: #c7cccd;
 $color-white: #ffffff;
+$text-primary: #1f2a44;
+$text-secondary: #526078;
+$text-muted: #66728a;
+$text-soft: rgba($color-blue, 0.64);
 
-// é€æ˜åº¦è®Šé«” (Transparent versions)
+// ?æ?åº¦è?é«?(Transparent versions)
 $color-ts-green: rgba($color-green, 0.5);
 $color-ts-blue: rgba($color-blue, 0.1);
 $color-ts-prev-lyric: rgba($color-green, 0.5);
@@ -17,20 +21,36 @@ $color-ts-gray: rgba($color-blue, 0.36);
 $color-table: rgba($color-blue, 0.01);
 
 // 2. Font Sizes
+// Use a compact, steady type scale. Avoid changing the root html size by
+// breakpoint; component text should stay predictable across desktop/tablet.
 $font-sizes: (
-  '3xl': 2.25rem,
-  // 36px
-  '2xl': 1.5rem,
-  // 24px
-  'xl': 1.25rem,
-  // 20px
-  'lg': 1.125rem,
-  // 18px
+  '3xl': clamp(1.75rem, 1.55rem + 0.7vw, 2.25rem),
+  // 28-36px
+  '2xl': clamp(1.375rem, 1.25rem + 0.35vw, 1.625rem),
+  // 22-26px
+  'xl': clamp(1.125rem, 1.05rem + 0.2vw, 1.25rem),
+  // 18-20px
+  'lg': 1.0625rem,
+  // 17px
   'base': 1rem,
   // 16px
   'sm': 0.875rem,
   // 14px
   'xs': 0.75rem, // 12px
+);
+
+$line-heights: (
+  'tight': 1.2,
+  'heading': 1.3,
+  'body': 1.55,
+  'control': 1.2,
+);
+
+$font-weights: (
+  'regular': 400,
+  'body': 500,
+  'medium': 600,
+  'semibold': 700,
 );
 
 // 3. Border Radius
@@ -46,12 +66,27 @@ $space-base: 20px;
 $space-xl: 24px;
 $space-2xl: 40px;
 
+$cms-colors: (
+  'text': #1f2a44,
+  'muted': #526078,
+  'subtle': #66728a,
+  'line': #d7dcea,
+  'line-soft': #e8edf5,
+  'surface': #ffffff,
+  'surface-soft': #f4f7fc,
+  'surface-active': #edf6ff,
+  'primary': #0b4778,
+  'primary-dark': #083760,
+  'success': #74a57f,
+  'danger': #b83232,
+);
+
 
 /* ==========================================================================
-   Typography - å­—é«”è¨­å®š
+   Typography - å­—é?è¨­å?
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;600;700&display=swap');
 
 $font-family-base: 'Inter', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
 
@@ -62,7 +97,7 @@ $font-family-base: 'Inter', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei',
   font-style: normal;
 }
 
-// å…¨åŸŸåˆå§‹åŒ– (æ’é™¤ Material Icons)
+// ?¨å??å???(?’é™¤ Material Icons)
 *:not(.material-icons) {
   font-family: $font-family-base;
   font-weight: inherit;
@@ -70,7 +105,7 @@ $font-family-base: 'Inter', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei',
 }
 
 /* ==========================================================================
-   Mixins - åŠŸèƒ½èˆ‡å…ƒä»¶
+   Mixins - ?Ÿèƒ½?‡å?ä»?
    ========================================================================== */
 
 // 1. Radius Helper
@@ -78,7 +113,119 @@ $font-family-base: 'Inter', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei',
   border-radius: map-get($radius, $size);
 }
 
-// 2. å…±ç”¨å¡ç‰‡é™°å½±èˆ‡é‚Šæ¡† (Internal use)
+@mixin type-page-title {
+  color: $text-primary;
+  font-size: map-get($font-sizes, '2xl');
+  font-weight: map-get($font-weights, 'semibold');
+  line-height: map-get($line-heights, 'heading');
+}
+
+@mixin type-section-title {
+  color: $text-primary;
+  font-size: map-get($font-sizes, 'xl');
+  font-weight: map-get($font-weights, 'semibold');
+  line-height: map-get($line-heights, 'heading');
+}
+
+@mixin type-card-title {
+  color: $text-primary;
+  font-size: map-get($font-sizes, 'base');
+  font-weight: map-get($font-weights, 'medium');
+  line-height: map-get($line-heights, 'heading');
+}
+
+@mixin type-body {
+  color: $text-secondary;
+  font-size: map-get($font-sizes, 'base');
+  font-weight: map-get($font-weights, 'body');
+  line-height: map-get($line-heights, 'body');
+}
+
+@mixin type-meta {
+  color: $text-muted;
+  font-size: map-get($font-sizes, 'sm');
+  font-weight: map-get($font-weights, 'medium');
+  line-height: map-get($line-heights, 'heading');
+}
+
+@mixin type-label {
+  color: $text-muted;
+  font-size: map-get($font-sizes, 'xs');
+  font-weight: map-get($font-weights, 'semibold');
+  line-height: map-get($line-heights, 'control');
+}
+
+@mixin cms-focus($color: map-get($cms-colors, 'primary')) {
+  outline: 3px solid rgba($color, 0.12);
+  outline-offset: 0;
+  border-color: $color;
+}
+
+@mixin cms-button-base($height: 44px, $px: 18px) {
+  min-height: $height;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid transparent;
+  padding: 0 $px;
+  font: inherit;
+  font-size: map-get($font-sizes, 'sm');
+  font-weight: 700;
+  line-height: map-get($line-heights, 'control');
+  white-space: nowrap;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+  @include radius('small');
+
+  &:hover:not(:disabled) {
+    cursor: pointer;
+    transform: translateY(-1px);
+  }
+
+  &:focus-visible {
+    @include cms-focus;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.52;
+    transform: none;
+  }
+}
+
+@mixin cms-field-base {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid map-get($cms-colors, 'line');
+  padding: 0 12px;
+  color: map-get($cms-colors, 'text');
+  background: map-get($cms-colors, 'surface');
+  font: inherit;
+  font-size: map-get($font-sizes, 'base');
+  line-height: map-get($line-heights, 'control');
+  box-sizing: border-box;
+  @include radius('small');
+
+  &:focus {
+    @include cms-focus;
+  }
+}
+
+@mixin cms-panel {
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid map-get($cms-colors, 'line');
+  background: map-get($cms-colors, 'surface');
+  box-shadow: 0 12px 28px rgba(31, 42, 68, 0.06);
+  @include radius('small');
+}
+
+// 2. ?±ç”¨?¡ç??°å½±?‡é?æ¡?(Internal use)
 @mixin _base-card-style {
   background: $color-white;
   border: 2px solid $color-ts-blue;
@@ -93,7 +240,7 @@ $font-family-base: 'Inter', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei',
 }
 
 // 4. Buttons
-// åŸºç¤æŒ‰éˆ• Hover æ•ˆæœ
+// ?ºç??‰é? Hover ?ˆæ?
 @mixin _btn-hover {
   &:hover {
     cursor: pointer;
@@ -106,14 +253,14 @@ $font-family-base: 'Inter', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei',
   }
 }
 
-// æ¨è–¦æ­Œæ›²
+// ?¨è–¦æ­Œæ›²
 @mixin recommand-btn {
   background: $color-ts-blue;
   @include radius('small');
   overflow: hidden;
 }
 
-// å°è¦½æŒ‰éˆ•
+// å°è¦½?‰é?
 @mixin nav-button {
   @include _base-card-style;
   @include radius('large');
@@ -134,7 +281,7 @@ $font-family-base: 'Inter', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei',
   color: $color-blue;
 }
 
-// é•·å‹åˆ—è¡¨æŒ‰éˆ•
+// ?·å??—è¡¨?‰é?
 @mixin long-button {
   @include radius('small');
   @include _btn-hover;
@@ -145,7 +292,7 @@ $font-family-base: 'Inter', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei',
   background: $color-white;
 
   &:hover {
-    transform: translateY(-2px); // è£œä¸Š px å–®ä½
+    transform: translateY(-2px); // è£œä? px ?®ä?
   }
 }
 // 5. Flex Layout Helper
@@ -154,7 +301,7 @@ $font-family-base: 'Inter', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei',
   flex-direction: $dir;
   gap: $space-base;
 
-  // è½‰æ›èªæ„åŒ–é—œéµå­—ç‚ºæ¨™æº– CSS
+  // è½‰æ?èªæ??–é??µå??ºæ?æº?CSS
   $j-map: (
     'start': flex-start,
     'end': flex-end,
@@ -172,9 +319,3 @@ $font-family-base: 'Inter', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei',
   align-items: if(map-has-key($a-map, $align), map-get($a-map, $align), $align);
 }
 
-
-@media (max-width: 1280px) {
-  html {
-    font-size: 12px;
-  }
-}

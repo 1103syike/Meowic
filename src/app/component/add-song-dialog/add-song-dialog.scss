@@ -104,6 +104,23 @@
   }
 }
 
+.song-form__field--invalid {
+  color: #b42318;
+
+  input,
+  select {
+    border-color: #b42318;
+    background: #fff7f7;
+    box-shadow: 0 0 0 3px rgba(#b42318, 0.12);
+  }
+}
+
+.song-form__field-error {
+  color: #b42318;
+  font-size: map-get($font-sizes, 'xs');
+  font-weight: map-get($font-weights, 'semibold');
+}
+
 .suggestions {
   position: absolute;
   z-index: 10;
@@ -169,6 +186,11 @@
     width: 100%;
     font-size: map-get($font-sizes, 'sm');
   }
+}
+
+.song-form__upload--invalid {
+  border-color: #b42318;
+  background: #fff7f7;
 }
 
 .song-form__upload-title {

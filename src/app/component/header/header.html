@@ -7,7 +7,8 @@
   <nav class="header__nav">
     <button class="header__nav__btn" routerLink="/songs" (click)="searchState.closeSearch()">所有歌曲</button>
     <button class="header__nav__btn" routerLink="/popular" (click)="searchState.closeSearch()">熱門歌曲</button>
-    <button class="header__nav__btn" (click)="openProDialog()">Meowic Pro</button>
+    <button class="header__nav__btn" routerLink="/new-songs" (click)="searchState.closeSearch()">新增歌曲</button>
+    <button class="header__nav__btn" type="button" (click)="openProDialog()">Meowic Pro</button>
     @if (auth.canAccessCms()) {
       <a
         class="header__nav__btn"
@@ -21,18 +22,39 @@
     }
   </nav>
 
-  <div class="user">
-    @if (!!auth.currentUserStatus()) {
-      <div class="user__profile">
-        <span class="user__name">{{ this.auth.user()?.name }}</span>
-        @if (selectedProPlan()) {
-          <span class="user__badge">{{ selectedProPlan() }}</span>
-        }
-      </div>
-      <button class="user__login" (click)="logout()">登出</button>
-    } @else {
-      <button class="user__login" (click)="openLoginDialog()">登入</button>
-    }
+  <div class="header__actions">
+    <div class="header__search-shell" [class.header__search-shell--open]="searchState.isSearchOpen()">
+      <button class="header__search-trigger" type="button" (click)="openSearch()" aria-label="搜尋">
+        <mat-icon aria-hidden="true">search</mat-icon>
+      </button>
+
+      <label class="header__search" [attr.aria-hidden]="!searchState.isSearchOpen()">
+        <mat-icon aria-hidden="true">search</mat-icon>
+        <input
+          #searchInput
+          type="text"
+          placeholder="搜尋"
+          [ngModel]="searchState.query()"
+          (ngModelChange)="updateSearch($event)"
+          (blur)="collapseSearchIfEmpty()"
+          [disabled]="!searchState.isSearchOpen()"
+        />
+      </label>
+    </div>
+
+    <div class="user">
+      @if (!!auth.currentUserStatus()) {
+        <div class="user__profile">
+          <span class="user__name">{{ this.auth.user()?.name }}</span>
+          @if (selectedProPlan()) {
+            <span class="user__badge">{{ selectedProPlan() }}</span>
+          }
+        </div>
+        <button class="user__login" type="button" (click)="logout()">登出</button>
+      } @else {
+        <button class="user__login" type="button" (click)="openLoginDialog()">登入</button>
+      }
+    </div>
   </div>
 </header>
 

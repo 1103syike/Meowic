@@ -356,11 +356,13 @@ export interface HomeRecommendationType {
   id: number;
   popularSongIds: number[];
   popularArtistIds: number[];
+  popularAlbumIds?: number[];
 }
 
 export interface CreateHomeRecommendationType {
   popularSongIds: number[];
   popularArtistIds: number[];
+  popularAlbumIds?: number[];
 }
 
 export type AdvertisementPlacement = 'homeHero' | 'homeSmall' | 'entryPopup';
@@ -372,6 +374,8 @@ export interface CreateAdvertisementType {
   description?: string;
   placement: AdvertisementPlacement;
   imagePath: string;
+  imagePositionX?: number;
+  imagePositionY?: number;
   buttonText?: string;
   linkType: AdvertisementLinkType;
   linkTarget?: string;

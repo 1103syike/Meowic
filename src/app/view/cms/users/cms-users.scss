@@ -1,3 +1,4 @@
+@use 'variables' as *;
 @use '../songs/cms-songs.scss';
 
 .cms-user-table {
@@ -16,7 +17,7 @@
   border: 0;
   border-bottom: 1px solid #e8edf5;
   padding: 12px 14px;
-  color: #1f2a44;
+  color: $text-primary;
   background: #ffffff;
   text-align: left;
   box-sizing: border-box;
@@ -26,15 +27,15 @@
   }
 
   code {
-    color: #526078;
+    color: $text-secondary;
     font: inherit;
   }
 }
 
 .cms-user-table__row--head {
-  color: #526078;
+  color: $text-secondary;
   background: #f4f7fc;
-  font-weight: 800;
+  font-weight: map-get($font-weights, 'semibold');
 }
 
 .cms-user-table__row--button {
@@ -56,9 +57,9 @@
 .cms-role {
   width: fit-content;
   padding: 5px 10px;
-  color: #526078;
+  color: $text-secondary;
   background: #f4f7fc;
-  font-weight: 800;
+  font-weight: map-get($font-weights, 'semibold');
   border-radius: 999px;
 }
 
@@ -73,9 +74,9 @@
   align-items: center;
   gap: 10px;
   padding: 0 12px;
-  color: #1f2a44;
+  color: $text-primary;
   background: #f4f7fc;
-  font-weight: 800;
+  font-weight: map-get($font-weights, 'semibold');
   border-radius: 8px;
 
   input {
@@ -90,7 +91,7 @@
   border: 1px solid #d66b6b;
   color: #b83232;
   background: #fff7f7;
-  font-weight: 800;
+  font-weight: map-get($font-weights, 'semibold');
   border-radius: 8px;
   transition:
     background-color 0.2s ease,

@@ -3,7 +3,7 @@
     <div>
       <span>Music Library</span>
       <h2>歌曲管理</h2>
-      <p>新增歌曲、調整歌手與發行作品資料，並維護歌曲封面。</p>
+      <p>管理歌曲名稱、藝人、發行作品、封面與上下架時間。</p>
     </div>
     <button class="cms-page__primary-btn" type="button" (click)="openAddSongDialog()">新增歌曲</button>
   </header>
@@ -21,14 +21,14 @@
           type="search"
           [ngModel]="keyword()"
           (ngModelChange)="setKeyword($event)"
-          placeholder="輸入歌名、歌手或發行作品"
+          placeholder="輸入歌曲、藝人或發行作品"
         />
       </label>
 
       <div class="cms-table">
         <div class="cms-table__row cms-table__row--head">
           <span>歌曲</span>
-          <span>歌手</span>
+          <span>藝人</span>
           <span>發行作品</span>
         </div>
         @for (song of pagedSongs(); track song.id) {
@@ -68,31 +68,40 @@
       @if (selectedSong()) {
         <img class="cms-editor__cover" [src]="selectedSongImage()" alt="" />
 
-        <label class="cms-field">
-          <span>歌名</span>
+        <label class="cms-field" [class.cms-field--invalid]="isInvalid('name')">
+          <span>歌曲名稱</span>
           <input name="songName" [(ngModel)]="editForm.name" />
+          @if (isInvalid('name')) {
+            <small class="cms-field__error">請輸入歌曲名稱</small>
+          }
         </label>
 
-        <label class="cms-field">
-          <span>歌手</span>
+        <label class="cms-field" [class.cms-field--invalid]="isInvalid('artistId')">
+          <span>藝人</span>
           <select name="songArtist" [(ngModel)]="editForm.artistId">
             @for (artist of artists(); track artist.id) {
               <option [ngValue]="artist.id">{{ artist.name }}</option>
             }
           </select>
+          @if (isInvalid('artistId')) {
+            <small class="cms-field__error">請選擇藝人</small>
+          }
         </label>
 
-        <label class="cms-field">
+        <label class="cms-field" [class.cms-field--invalid]="isInvalid('albumId')">
           <span>發行作品</span>
           <select name="songAlbum" [(ngModel)]="editForm.albumId">
             @for (album of albums(); track album.id) {
               <option [ngValue]="album.id">{{ album.name }}</option>
             }
           </select>
+          @if (isInvalid('albumId')) {
+            <small class="cms-field__error">請選擇發行作品</small>
+          }
         </label>
 
         <label class="cms-field">
-          <span>發行日</span>
+          <span>發行日期</span>
           <input type="date" name="songReleaseDate" [(ngModel)]="editForm.releaseDate" />
         </label>
 
@@ -113,7 +122,7 @@
 
         <label class="cms-upload">
           <span class="cms-upload__title">歌曲圖片</span>
-          <span class="cms-upload__hint">選擇後會先預覽，儲存後才套用</span>
+          <span class="cms-upload__hint">選擇圖片後，儲存才會更新封面。</span>
           <input type="file" accept="image/*" (change)="setImageFile($event)" />
         </label>
 
@@ -123,7 +132,7 @@
 
         <div class="cms-editor__actions">
           <button class="cms-page__secondary-btn" type="button" [disabled]="!hasPendingChanges()" (click)="cancelChanges()">
-            取消變更
+            還原變更
           </button>
           <button class="cms-page__primary-btn" type="button" [disabled]="isSaving()" (click)="saveSong()">
             {{ isSaving() ? '儲存中...' : '儲存歌曲' }}

@@ -122,6 +122,7 @@ server.post('/homeRecommendations', largeJsonParser, largeUrlencodedParser, (req
     id: nextId,
     popularSongIds: Array.isArray(req.body.popularSongIds) ? req.body.popularSongIds : [],
     popularArtistIds: Array.isArray(req.body.popularArtistIds) ? req.body.popularArtistIds : [],
+    popularAlbumIds: Array.isArray(req.body.popularAlbumIds) ? req.body.popularAlbumIds : [],
   };
 
   router.db.get('homeRecommendations').push(recommendation).write();
@@ -144,6 +145,7 @@ server.patch('/homeRecommendations/:id', largeJsonParser, largeUrlencodedParser,
     .assign({
       popularSongIds: Array.isArray(req.body.popularSongIds) ? req.body.popularSongIds : [],
       popularArtistIds: Array.isArray(req.body.popularArtistIds) ? req.body.popularArtistIds : [],
+      popularAlbumIds: Array.isArray(req.body.popularAlbumIds) ? req.body.popularAlbumIds : [],
     })
     .write();
 

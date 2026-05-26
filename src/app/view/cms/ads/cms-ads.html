@@ -3,7 +3,7 @@
     <div>
       <span>Campaign Studio</span>
       <h2>廣告管理</h2>
-      <p>管理首頁 Hero、小看板與進站彈窗，可設定上稿時間、連結與是否啟用。</p>
+      <p>管理首頁 Hero、小卡與進站彈窗廣告，預覽會依照版位顯示。</p>
     </div>
     <button type="button" (click)="newAd()">新增廣告</button>
   </header>
@@ -14,7 +14,7 @@
 
   <div class="cms-ads__grid">
     <section class="cms-ads__panel">
-      <h3>廣告列表</h3>
+      <h3>廣告清單</h3>
       <div class="cms-ads__list">
         @for (ad of sortedAds(); track ad.id) {
           <button
@@ -23,26 +23,53 @@
             [class.cms-ads__item--active]="selectedAd()?.id === ad.id"
             (click)="selectAd(ad)"
           >
-            <img [src]="ad.imagePath" alt="" />
+            <img [src]="ad.imagePath" [style.object-position]="imagePositionStyle(ad)" alt="" />
             <span>
               <strong>{{ ad.title }}</strong>
-              <small>{{ ad.placement }} · {{ ad.enabled ? '啟用' : '停用' }}</small>
+              <small>{{ placementLabel(ad.placement) }} / {{ ad.enabled ? '啟用' : '停用' }}</small>
             </span>
           </button>
         } @empty {
-          <p class="cms-ads__empty">目前沒有廣告</p>
+          <p class="cms-ads__empty">尚未建立廣告</p>
         }
       </div>
     </section>
 
     <section class="cms-ads__panel cms-ads__editor">
-      <div class="cms-ads__preview">
-        <img [src]="previewImage()" alt="" />
-      </div>
+      <section class="cms-ads__live-preview">
+        <span class="cms-ads__preview-label">{{ placementLabel(editForm.placement) }} 預覽</span>
+        <div
+          class="cms-ads__preview"
+          [class.cms-ads__preview--hero]="editForm.placement === 'homeHero'"
+          [class.cms-ads__preview--small]="editForm.placement === 'homeSmall'"
+          [class.cms-ads__preview--popup]="editForm.placement === 'entryPopup'"
+          (pointerdown)="startImageDrag($event)"
+          (pointermove)="moveImage($event)"
+          (pointerup)="stopImageDrag()"
+          (pointercancel)="stopImageDrag()"
+          (pointerleave)="stopImageDrag()"
+        >
+          <img [src]="previewImage()" [style.object-position]="imagePositionStyle()" alt="" draggable="false" />
+          <div class="cms-ads__preview-content">
+            <span>{{ editForm.subtitle || 'Meowic Select' }}</span>
+            <strong>{{ editForm.title || '廣告標題' }}</strong>
+            @if (editForm.description) {
+              <p>{{ editForm.description }}</p>
+            }
+            @if (editForm.buttonText) {
+              <button type="button">{{ editForm.buttonText }}</button>
+            }
+          </div>
+        </div>
+        <p class="cms-ads__preview-hint">按住圖片拖曳可調整前台顯示位置。</p>
+      </section>
 
-      <label>
+      <label [class.cms-ads__field--invalid]="isInvalid('title')">
         <span>標題</span>
         <input [(ngModel)]="editForm.title" name="adTitle" />
+        @if (isInvalid('title')) {
+          <small class="cms-field__error">請輸入廣告標題</small>
+        }
       </label>
 
       <label>
@@ -65,37 +92,106 @@
           </select>
         </label>
 
-        <label>
+        <label [class.cms-ads__field--invalid]="isInvalid('sortOrder')">
           <span>排序</span>
           <input type="number" [(ngModel)]="editForm.sortOrder" name="adSortOrder" />
+          @if (isInvalid('sortOrder')) {
+            <small class="cms-field__error">請輸入有效排序</small>
+          }
         </label>
       </div>
 
-      <label>
+      <label [class.cms-ads__field--invalid]="isInvalid('imagePath')">
         <span>圖片路徑</span>
         <input [(ngModel)]="editForm.imagePath" name="adImagePath" />
+        @if (isInvalid('imagePath')) {
+          <small class="cms-field__error">請輸入或上傳圖片</small>
+        }
       </label>
 
-      <label class="cms-ads__upload">
+      <label class="cms-ads__upload" [class.cms-ads__upload--invalid]="isInvalid('imagePath')">
         <span>上傳圖片</span>
+        <strong>選擇檔案</strong>
+        <small>支援 JPG、PNG、WebP，拖曳預覽可調整顯示位置。</small>
         <input type="file" accept="image/*" (change)="setImageFile($event)" />
       </label>
 
       <div class="cms-ads__two">
         <label>
           <span>連結類型</span>
-          <select [(ngModel)]="editForm.linkType" name="adLinkType">
+          <select [(ngModel)]="editForm.linkType" name="adLinkType" (ngModelChange)="onLinkTypeChange()">
             @for (option of linkOptions; track option.value) {
               <option [ngValue]="option.value">{{ option.label }}</option>
             }
           </select>
         </label>
 
-        <label>
-          <span>連結目標</span>
-          <input [(ngModel)]="editForm.linkTarget" name="adLinkTarget" placeholder="例如 1 或 https://..." />
-        </label>
+        @if (editForm.linkType === 'url') {
+          <label [class.cms-ads__field--invalid]="isInvalid('linkTarget')">
+            <span>連結目標</span>
+            <input [(ngModel)]="editForm.linkTarget" name="adLinkTarget" placeholder="https://..." />
+            @if (isInvalid('linkTarget')) {
+              <small class="cms-field__error">請輸入連結</small>
+            }
+          </label>
+        } @else {
+          <label [class.cms-ads__field--invalid]="isInvalid('linkTarget')">
+            <span>連結目標</span>
+            <input [value]="selectedTargetLabel()" name="adLinkTargetLabel" readonly />
+            @if (isInvalid('linkTarget')) {
+              <small class="cms-field__error">請選擇連結目標</small>
+            }
+          </label>
+        }
       </div>
+
+      @if (editForm.linkType === 'song' || editForm.linkType === 'album' || editForm.linkType === 'artist') {
+        <section class="cms-ads__target-picker">
+          @if (editForm.linkType !== 'artist') {
+            <label>
+              <span>先選擇藝人</span>
+              <select
+                [ngModel]="selectedTargetArtistId()"
+                name="adTargetArtist"
+                (ngModelChange)="selectedTargetArtistId.set($event)"
+              >
+                <option [ngValue]="0">全部藝人</option>
+                @for (artist of artists(); track artist.id) {
+                  <option [ngValue]="artist.id">{{ artist.name }}</option>
+                }
+              </select>
+            </label>
+          }
+
+          <label>
+            <span>搜尋{{ editForm.linkType === 'song' ? '歌曲' : editForm.linkType === 'album' ? '專輯' : '藝人' }}</span>
+            <input
+              [ngModel]="targetKeyword()"
+              name="adTargetKeyword"
+              (ngModelChange)="targetKeyword.set($event)"
+              placeholder="輸入名稱搜尋"
+            />
+          </label>
+
+          <div class="cms-ads__targets">
+            @for (target of filteredTargets(); track target.id) {
+              <button
+                type="button"
+                [class.cms-ads__target--active]="editForm.linkTarget === '' + target.id"
+                (click)="selectTarget(target)"
+              >
+                <img [src]="target.imagePath || './mock/unnamed.png'" alt="" />
+                <span>
+                  <strong>{{ target.title }}</strong>
+                  <small>{{ target.subtitle }}</small>
+                </span>
+              </button>
+            } @empty {
+              <p class="cms-ads__empty">找不到可選擇的連結目標</p>
+            }
+          </div>
+        </section>
+      }
 
       <label>
         <span>按鈕文字</span>
@@ -104,13 +200,13 @@
 
       <div class="cms-ads__two">
         <label>
-          <span>開始時間</span>
-          <input type="datetime-local" [(ngModel)]="editForm.startAt" name="adStartAt" />
+          <span>開啟日期</span>
+          <input type="date" [(ngModel)]="editForm.startAt" name="adStartAt" />
         </label>
 
         <label>
-          <span>結束時間</span>
-          <input type="datetime-local" [(ngModel)]="editForm.endAt" name="adEndAt" />
+          <span>結束日期</span>
+          <input type="date" [(ngModel)]="editForm.endAt" name="adEndAt" />
         </label>
       </div>
 

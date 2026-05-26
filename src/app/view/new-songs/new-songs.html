@@ -1,0 +1,83 @@
+<section class="new-songs">
+  <header class="new-songs__header">
+    <div>
+      <span>Recent 30 Days</span>
+      <h1>新增的歌曲</h1>
+      <p>{{ rangeLabel() }}</p>
+    </div>
+
+    <nav class="new-songs__tabs" aria-label="新增歌曲分類">
+      <button
+        type="button"
+        [class.new-songs__tab--active]="activeGroup() === 'uploaded'"
+        (click)="setGroup('uploaded')"
+      >
+        新上傳的歌
+      </button>
+      <button
+        type="button"
+        [class.new-songs__tab--active]="activeGroup() === 'released'"
+        (click)="setGroup('released')"
+      >
+        發行最新的歌
+      </button>
+    </nav>
+  </header>
+
+  <section class="new-songs__summary">
+    <article>
+      <span>新上傳</span>
+      <strong>{{ uploadedSongs().length }}</strong>
+    </article>
+    <article>
+      <span>最新發行</span>
+      <strong>{{ releasedSongs().length }}</strong>
+    </article>
+  </section>
+
+  <section class="new-songs__list">
+    <div class="new-songs__row new-songs__row--head">
+      <span>#</span>
+      <span>歌曲</span>
+      <span class="new-songs__right new-songs__right--head">
+        <span>{{ activeGroup() === 'uploaded' ? '上傳時間' : '發行時間' }}</span>
+        <span>動作</span>
+      </span>
+    </div>
+
+    @for (song of activeSongs(); track song.id; let index = $index) {
+      <article class="new-songs__row new-songs__row--item" (click)="playSong(song)">
+        <span class="new-songs__rank">{{ index + 1 }}</span>
+        <a class="new-songs__song" [routerLink]="['/song', song.id]" (click)="$event.stopPropagation()">
+          <img [src]="songImage(song)" alt="" />
+          <span>
+            <strong>{{ song.name }}</strong>
+            <small>{{ song.artist.name }} / {{ song.album.name }}</small>
+          </span>
+        </a>
+        <span class="new-songs__right">
+          <time class="new-songs__time">{{ songDate(song) }}</time>
+          <span class="new-songs__actions">
+            <button
+              class="new-songs__favorite"
+              type="button"
+              (click)="addToFavorite(song.id, $event)"
+              [class.new-songs__favorite--active]="isFavorite(song.id)"
+              title="加入喜歡"
+            >
+              <mat-icon aria-hidden="true">favorite</mat-icon>
+            </button>
+            <button type="button" (click)="addToPlaylist(song.id, $event)" title="加入播放清單">
+              <mat-icon aria-hidden="true">playlist_add</mat-icon>
+            </button>
+            <button type="button" (click)="addToQueue(song, $event)" title="加入佇列">
+              <mat-icon aria-hidden="true">queue</mat-icon>
+            </button>
+          </span>
+        </span>
+      </article>
+    } @empty {
+      <div class="new-songs__empty">最近一個月沒有符合條件的歌曲</div>
+    }
+  </section>
+</section>

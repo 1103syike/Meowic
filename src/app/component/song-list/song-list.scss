@@ -1,17 +1,16 @@
 @use 'sass:map';
 @use 'variables' as *;
+@use 'track-list' as track;
 
 :host {
   display: block;
   width: 100%;
   min-width: 0;
+  @include track.track-list-vars;
 }
 
 .song-list {
-  display: grid;
-  gap: 16px;
-  min-height: 100%;
-  color: $color-blue;
+  @include track.track-list-page;
 }
 
 .song-list__header {
@@ -24,49 +23,32 @@
   span {
     color: $color-green;
     font-size: map-get($font-sizes, 'sm');
-    font-weight: 800;
+    font-weight: map-get($font-weights, 'semibold');
   }
 
   h1 {
     margin: 6px 0;
     font-size: map-get($font-sizes, 'xl');
+    font-weight: map-get($font-weights, 'semibold');
   }
 
   p {
     margin: 0;
-    color: rgba($color-blue, 0.72);
+    color: $text-soft;
+    font-weight: map-get($font-weights, 'body');
   }
 }
 
 .song-list__table {
-  overflow: visible;
-  @include block(14px, 16px);
+  @include track.track-list-card;
 }
 
 .song-list__row {
-  width: 100%;
-  min-width: 0;
-  display: grid;
-  grid-template-columns: 44px minmax(240px, 520px) minmax(420px, 1fr);
-  align-items: center;
-  gap: 18px;
-  min-height: 72px;
-  padding: 12px;
-  color: $color-blue;
-  background: transparent;
-  border: 0;
-  border-bottom: 1px solid $color-ts-blue;
-  text-align: left;
-  box-sizing: border-box;
+  @include track.track-list-nested-row;
 }
 
 .song-list__row--head {
-  min-height: 44px;
-  color: rgba($color-blue, 0.76);
-  background: $color-ts-blue;
-  border-bottom: 0;
-  font-weight: 800;
-  @include radius('small');
+  @include track.track-list-head;
 }
 
 .song-list__row--button {
@@ -89,7 +71,7 @@
 }
 
 .song-list__row--button:hover .song-list__song small {
-  color: rgba($color-blue, 0.72);
+  color: $text-soft;
 }
 
 .song-list__index,
@@ -104,11 +86,7 @@
   gap: 12px;
 
   img {
-    width: 52px;
-    height: 52px;
-    flex: 0 0 auto;
-    object-fit: cover;
-    @include radius('small');
+    @include track.track-list-song-media;
   }
 
   > span {
@@ -126,22 +104,19 @@
   }
 
   small {
-    color: rgba($color-blue, 0.72);
+    color: $text-soft;
     font-size: map-get($font-sizes, 'sm');
+    font-weight: map-get($font-weights, 'medium');
   }
 }
 
 .song-list__right {
-  min-width: 0;
-  display: grid;
-  grid-template-columns: minmax(120px, 1fr) 56px 132px;
-  align-items: center;
-  gap: 12px;
+  @include track.track-list-right;
 }
 
 .song-list__right--head {
-  color: rgba($color-blue, 0.76);
-  font-weight: 800;
+  color: $text-muted;
+  font-weight: map-get($font-weights, 'semibold');
   text-align: left;
 }
 
@@ -156,10 +131,7 @@
 }
 
 .song-list__actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 6px;
-  width: 132px;
+  @include track.track-list-actions;
 
   button {
     width: 34px;
@@ -213,7 +185,7 @@
     background: $color-white;
     color: $color-blue;
     padding: 0 16px;
-    font-weight: 800;
+    font-weight: map-get($font-weights, 'medium');
     @include radius('large');
 
     &:hover:not(:disabled) {
@@ -238,23 +210,9 @@
 
   .song-list__row {
     min-width: 0;
-    grid-template-columns: 32px minmax(0, 1fr) 108px;
   }
 
-  .song-list__right {
-    display: flex;
-    justify-content: flex-end;
-  }
-
-  .song-list__right--head span:not(:last-child),
-  .song-list__plays,
-  .song-list__album {
-    display: none;
-  }
-
-  .song-list__actions {
-    width: 108px;
-  }
+  @include track.track-list-mobile-nested;
 
   .song-list__song img {
     width: 46px;

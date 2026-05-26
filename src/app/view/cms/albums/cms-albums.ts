@@ -13,6 +13,7 @@ import {
   toDateInputValue,
   toDateTimeInputValue,
 } from '../../../@service/api.service';
+import { formatMissingFields, getCmsErrorMessage, showCmsError, showCmsSuccess } from '../cms-feedback';
 
 @Component({
   selector: 'app-cms-albums',
@@ -31,6 +32,7 @@ export class CmsAlbums {
   public selectedSongId = signal(0);
   public isSaving = signal(false);
   public message = signal('');
+  public invalidFields = signal<string[]>([]);
   public keyword = signal('');
   public page = signal(1);
   public readonly pageSize = 6;
@@ -47,6 +49,10 @@ export class CmsAlbums {
   };
 
   private imageFile: File | null = null;
+  private readonly fieldLabels: Record<string, string> = {
+    name: '發行作品名稱',
+    artistId: '藝人',
+  };
 
   public selectedAlbumImage = computed(() => {
     const album = this.selectedAlbum();
@@ -56,7 +62,6 @@ export class CmsAlbums {
   public filteredAlbums = computed(() => {
     const keyword = this.keyword().trim().toLowerCase();
     if (!keyword) return this.albums();
-
     return this.albums().filter((album) =>
       [album.name, album.artist?.name].some((value) => (value ?? '').toLowerCase().includes(keyword)),
     );
@@ -67,16 +72,23 @@ export class CmsAlbums {
     return this.filteredAlbums().slice(start, start + this.pageSize);
   });
 
-  public pageCount = computed(() =>
-    Math.max(1, Math.ceil(this.filteredAlbums().length / this.pageSize)),
-  );
+  public pageCount = computed(() => Math.max(1, Math.ceil(this.filteredAlbums().length / this.pageSize)));
+
+  public albumSongs = computed(() => {
+    const album = this.selectedAlbum();
+    if (!album) return [];
+    return this.songs().filter((song) => (song.albumId ?? song.album?.id) === album.id);
+  });
+
+  public availableSongs = computed(() => {
+    const album = this.selectedAlbum();
+    if (!album) return [];
+    return this.songs().filter((song) => (song.albumId ?? song.album?.id) !== album.id);
+  });
 
   public hasPendingChanges(): boolean {
     const album = this.selectedAlbum();
-    if (!album) {
-      return false;
-    }
-
+    if (!album) return false;
     return (
       !!this.imagePreview() ||
       this.editForm.name !== album.name ||
@@ -89,25 +101,7 @@ export class CmsAlbums {
     );
   }
 
-  public albumSongs = computed(() => {
-    const album = this.selectedAlbum();
-    if (!album) {
-      return [];
-    }
-
-    return this.songs().filter((song) => (song.albumId ?? song.album?.id) === album.id);
-  });
-
-  public availableSongs = computed(() => {
-    const album = this.selectedAlbum();
-    if (!album) {
-      return [];
-    }
-
-    return this.songs().filter((song) => (song.albumId ?? song.album?.id) !== album.id);
-  });
-
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadData();
   }
 
@@ -130,26 +124,34 @@ export class CmsAlbums {
     const file = (event.target as HTMLInputElement).files?.[0] ?? null;
     this.imageFile = file;
     this.imagePreview.set(file ? await this.readFileAsDataUrl(file) : '');
-    this.message.set(file ? '圖片已預覽，按下儲存後才會更新' : '');
+    this.message.set(file ? '圖片已選擇，儲存後會更新封面。' : '');
   }
 
   public cancelChanges(): void {
     const album = this.selectedAlbum();
     if (album) {
       this.resetEditor(album);
-      this.message.set('已取消未儲存變更');
+      this.message.set('已還原尚未儲存的變更。');
     }
+  }
+
+  public isInvalid(field: string): boolean {
+    return this.invalidFields().includes(field);
   }
 
   public async saveAlbum(): Promise<void> {
     const album = this.selectedAlbum();
-    if (!album || !this.editForm.name.trim() || !this.editForm.artistId) {
-      this.message.set('請填寫專輯名稱與所屬歌手');
+    const invalidFields = this.validateForm();
+    if (!album || invalidFields.length) {
+      this.invalidFields.set(invalidFields.length ? invalidFields : ['album']);
+      this.message.set('請確認紅框欄位是否填寫正確。');
+      await showCmsError('儲存失敗', formatMissingFields(invalidFields, this.fieldLabels, '發行作品'));
       return;
     }
 
     this.isSaving.set(true);
     this.message.set('');
+    this.invalidFields.set([]);
 
     try {
       const imgPath = this.imageFile ? await this.uploadImage(this.imageFile) : album.imgPath;
@@ -166,10 +168,13 @@ export class CmsAlbums {
         }),
       );
       await this.loadData();
-      this.message.set('發行作品已更新');
+      this.message.set('發行作品已儲存成功。');
+      await showCmsSuccess('發行作品已儲存');
     } catch (err) {
       console.error('CMS 更新發行作品失敗：', err);
-      this.message.set('更新失敗，請稍後再試');
+      const message = getCmsErrorMessage(err, '儲存失敗，請確認 API server 是否正常。');
+      this.message.set(message);
+      await showCmsError('儲存失敗', message);
     } finally {
       this.isSaving.set(false);
     }
@@ -179,7 +184,8 @@ export class CmsAlbums {
     const album = this.selectedAlbum();
     const songId = Number(this.selectedSongId());
     if (!album || !songId) {
-      this.message.set('請先選擇要加入的歌曲');
+      this.message.set('請先選擇要加入的歌曲。');
+      await showCmsError('加入失敗', '請先選擇要加入的歌曲。');
       return;
     }
 
@@ -187,10 +193,11 @@ export class CmsAlbums {
       await firstValueFrom(this.api.updateSong(songId, { albumId: album.id }));
       await this.loadData();
       this.selectedSongId.set(0);
-      this.message.set('歌曲已加入發行作品');
+      this.message.set('歌曲已加入發行作品。');
+      await showCmsSuccess('歌曲已加入');
     } catch (err) {
       console.error('CMS 加入發行作品歌曲失敗：', err);
-      this.message.set('加入失敗，請稍後再試');
+      await showCmsError('加入失敗', getCmsErrorMessage(err));
     }
   }
 
@@ -200,15 +207,28 @@ export class CmsAlbums {
     try {
       await firstValueFrom(this.api.updateSong(song.id, { albumId: fallbackAlbum.id }));
       await this.loadData();
-      this.message.set('歌曲已移到自己的單曲發行作品');
+      this.message.set('歌曲已移出發行作品。');
+      await showCmsSuccess('歌曲已移出');
     } catch (err) {
       console.error('CMS 移出發行作品歌曲失敗：', err);
-      this.message.set('移出失敗，請稍後再試');
+      await showCmsError('移出失敗', getCmsErrorMessage(err));
     }
+  }
+
+  public releaseLabel(album: AlbumType | null | undefined): string {
+    return releaseTypeLabel(album?.type);
+  }
+
+  private validateForm(): string[] {
+    const invalid: string[] = [];
+    if (!this.editForm.name.trim()) invalid.push('name');
+    if (!Number(this.editForm.artistId)) invalid.push('artistId');
+    return invalid;
   }
 
   private resetEditor(album: AlbumType): void {
     this.message.set('');
+    this.invalidFields.set([]);
     this.imageFile = null;
     this.imagePreview.set('');
     this.editForm = {
@@ -236,18 +256,12 @@ export class CmsAlbums {
     const current = this.selectedAlbum();
     if (current) {
       const refreshed = albumItems.find((album) => album.id === current.id);
-      if (refreshed) {
-        this.selectAlbum(refreshed);
-      }
+      if (refreshed) this.selectAlbum(refreshed);
     } else if (albumItems.length) {
       this.selectAlbum(albumItems[0]);
     }
 
     this.page.set(Math.min(Math.max(this.page(), 1), this.pageCount()));
-  }
-
-  public releaseLabel(album: AlbumType | null | undefined): string {
-    return releaseTypeLabel(album?.type);
   }
 
   private async getOrCreateSingleRelease(song: SongType): Promise<AlbumType> {
@@ -258,9 +272,7 @@ export class CmsAlbums {
         album.name.trim().toLowerCase() === song.name.trim().toLowerCase() &&
         (album.artistId ?? album.artist?.id) === artistId,
     );
-    if (existing) {
-      return existing;
-    }
+    if (existing) return existing;
 
     const album = await firstValueFrom(
       this.api.createAlbum(song.name, artistId, song.imgPath || song.album?.imgPath || './mock/unnamed.png', 'single'),

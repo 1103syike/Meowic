@@ -52,6 +52,17 @@ export const routes: Routes = [
         loadComponent: () => import('./view/popular/popular').then((m) => m.Popular),
       },
       {
+        path: 'new-songs',
+        data: { pageName: '新增歌曲' },
+        loadComponent: () => import('./view/new-songs/new-songs').then((m) => m.NewSongs),
+      },
+      {
+        path: 'search',
+        data: { pageName: '搜尋' },
+        loadComponent: () =>
+          import('./component/search-results/search-results').then((m) => m.SearchResults),
+      },
+      {
         path: 'cms',
         data: { pageName: 'CMS' },
         canMatch: [cmsCanMatchGuard],

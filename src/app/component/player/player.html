@@ -1,13 +1,9 @@
-<section class="player-container">
+﻿<section class="player-container" [class.player-container--seeking]="isSeeking()">
   <section class="song">
     <img
       [routerLink]="['/song', this.currentSong()?.id]"
       class="song__image"
-      [src]="
-        this.currentSong()?.imgPath
-          ? this.currentSong()?.imgPath
-          : this.currentSong()?.album?.imgPath
-      "
+      [src]="this.currentSong()?.imgPath ? this.currentSong()?.imgPath : this.currentSong()?.album?.imgPath"
       alt=""
     />
     <section class="song__info">
@@ -25,22 +21,16 @@
         (click)="toggleShuffleMode()"
         >shuffle</mat-icon
       >
-      <mat-icon
-        class="player__play-tool__icon player__play-tool__icon--skip"
-        (click)="playPrevious()"
+      <mat-icon class="player__play-tool__icon player__play-tool__icon--skip" (click)="playPrevious()"
         >skip_previous</mat-icon
       >
       @if (musicPlayer.paused) {
-        <mat-icon
-          class="player__play-tool__icon player__play-tool__icon--play"
-          (click)="musicPlayer.play()"
-          >play_circle</mat-icon
+        <mat-icon class="player__play-tool__icon player__play-tool__icon--play" (click)="musicPlayer.play()"
+          >play_arrow</mat-icon
         >
       } @else {
-        <mat-icon
-          class="player__play-tool__icon player__play-tool__icon--pause"
-          (click)="musicPlayer.pause()"
-          >pause_circle</mat-icon
+        <mat-icon class="player__play-tool__icon player__play-tool__icon--pause" (click)="musicPlayer.pause()"
+          >pause</mat-icon
         >
       }
       <mat-icon class="player__play-tool__icon player__play-tool__icon--skip" (click)="playNext()"
@@ -49,8 +39,7 @@
       <mat-icon
         class="player__play-tool__icon player__play-tool__icon--repeat"
         [class.player__play-tool__icon--active]="
-          playbackQueue.playbackMode() === 'repeat-one' ||
-          playbackQueue.playbackMode() === 'repeat-all'
+          playbackQueue.playbackMode() === 'repeat-one' || playbackQueue.playbackMode() === 'repeat-all'
         "
         [title]="playbackModeLabel()"
         (click)="cycleRepeatMode()"
@@ -58,36 +47,9 @@
         {{ repeatIcon() }}
       </mat-icon>
     </div>
-
-    <div class="player__time-tool">
-      <audio
-        #musicPlayer
-        (loadedmetadata)="onLoadedMetadata(musicPlayer)"
-        [src]="this.currentSong()?.audioPath"
-        (play)="player.setIsPlaying(true)"
-        (pause)="player.setIsPlaying(false)"
-        (timeupdate)="handleTimeUpdate(musicPlayer)"
-        (ended)="handlePlaybackEnded(musicPlayer)"
-        [volume]="value / 100"
-        autoplay
-      ></audio>
-      <span>{{ formatTime(currentTime) }}</span>
-      @if (!!this.duration()) {
-        <mat-slider class="player__slider" min="0" [max]="this.duration()">
-          <input
-            matSliderThumb
-            [value]="currentTime"
-            (input)="musicPlayer.currentTime = +$any($event.target).value"
-          />
-        </mat-slider>
-      }
-
-      <span>{{ formatTime(musicPlayer.duration || 0) }}</span>
-    </div>
   </section>
 
   <section class="tool">
-    <mat-icon class="tool__lyrics">lyrics</mat-icon>
     <button
       class="tool__queue-btn"
       type="button"
@@ -97,40 +59,88 @@
     >
       <mat-icon class="tool__playlist">queue_music</mat-icon>
     </button>
-    <button
-      class="tool__volume-btn"
-      type="button"
-      [class.tool__volume-btn--muted]="isMuted() || value === 0"
-      (click)="toggleMute()"
-      aria-label="切換靜音"
-    >
-      <mat-icon class="tool__volume">{{ volumeIcon() }}</mat-icon>
-    </button>
+    <span class="tool__volume-wrap">
+      <button
+        class="tool__volume-btn"
+        type="button"
+        [class.tool__volume-btn--muted]="isMuted() || value === 0"
+        (click)="toggleMute()"
+        aria-label="音量"
+      >
+        <mat-icon class="tool__volume">{{ volumeIcon() }}</mat-icon>
+      </button>
 
-    <mat-slider class="tool__volume-slider" min="0" max="100" [showTickMarks]="showTicks">
-      <input
-        matSliderThumb
-        [value]="value"
-        (input)="onVolumeInput(+$any($event.target).value)"
-        [(ngModel)]="value"
-      />
-    </mat-slider>
+      <span class="tool__volume-popover">
+        <input
+          class="tool__volume-slider"
+          type="range"
+          min="0"
+          max="100"
+          [value]="value"
+          [style.--volume-percent.%]="value"
+          (input)="onVolumeInput(+$any($event.target).value)"
+          [(ngModel)]="value"
+          aria-label="音量大小"
+        />
+      </span>
+    </span>
 
-    <button class="tool__close" (click)="closePlayer(true)">
+    <button class="tool__close" (click)="closePlayer(true)" aria-label="關閉播放器">
       <mat-icon>close</mat-icon>
     </button>
   </section>
+
+  <div class="player__time-tool">
+    <audio
+      #musicPlayer
+      (loadedmetadata)="onLoadedMetadata(musicPlayer)"
+      [src]="this.currentSong()?.audioPath"
+      (play)="player.setIsPlaying(true)"
+      (pause)="player.setIsPlaying(false)"
+      (timeupdate)="handleTimeUpdate(musicPlayer)"
+      (ended)="handlePlaybackEnded(musicPlayer)"
+      [volume]="value / 100"
+      autoplay
+    ></audio>
+    <span class="player__time-label player__time-label--start">{{ formatTime(currentTime) }}</span>
+    <input
+      class="player__range"
+      type="range"
+      min="0"
+      [max]="duration() || 0"
+      [value]="currentTime"
+      [style.background-image]="progressBackground()"
+      (pointerdown)="setSeeking(true)"
+      (input)="seekFromRange($event, musicPlayer)"
+      (change)="setSeeking(false)"
+      (blur)="setSeeking(false)"
+      aria-label="播放進度"
+    />
+    <span class="player__time-label player__time-label--end">{{ formatRemaining(musicPlayer.duration || 0, currentTime) }}</span>
+  </div>
 </section>
 
 @if (isQueueOpen()) {
-  <aside class="queue" aria-label="播放佇列">
-    <header class="queue__header">
+  <aside
+    #queuePanel
+    class="queue"
+    [class.queue--dragging]="isQueueDragging()"
+    [style.transform]="queueTransform()"
+    aria-label="播放佇列"
+  >
+    <header class="queue__header" (pointerdown)="startQueueDrag($event)">
       <div>
         <h2>播放佇列</h2>
         <span>{{ playbackQueue.queue().title }}</span>
         <small>{{ playbackModeLabel() }}</small>
       </div>
-      <button class="queue__close" type="button" (click)="toggleQueue()" aria-label="關閉佇列">
+      <button
+        class="queue__close"
+        type="button"
+        (pointerdown)="$event.stopPropagation()"
+        (click)="toggleQueue()"
+        aria-label="關閉佇列"
+      >
         <mat-icon>close</mat-icon>
       </button>
     </header>
@@ -151,7 +161,7 @@
           <img class="queue__image" [src]="songImage(song)" alt="" />
           <span class="queue__info">
             <strong>{{ song.name }}</strong>
-            <span>{{ song.artist?.name }}</span>
+            <span data-media-subtitle>{{ song.artist!.name }}</span>
           </span>
         </button>
       }
@@ -171,7 +181,7 @@
           <img class="queue__image" [src]="songImage(song)" alt="" />
           <span class="queue__info">
             <strong>{{ song.name }}</strong>
-            <span>{{ song.artist?.name }}</span>
+            <span data-media-subtitle>{{ song.artist!.name }}</span>
           </span>
         </button>
       }

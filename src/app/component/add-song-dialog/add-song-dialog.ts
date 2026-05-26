@@ -1,8 +1,7 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, inject, Output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpErrorResponse } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
-import Swal from 'sweetalert2';
 import {
   AlbumType,
   ApiService,
@@ -11,6 +10,7 @@ import {
   releaseTypeOptions,
   toDateInputValue,
 } from '../../@service/api.service';
+import { showCmsError, showCmsSuccess } from '../../view/cms/cms-feedback';
 
 @Component({
   selector: 'app-add-song-dialog',
@@ -28,6 +28,7 @@ export class AddSongDialog {
   public albums = signal<AlbumType[]>([]);
   public isSubmitting = signal(false);
   public errorMessage = signal('');
+  public invalidFields = signal<string[]>([]);
   public isArtistSuggestionsOpen = signal(false);
   public isAlbumSuggestionsOpen = signal(false);
 
@@ -39,22 +40,17 @@ export class AddSongDialog {
   private audioFile: File | null = null;
   private imageFile: File | null = null;
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadSuggestions();
   }
 
   public closeDialog(): void {
-    if (!this.isSubmitting()) {
-      this.close.emit();
-    }
+    if (!this.isSubmitting()) this.close.emit();
   }
 
   public filteredArtists(): ArtistType[] {
     const keyword = this.artistName.trim().toLowerCase();
-    if (!keyword) {
-      return [];
-    }
-
+    if (!keyword) return [];
     return this.artists()
       .filter((artist) => artist.name.toLowerCase().includes(keyword))
       .slice(0, 5);
@@ -62,10 +58,7 @@ export class AddSongDialog {
 
   public filteredAlbums(): AlbumType[] {
     const keyword = this.albumName.trim().toLowerCase();
-    if (!keyword) {
-      return [];
-    }
-
+    if (!keyword) return [];
     return this.albums()
       .filter((album) => album.name.toLowerCase().includes(keyword))
       .slice(0, 5);
@@ -73,6 +66,7 @@ export class AddSongDialog {
 
   public selectArtist(name: string): void {
     this.artistName = name;
+    this.invalidFields.update((fields) => fields.filter((field) => field !== 'artistName'));
     this.isArtistSuggestionsOpen.set(false);
   }
 
@@ -91,24 +85,35 @@ export class AddSongDialog {
 
   public setAudioFile(event: Event): void {
     this.audioFile = this.getSelectedFile(event);
+    if (this.audioFile) {
+      this.applySongNameFromAudioFile(this.audioFile);
+      this.invalidFields.update((fields) => fields.filter((field) => field !== 'audioFile'));
+    }
   }
 
   public setImageFile(event: Event): void {
     this.imageFile = this.getSelectedFile(event);
   }
 
+  public isInvalid(field: string): boolean {
+    return this.invalidFields().includes(field);
+  }
+
   public async submit(): Promise<void> {
     this.errorMessage.set('');
-
-    if (!this.songName.trim() || !this.artistName.trim() || !this.audioFile) {
-      this.errorMessage.set('請填寫歌曲名稱、歌手，並選擇歌曲檔案');
+    const invalidFields = this.validateForm();
+    if (invalidFields.length) {
+      this.invalidFields.set(invalidFields);
+      this.errorMessage.set('請確認紅框欄位是否填寫正確。');
+      await this.showError('新增失敗', `請補齊：${this.invalidFieldLabels(invalidFields).join('、')}`);
       return;
     }
 
     this.isSubmitting.set(true);
+    this.invalidFields.set([]);
     try {
       const now = new Date();
-      const audioPath = await this.uploadFile(this.audioFile);
+      const audioPath = await this.uploadFile(this.audioFile as File);
       const imgPath = this.imageFile ? await this.uploadFile(this.imageFile) : '';
       const artist = await this.findOrCreateArtist(this.artistName);
       const album = await this.findOrCreateAlbum(
@@ -135,10 +140,12 @@ export class AddSongDialog {
 
       this.created.emit();
       this.close.emit();
-      Swal.fire({ title: '新增成功', text: '歌曲已新增到資料庫', icon: 'success' });
+      await this.showSuccess('歌曲已新增');
     } catch (err) {
       console.error('新增歌曲失敗：', err);
-      this.errorMessage.set(this.getSubmitErrorMessage(err));
+      const message = this.getSubmitErrorMessage(err);
+      this.errorMessage.set(message);
+      await this.showError('新增失敗', message);
     } finally {
       this.isSubmitting.set(false);
     }
@@ -154,8 +161,34 @@ export class AddSongDialog {
     this.albums.set(collections.filter((collection) => collection.type !== 'playlist'));
   }
 
+  private validateForm(): string[] {
+    const invalid: string[] = [];
+    if (!this.songName.trim()) invalid.push('songName');
+    if (!this.artistName.trim()) invalid.push('artistName');
+    if (!this.audioFile) invalid.push('audioFile');
+    return invalid;
+  }
+
+  private invalidFieldLabels(fields: string[]): string[] {
+    const labels: Record<string, string> = {
+      songName: '歌曲名稱',
+      artistName: '藝人',
+      audioFile: '歌曲音檔',
+    };
+    return fields.map((field) => labels[field] ?? field);
+  }
+
   private getSelectedFile(event: Event): File | null {
     return (event.target as HTMLInputElement).files?.[0] ?? null;
+  }
+
+  private applySongNameFromAudioFile(file: File): void {
+    if (this.songName.trim()) return;
+    const baseName = file.name.replace(/\.[^/.]+$/, '').trim();
+    const dashIndex = baseName.indexOf('-');
+    const importedName = (dashIndex >= 0 ? baseName.slice(dashIndex + 1) : baseName).trim() || baseName;
+    this.songName = importedName;
+    this.invalidFields.update((fields) => fields.filter((field) => field !== 'songName'));
   }
 
   private async uploadFile(file: File): Promise<string> {
@@ -166,14 +199,14 @@ export class AddSongDialog {
 
   private getSubmitErrorMessage(err: unknown): string {
     if (err instanceof HttpErrorResponse && err.status === 404 && err.url?.endsWith('/upload')) {
-      return '找不到上傳 API，請確認後端是用 npm run api 啟動，而不是純 json-server。';
+      return '找不到上傳 API，請確認 API server 是否已啟動。';
     }
 
     if (err instanceof HttpErrorResponse && err.status === 413) {
-      return '檔案太大，請換小一點的音樂或圖片檔案。';
+      return '檔案太大，請改用較小的音檔或圖片。';
     }
 
-    return '新增歌曲失敗，請再試一次';
+    return '新增歌曲失敗，請稍後再試。';
   }
 
   private readFileAsDataUrl(file: File): Promise<string> {
@@ -187,10 +220,7 @@ export class AddSongDialog {
 
   private async findOrCreateArtist(name: string): Promise<ArtistType> {
     const existingArtist = this.artists().find((artist) => this.isSameName(artist.name, name));
-    if (existingArtist) {
-      return existingArtist;
-    }
-
+    if (existingArtist) return existingArtist;
     return firstValueFrom(this.api.createArtist(name.trim()));
   }
 
@@ -201,14 +231,19 @@ export class AddSongDialog {
     type: ReleaseType,
   ): Promise<AlbumType> {
     const existingAlbum = this.albums().find((album) => this.isSameName(album.name, name));
-    if (existingAlbum) {
-      return existingAlbum;
-    }
-
+    if (existingAlbum) return existingAlbum;
     return firstValueFrom(this.api.createAlbum(name.trim(), artistId, imgPath, type));
   }
 
   private isSameName(currentName: string, inputName: string): boolean {
     return currentName.trim().toLowerCase() === inputName.trim().toLowerCase();
+  }
+
+  private async showSuccess(title: string): Promise<void> {
+    await showCmsSuccess(title);
+  }
+
+  private async showError(title: string, text: string): Promise<void> {
+    await showCmsError(title, text);
   }
 }

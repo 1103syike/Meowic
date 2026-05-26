@@ -2,64 +2,83 @@
 @use 'sass:map';
 
 .toolbar {
-  --toolbar-control-height: 48px;
-  @include block(18px, 18px);
-  @include flex(column, start, start);
-  gap: 10px;
+  --toolbar-control-height: 44px;
+  width: 100%;
+  display: block;
+  padding: 8px 8px 6px;
+  box-sizing: border-box;
 
-  &__btn {
+  &__search-shell {
+    position: relative;
+    width: 100%;
+    min-height: var(--toolbar-control-height);
+  }
+
+  &__btn,
+  &__search {
+    position: absolute;
+    inset: 0;
     width: 100%;
     min-height: var(--toolbar-control-height);
     box-sizing: border-box;
-    @include flex(row, start, center);
-    gap: 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
     padding: 0 14px;
-    border: 1px solid transparent;
-    color: $color-blue;
-    background: transparent;
+    color: rgba($color-blue, 0.82);
+    background: rgba($color-white, 0.78);
+    border: 1px solid rgba($color-ts-blue, 0.78);
+    box-shadow: 0 8px 20px rgba($color-blue, 0.04);
+    @include radius('small');
+  }
+
+  &__btn {
+    justify-content: flex-start;
     font-size: map-get($font-sizes, 'base');
-    font-weight: 700;
+    font-weight: map-get($font-weights, 'semibold');
     text-align: left;
     transition:
+      opacity 0.18s ease,
+      transform 0.22s ease,
       background-color 0.18s ease,
       border-color 0.18s ease,
-      color 0.18s ease,
-      transform 0.18s ease;
-    @include radius('small');
+      color 0.18s ease;
 
     mat-icon {
       width: 21px;
       height: 21px;
       font-size: 21px;
-      color: inherit;
+      color: $color-green;
     }
 
     &:hover {
       cursor: pointer;
-      color: $color-white;
-      background: $color-green;
-      border-color: $color-green;
-      transform: translateY(-1px);
-    }
-
-    &:active {
-      transform: translateY(0);
+      color: $color-blue;
+      background: $color-white;
+      border-color: rgba($color-green, 0.42);
     }
   }
 
   &__search {
-    width: 100%;
-    height: var(--toolbar-control-height);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 0 12px;
-    box-sizing: border-box;
-    color: $color-blue;
+    color: $color-green;
     background: $color-white;
-    border: 1px solid $color-ts-blue;
-    box-shadow: 0 8px 18px rgba($color-blue, 0.08);
-    @include radius('small');
+    border-color: rgba($color-green, 0.34);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(12px) scaleX(0.96);
+    transform-origin: right center;
+    transition:
+      opacity 0.18s ease,
+      transform 0.24s ease,
+      border-color 0.18s ease,
+      box-shadow 0.18s ease;
+
+    mat-icon {
+      width: 21px;
+      height: 21px;
+      font-size: 21px;
+      flex: 0 0 auto;
+    }
 
     input {
       width: 100%;
@@ -70,46 +89,44 @@
       color: $color-blue;
       background: transparent;
       font-size: map-get($font-sizes, 'base');
-      font-weight: 600;
+      font-weight: map-get($font-weights, 'semibold');
+      opacity: 0;
+      transition: opacity 0.16s ease 0.06s;
     }
   }
-}
 
-@media (max-width: 1280px) {
-  .toolbar {
-    --toolbar-control-height: 46px;
-    padding: 16px 18px;
-    gap: 10px;
+  &__search-shell--open {
+    .toolbar__btn {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(-10px) scaleX(0.96);
+    }
 
-    &__btn {
-      padding: 0 12px;
+    .toolbar__search {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(0) scaleX(1);
+    }
+
+    .toolbar__search input {
+      opacity: 1;
     }
   }
 }
 
 @media (max-width: 600px) {
   .toolbar {
-    --toolbar-control-height: 44px;
-    padding: 12px;
-    gap: 8px;
+    --toolbar-control-height: 40px;
+    padding: 6px;
 
-    &__btn {
+    &__btn,
+    &__search {
+      padding: 0 12px;
       font-size: map-get($font-sizes, 'sm');
     }
 
-    &__search {
-      gap: 8px;
-
-      input {
-        font-size: map-get($font-sizes, 'sm');
-      }
+    &__search input {
+      font-size: map-get($font-sizes, 'sm');
     }
-  }
-}
-
-@media (max-width: 350px) {
-  .toolbar {
-    --toolbar-control-height: 40px;
-    padding: 10px;
   }
 }

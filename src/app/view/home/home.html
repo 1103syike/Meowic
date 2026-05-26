@@ -5,12 +5,191 @@
     <div class="home__section">
       <app-home-ads></app-home-ads>
     </div>
-    <div class="home__section">
-      <app-recommand></app-recommand>
-    </div>
-    <div class="home__section home__section--main">
-      <app-popular></app-popular>
-      <app-celebrity></app-celebrity>
-    </div>
+
+    @if (editorialSongs().length || editorialArtists().length || editorialAlbums().length) {
+      <section class="home__section home-editorial">
+        <header class="home-section-heading">
+          <span class="home-section-heading__eyebrow">Listen Now</span>
+          <div>
+            <h2>今晚先放這些</h2>
+            <p>幾首主打、幾張作品，還有最近值得回頭聽的聲音。</p>
+          </div>
+        </header>
+
+        <div class="home-editorial__grid">
+          <section class="editorial-playlist">
+            <header class="editorial-block-header">
+              <h3>主打曲目</h3>
+            </header>
+            <div class="feature-list">
+              @for (song of editorialSongs(); track song.id; let i = $index) {
+                <button class="feature-row" type="button" (click)="playSong(song)">
+                  <span class="feature-row__index">{{ i + 1 }}</span>
+                  <img [src]="song.imgPath || song.album.imgPath || './mock/unnamed.png'" alt="" />
+                  <span class="feature-row__meta">
+                    <strong>{{ song.name }}</strong>
+                    <small>{{ song.artist.name }} / {{ song.album.name }}</small>
+                  </span>
+                  <span class="feature-row__play">播放</span>
+                </button>
+              }
+            </div>
+          </section>
+
+          <aside class="editorial-side">
+            <section class="editorial-shelf">
+              <header class="editorial-block-header">
+                <h3>焦點藝人</h3>
+                <span class="shelf-controls">
+                  <button type="button" (click)="scrollShelf(artistShelf, -1)" aria-label="上一組焦點藝人">‹</button>
+                  <button type="button" (click)="scrollShelf(artistShelf, 1)" aria-label="下一組焦點藝人">›</button>
+                </span>
+              </header>
+              <div class="artist-rail" #artistShelf>
+                @for (artist of editorialArtists(); track artist.id) {
+                  <a class="artist-card" [routerLink]="['/artist', artist.id]">
+                    <img [src]="artist.imgPath || './mock/unnamed.png'" alt="" />
+                    <strong>{{ artist.name }}</strong>
+                  </a>
+                }
+              </div>
+            </section>
+
+            <section class="editorial-shelf">
+              <header class="editorial-block-header">
+                <h3>專輯選物</h3>
+                <span class="shelf-controls">
+                  <button type="button" (click)="scrollShelf(albumShelf, -1)" aria-label="上一組專輯選物">‹</button>
+                  <button type="button" (click)="scrollShelf(albumShelf, 1)" aria-label="下一組專輯選物">›</button>
+                </span>
+              </header>
+              <div class="editorial-albums" #albumShelf>
+                @for (album of editorialAlbums(); track album.id) {
+                  <a class="editorial-album" [routerLink]="['/album', album.id]">
+                    <img [src]="album.imgPath || './mock/unnamed.png'" alt="" />
+                    <strong>{{ album.name }}</strong>
+                    <small>{{ album.artist?.name || '未知藝人' }}</small>
+                  </a>
+                }
+              </div>
+            </section>
+          </aside>
+        </div>
+      </section>
+    }
+
+    <section class="home__section home-trending">
+      <header class="home-section-heading">
+        <span class="home-section-heading__eyebrow">Charts</span>
+        <div>
+          <h2>本週熱播</h2>
+          <p>最近七天被反覆按下播放的歌、藝人和專輯。</p>
+        </div>
+      </header>
+
+      <div class="home-trending__grid">
+        <section class="chart-main">
+          <header class="chart-main__header">
+            <h3>歌曲 Top {{ weeklySongs().length }}</h3>
+            <span>7 days</span>
+          </header>
+
+          <div class="chart-podium">
+            @for (song of weeklySongs().slice(0, 3); track song.id; let i = $index) {
+              <button class="chart-podium__item" type="button" (click)="playSong(song)">
+                <span class="chart-podium__rank">{{ i + 1 }}</span>
+                <img [src]="song.imgPath || song.album.imgPath || './mock/unnamed.png'" alt="" />
+                <span class="chart-podium__meta">
+                  <strong>{{ song.name }}</strong>
+                  <small>{{ song.artist.name }}</small>
+                </span>
+                <span class="chart-podium__count">{{ song.weeklyPlayCount }} 次</span>
+              </button>
+            }
+          </div>
+
+          <ol class="song-chart">
+            @for (song of weeklySongs().slice(3); track song.id; let i = $index) {
+              <li>
+                <button class="song-chart__row" type="button" (click)="playSong(song)">
+                  <span class="song-chart__rank">{{ i + 4 }}</span>
+                  <img [src]="song.imgPath || song.album.imgPath || './mock/unnamed.png'" alt="" />
+                  <span class="song-chart__meta">
+                    <strong>{{ song.name }}</strong>
+                    <small>{{ song.artist.name }} / {{ song.album.name }}</small>
+                  </span>
+                  <span class="song-chart__count">{{ song.weeklyPlayCount }} 次</span>
+                </button>
+              </li>
+            }
+          </ol>
+        </section>
+
+        <aside class="home-trending__side">
+          <section class="trend-card">
+            <header class="trend-card__header">
+              <h3>藝人熱度</h3>
+              <span>7 days</span>
+            </header>
+            <div class="compact-list">
+              @for (artist of weeklyArtists().slice(0, 5); track artist.id; let i = $index) {
+                <a class="compact-row compact-row--artist" [routerLink]="['/artist', artist.id]">
+                  <span class="compact-row__rank">{{ i + 1 }}</span>
+                  <img class="compact-row__avatar" [src]="artist.imgPath || './mock/unnamed.png'" alt="" />
+                  <span>
+                    <strong>{{ artist.name }}</strong>
+                    <small>{{ artist.weeklyPlayCount }} 次播放</small>
+                  </span>
+                </a>
+              }
+            </div>
+          </section>
+
+          <section class="trend-card">
+            <header class="trend-card__header">
+              <h3>專輯熱度</h3>
+              <span>7 days</span>
+            </header>
+            <div class="album-stack">
+              @for (album of weeklyAlbums().slice(0, 5); track album.id; let i = $index) {
+                <a class="album-tile" [routerLink]="['/album', album.id]">
+                  <span class="album-tile__rank">{{ i + 1 }}</span>
+                  <img [src]="album.imgPath || './mock/unnamed.png'" alt="" />
+                  <span>
+                    <strong>{{ album.name }}</strong>
+                    <small>{{ album.artist?.name || '未知藝人' }} / {{ album.weeklyPlayCount }} 次</small>
+                  </span>
+                </a>
+              }
+            </div>
+          </section>
+        </aside>
+      </div>
+    </section>
+
+    <section class="home__section home-new-releases">
+      <header class="home-section-heading">
+        <span class="home-section-heading__eyebrow">New Releases</span>
+        <div>
+          <h2>剛上架</h2>
+          <p>新進曲庫的作品，先掃封面，再決定從哪張開始。</p>
+        </div>
+        <span class="shelf-controls shelf-controls--heading">
+          <button type="button" (click)="scrollShelf(releaseShelf, -1)" aria-label="上一組最近上架">‹</button>
+          <button type="button" (click)="scrollShelf(releaseShelf, 1)" aria-label="下一組最近上架">›</button>
+        </span>
+      </header>
+
+      <div class="release-shelf" #releaseShelf>
+        @for (album of latestAlbums(); track album.id) {
+          <a class="release-card" [routerLink]="['/album', album.id]">
+            <img [src]="album.imgPath || './mock/unnamed.png'" alt="" />
+            <strong>{{ album.name }}</strong>
+            <small>{{ album.artist?.name || '未知藝人' }}</small>
+          </a>
+        }
+      </div>
+    </section>
+
   }
 </main>
