@@ -10,13 +10,7 @@
     <button class="header__nav__btn" routerLink="/new-songs" (click)="searchState.closeSearch()">新增歌曲</button>
     <button class="header__nav__btn" type="button" (click)="openProDialog()">Meowic Pro</button>
     @if (auth.canAccessCms()) {
-      <a
-        class="header__nav__btn"
-        routerLink="/cms"
-        target="_blank"
-        rel="noopener"
-        (click)="searchState.closeSearch()"
-      >
+      <a class="header__nav__btn" routerLink="/cms" (click)="searchState.closeSearch()">
         CMS
       </a>
     }

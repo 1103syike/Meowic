@@ -8,7 +8,9 @@ async function canOpenCms(): Promise<boolean> {
   const auth = inject(AuthService);
   const router = inject(Router);
 
-  if (!auth.currentUserStatus()) {
+  await auth.waitForAuthReady();
+
+  if (!auth.isAuthenticated()) {
     showDenied('請先登入', '登入後才可以進入 CMS。');
     router.navigate(['/']);
     return false;

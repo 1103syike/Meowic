@@ -23,6 +23,7 @@ export class AuthService {
   private readonly auth = getFirebaseAuth();
   private readonly db = getFirebaseFirestore();
   private readonly cmsDefaultAdmins = new Set(['dandy', 'wendy']);
+  private readonly authReady = this.auth.authStateReady();
 
   public currentUserStatus = signal<boolean>(false);
   public user = signal<UserType | null>(null);
@@ -139,6 +140,15 @@ export class AuthService {
 
   getToken(): string | null {
     return localStorage.getItem('token');
+  }
+
+  /** 等 Firebase 還原登入狀態（新分頁／重新整理時必要） */
+  waitForAuthReady(): Promise<void> {
+    return this.authReady;
+  }
+
+  isAuthenticated(): boolean {
+    return !!this.auth.currentUser;
   }
 
   getUserByEmail(email: string) {

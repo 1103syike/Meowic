@@ -97,8 +97,29 @@ npm start
 - Build：`npm run build`
 - Output：`dist/meowic/browser`
 - 不需設定資料庫環境變數（Firebase 設定已包在 build 裡）
+- **不要**在 Vercel 設定 `DATABASE_URL`（那是已刪除的 Neon 舊 API 才需要）
 
 `git push` 後 Vercel 會自動建置。
+
+#### 線上網址（meowic-3bot）
+
+| 用途 | 網址 |
+|------|------|
+| Production（正式） | https://meowic-3bot.vercel.app |
+| main 分支最新（建議測試用） | https://meowic-3bot-git-main-1103syikes-projects.vercel.app |
+
+> 帶 random hash 的 Preview（例如 `meowic-3bot-oxrf8xyzm-...`）是**某一次** deployment 快照，可能仍是舊版，勿當正式網址。
+
+#### 確認已部署 Firebase 版（不是舊 Neon API）
+
+1. Vercel → **Deployments** → 最新一筆 **Ready**，commit 應為 `d53fa37` 之後（例如 `3861167`）
+2. 點該 deployment → **Source**，確認**沒有** `api/` 目錄
+3. 瀏覽器 **F12 → Network**：
+   - **正確**：`identitytoolkit.googleapis.com`、`firestore.googleapis.com`
+   - **錯誤（舊版）**：對你網域的 `/login`、`/songs` 請求，回 `{ message: "DATABASE_URL 未設定..." }`
+4. 若 main 已 push 但線上仍舊：Deployments → 最新 main → **⋯ → Redeploy**（勾選 Use existing Build Cache 可取消）
+
+若 redeploy 後仍出現 `DATABASE_URL`，把該 deployment 的 **commit 訊息**貼出以便對照。
 
 ### Firebase Hosting（可選）
 
@@ -120,8 +141,9 @@ npm run deploy:hosting
 
 | 現象 | 處理 |
 |------|------|
+| `DATABASE_URL 未設定` | **不要**填 Neon。代表 Vercel 仍在跑舊 `api/login.js`；見上方「確認已部署 Firebase 版」，用 `git-main` 網址測並 Redeploy |
 | 沒歌曲 | 執行 `npm run firebase:seed` |
-| 登入失敗 | 確認 Auth 已啟用 Email/密碼，且已 seed |
+| 登入失敗 | 確認 Auth 已啟用 Email/密碼、已 seed，且 Firebase → Authentication → **Authorized domains** 已加入 Vercel 網域 |
 | permission denied | 執行 `npm run deploy:rules` |
 | CMS 上傳失敗 | 確認已登入、Storage 已建立 |
 | 找不到 Storage | 需 Blaze；位置在「專案建置 → Storage」 |
