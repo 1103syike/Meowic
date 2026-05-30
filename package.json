@@ -7,6 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "firebase:check": "node scripts/check-firebase-setup.mjs",
     "firebase:seed": "node scripts/seed-firestore.mjs",
     "deploy:rules": "firebase deploy --only firestore:rules,storage",
     "deploy:hosting": "npm run build && firebase deploy --only hosting"
@@ -33,6 +34,7 @@
     "@angular/compiler-cli": "^21.2.0",
     "dotenv": "^16.4.7",
     "firebase-admin": "^13.10.0",
+    "firebase-tools": "^14.0.0",
     "jsdom": "^28.0.0",
     "prettier": "^3.8.1",
     "typescript": "~5.9.2",
