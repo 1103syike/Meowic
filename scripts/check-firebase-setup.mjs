@@ -7,7 +7,21 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
-const keyPath = path.join(root, 'serviceAccountKey.json');
+function resolveServiceAccountPath() {
+  const defaultPath = path.join(root, 'serviceAccountKey.json');
+  if (fs.existsSync(defaultPath)) {
+    return defaultPath;
+  }
+  const matches = fs
+    .readdirSync(root)
+    .filter((name) => name.endsWith('.json') && name.includes('firebase-adminsdk'));
+  if (matches.length === 1) {
+    return path.join(root, matches[0]);
+  }
+  return null;
+}
+
+const keyPath = resolveServiceAccountPath();
 const envPath = path.join(root, 'src/environments/environment.ts');
 
 let ok = true;
@@ -23,8 +37,8 @@ function fail(msg) {
 
 console.log('Meowic Firebase 本機檢查\n');
 
-if (fs.existsSync(keyPath)) {
-  pass('serviceAccountKey.json 存在（可執行 firebase:seed）');
+if (keyPath) {
+  pass(`服務帳戶金鑰存在：${path.basename(keyPath)}（可執行 firebase:seed）`);
 } else {
   fail('缺少 serviceAccountKey.json → Firebase Console → 專案設定 → 服務帳戶 → 產生私密金鑰');
 }

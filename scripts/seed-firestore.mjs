@@ -14,10 +14,24 @@ import { toAuthEmail } from './firebase-auth-seed.util.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.join(__dirname, '..');
-const keyPath = path.join(root, 'serviceAccountKey.json');
+function resolveServiceAccountPath() {
+  const defaultPath = path.join(root, 'serviceAccountKey.json');
+  if (fs.existsSync(defaultPath)) {
+    return defaultPath;
+  }
+  const matches = fs
+    .readdirSync(root)
+    .filter((name) => name.endsWith('.json') && name.includes('firebase-adminsdk'));
+  if (matches.length === 1) {
+    return path.join(root, matches[0]);
+  }
+  return null;
+}
+
+const keyPath = resolveServiceAccountPath();
 const dbPath = path.join(root, 'db.json');
 
-if (!fs.existsSync(keyPath)) {
+if (!keyPath) {
   console.error('找不到 serviceAccountKey.json，請從 Firebase Console 下載服務帳戶金鑰。');
   process.exit(1);
 }
@@ -59,9 +73,15 @@ async function seedCollection(name, rows = []) {
   console.log(`  ✓ ${name}: ${rows.length} 筆`);
 }
 
+function toAuthPassword(password) {
+  const value = String(password || '123');
+  // Firebase Auth 要求至少 6 字元；mock 密碼 "123" 改為 meowic123
+  return value.length >= 6 ? value : 'meowic123';
+}
+
 async function ensureAuthUser(user) {
   const authEmail = toAuthEmail(user.email || user.phone || String(user.id));
-  const password = user.password || '123';
+  const password = toAuthPassword(user.password);
 
   try {
     const record = await auth.createUser({

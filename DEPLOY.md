@@ -38,7 +38,7 @@ npm run firebase:check
 
 1. [Firebase Console](https://console.firebase.google.com/) → **meowic-b1cb6**
 2. **專案設定**（齒輪）→ **服務帳戶** → **產生新的私密金鑰**
-3. 下載的 JSON 重新命名為 **`serviceAccountKey.json`**，放在專案根目錄（勿 commit）
+3. 下載的 JSON 放到專案根目錄，檔名 **`serviceAccountKey.json`**（若保留 `*-firebase-adminsdk-*.json` 也可，腳本會自動辨識；勿 commit）
 4. 執行：
 
 ```bash
@@ -52,9 +52,11 @@ npm run firebase:seed
 
 | 輸入帳號 | 密碼 | 實際 Auth Email |
 |----------|------|-----------------|
-| dandy | 123 | dandy@meowic.app |
-| wendy | 123 | wendy@meowic.app |
-| laotei | 123 | laotei@meowic.app |
+| dandy | meowic123 | dandy@meowic.app |
+| wendy | meowic123 | wendy@meowic.app |
+| laotei | meowic123 | laotei@meowic.app |
+
+> Firebase Auth 不接受少於 6 字元的密碼，因此 mock 的 `123` 在 seed 時會改為 **meowic123**。
 
 ---
 
