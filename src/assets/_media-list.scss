@@ -25,7 +25,7 @@
   background: transparent;
   box-sizing: border-box;
   font: inherit;
-  line-height: map-get($line-heights, 'body');
+  line-height: map.get($line-heights, 'body');
   text-align: left;
   transition:
     background-color 0.18s ease,
@@ -74,9 +74,9 @@
 @mixin media-title {
   overflow: hidden;
   color: currentColor;
-  font-size: map-get($font-sizes, 'sm');
-  font-weight: map-get($font-weights, 'semibold');
-  line-height: map-get($line-heights, 'heading');
+  font-size: map.get($font-sizes, 'sm');
+  font-weight: map.get($font-weights, 'semibold');
+  line-height: map.get($line-heights, 'heading');
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -84,9 +84,9 @@
 @mixin media-subtitle {
   overflow: hidden;
   color: $text-soft;
-  font-size: map-get($font-sizes, 'xs');
-  font-weight: map-get($font-weights, 'medium');
-  line-height: map-get($line-heights, 'heading');
+  font-size: map.get($font-sizes, 'xs');
+  font-weight: map.get($font-weights, 'medium');
+  line-height: map.get($line-heights, 'heading');
   text-overflow: ellipsis;
   white-space: nowrap;
 }

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { forkJoin, map } from 'rxjs';
 import { UserType } from './api.service';
+import { apiUrl } from './api-url';
 
 @Injectable({
   providedIn: 'root',
@@ -14,11 +15,11 @@ export class AuthService {
   public user = signal<UserType | null>(null);
 
   login(loginData: LoginData) {
-    return this.http.post<LoginResponse>('http://localhost:3000/login', loginData);
+    return this.http.post<LoginResponse>(apiUrl('login'), loginData);
   }
 
   register(registerData: RegisterData) {
-    return this.http.post<UserType>('http://localhost:3000/users', registerData);
+    return this.http.post<UserType>(apiUrl('users'), registerData);
   }
 
   getUserByIdentifier(identifier: string) {
@@ -37,7 +38,7 @@ export class AuthService {
   }
 
   resetPassword(userId: number, password: string) {
-    return this.http.patch<UserType>(`http://localhost:3000/users/${userId}`, { password });
+    return this.http.patch<UserType>(apiUrl(`users/${userId}`), { password });
   }
 
   handleLoginSuccess(token: string) {
@@ -56,7 +57,7 @@ export class AuthService {
   }
 
   getUserByEmail(email: string) {
-    return this.http.get<UserType[]>('http://localhost:3000/users', {
+    return this.http.get<UserType[]>(apiUrl('users'), {
       params: { email },
     });
   }
@@ -107,7 +108,7 @@ export class AuthService {
   }
 
   private getUsersByParam(params: Record<string, string>) {
-    return this.http.get<UserType[]>('http://localhost:3000/users', { params });
+    return this.http.get<UserType[]>(apiUrl('users'), { params });
   }
 }
 

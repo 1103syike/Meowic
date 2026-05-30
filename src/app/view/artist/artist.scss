@@ -25,7 +25,7 @@
   color: $color-blue;
   background: $color-white;
   border: 2px solid $color-ts-blue;
-  border-radius: map-get($radius, 'circle');
+  border-radius: map.get($radius, 'circle');
 
   &:hover {
     cursor: pointer;
@@ -46,7 +46,7 @@
   margin-bottom: 24px;
   padding: 18px;
   background: $color-ts-blue;
-  border-radius: map-get($radius, 'small');
+  border-radius: map.get($radius, 'small');
 }
 
 .artist-hero__image {
@@ -61,7 +61,7 @@
 
   h1 {
     margin: 2px 0 6px;
-    font-size: map-get($font-sizes, '2xl');
+    font-size: map.get($font-sizes, '2xl');
   }
 
   p {
@@ -70,13 +70,13 @@
     margin: 0 0 10px;
     overflow: hidden;
     color: rgba($color-blue, 0.84);
-    font-size: map-get($font-sizes, 'sm');
+    font-size: map.get($font-sizes, 'sm');
   }
 }
 
 .artist-hero__type,
 .artist-hero__stats {
-  font-size: map-get($font-sizes, 'sm');
+  font-size: map.get($font-sizes, 'sm');
 }
 
 .artist-hero__stats {
@@ -87,7 +87,7 @@
   span {
     padding: 4px 10px;
     background: rgba($color-white, 0.72);
-    border-radius: map-get($radius, 'circle');
+    border-radius: map.get($radius, 'circle');
   }
 }
 
@@ -104,7 +104,7 @@
 
   h2 {
     margin: 0;
-    font-size: map-get($font-sizes, 'xl');
+    font-size: map.get($font-sizes, 'xl');
   }
 }
 
@@ -125,7 +125,7 @@
   color: $color-blue;
   text-decoration: none;
   background: $color-ts-blue;
-  border-radius: map-get($radius, 'small');
+  border-radius: map.get($radius, 'small');
   transition:
     background-color 0.2s ease,
     color 0.2s ease;
@@ -140,7 +140,7 @@
   width: 92px;
   height: 92px;
   object-fit: cover;
-  border-radius: map-get($radius, 'small');
+  border-radius: map.get($radius, 'small');
 }
 
 .album-card__content {
@@ -159,7 +159,7 @@
 
 .album-card__meta {
   color: rgba($color-blue, 0.76);
-  font-size: map-get($font-sizes, 'sm');
+  font-size: map.get($font-sizes, 'sm');
 }
 
 .album-card:hover .album-card__meta {
@@ -171,7 +171,7 @@
   padding: 22px;
   color: rgba($color-blue, 0.76);
   background: $color-ts-blue;
-  border-radius: map-get($radius, 'small');
+  border-radius: map.get($radius, 'small');
 }
 
 @media (max-width: 1280px) {
@@ -206,7 +206,7 @@
   }
 
   .artist-hero__info h1 {
-    font-size: map-get($font-sizes, 'xl');
+    font-size: map.get($font-sizes, 'xl');
   }
 
   .artist-hero__info p {

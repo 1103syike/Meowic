@@ -1,3 +1,4 @@
+@use 'sass:map';
 @use 'variables' as *;
 
 .recommand {
@@ -17,14 +18,14 @@
   }
 
   h2 {
-    font-size: map-get($font-sizes, 'lg');
+    font-size: map.get($font-sizes, 'lg');
     line-height: 1.2;
   }
 
   p {
     margin-top: 4px;
     color: rgba($color-blue, 0.66);
-    font-size: map-get($font-sizes, 'sm');
+    font-size: map.get($font-sizes, 'sm');
     font-weight: 600;
   }
 }
@@ -88,14 +89,14 @@
   }
 
   strong {
-    font-size: map-get($font-sizes, 'sm');
+    font-size: map.get($font-sizes, 'sm');
   }
 
   span {
     margin-top: 4px;
     color: rgba($color-blue, 0.62);
-    font-size: map-get($font-sizes, 'xs');
-    font-weight: map-get($font-weights, 'semibold');
+    font-size: map.get($font-sizes, 'xs');
+    font-weight: map.get($font-weights, 'semibold');
   }
 }
 

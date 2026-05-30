@@ -25,14 +25,14 @@
   h1 {
     margin: 0;
     color: $text-primary;
-    font-size: map-get($font-sizes, 'xl');
-    font-weight: map-get($font-weights, 'semibold');
+    font-size: map.get($font-sizes, 'xl');
+    font-weight: map.get($font-weights, 'semibold');
   }
 
   span {
     color: $text-muted;
-    font-size: map-get($font-sizes, 'sm');
-    font-weight: map-get($font-weights, 'medium');
+    font-size: map.get($font-sizes, 'sm');
+    font-weight: map.get($font-weights, 'medium');
     white-space: nowrap;
   }
 }
@@ -56,7 +56,7 @@
   background:
     linear-gradient(135deg, rgba($color-green, 0.08), rgba($color-white, 0.94) 48%),
     $color-white;
-  border-radius: map-get($radius, 'small');
+  border-radius: map.get($radius, 'small');
 
   mat-icon {
     width: 46px;
@@ -73,16 +73,16 @@
   h2 {
     margin: 2px 0 0;
     color: $text-primary;
-    font-size: map-get($font-sizes, 'xl');
-    font-weight: map-get($font-weights, 'semibold');
+    font-size: map.get($font-sizes, 'xl');
+    font-weight: map.get($font-weights, 'semibold');
   }
 
   p {
     max-width: 420px;
     margin: 0;
     color: $text-muted;
-    font-size: map-get($font-sizes, 'sm');
-    font-weight: map-get($font-weights, 'medium');
+    font-size: map.get($font-sizes, 'sm');
+    font-weight: map.get($font-weights, 'medium');
     line-height: 1.7;
   }
 }
@@ -97,10 +97,10 @@
   span {
     padding: 6px 12px;
     color: $color-green;
-    font-size: map-get($font-sizes, 'xs');
-    font-weight: map-get($font-weights, 'semibold');
+    font-size: map.get($font-sizes, 'xs');
+    font-weight: map.get($font-weights, 'semibold');
     background: rgba($color-green, 0.1);
-    border-radius: map-get($radius, 'circle');
+    border-radius: map.get($radius, 'circle');
   }
 }
 
@@ -118,7 +118,7 @@
   text-decoration: none;
   background: transparent;
   border: 0;
-  border-radius: map-get($radius, 'small');
+  border-radius: map.get($radius, 'small');
   box-sizing: border-box;
   transition:
     background-color 0.2s ease,
@@ -135,7 +135,7 @@
   width: 52px;
   height: 52px;
   object-fit: cover;
-  border-radius: map-get($radius, 'small');
+  border-radius: map.get($radius, 'small');
 }
 
 .result-row__image--artist {
@@ -158,22 +158,22 @@
 
 .result-row__title {
   color: $text-primary;
-  font-size: map-get($font-sizes, 'base');
-  font-weight: map-get($font-weights, 'semibold');
+  font-size: map.get($font-sizes, 'base');
+  font-weight: map.get($font-weights, 'semibold');
 }
 
 .result-row__meta,
 .result-row__notice,
 .result-row__type {
   color: $text-muted;
-  font-size: map-get($font-sizes, 'sm');
-  font-weight: map-get($font-weights, 'medium');
+  font-size: map.get($font-sizes, 'sm');
+  font-weight: map.get($font-weights, 'medium');
 }
 
 .result-row__notice {
   margin-top: 2px;
   color: #b45309;
-  font-weight: map-get($font-weights, 'semibold');
+  font-weight: map.get($font-weights, 'semibold');
 }
 
 .result-row:hover .result-row__meta,
@@ -185,7 +185,7 @@
 .result-row__type {
   padding: 4px 10px;
   background: $color-ts-blue;
-  border-radius: map-get($radius, 'circle');
+  border-radius: map.get($radius, 'circle');
   white-space: nowrap;
 }
 

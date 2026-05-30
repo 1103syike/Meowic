@@ -1,6 +1,7 @@
 @use 'sass:map';
+@forward 'sass:map';
 /* ==========================================================================
-   Variables - ?∫Á?ÂÆöÁæ©
+   Variables - ??????
    ========================================================================== */
 
 // 1. Colors
@@ -13,7 +14,7 @@ $text-secondary: #526078;
 $text-muted: #66728a;
 $text-soft: rgba($color-blue, 0.64);
 
-// ?èÊ?Â∫¶Ë?È´?(Transparent versions)
+// ?????????(Transparent versions)
 $color-ts-green: rgba($color-green, 0.5);
 $color-ts-blue: rgba($color-blue, 0.1);
 $color-ts-prev-lyric: rgba($color-green, 0.5);
@@ -83,7 +84,7 @@ $cms-colors: (
 
 
 /* ==========================================================================
-   Typography - Â≠óÈ?Ë®≠Â?
+   Typography - ??????
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;600;700&display=swap');
@@ -97,7 +98,7 @@ $font-family-base: 'Inter', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei',
   font-style: normal;
 }
 
-// ?®Â??ùÂ???(?íÈô§ Material Icons)
+// ??????????(??? Material Icons)
 *:not(.material-icons) {
   font-family: $font-family-base;
   font-weight: inherit;
@@ -105,57 +106,57 @@ $font-family-base: 'Inter', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei',
 }
 
 /* ==========================================================================
-   Mixins - ?üËÉΩ?áÂ?‰ª?
+   Mixins - ?????????
    ========================================================================== */
 
 // 1. Radius Helper
 @mixin radius($size: 'large') {
-  border-radius: map-get($radius, $size);
+  border-radius: map.get($radius, $size);
 }
 
 @mixin type-page-title {
   color: $text-primary;
-  font-size: map-get($font-sizes, '2xl');
-  font-weight: map-get($font-weights, 'semibold');
-  line-height: map-get($line-heights, 'heading');
+  font-size: map.get($font-sizes, '2xl');
+  font-weight: map.get($font-weights, 'semibold');
+  line-height: map.get($line-heights, 'heading');
 }
 
 @mixin type-section-title {
   color: $text-primary;
-  font-size: map-get($font-sizes, 'xl');
-  font-weight: map-get($font-weights, 'semibold');
-  line-height: map-get($line-heights, 'heading');
+  font-size: map.get($font-sizes, 'xl');
+  font-weight: map.get($font-weights, 'semibold');
+  line-height: map.get($line-heights, 'heading');
 }
 
 @mixin type-card-title {
   color: $text-primary;
-  font-size: map-get($font-sizes, 'base');
-  font-weight: map-get($font-weights, 'medium');
-  line-height: map-get($line-heights, 'heading');
+  font-size: map.get($font-sizes, 'base');
+  font-weight: map.get($font-weights, 'medium');
+  line-height: map.get($line-heights, 'heading');
 }
 
 @mixin type-body {
   color: $text-secondary;
-  font-size: map-get($font-sizes, 'base');
-  font-weight: map-get($font-weights, 'body');
-  line-height: map-get($line-heights, 'body');
+  font-size: map.get($font-sizes, 'base');
+  font-weight: map.get($font-weights, 'body');
+  line-height: map.get($line-heights, 'body');
 }
 
 @mixin type-meta {
   color: $text-muted;
-  font-size: map-get($font-sizes, 'sm');
-  font-weight: map-get($font-weights, 'medium');
-  line-height: map-get($line-heights, 'heading');
+  font-size: map.get($font-sizes, 'sm');
+  font-weight: map.get($font-weights, 'medium');
+  line-height: map.get($line-heights, 'heading');
 }
 
 @mixin type-label {
   color: $text-muted;
-  font-size: map-get($font-sizes, 'xs');
-  font-weight: map-get($font-weights, 'semibold');
-  line-height: map-get($line-heights, 'control');
+  font-size: map.get($font-sizes, 'xs');
+  font-weight: map.get($font-weights, 'semibold');
+  line-height: map.get($line-heights, 'control');
 }
 
-@mixin cms-focus($color: map-get($cms-colors, 'primary')) {
+@mixin cms-focus($color: map.get($cms-colors, 'primary')) {
   outline: 3px solid rgba($color, 0.12);
   outline-offset: 0;
   border-color: $color;
@@ -170,9 +171,9 @@ $font-family-base: 'Inter', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei',
   border: 1px solid transparent;
   padding: 0 $px;
   font: inherit;
-  font-size: map-get($font-sizes, 'sm');
+  font-size: map.get($font-sizes, 'sm');
   font-weight: 700;
-  line-height: map-get($line-heights, 'control');
+  line-height: map.get($line-heights, 'control');
   white-space: nowrap;
   transition:
     background-color 0.2s ease,
@@ -201,13 +202,13 @@ $font-family-base: 'Inter', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei',
 @mixin cms-field-base {
   width: 100%;
   min-height: 44px;
-  border: 1px solid map-get($cms-colors, 'line');
+  border: 1px solid map.get($cms-colors, 'line');
   padding: 0 12px;
-  color: map-get($cms-colors, 'text');
-  background: map-get($cms-colors, 'surface');
+  color: map.get($cms-colors, 'text');
+  background: map.get($cms-colors, 'surface');
   font: inherit;
-  font-size: map-get($font-sizes, 'base');
-  line-height: map-get($line-heights, 'control');
+  font-size: map.get($font-sizes, 'base');
+  line-height: map.get($line-heights, 'control');
   box-sizing: border-box;
   @include radius('small');
 
@@ -219,13 +220,13 @@ $font-family-base: 'Inter', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei',
 @mixin cms-panel {
   min-width: 0;
   padding: 18px;
-  border: 1px solid map-get($cms-colors, 'line');
-  background: map-get($cms-colors, 'surface');
+  border: 1px solid map.get($cms-colors, 'line');
+  background: map.get($cms-colors, 'surface');
   box-shadow: 0 12px 28px rgba(31, 42, 68, 0.06);
   @include radius('small');
 }
 
-// 2. ?±Áî®?°Á??∞ÂΩ±?áÈ?Ê°?(Internal use)
+// 2. ????????????????(Internal use)
 @mixin _base-card-style {
   background: $color-white;
   border: 2px solid $color-ts-blue;
@@ -240,7 +241,7 @@ $font-family-base: 'Inter', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei',
 }
 
 // 4. Buttons
-// ?∫Á??âÈ? Hover ?àÊ?
+// ???????? Hover ????
 @mixin _btn-hover {
   &:hover {
     cursor: pointer;
@@ -253,14 +254,14 @@ $font-family-base: 'Inter', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei',
   }
 }
 
-// ?®Ëñ¶Ê≠åÊõ≤
+// ?????
 @mixin recommand-btn {
   background: $color-ts-blue;
   @include radius('small');
   overflow: hidden;
 }
 
-// Â∞éË¶Ω?âÈ?
+// ??????
 @mixin nav-button {
   @include _base-card-style;
   @include radius('large');
@@ -281,18 +282,18 @@ $font-family-base: 'Inter', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei',
   color: $color-blue;
 }
 
-// ?∑Â??óË°®?âÈ?
+// ???????????
 @mixin long-button {
   @include radius('small');
   @include _btn-hover;
-  font-size: map-get($font-sizes, 'xl');
+  font-size: map.get($font-sizes, 'xl');
   padding: 8px;
   color: $color-blue;
   text-align: left;
   background: $color-white;
 
   &:hover {
-    transform: translateY(-2px); // Ë£ú‰? px ?Æ‰?
+    transform: translateY(-2px); // ??? px ????
   }
 }
 // 5. Flex Layout Helper
@@ -301,7 +302,7 @@ $font-family-base: 'Inter', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei',
   flex-direction: $dir;
   gap: $space-base;
 
-  // ËΩâÊ?Ë™ûÊ??ñÈ??µÂ??∫Ê?Ê∫?CSS
+  // ????????????????????CSS
   $j-map: (
     'start': flex-start,
     'end': flex-end,
@@ -315,7 +316,7 @@ $font-family-base: 'Inter', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei',
     'center': center,
   );
 
-  justify-content: if(map-has-key($j-map, $justify), map-get($j-map, $justify), $justify);
-  align-items: if(map-has-key($a-map, $align), map-get($a-map, $align), $align);
+  justify-content: if(map.has-key($j-map, $justify), map.get($j-map, $justify), $justify);
+  align-items: if(map.has-key($a-map, $align), map.get($a-map, $align), $align);
 }
 

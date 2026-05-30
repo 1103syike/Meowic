@@ -1,3 +1,4 @@
+@use 'sass:map';
 @use 'variables' as *;
 @use 'media-list' as media;
 
@@ -28,8 +29,8 @@
     padding: 0 2px;
     box-sizing: border-box;
     color: $text-primary;
-    font-size: map-get($font-sizes, 'lg');
-    font-weight: map-get($font-weights, 'semibold');
+    font-size: map.get($font-sizes, 'lg');
+    font-weight: map.get($font-weights, 'semibold');
     @include flex(row, space-between, center);
 
     span {
@@ -138,8 +139,8 @@
   }
 
   &__login-request {
-    font-size: map-get($font-sizes, 'base');
-    font-weight: map-get($font-weights, 'semibold');
+    font-size: map.get($font-sizes, 'base');
+    font-weight: map.get($font-weights, 'semibold');
   }
 
   &__login-btn {
@@ -148,8 +149,8 @@
     border: 1px solid $color-ts-blue;
     color: $color-blue;
     background: $color-white;
-    font-size: map-get($font-sizes, 'sm');
-    font-weight: map-get($font-weights, 'medium');
+    font-size: map.get($font-sizes, 'sm');
+    font-weight: map.get($font-weights, 'medium');
     @include radius('circle');
 
     &:hover {
@@ -174,6 +175,6 @@
   }
 
   .playlist-bar__header {
-    font-size: map-get($font-sizes, 'base');
+    font-size: map.get($font-sizes, 'base');
   }
 }

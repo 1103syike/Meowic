@@ -21,13 +21,13 @@
 
   span {
     color: $color-green;
-    font-size: map-get($font-sizes, 'sm');
-    font-weight: map-get($font-weights, 'semibold');
+    font-size: map.get($font-sizes, 'sm');
+    font-weight: map.get($font-weights, 'semibold');
   }
 
   h1 {
     margin: 6px 0;
-    font-size: map-get($font-sizes, 'xl');
+    font-size: map.get($font-sizes, 'xl');
   }
 
   p {
@@ -51,8 +51,8 @@
     padding: 0 16px;
     color: $color-blue;
     background: $color-white;
-    font-size: map-get($font-sizes, 'sm');
-    font-weight: map-get($font-weights, 'semibold');
+    font-size: map.get($font-sizes, 'sm');
+    font-weight: map.get($font-weights, 'semibold');
     line-height: 1;
     white-space: nowrap;
     transition:
@@ -104,7 +104,7 @@
 
 .popular__right--head {
   color: rgba($color-blue, 0.76);
-  font-weight: map-get($font-weights, 'semibold');
+  font-weight: map.get($font-weights, 'semibold');
   text-align: left;
 }
 
@@ -138,7 +138,7 @@
 
   small {
     color: rgba($color-blue, 0.72);
-    font-size: map-get($font-sizes, 'sm');
+    font-size: map.get($font-sizes, 'sm');
   }
 }
 

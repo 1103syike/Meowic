@@ -21,9 +21,9 @@
   display: flex;
   flex-direction: column;
   gap: 22px;
-  color: map-get($cms-colors, 'text');
-  font-size: map-get($font-sizes, 'base');
-  line-height: map-get($line-heights, 'body');
+  color: map.get($cms-colors, 'text');
+  font-size: map.get($font-sizes, 'base');
+  line-height: map.get($line-heights, 'body');
 }
 
 .cms-page__header {
@@ -39,27 +39,27 @@
 
   span {
     color: rgba(#ffffff, 0.76);
-    font-size: map-get($font-sizes, 'xs');
-    font-weight: map-get($font-weights, 'semibold');
+    font-size: map.get($font-sizes, 'xs');
+    font-weight: map.get($font-weights, 'semibold');
     letter-spacing: 0.08em;
-    line-height: map-get($line-heights, 'control');
+    line-height: map.get($line-heights, 'control');
     text-transform: uppercase;
   }
 
   h1,
   h2 {
     margin: 8px 0 0;
-    font-size: map-get($font-sizes, '2xl');
-    font-weight: map-get($font-weights, 'semibold');
-    line-height: map-get($line-heights, 'heading');
+    font-size: map.get($font-sizes, '2xl');
+    font-weight: map.get($font-weights, 'semibold');
+    line-height: map.get($line-heights, 'heading');
   }
 
   p {
     max-width: 620px;
     margin: 8px 0 0;
     color: rgba(#ffffff, 0.76);
-    font-size: map-get($font-sizes, 'sm');
-    line-height: map-get($line-heights, 'body');
+    font-size: map.get($font-sizes, 'sm');
+    line-height: map.get($line-heights, 'body');
   }
 }
 
@@ -85,30 +85,30 @@
   h2,
   h3 {
     margin: 0;
-    color: map-get($cms-colors, 'text');
-    font-size: map-get($font-sizes, 'lg');
-    font-weight: map-get($font-weights, 'semibold');
-    line-height: map-get($line-heights, 'heading');
+    color: map.get($cms-colors, 'text');
+    font-size: map.get($font-sizes, 'lg');
+    font-weight: map.get($font-weights, 'semibold');
+    line-height: map.get($line-heights, 'heading');
   }
 
   span,
   small {
-    color: map-get($cms-colors, 'subtle');
-    font-size: map-get($font-sizes, 'sm');
-    font-weight: map-get($font-weights, 'medium');
+    color: map.get($cms-colors, 'subtle');
+    font-size: map.get($font-sizes, 'sm');
+    font-weight: map.get($font-weights, 'medium');
   }
 }
 
 .cms-page__primary-btn,
 .cms-btn--primary {
   @include cms-button-base(44px, 22px);
-  border-color: map-get($cms-colors, 'primary');
+  border-color: map.get($cms-colors, 'primary');
   color: #ffffff;
-  background: map-get($cms-colors, 'primary');
+  background: map.get($cms-colors, 'primary');
   box-shadow: 0 10px 24px rgba(11, 71, 120, 0.18);
 
   &:hover:not(:disabled) {
-    background: map-get($cms-colors, 'primary-dark');
+    background: map.get($cms-colors, 'primary-dark');
   }
 }
 
@@ -116,24 +116,24 @@
 .cms-btn--secondary {
   @include cms-button-base(44px, 18px);
   border-color: #d5dfeb;
-  color: map-get($cms-colors, 'primary');
+  color: map.get($cms-colors, 'primary');
   background: #ffffff;
 
   &:hover:not(:disabled) {
-    border-color: map-get($cms-colors, 'primary');
-    background: map-get($cms-colors, 'surface-active');
+    border-color: map.get($cms-colors, 'primary');
+    background: map.get($cms-colors, 'surface-active');
   }
 }
 
 .cms-btn--ghost {
   @include cms-button-base(36px, 12px);
   border-color: transparent;
-  color: map-get($cms-colors, 'muted');
+  color: map.get($cms-colors, 'muted');
   background: transparent;
 
   &:hover:not(:disabled) {
-    color: map-get($cms-colors, 'primary');
-    background: map-get($cms-colors, 'surface-active');
+    color: map.get($cms-colors, 'primary');
+    background: map.get($cms-colors, 'surface-active');
   }
 }
 
@@ -141,12 +141,12 @@
 .cms-user-delete {
   @include cms-button-base(42px, 16px);
   border-color: #d66b6b;
-  color: map-get($cms-colors, 'danger');
+  color: map.get($cms-colors, 'danger');
   background: #fff7f7;
 
   &:hover:not(:disabled) {
     color: #ffffff;
-    background: map-get($cms-colors, 'danger');
+    background: map.get($cms-colors, 'danger');
   }
 }
 
@@ -164,12 +164,12 @@
   align-items: center;
   gap: 16px;
   border: 0;
-  border-bottom: 1px solid map-get($cms-colors, 'line-soft');
+  border-bottom: 1px solid map.get($cms-colors, 'line-soft');
   padding: 10px 14px;
-  color: map-get($cms-colors, 'text');
+  color: map.get($cms-colors, 'text');
   background: #ffffff;
-  font-size: map-get($font-sizes, 'sm');
-  line-height: map-get($line-heights, 'body');
+  font-size: map.get($font-sizes, 'sm');
+  line-height: map.get($line-heights, 'body');
   text-align: left;
   box-sizing: border-box;
 
@@ -180,10 +180,10 @@
 
 .cms-table__row--head,
 .cms-user-table__row--head {
-  color: map-get($cms-colors, 'muted');
-  background: map-get($cms-colors, 'surface-soft');
-  font-size: map-get($font-sizes, 'xs');
-  font-weight: map-get($font-weights, 'semibold');
+  color: map.get($cms-colors, 'muted');
+  background: map.get($cms-colors, 'surface-soft');
+  font-size: map.get($font-sizes, 'xs');
+  font-weight: map.get($font-weights, 'semibold');
   letter-spacing: 0.02em;
 }
 
@@ -201,7 +201,7 @@
 
   &:hover {
     cursor: pointer;
-    background: map-get($cms-colors, 'surface-active');
+    background: map.get($cms-colors, 'surface-active');
     transform: translateY(-1px);
   }
 }
@@ -211,8 +211,8 @@
 .cms-list__item--active,
 .cms-albums__item--active,
 .cms-choice--active {
-  background: map-get($cms-colors, 'surface-active');
-  box-shadow: inset 4px 0 0 map-get($cms-colors, 'primary');
+  background: map.get($cms-colors, 'surface-active');
+  box-shadow: inset 4px 0 0 map.get($cms-colors, 'primary');
 }
 
 .cms-search,
@@ -222,10 +222,10 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  color: map-get($cms-colors, 'muted');
-  font-size: map-get($font-sizes, 'sm');
-  font-weight: map-get($font-weights, 'semibold');
-  line-height: map-get($line-heights, 'control');
+  color: map.get($cms-colors, 'muted');
+  font-size: map.get($font-sizes, 'sm');
+  font-weight: map.get($font-weights, 'semibold');
+  line-height: map.get($line-heights, 'control');
 
   input,
   select,
@@ -242,26 +242,26 @@
 
 .cms-field--invalid,
 .cms-upload--invalid {
-  color: map-get($cms-colors, 'danger');
+  color: map.get($cms-colors, 'danger');
 
   input,
   select,
   textarea {
-    border-color: map-get($cms-colors, 'danger') !important;
+    border-color: map.get($cms-colors, 'danger') !important;
     background: #fff7f7;
-    box-shadow: 0 0 0 3px rgba(map-get($cms-colors, 'danger'), 0.12);
+    box-shadow: 0 0 0 3px rgba(map.get($cms-colors, 'danger'), 0.12);
   }
 }
 
 .cms-upload--invalid {
-  border-color: map-get($cms-colors, 'danger') !important;
+  border-color: map.get($cms-colors, 'danger') !important;
   background: #fff7f7;
 }
 
 .cms-field__error {
-  color: map-get($cms-colors, 'danger');
-  font-size: map-get($font-sizes, 'xs');
-  font-weight: map-get($font-weights, 'medium');
+  color: map.get($cms-colors, 'danger');
+  font-size: map.get($font-sizes, 'xs');
+  font-weight: map.get($font-weights, 'medium');
 }
 
 .cms-search {
@@ -273,28 +273,28 @@
   justify-content: center;
   padding: 16px;
   border: 2px dashed #b8c3d7;
-  background: map-get($cms-colors, 'surface-soft');
+  background: map.get($cms-colors, 'surface-soft');
   box-sizing: border-box;
   @include radius('medium');
 
   &:hover {
-    border-color: map-get($cms-colors, 'success');
-    background: rgba(map-get($cms-colors, 'success'), 0.1);
+    border-color: map.get($cms-colors, 'success');
+    background: rgba(map.get($cms-colors, 'success'), 0.1);
   }
 }
 
 .cms-upload__title {
-  color: map-get($cms-colors, 'muted');
-  font-size: map-get($font-sizes, 'base');
-  font-weight: map-get($font-weights, 'semibold');
+  color: map.get($cms-colors, 'muted');
+  font-size: map.get($font-sizes, 'base');
+  font-weight: map.get($font-weights, 'semibold');
 }
 
 .cms-upload__hint,
 .cms-empty,
 .cms-editor__message,
 .cms-message {
-  color: map-get($cms-colors, 'subtle');
-  font-size: map-get($font-sizes, 'sm');
+  color: map.get($cms-colors, 'subtle');
+  font-size: map.get($font-sizes, 'sm');
 }
 
 .cms-pagination {
@@ -303,20 +303,20 @@
   justify-content: flex-end;
   gap: 10px;
   margin-top: 12px;
-  color: map-get($cms-colors, 'subtle');
-  font-size: map-get($font-sizes, 'sm');
-  font-weight: map-get($font-weights, 'semibold');
+  color: map.get($cms-colors, 'subtle');
+  font-size: map.get($font-sizes, 'sm');
+  font-weight: map.get($font-weights, 'semibold');
 
   button {
     @include cms-button-base(34px, 12px);
     border-color: #d5dfeb;
-    color: map-get($cms-colors, 'primary');
+    color: map.get($cms-colors, 'primary');
     background: #ffffff;
 
     &:hover:not(:disabled) {
       color: #ffffff;
-      border-color: map-get($cms-colors, 'primary');
-      background: map-get($cms-colors, 'primary');
+      border-color: map.get($cms-colors, 'primary');
+      background: map.get($cms-colors, 'primary');
     }
   }
 }

@@ -52,23 +52,23 @@
     display: inline-flex;
     margin-bottom: 10px;
     color: $color-green;
-    font-size: map-get($font-sizes, 'sm');
-    font-weight: map-get($font-weights, 'semibold');
+    font-size: map.get($font-sizes, 'sm');
+    font-weight: map.get($font-weights, 'semibold');
   }
 
   h1 {
     margin: 0;
     color: $text-primary;
-    font-size: map-get($font-sizes, '3xl');
-    font-weight: map-get($font-weights, 'semibold');
-    line-height: map-get($line-heights, 'heading');
+    font-size: map.get($font-sizes, '3xl');
+    font-weight: map.get($font-weights, 'semibold');
+    line-height: map.get($line-heights, 'heading');
   }
 
   p {
     max-width: 440px;
     margin: 14px 0 0;
     color: $text-secondary;
-    font-size: map-get($font-sizes, 'base');
+    font-size: map.get($font-sizes, 'base');
     line-height: 1.55;
   }
 
@@ -79,7 +79,7 @@
     padding: 0 18px;
     color: #ffffff;
     background: $color-green;
-    font-weight: map-get($font-weights, 'semibold');
+    font-weight: map.get($font-weights, 'semibold');
     cursor: pointer;
     @include radius('circle');
   }
@@ -128,15 +128,15 @@
 
   span {
     color: $color-green;
-    font-size: map-get($font-sizes, 'sm');
-    font-weight: map-get($font-weights, 'semibold');
+    font-size: map.get($font-sizes, 'sm');
+    font-weight: map.get($font-weights, 'semibold');
   }
 
   strong {
     margin-top: 5px;
     color: $text-primary;
-    font-size: map-get($font-sizes, 'xl');
-    font-weight: map-get($font-weights, 'semibold');
+    font-size: map.get($font-sizes, 'xl');
+    font-weight: map.get($font-weights, 'semibold');
   }
 
   button {
@@ -146,7 +146,7 @@
     padding: 0 12px;
     color: $color-green;
     background: rgba(#ffffff, 0.86);
-    font-weight: map-get($font-weights, 'medium');
+    font-weight: map.get($font-weights, 'medium');
     cursor: pointer;
     @include radius('circle');
   }
@@ -188,7 +188,7 @@
   border: 0;
   color: $text-secondary;
   background: rgba(#ffffff, 0.9);
-  font-size: map-get($font-sizes, 'xl');
+  font-size: map.get($font-sizes, 'xl');
   line-height: 1;
   cursor: pointer;
   @include radius('circle');
@@ -199,14 +199,14 @@
 
   span {
     color: $color-green;
-    font-weight: map-get($font-weights, 'semibold');
+    font-weight: map.get($font-weights, 'semibold');
   }
 
   h2 {
     margin: 10px 0 0;
     color: $text-primary;
-    font-size: map-get($font-sizes, '3xl');
-    font-weight: map-get($font-weights, 'semibold');
+    font-size: map.get($font-sizes, '3xl');
+    font-weight: map.get($font-weights, 'semibold');
     line-height: 1.05;
   }
 
@@ -214,7 +214,7 @@
     margin: 14px 0 0;
     color: $text-secondary;
     line-height: 1.7;
-    font-weight: map-get($font-weights, 'body');
+    font-weight: map.get($font-weights, 'body');
   }
 }
 
@@ -230,7 +230,7 @@
     padding: 0 16px;
     color: $text-secondary;
     background: #ffffff;
-    font-weight: map-get($font-weights, 'medium');
+    font-weight: map.get($font-weights, 'medium');
     cursor: pointer;
     @include radius('circle');
   }
@@ -284,7 +284,7 @@
   }
 
   .home-ad-card strong {
-    font-size: map-get($font-sizes, 'lg');
+    font-size: map.get($font-sizes, 'lg');
   }
 
   .home-ad-card button {

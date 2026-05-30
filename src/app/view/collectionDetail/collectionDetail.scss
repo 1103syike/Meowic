@@ -44,7 +44,7 @@
     linear-gradient(135deg, rgba($color-white, 0.9), rgba($color-white, 0.68)),
     linear-gradient(120deg, rgba($color-green, 0.2), rgba(#8ba4c4, 0.2));
   border: 1px solid rgba($color-blue, 0.1);
-  border-radius: map-get($radius, 'medium');
+  border-radius: map.get($radius, 'medium');
 }
 
 .collection-hero__glow {
@@ -65,7 +65,7 @@
   height: var(--cover-size);
   object-fit: cover;
   border: 8px solid rgba($color-white, 0.76);
-  border-radius: map-get($radius, 'small');
+  border-radius: map.get($radius, 'small');
   box-shadow: 0 24px 48px rgba($color-blue, 0.18);
 }
 
@@ -77,9 +77,9 @@
     margin: 8px 0 14px;
     overflow-wrap: anywhere;
     color: $text-primary;
-    font-size: map-get($font-sizes, '2xl');
-    font-weight: map-get($font-weights, 'semibold');
-    line-height: map-get($line-heights, 'heading');
+    font-size: map.get($font-sizes, '2xl');
+    font-weight: map.get($font-weights, 'semibold');
+    line-height: map.get($line-heights, 'heading');
   }
 }
 
@@ -89,11 +89,11 @@
   min-height: 28px;
   padding: 4px 12px;
   color: $color-blue;
-  font-size: map-get($font-sizes, 'sm');
-  font-weight: map-get($font-weights, 'medium');
+  font-size: map.get($font-sizes, 'sm');
+  font-weight: map.get($font-weights, 'medium');
   background: rgba($color-white, 0.72);
   border: 1px solid rgba($color-blue, 0.1);
-  border-radius: map-get($radius, 'circle');
+  border-radius: map.get($radius, 'circle');
 }
 
 .collection-hero__meta {
@@ -107,10 +107,10 @@
     align-items: center;
     padding: 4px 12px;
     color: rgba($color-blue, 0.86);
-    font-size: map-get($font-sizes, 'sm');
-    font-weight: map-get($font-weights, 'body');
+    font-size: map.get($font-sizes, 'sm');
+    font-weight: map.get($font-weights, 'body');
     background: rgba($color-white, 0.68);
-    border-radius: map-get($radius, 'circle');
+    border-radius: map.get($radius, 'circle');
   }
 }
 
@@ -123,7 +123,7 @@
   padding: 14px 16px;
   background: rgba($color-blue, 0.045);
   border: 1px solid rgba($color-blue, 0.08);
-  border-radius: map-get($radius, 'small');
+  border-radius: map.get($radius, 'small');
 }
 
 .collection-actions__primary {
@@ -133,9 +133,9 @@
   gap: 8px;
   padding: 0 18px;
   color: $color-white;
-  font-weight: map-get($font-weights, 'semibold');
+  font-weight: map.get($font-weights, 'semibold');
   background: $color-green;
-  border-radius: map-get($radius, 'circle');
+  border-radius: map.get($radius, 'circle');
   transition:
     opacity 0.2s ease,
     transform 0.2s ease,
@@ -175,8 +175,8 @@
 
   span {
     color: $text-soft;
-    font-size: map-get($font-sizes, 'sm');
-    font-weight: map-get($font-weights, 'body');
+    font-size: map.get($font-sizes, 'sm');
+    font-weight: map.get($font-weights, 'body');
   }
 }
 
@@ -189,7 +189,7 @@
 
 .track-row {
   @include track.track-list-flat-row;
-  border-radius: map-get($radius, 'small');
+  border-radius: map.get($radius, 'small');
   transition:
     background-color 0.2s ease,
     transform 0.2s ease;
@@ -213,7 +213,7 @@
 }
 
 .track-row__index {
-  font-weight: map-get($font-weights, 'semibold');
+  font-weight: map.get($font-weights, 'semibold');
   color: $text-muted;
 }
 
@@ -239,7 +239,7 @@
     height: 48px;
     flex: 0 0 auto;
     object-fit: cover;
-    border-radius: map-get($radius, 'small');
+    border-radius: map.get($radius, 'small');
   }
 
   div {
@@ -257,8 +257,8 @@
 
   span {
     color: $text-soft;
-    font-size: map-get($font-sizes, 'sm');
-    font-weight: map-get($font-weights, 'medium');
+    font-size: map.get($font-sizes, 'sm');
+    font-weight: map.get($font-weights, 'medium');
   }
 }
 
@@ -290,7 +290,7 @@
   color: $color-blue;
   background: rgba($color-white, 0.9);
   border: 1px solid rgba($color-blue, 0.12);
-  border-radius: map-get($radius, 'circle');
+  border-radius: map.get($radius, 'circle');
   transition:
     background-color 0.2s ease,
     color 0.2s ease,
@@ -324,7 +324,7 @@
   color: $text-soft;
   background: rgba($color-blue, 0.045);
   border: 1px solid rgba($color-blue, 0.08);
-  border-radius: map-get($radius, 'small');
+  border-radius: map.get($radius, 'small');
 
   mat-icon {
     width: 36px;
@@ -336,8 +336,8 @@
 
   strong {
     color: $text-primary;
-    font-size: map-get($font-sizes, 'lg');
-    font-weight: map-get($font-weights, 'semibold');
+    font-size: map.get($font-sizes, 'lg');
+    font-weight: map.get($font-weights, 'semibold');
   }
 }
 
@@ -409,12 +409,12 @@
 
   .collection-hero__content h1 {
     margin: 6px 0 10px;
-    font-size: map-get($font-sizes, '2xl');
+    font-size: map.get($font-sizes, '2xl');
   }
 
   .collection-hero__meta span {
     min-height: 26px;
-    font-size: map-get($font-sizes, 'xs');
+    font-size: map.get($font-sizes, 'xs');
   }
 
   .collection-actions {

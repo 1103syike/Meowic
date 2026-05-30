@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { apiUrl } from './api-url';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
@@ -9,38 +10,38 @@ export class ApiService {
   //////////////////////////////////////////////////////
 
   getAllAlbum(): Observable<AlbumType[]> {
-    return this.http.get<AlbumType[]>('http://localhost:3000/albums?_expand=artist');
+    return this.http.get<AlbumType[]>(apiUrl('albums?_expand=artist'));
   }
 
   getAllSong(): Observable<SongType[]> {
-    return this.http.get<SongType[]>('http://localhost:3000/songs?_expand=album&_expand=artist');
+    return this.http.get<SongType[]>(apiUrl('songs?_expand=album&_expand=artist'));
   }
 
   getAllArtist(): Observable<ArtistType[]> {
-    return this.http.get<ArtistType[]>('http://localhost:3000/artists');
+    return this.http.get<ArtistType[]>(apiUrl('artists'));
   }
 
   getArtistByArtistId(id: string): Observable<ArtistType[]> {
     const params = { id: id };
-    return this.http.get<ArtistType[]>('http://localhost:3000/artists', {
+    return this.http.get<ArtistType[]>(apiUrl('artists'), {
       params,
     });
   }
 
   getAllUsers(): Observable<UserType[]> {
-    return this.http.get<UserType[]>('http://localhost:3000/users');
+    return this.http.get<UserType[]>(apiUrl('users'));
   }
 
   getHomeRecommendations(): Observable<HomeRecommendationType[]> {
-    return this.http.get<HomeRecommendationType[]>('http://localhost:3000/homeRecommendations');
+    return this.http.get<HomeRecommendationType[]>(apiUrl('homeRecommendations'));
   }
 
   getAdvertisements(): Observable<AdvertisementType[]> {
-    return this.http.get<AdvertisementType[]>('http://localhost:3000/advertisements');
+    return this.http.get<AdvertisementType[]>(apiUrl('advertisements'));
   }
 
   createAdvertisement(advertisement: CreateAdvertisementType): Observable<AdvertisementType> {
-    return this.http.post<AdvertisementType>('http://localhost:3000/advertisements', advertisement);
+    return this.http.post<AdvertisementType>(apiUrl('advertisements'), advertisement);
   }
 
   updateAdvertisement(
@@ -48,20 +49,20 @@ export class ApiService {
     advertisement: Partial<AdvertisementType>,
   ): Observable<AdvertisementType> {
     return this.http.patch<AdvertisementType>(
-      `http://localhost:3000/advertisements/${id}`,
+      apiUrl(`advertisements/${id}`),
       advertisement,
     );
   }
 
   deleteAdvertisement(id: number): Observable<void> {
-    return this.http.delete<void>(`http://localhost:3000/advertisements/${id}`);
+    return this.http.delete<void>(apiUrl(`advertisements/${id}`));
   }
 
   createHomeRecommendations(
     recommendation: CreateHomeRecommendationType,
   ): Observable<HomeRecommendationType> {
     return this.http.post<HomeRecommendationType>(
-      'http://localhost:3000/homeRecommendations',
+      apiUrl('homeRecommendations'),
       recommendation,
     );
   }
@@ -71,29 +72,29 @@ export class ApiService {
     recommendation: Partial<HomeRecommendationType>,
   ): Observable<HomeRecommendationType> {
     return this.http.patch<HomeRecommendationType>(
-      `http://localhost:3000/homeRecommendations/${id}`,
+      apiUrl(`homeRecommendations/${id}`),
       recommendation,
     );
   }
 
   createUser(user: CreateUserType): Observable<UserType> {
-    return this.http.post<UserType>('http://localhost:3000/users', user);
+    return this.http.post<UserType>(apiUrl('users'), user);
   }
 
   updateUser(id: number, user: Partial<UserType>): Observable<UserType> {
-    return this.http.patch<UserType>(`http://localhost:3000/users/${id}`, user);
+    return this.http.patch<UserType>(apiUrl(`users/${id}`), user);
   }
 
   deleteUser(id: number): Observable<void> {
-    return this.http.delete<void>(`http://localhost:3000/users/${id}`);
+    return this.http.delete<void>(apiUrl(`users/${id}`));
   }
 
   getAllSongPlays(): Observable<SongPlayType[]> {
-    return this.http.get<SongPlayType[]>('http://localhost:3000/songPlays');
+    return this.http.get<SongPlayType[]>(apiUrl('songPlays'));
   }
 
   createSongPlay(play: CreateSongPlayType): Observable<SongPlayType> {
-    return this.http.post<SongPlayType>('http://localhost:3000/songPlays', play);
+    return this.http.post<SongPlayType>(apiUrl('songPlays'), play);
   }
 
   createArtist(name: string): Observable<ArtistType> {
@@ -102,11 +103,11 @@ export class ApiService {
       imgPath: './mock/unnamed.png',
       description: '',
     };
-    return this.http.post<ArtistType>('http://localhost:3000/artists', body);
+    return this.http.post<ArtistType>(apiUrl('artists'), body);
   }
 
   updateArtist(id: number, artist: Partial<ArtistType>): Observable<ArtistType> {
-    return this.http.patch<ArtistType>(`http://localhost:3000/artists/${id}`, artist);
+    return this.http.patch<ArtistType>(apiUrl(`artists/${id}`), artist);
   }
 
   createAlbum(
@@ -126,51 +127,51 @@ export class ApiService {
       uploadedAt: new Date().toISOString(),
       availableAt: new Date().toISOString(),
     };
-    return this.http.post<AlbumType>('http://localhost:3000/albums', body);
+    return this.http.post<AlbumType>(apiUrl('albums'), body);
   }
 
   updateAlbum(id: number, album: Partial<AlbumType>): Observable<AlbumType> {
-    return this.http.patch<AlbumType>(`http://localhost:3000/albums/${id}`, album);
+    return this.http.patch<AlbumType>(apiUrl(`albums/${id}`), album);
   }
 
   getPlaylistByPlaylistId(id: string): Observable<AlbumType[]> {
     const params = { id: id };
-    return this.http.get<AlbumType[]>('http://localhost:3000/playlists?_expand=user', {
+    return this.http.get<AlbumType[]>(apiUrl('playlists?_expand=user'), {
       params,
     });
   }
 
   getAlbumByAlbumId(id: string): Observable<AlbumType[]> {
     const params = { id: id };
-    return this.http.get<AlbumType[]>('http://localhost:3000/albums?_expand=artist', {
+    return this.http.get<AlbumType[]>(apiUrl('albums?_expand=artist'), {
       params,
     });
   }
 
   getAllSongByAlbumId(id: string): Observable<SongType[]> {
     const params = { albumId: id };
-    return this.http.get<SongType[]>('http://localhost:3000/songs?_expand=album&_expand=artist', {
+    return this.http.get<SongType[]>(apiUrl('songs?_expand=album&_expand=artist'), {
       params,
     });
   }
 
   getAllAlbumByArtistId(id: string): Observable<AlbumType[]> {
     const params = { artistId: id };
-    return this.http.get<AlbumType[]>('http://localhost:3000/albums?_expand=artist', {
+    return this.http.get<AlbumType[]>(apiUrl('albums?_expand=artist'), {
       params,
     });
   }
 
   getAllSongByArtistId(id: string): Observable<SongType[]> {
     const params = { artistId: id };
-    return this.http.get<SongType[]>('http://localhost:3000/songs?_expand=album&_expand=artist', {
+    return this.http.get<SongType[]>(apiUrl('songs?_expand=album&_expand=artist'), {
       params,
     });
   }
 
   getSongById(id: string): Observable<SongType[]> {
     const params = { id: id };
-    return this.http.get<SongType[]>('http://localhost:3000/songs?_expand=album&_expand=artist', {
+    return this.http.get<SongType[]>(apiUrl('songs?_expand=album&_expand=artist'), {
       params,
     });
   }
@@ -178,7 +179,7 @@ export class ApiService {
   getPlaylistUsersByUserId(id: string): Observable<PlaylistUsersType[]> {
     const params = { userId: id };
     return this.http.get<PlaylistUsersType[]>(
-      'http://localhost:3000/playlistUsers?_expand=user&_expand=playlist',
+      apiUrl('playlistUsers?_expand=user&_expand=playlist'),
       {
         params,
       },
@@ -191,7 +192,7 @@ export class ApiService {
       userId,
       type,
     };
-    return this.http.post<PlaylistType>('http://localhost:3000/playlists', body);
+    return this.http.post<PlaylistType>(apiUrl('playlists'), body);
   }
 
   createPlaylistUser(playlistId: number, userId: number): Observable<PlaylistUsersType> {
@@ -199,12 +200,12 @@ export class ApiService {
       playlistId,
       userId,
     };
-    return this.http.post<PlaylistUsersType>('http://localhost:3000/playlistUsers', body);
+    return this.http.post<PlaylistUsersType>(apiUrl('playlistUsers'), body);
   }
 
   getAllSongByPlaylistId(id: string): Observable<PlaylistSongType[]> {
     const params = { playlistId: id };
-    return this.http.get<PlaylistSongType[]>('http://localhost:3000/playlistSongs?_expand=song', {
+    return this.http.get<PlaylistSongType[]>(apiUrl('playlistSongs?_expand=song'), {
       params,
     });
   }
@@ -214,19 +215,19 @@ export class ApiService {
       playlistId: playlistId,
       songId: songId,
     };
-    return this.http.post<PlaylistSongType>('http://localhost:3000/playlistSongs', body);
+    return this.http.post<PlaylistSongType>(apiUrl('playlistSongs'), body);
   }
 
   createSong(song: CreateSongType): Observable<SongType> {
-    return this.http.post<SongType>('http://localhost:3000/songs', song);
+    return this.http.post<SongType>(apiUrl('songs'), song);
   }
 
   updateSong(id: number, song: Partial<CreateSongType>): Observable<SongType> {
-    return this.http.patch<SongType>(`http://localhost:3000/songs/${id}`, song);
+    return this.http.patch<SongType>(apiUrl(`songs/${id}`), song);
   }
 
   uploadFile(fileName: string, dataUrl: string, fileType: string): Observable<UploadResponse> {
-    return this.http.post<UploadResponse>('http://localhost:3000/upload', {
+    return this.http.post<UploadResponse>(apiUrl('upload'), {
       fileName,
       dataUrl,
       fileType,
@@ -234,15 +235,15 @@ export class ApiService {
   }
 
   deleteSongFromPlaylist(playlistSongId: number): Observable<void> {
-    return this.http.delete<void>(`http://localhost:3000/playlistSongs/${playlistSongId}`);
+    return this.http.delete<void>(apiUrl(`playlistSongs/${playlistSongId}`));
   }
 
   deletePlaylist(playlistId: number): Observable<void> {
-    return this.http.delete<void>(`http://localhost:3000/playlists/${playlistId}`);
+    return this.http.delete<void>(apiUrl(`playlists/${playlistId}`));
   }
 
   deletePlaylistUser(playlistUserId: number): Observable<void> {
-    return this.http.delete<void>(`http://localhost:3000/playlistUsers/${playlistUserId}`);
+    return this.http.delete<void>(apiUrl(`playlistUsers/${playlistUserId}`));
   }
 }
 

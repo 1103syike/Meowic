@@ -1,3 +1,4 @@
+@use 'sass:map';
 @use 'variables' as *;
 
 .home {
@@ -6,7 +7,7 @@
   overflow-x: hidden;
   overflow-y: auto;
   color: $text-secondary;
-  font-size: map-get($font-sizes, 'base');
+  font-size: map.get($font-sizes, 'base');
   @include block(30px, 32px);
   box-shadow: none;
 }
@@ -45,8 +46,8 @@
     gap: 8px;
     margin-bottom: 8px;
     color: $color-green;
-    font-size: map-get($font-sizes, 'xs');
-    font-weight: map-get($font-weights, 'semibold');
+    font-size: map.get($font-sizes, 'xs');
+    font-weight: map.get($font-weights, 'semibold');
     line-height: 1;
     text-transform: uppercase;
 
@@ -68,17 +69,17 @@
   h2 {
     margin: 0;
     color: $text-primary;
-    font-size: map-get($font-sizes, '2xl');
-    font-weight: map-get($font-weights, 'semibold');
-    line-height: map-get($line-heights, 'heading');
+    font-size: map.get($font-sizes, '2xl');
+    font-weight: map.get($font-weights, 'semibold');
+    line-height: map.get($line-heights, 'heading');
   }
 
   p {
     max-width: 620px;
     margin: 10px 0 0;
     color: $text-soft;
-    font-size: map-get($font-sizes, 'base');
-    font-weight: map-get($font-weights, 'body');
+    font-size: map.get($font-sizes, 'base');
+    font-weight: map.get($font-weights, 'body');
     line-height: 1.55;
   }
 }
@@ -98,7 +99,7 @@
     box-shadow: 0 6px 16px rgba($text-primary, 0.07);
     cursor: pointer;
     font-size: 20px;
-    font-weight: map-get($font-weights, 'semibold');
+    font-weight: map.get($font-weights, 'semibold');
     line-height: 1;
     @include radius('circle');
 
@@ -173,8 +174,8 @@
   h3 {
     margin: 0;
     color: $text-primary;
-    font-size: map-get($font-sizes, 'xl');
-    font-weight: map-get($font-weights, 'semibold');
+    font-size: map.get($font-sizes, 'xl');
+    font-weight: map.get($font-weights, 'semibold');
     line-height: 1.2;
   }
 }
@@ -205,16 +206,16 @@
   h3 {
     margin: 0;
     color: $text-primary;
-    font-size: map-get($font-sizes, 'lg');
-    font-weight: map-get($font-weights, 'semibold');
+    font-size: map.get($font-sizes, 'lg');
+    font-weight: map.get($font-weights, 'semibold');
     line-height: 1.2;
   }
 
   span {
     flex: 0 0 auto;
     color: $text-muted;
-    font-size: map-get($font-sizes, 'xs');
-    font-weight: map-get($font-weights, 'semibold');
+    font-size: map.get($font-sizes, 'xs');
+    font-weight: map.get($font-weights, 'semibold');
   }
 }
 
@@ -280,16 +281,16 @@
 .feature-row__index {
   color: rgba($color-blue, 0.56);
   text-align: center;
-  font-size: map-get($font-sizes, 'sm');
-  font-weight: map-get($font-weights, 'semibold');
+  font-size: map.get($font-sizes, 'sm');
+  font-weight: map.get($font-weights, 'semibold');
 }
 
 .feature-row__play {
   padding: 5px 10px;
   color: $color-green;
   background: rgba($color-green, 0.12);
-  font-size: map-get($font-sizes, 'xs');
-  font-weight: map-get($font-weights, 'semibold');
+  font-size: map.get($font-sizes, 'xs');
+  font-weight: map.get($font-weights, 'semibold');
   @include radius('circle');
 }
 
@@ -330,8 +331,8 @@
 .latest-albums__item strong,
 .artist-card strong {
   color: $text-primary;
-  font-size: map-get($font-sizes, 'base');
-  font-weight: map-get($font-weights, 'semibold');
+  font-size: map.get($font-sizes, 'base');
+  font-weight: map.get($font-weights, 'semibold');
 }
 
 .feature-row__meta small,
@@ -343,8 +344,8 @@
 .artist-card small {
   margin-top: 4px;
   color: $text-soft;
-  font-size: map-get($font-sizes, 'sm');
-  font-weight: map-get($font-weights, 'medium');
+  font-size: map.get($font-sizes, 'sm');
+  font-weight: map.get($font-weights, 'medium');
 }
 
 .editorial-album {
@@ -364,11 +365,11 @@
 
   strong {
     margin-top: 9px;
-    font-size: map-get($font-sizes, 'sm');
+    font-size: map.get($font-sizes, 'sm');
   }
 
   small {
-    font-size: map-get($font-sizes, 'xs');
+    font-size: map.get($font-sizes, 'xs');
   }
 }
 
@@ -432,7 +433,7 @@
     width: 100%;
     min-height: 34px;
     margin-top: 0;
-    font-size: map-get($font-sizes, 'sm');
+    font-size: map.get($font-sizes, 'sm');
     line-height: 1.25;
     white-space: normal;
   }
@@ -483,15 +484,15 @@
   h3 {
     margin: 0;
     color: $text-primary;
-    font-size: map-get($font-sizes, 'lg');
-    font-weight: map-get($font-weights, 'semibold');
+    font-size: map.get($font-sizes, 'lg');
+    font-weight: map.get($font-weights, 'semibold');
     line-height: 1.2;
   }
 
   span {
     color: $text-muted;
-    font-size: map-get($font-sizes, 'xs');
-    font-weight: map-get($font-weights, 'semibold');
+    font-size: map.get($font-sizes, 'xs');
+    font-weight: map.get($font-weights, 'semibold');
     text-transform: uppercase;
   }
 }
@@ -557,8 +558,8 @@
   place-items: center;
   color: #ffffff;
   background: rgba($color-green, 0.92);
-  font-size: map-get($font-sizes, 'base');
-  font-weight: map-get($font-weights, 'semibold');
+  font-size: map.get($font-sizes, 'base');
+  font-weight: map.get($font-weights, 'semibold');
   box-shadow: 0 8px 18px rgba($color-green, 0.26);
   @include radius('circle');
 }
@@ -578,16 +579,16 @@
   }
 
   strong {
-    font-size: map-get($font-sizes, 'base');
-    font-weight: map-get($font-weights, 'semibold');
+    font-size: map.get($font-sizes, 'base');
+    font-weight: map.get($font-weights, 'semibold');
     line-height: 1.18;
   }
 
   small {
     margin-top: 4px;
     color: $text-soft;
-    font-size: map-get($font-sizes, 'sm');
-    font-weight: map-get($font-weights, 'medium');
+    font-size: map.get($font-sizes, 'sm');
+    font-weight: map.get($font-weights, 'medium');
   }
 }
 
@@ -597,8 +598,8 @@
   padding: 4px 9px;
   color: $color-green;
   background: rgba($color-green, 0.12);
-  font-size: map-get($font-sizes, 'xs');
-  font-weight: map-get($font-weights, 'semibold');
+  font-size: map.get($font-sizes, 'xs');
+  font-weight: map.get($font-weights, 'semibold');
   @include radius('small');
 }
 
@@ -632,16 +633,16 @@
 .compact-row__rank {
   color: rgba($color-blue, 0.62);
   text-align: center;
-  font-size: map-get($font-sizes, 'sm');
-  font-weight: map-get($font-weights, 'semibold');
+  font-size: map.get($font-sizes, 'sm');
+  font-weight: map.get($font-weights, 'semibold');
 }
 
 .song-chart__count {
   padding: 5px 10px;
   color: $color-green;
   background: rgba($color-green, 0.12);
-  font-size: map-get($font-sizes, 'xs');
-  font-weight: map-get($font-weights, 'semibold');
+  font-size: map.get($font-sizes, 'xs');
+  font-weight: map.get($font-weights, 'semibold');
   white-space: nowrap;
   @include radius('small');
 }
@@ -687,8 +688,8 @@
 .album-tile__rank {
   color: rgba($color-blue, 0.62);
   text-align: center;
-  font-size: map-get($font-sizes, 'sm');
-  font-weight: map-get($font-weights, 'semibold');
+  font-size: map.get($font-sizes, 'sm');
+  font-weight: map.get($font-weights, 'semibold');
 }
 
 .latest-albums {
@@ -717,11 +718,11 @@
 
   strong {
     margin-top: 0;
-    font-size: map-get($font-sizes, 'sm');
+    font-size: map.get($font-sizes, 'sm');
   }
 
   small {
-    font-size: map-get($font-sizes, 'xs');
+    font-size: map.get($font-sizes, 'xs');
   }
 }
 
@@ -773,15 +774,15 @@
   strong {
     margin-top: 9px;
     color: $text-primary;
-    font-size: map-get($font-sizes, 'sm');
+    font-size: map.get($font-sizes, 'sm');
     line-height: 1.25;
   }
 
   small {
     margin-top: 3px;
     color: $text-soft;
-    font-size: map-get($font-sizes, 'xs');
-    font-weight: map-get($font-weights, 'medium');
+    font-size: map.get($font-sizes, 'xs');
+    font-weight: map.get($font-weights, 'medium');
   }
 
   &:hover img {
@@ -839,11 +840,11 @@
     margin-bottom: 20px;
 
     h2 {
-      font-size: map-get($font-sizes, 'xl');
+      font-size: map.get($font-sizes, 'xl');
     }
 
     p {
-      font-size: map-get($font-sizes, 'sm');
+      font-size: map.get($font-sizes, 'sm');
     }
   }
 

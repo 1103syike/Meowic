@@ -1,3 +1,4 @@
+@use 'sass:map';
 @use 'variables' as *;
 
 .popular {
@@ -17,14 +18,14 @@
   }
 
   h2 {
-    font-size: map-get($font-sizes, 'lg');
+    font-size: map.get($font-sizes, 'lg');
     line-height: 1.2;
   }
 
   p {
     margin-top: 4px;
     color: rgba($color-blue, 0.66);
-    font-size: map-get($font-sizes, 'sm');
+    font-size: map.get($font-sizes, 'sm');
     font-weight: 600;
   }
 }
@@ -76,8 +77,8 @@
 .popular__rank {
   color: rgba($color-blue, 0.62);
   text-align: center;
-  font-size: map-get($font-sizes, 'sm');
-  font-weight: map-get($font-weights, 'semibold');
+  font-size: map.get($font-sizes, 'sm');
+  font-weight: map.get($font-weights, 'semibold');
 }
 
 .popular__item:hover .popular__rank {
@@ -103,13 +104,13 @@
   }
 
   strong {
-    font-size: map-get($font-sizes, 'base');
+    font-size: map.get($font-sizes, 'base');
   }
 
   small {
     margin-top: 3px;
     color: rgba($color-blue, 0.68);
-    font-size: map-get($font-sizes, 'sm');
+    font-size: map.get($font-sizes, 'sm');
     font-weight: 500;
   }
 }
@@ -122,8 +123,8 @@
   padding: 5px 10px;
   color: $color-green;
   background: rgba($color-green, 0.12);
-  font-size: map-get($font-sizes, 'xs');
-  font-weight: map-get($font-weights, 'semibold');
+  font-size: map.get($font-sizes, 'xs');
+  font-weight: map.get($font-weights, 'semibold');
   @include radius('small');
 }
 

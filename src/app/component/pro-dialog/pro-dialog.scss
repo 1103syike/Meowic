@@ -31,12 +31,12 @@
 
   h2 {
     margin: 0;
-    font-size: map-get($font-sizes, '2xl');
+    font-size: map.get($font-sizes, '2xl');
   }
 
   p {
     margin: 8px 0 0;
-    font-size: map-get($font-sizes, 'base');
+    font-size: map.get($font-sizes, 'base');
     color: rgba($color-blue, 0.76);
   }
 }
@@ -47,7 +47,7 @@
   border: 2px solid $color-ts-blue;
   background: $color-white;
   color: $color-blue;
-  font-size: map-get($font-sizes, '2xl');
+  font-size: map.get($font-sizes, '2xl');
   line-height: 1;
   flex: 0 0 auto;
   @include radius('circle');
@@ -118,22 +118,22 @@
   padding: 5px 10px;
   color: $color-white;
   background: $color-green;
-  font-size: map-get($font-sizes, 'xs');
+  font-size: map.get($font-sizes, 'xs');
   @include radius('large');
 }
 
 .plan-card__name {
-  font-size: map-get($font-sizes, 'xl');
-  font-weight: map-get($font-weights, 'semibold');
+  font-size: map.get($font-sizes, 'xl');
+  font-weight: map.get($font-weights, 'semibold');
 }
 
 .plan-card__price {
-  font-size: map-get($font-sizes, '2xl');
-  font-weight: map-get($font-weights, 'semibold');
+  font-size: map.get($font-sizes, '2xl');
+  font-weight: map.get($font-weights, 'semibold');
 
   small {
     margin-left: 4px;
-    font-size: map-get($font-sizes, 'sm');
+    font-size: map.get($font-sizes, 'sm');
     font-weight: 500;
   }
 }
@@ -154,7 +154,7 @@
     padding: 8px 10px;
     background: rgba($color-white, 0.64);
     border: 1px solid $color-ts-blue;
-    font-size: map-get($font-sizes, 'sm');
+    font-size: map.get($font-sizes, 'sm');
     @include radius('small');
   }
 }
@@ -222,18 +222,18 @@
     gap: 10px;
 
     h2 {
-      font-size: map-get($font-sizes, 'xl');
+      font-size: map.get($font-sizes, 'xl');
     }
 
     p {
-      font-size: map-get($font-sizes, 'sm');
+      font-size: map.get($font-sizes, 'sm');
     }
   }
 
   .dialog__close {
     width: 34px;
     height: 34px;
-    font-size: map-get($font-sizes, 'xl');
+    font-size: map.get($font-sizes, 'xl');
   }
 
   .plan-card {
@@ -242,7 +242,7 @@
 
   .plan-card__name,
   .plan-card__price {
-    font-size: map-get($font-sizes, 'lg');
+    font-size: map.get($font-sizes, 'lg');
   }
 
   .dialog__actions {

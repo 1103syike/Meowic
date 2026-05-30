@@ -1,3 +1,4 @@
+@use 'sass:map';
 @use 'variables' as *;
 @use '../songs/cms-songs.scss';
 
@@ -95,7 +96,7 @@
 
   span {
     color: $text-muted;
-    font-weight: map-get($font-weights, 'semibold');
+    font-weight: map.get($font-weights, 'semibold');
   }
 }
 
@@ -147,7 +148,7 @@
     padding: 0 14px;
     color: #0b4778;
     background: #ffffff;
-    font-weight: map-get($font-weights, 'semibold');
+    font-weight: map.get($font-weights, 'semibold');
     border-radius: 8px;
 
     &:hover {
@@ -172,7 +173,7 @@
   padding: 0 16px;
   color: #0b4778;
   background: #ffffff;
-  font-weight: map-get($font-weights, 'semibold');
+  font-weight: map.get($font-weights, 'semibold');
   border-radius: 8px;
 
   &:hover:not(:disabled) {

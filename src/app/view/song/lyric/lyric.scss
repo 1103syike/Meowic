@@ -47,14 +47,14 @@
   gap: 20px;
   padding: 18px 26px;
   background: linear-gradient(135deg, rgba($color-green, 0.2), rgba($color-blue, 0.08));
-  border-radius: map-get($radius, 'small');
+  border-radius: map.get($radius, 'small');
 }
 
 .song-hero__cover {
   width: 100%;
   aspect-ratio: 1;
   object-fit: cover;
-  border-radius: map-get($radius, 'small');
+  border-radius: map.get($radius, 'small');
   box-shadow: 0 16px 32px rgba($color-blue, 0.2);
   transition: transform 0.25s ease;
 }
@@ -68,14 +68,14 @@
 
   h1 {
     margin: 4px 0 8px;
-    font-size: map-get($font-sizes, '2xl');
+    font-size: map.get($font-sizes, '2xl');
     line-height: 1.1;
   }
 }
 
 .song-hero__eyebrow {
   color: rgba($color-blue, 0.75);
-  font-size: map-get($font-sizes, 'sm');
+  font-size: map.get($font-sizes, 'sm');
 }
 
 .song-hero__meta {
@@ -87,7 +87,7 @@
   span {
     padding: 5px 10px;
     background: rgba($color-white, 0.76);
-    border-radius: map-get($radius, 'circle');
+    border-radius: map.get($radius, 'circle');
   }
 }
 
@@ -102,7 +102,7 @@
   min-width: 0;
   padding: 16px;
   background: $color-ts-blue;
-  border-radius: map-get($radius, 'small');
+  border-radius: map.get($radius, 'small');
 
   span,
   strong {
@@ -114,12 +114,12 @@
 
   span {
     color: rgba($color-blue, 0.7);
-    font-size: map-get($font-sizes, 'sm');
+    font-size: map.get($font-sizes, 'sm');
   }
 
   strong {
     margin-top: 4px;
-    font-size: map-get($font-sizes, 'base');
+    font-size: map.get($font-sizes, 'base');
   }
 }
 
@@ -132,18 +132,18 @@
   max-height: 280px;
   overflow-y: auto;
   background: $color-ts-blue;
-  border-radius: map-get($radius, 'small');
+  border-radius: map.get($radius, 'small');
 }
 
 .lyric-panel__line {
   color: rgba($color-blue, 0.62);
-  font-size: map-get($font-sizes, 'base');
+  font-size: map.get($font-sizes, 'base');
   text-align: center;
 }
 
 .lyric-panel__line--active {
   color: $color-green;
-  font-size: map-get($font-sizes, 'lg');
+  font-size: map.get($font-sizes, 'lg');
 }
 
 @media (max-width: 1280px) {
@@ -175,7 +175,7 @@
   }
 
   .song-hero__info h1 {
-    font-size: map-get($font-sizes, '2xl');
+    font-size: map.get($font-sizes, '2xl');
   }
 
   .song-detail {

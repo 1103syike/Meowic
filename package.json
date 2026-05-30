@@ -7,11 +7,16 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "api": "node auth-server.js"
+    "api": "node auth-server.js",
+    "dev:api": "node api/dev-server.js",
+    "db:init": "node scripts/init-db.js",
+    "db:seed": "node scripts/seed.js"
   },
   "private": true,
   "packageManager": "npm@10.9.4",
   "dependencies": {
+    "@neondatabase/serverless": "^1.0.2",
+    "@vercel/blob": "^0.27.3",
     "@angular/cdk": "^21.2.9",
     "@angular/common": "^21.2.0",
     "@angular/compiler": "^21.2.0",
@@ -27,6 +32,7 @@
     "tslib": "^2.3.0"
   },
   "devDependencies": {
+    "dotenv": "^16.4.7",
     "@angular/build": "^21.2.9",
     "@angular/cli": "^21.2.9",
     "@angular/compiler-cli": "^21.2.0",

@@ -36,7 +36,7 @@ body {
   color: vars.$text-secondary;
   font-family: vars.$font-family-base;
   font-size: 16px;
-  font-weight: map-get(vars.$font-weights, 'body');
+  font-weight: map.get(vars.$font-weights, 'body');
   line-height: 1.5;
 
   // Reset the user agent margin.
@@ -57,7 +57,7 @@ body {
 
 .swal2-popup {
   border: 2px solid vars.$color-ts-blue;
-  border-radius: map-get(vars.$radius, 'large');
+  border-radius: map.get(vars.$radius, 'large');
   color: vars.$color-blue;
   background: vars.$color-white;
   box-shadow: 4px 4px 20px 0 rgba(vars.$color-green, 0.2);
@@ -65,8 +65,8 @@ body {
 
 .swal2-title {
   color: vars.$text-primary;
-  font-size: map-get(vars.$font-sizes, '2xl');
-  font-weight: map-get(vars.$font-weights, 'semibold');
+  font-size: map.get(vars.$font-sizes, '2xl');
+  font-weight: map.get(vars.$font-weights, 'semibold');
 }
 
 .swal2-html-container,
@@ -78,7 +78,7 @@ body {
 .swal2-input,
 .swal2-select {
   border: 2px solid vars.$color-ts-blue;
-  border-radius: map-get(vars.$radius, 'small');
+  border-radius: map.get(vars.$radius, 'small');
   color: vars.$text-secondary;
   box-shadow: none;
 
@@ -96,7 +96,7 @@ body {
 .swal2-styled.swal2-cancel {
   min-width: 96px;
   border: 2px solid vars.$color-ts-blue;
-  border-radius: map-get(vars.$radius, 'large');
+  border-radius: map.get(vars.$radius, 'large');
   padding: 10px 24px;
   color: vars.$text-secondary;
   background: vars.$color-white;
@@ -114,6 +114,6 @@ body {
 }
 
 .swal2-validation-message {
-  border-radius: map-get(vars.$radius, 'small');
+  border-radius: map.get(vars.$radius, 'small');
   background: vars.$color-ts-blue;
 }

@@ -20,7 +20,7 @@
   color: $text-secondary;
   background: rgba($color-white, 0.9);
   border: 2px solid rgba($color-blue, 0.12);
-  border-radius: map-get($radius, 'circle');
+  border-radius: map.get($radius, 'circle');
   box-shadow: 0 10px 30px rgba($color-green, 0.12);
   transition:
     background-color 0.2s ease,
@@ -52,7 +52,7 @@
   min-height: var(--detail-back-size, 38px);
   padding: 4px;
   background: $color-ts-blue;
-  border-radius: map-get($radius, 'circle');
+  border-radius: map.get($radius, 'circle');
 }
 
 @mixin detail-tab {
@@ -61,10 +61,10 @@
   padding: 0 16px;
   color: $text-muted;
   background: transparent;
-  border-radius: map-get($radius, 'circle');
-  font-size: map-get($font-sizes, 'sm');
-  font-weight: map-get($font-weights, 'semibold');
-  line-height: map-get($line-heights, 'control');
+  border-radius: map.get($radius, 'circle');
+  font-size: map.get($font-sizes, 'sm');
+  font-weight: map.get($font-weights, 'semibold');
+  line-height: map.get($line-heights, 'control');
   transition:
     background-color 0.2s ease,
     color 0.2s ease,

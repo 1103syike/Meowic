@@ -22,20 +22,20 @@
 
   span {
     color: $color-green;
-    font-size: map-get($font-sizes, 'sm');
-    font-weight: map-get($font-weights, 'semibold');
+    font-size: map.get($font-sizes, 'sm');
+    font-weight: map.get($font-weights, 'semibold');
   }
 
   h1 {
     margin: 6px 0;
-    font-size: map-get($font-sizes, 'xl');
-    font-weight: map-get($font-weights, 'semibold');
+    font-size: map.get($font-sizes, 'xl');
+    font-weight: map.get($font-weights, 'semibold');
   }
 
   p {
     margin: 0;
     color: $text-soft;
-    font-weight: map-get($font-weights, 'body');
+    font-weight: map.get($font-weights, 'body');
   }
 }
 
@@ -105,8 +105,8 @@
 
   small {
     color: $text-soft;
-    font-size: map-get($font-sizes, 'sm');
-    font-weight: map-get($font-weights, 'medium');
+    font-size: map.get($font-sizes, 'sm');
+    font-weight: map.get($font-weights, 'medium');
   }
 }
 
@@ -116,7 +116,7 @@
 
 .song-list__right--head {
   color: $text-muted;
-  font-weight: map-get($font-weights, 'semibold');
+  font-weight: map.get($font-weights, 'semibold');
   text-align: left;
 }
 
@@ -185,7 +185,7 @@
     background: $color-white;
     color: $color-blue;
     padding: 0 16px;
-    font-weight: map-get($font-weights, 'medium');
+    font-weight: map.get($font-weights, 'medium');
     @include radius('large');
 
     &:hover:not(:disabled) {

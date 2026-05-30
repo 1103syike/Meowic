@@ -42,7 +42,7 @@
 
   h1 {
     margin: 0;
-    font-size: map-get($font-sizes, 'xl');
+    font-size: map.get($font-sizes, 'xl');
     line-height: 1.2;
   }
 
@@ -50,7 +50,7 @@
     display: block;
     margin-top: 4px;
     color: $text-muted;
-    font-size: map-get($font-sizes, 'sm');
+    font-size: map.get($font-sizes, 'sm');
   }
 }
 
@@ -62,7 +62,7 @@
   justify-content: center;
   color: #ffffff;
   background: #0b4778;
-  font-weight: map-get($font-weights, 'semibold');
+  font-weight: map.get($font-weights, 'semibold');
   @include radius('circle');
 }
 
@@ -133,13 +133,13 @@
   strong {
     display: block;
     margin-top: 4px;
-    font-size: map-get($font-sizes, 'lg');
+    font-size: map.get($font-sizes, 'lg');
   }
 }
 
 .cms__eyebrow {
   color: #0b4778;
-  font-size: map-get($font-sizes, 'sm');
+  font-size: map.get($font-sizes, 'sm');
 }
 
 .cms__account {
@@ -150,7 +150,7 @@
 
   span {
     color: $text-muted;
-    font-size: map-get($font-sizes, 'sm');
+    font-size: map.get($font-sizes, 'sm');
   }
 }
 
@@ -162,7 +162,7 @@
   justify-content: center;
   color: #ffffff;
   background: #2f6fed;
-  font-weight: map-get($font-weights, 'semibold');
+  font-weight: map.get($font-weights, 'semibold');
   @include radius('circle');
 }
 

@@ -21,14 +21,14 @@
 
   span {
     color: rgba(#ffffff, 0.78);
-    font-size: map-get($font-sizes, 'sm');
-    font-weight: map-get($font-weights, 'semibold');
+    font-size: map.get($font-sizes, 'sm');
+    font-weight: map.get($font-weights, 'semibold');
   }
 
   h2 {
     margin: 8px 0 0;
-    font-size: map-get($font-sizes, '2xl');
-    font-weight: map-get($font-weights, 'semibold');
+    font-size: map.get($font-sizes, '2xl');
+    font-weight: map.get($font-weights, 'semibold');
   }
 
   p {
@@ -43,7 +43,7 @@
     padding: 0 18px;
     color: #0b4778;
     background: #ffffff;
-    font-weight: map-get($font-weights, 'semibold');
+    font-weight: map.get($font-weights, 'semibold');
     cursor: pointer;
     @include radius('small');
   }
@@ -138,8 +138,8 @@
 
 .cms-ads__preview-label {
   color: $text-secondary;
-  font-size: map-get($font-sizes, 'sm');
-  font-weight: map-get($font-weights, 'semibold');
+  font-size: map.get($font-sizes, 'sm');
+  font-weight: map.get($font-weights, 'semibold');
 }
 
 .cms-ads__preview {
@@ -188,7 +188,7 @@
   }
 
   strong {
-    font-size: map-get($font-sizes, '3xl');
+    font-size: map.get($font-sizes, '3xl');
   }
 }
 
@@ -252,22 +252,22 @@
     display: inline-flex;
     margin-bottom: 10px;
     color: $color-green;
-    font-size: map-get($font-sizes, 'sm');
-    font-weight: map-get($font-weights, 'semibold');
+    font-size: map.get($font-sizes, 'sm');
+    font-weight: map.get($font-weights, 'semibold');
   }
 
   strong {
     display: block;
-    font-size: map-get($font-sizes, '3xl');
-    font-weight: map-get($font-weights, 'semibold');
-    line-height: map-get($line-heights, 'heading');
+    font-size: map.get($font-sizes, '3xl');
+    font-weight: map.get($font-weights, 'semibold');
+    line-height: map.get($line-heights, 'heading');
   }
 
   p {
     max-width: 440px;
     margin: 14px 0 0;
     color: $text-secondary;
-    font-size: map-get($font-sizes, 'base');
+    font-size: map.get($font-sizes, 'base');
     line-height: 1.55;
   }
 
@@ -278,7 +278,7 @@
     padding: 0 18px;
     color: #ffffff;
     background: $color-green;
-    font-weight: map-get($font-weights, 'semibold');
+    font-weight: map.get($font-weights, 'semibold');
     @include radius('circle');
   }
 }
@@ -303,7 +303,7 @@
 .cms-ads__preview-hint {
   margin: -4px 0 0;
   color: $text-muted;
-  font-size: map-get($font-sizes, 'sm');
+  font-size: map.get($font-sizes, 'sm');
 }
 
 .cms-ads__two {
@@ -317,7 +317,7 @@ label {
   flex-direction: column;
   gap: 7px;
   color: $text-secondary;
-  font-weight: map-get($font-weights, 'medium');
+  font-weight: map.get($font-weights, 'medium');
 
   input,
   select,
@@ -358,7 +358,7 @@ label {
 
   small {
     color: $text-muted;
-    font-weight: map-get($font-weights, 'medium');
+    font-weight: map.get($font-weights, 'medium');
   }
 
   strong {
@@ -461,7 +461,7 @@ label {
     min-height: 42px;
     border: 1px solid #d7dcea;
     padding: 0 18px;
-    font-weight: map-get($font-weights, 'medium');
+    font-weight: map.get($font-weights, 'medium');
     cursor: pointer;
     @include radius('small');
   }

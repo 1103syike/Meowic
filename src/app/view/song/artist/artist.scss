@@ -22,7 +22,7 @@
   justify-content: space-between;
   gap: 12px;
   margin-bottom: 18px;
-  font-size: map-get($font-sizes, 'xl');
+  font-size: map.get($font-sizes, 'xl');
 }
 
 .artist__link {
@@ -34,7 +34,7 @@
   color: $color-blue;
   text-decoration: none;
   background: $color-ts-blue;
-  border-radius: map-get($radius, 'circle');
+  border-radius: map.get($radius, 'circle');
 
   &:hover {
     color: $color-white;
@@ -72,7 +72,7 @@
 
   span {
     color: rgba($color-blue, 0.72);
-    font-size: map-get($font-sizes, 'sm');
+    font-size: map.get($font-sizes, 'sm');
   }
 }
 
@@ -81,7 +81,7 @@
   margin: 18px 0 0;
   overflow: hidden;
   color: rgba($color-blue, 0.86);
-  font-size: map-get($font-sizes, 'base');
+  font-size: map.get($font-sizes, 'base');
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 8;
 }
@@ -90,7 +90,7 @@
   margin-top: 20px;
   padding: 14px;
   background: $color-ts-blue;
-  border-radius: map-get($radius, 'small');
+  border-radius: map.get($radius, 'small');
 
   span,
   strong {
@@ -102,7 +102,7 @@
 
   span {
     color: rgba($color-blue, 0.72);
-    font-size: map-get($font-sizes, 'sm');
+    font-size: map.get($font-sizes, 'sm');
   }
 
   strong {

@@ -31,7 +31,7 @@
 
   h2 {
     margin: 0;
-    font-size: map-get($font-sizes, '2xl');
+    font-size: map.get($font-sizes, '2xl');
   }
 }
 
@@ -41,7 +41,7 @@
   border: 2px solid $color-ts-blue;
   background: $color-white;
   color: $color-blue;
-  font-size: map-get($font-sizes, '2xl');
+  font-size: map.get($font-sizes, '2xl');
   line-height: 1;
   @include radius('circle');
 
@@ -70,7 +70,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  font-size: map-get($font-sizes, 'base');
+  font-size: map.get($font-sizes, 'base');
 }
 
 .song-form__field--wide {
@@ -94,7 +94,7 @@
   background: $color-white;
   box-sizing: border-box;
   padding: 0 14px;
-  font-size: map-get($font-sizes, 'base');
+  font-size: map.get($font-sizes, 'base');
   outline: none;
   @include radius('small');
 
@@ -117,8 +117,8 @@
 
 .song-form__field-error {
   color: #b42318;
-  font-size: map-get($font-sizes, 'xs');
-  font-weight: map-get($font-weights, 'semibold');
+  font-size: map.get($font-sizes, 'xs');
+  font-weight: map.get($font-weights, 'semibold');
 }
 
 .suggestions {
@@ -149,7 +149,7 @@
   align-items: center;
   padding: 0 12px;
   box-sizing: border-box;
-  font-size: map-get($font-sizes, 'base');
+  font-size: map.get($font-sizes, 'base');
   transition:
     background-color 0.2s ease,
     color 0.2s ease;
@@ -184,7 +184,7 @@
 
   input {
     width: 100%;
-    font-size: map-get($font-sizes, 'sm');
+    font-size: map.get($font-sizes, 'sm');
   }
 }
 
@@ -194,11 +194,11 @@
 }
 
 .song-form__upload-title {
-  font-size: map-get($font-sizes, 'base');
+  font-size: map.get($font-sizes, 'base');
 }
 
 .song-form__upload-hint {
-  font-size: map-get($font-sizes, 'xs');
+  font-size: map.get($font-sizes, 'xs');
   color: rgba($color-blue, 0.75);
 }
 

@@ -20,15 +20,15 @@
 
   span {
     color: rgba(255, 255, 255, 0.76);
-    font-size: map-get($font-sizes, 'sm');
-    font-weight: map-get($font-weights, 'semibold');
+    font-size: map.get($font-sizes, 'sm');
+    font-weight: map.get($font-weights, 'semibold');
     letter-spacing: 0.08em;
     text-transform: uppercase;
   }
 
   h2 {
     margin: 8px 0 0;
-    font-size: map-get($font-sizes, '2xl');
+    font-size: map.get($font-sizes, '2xl');
   }
 
   p {
@@ -82,7 +82,7 @@
     display: block;
     margin: 8px 0 4px;
     color: #0b4778;
-    font-size: map-get($font-sizes, '3xl');
+    font-size: map.get($font-sizes, '3xl');
     line-height: 1;
   }
 }
@@ -120,14 +120,14 @@
   h3 {
     margin: 0;
     color: $text-primary;
-    font-size: map-get($font-sizes, 'lg');
+    font-size: map.get($font-sizes, 'lg');
   }
 
   span {
     display: block;
     margin-top: 4px;
     color: $text-muted;
-    font-size: map-get($font-sizes, 'sm');
+    font-size: map.get($font-sizes, 'sm');
   }
 }
 
@@ -164,7 +164,7 @@
 
   strong {
     color: #0b4778;
-    font-size: map-get($font-sizes, '2xl');
+    font-size: map.get($font-sizes, '2xl');
   }
 
   a:hover strong,
@@ -174,7 +174,7 @@
 
   span {
     color: $text-muted;
-    font-size: map-get($font-sizes, 'sm');
+    font-size: map.get($font-sizes, 'sm');
   }
 }
 
@@ -217,8 +217,8 @@
 .dashboard-panel__head > a {
   color: #0b4778;
   text-decoration: none;
-  font-size: map-get($font-sizes, 'sm');
-  font-weight: map-get($font-weights, 'semibold');
+  font-size: map.get($font-sizes, 'sm');
+  font-weight: map.get($font-weights, 'semibold');
 
   &:hover {
     color: #083760;

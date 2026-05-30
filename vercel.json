@@ -1,0 +1,31 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist/meowic/browser",
+  "installCommand": "npm install",
+  "framework": null,
+  "rewrites": [
+    { "source": "/login", "destination": "/api/login" },
+    { "source": "/upload", "destination": "/api/upload" },
+    { "source": "/songPlays", "destination": "/api/song-plays" },
+    { "source": "/homeRecommendations/:id", "destination": "/api/home-recommendations?id=:id" },
+    { "source": "/homeRecommendations", "destination": "/api/home-recommendations" },
+    { "source": "/users/:id", "destination": "/api/resource?resource=users&id=:id" },
+    { "source": "/artists/:id", "destination": "/api/resource?resource=artists&id=:id" },
+    { "source": "/albums/:id", "destination": "/api/resource?resource=albums&id=:id" },
+    { "source": "/songs/:id", "destination": "/api/resource?resource=songs&id=:id" },
+    { "source": "/playlists/:id", "destination": "/api/resource?resource=playlists&id=:id" },
+    { "source": "/playlistUsers/:id", "destination": "/api/resource?resource=playlistUsers&id=:id" },
+    { "source": "/playlistSongs/:id", "destination": "/api/resource?resource=playlistSongs&id=:id" },
+    { "source": "/advertisements/:id", "destination": "/api/resource?resource=advertisements&id=:id" },
+    { "source": "/users", "destination": "/api/resource?resource=users" },
+    { "source": "/artists", "destination": "/api/resource?resource=artists" },
+    { "source": "/albums", "destination": "/api/resource?resource=albums" },
+    { "source": "/songs", "destination": "/api/resource?resource=songs" },
+    { "source": "/playlists", "destination": "/api/resource?resource=playlists" },
+    { "source": "/playlistUsers", "destination": "/api/resource?resource=playlistUsers" },
+    { "source": "/playlistSongs", "destination": "/api/resource?resource=playlistSongs" },
+    { "source": "/advertisements", "destination": "/api/resource?resource=advertisements" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}

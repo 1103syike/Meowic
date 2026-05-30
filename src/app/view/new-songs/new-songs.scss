@@ -22,13 +22,13 @@
 
   span {
     color: $color-green;
-    font-size: map-get($font-sizes, 'sm');
-    font-weight: map-get($font-weights, 'semibold');
+    font-size: map.get($font-sizes, 'sm');
+    font-weight: map.get($font-weights, 'semibold');
   }
 
   h1 {
     margin: 6px 0;
-    font-size: map-get($font-sizes, 'xl');
+    font-size: map.get($font-sizes, 'xl');
   }
 
   p {
@@ -49,7 +49,7 @@
     padding: 0 16px;
     color: rgba($color-blue, 0.76);
     background: transparent;
-    font-weight: map-get($font-weights, 'semibold');
+    font-weight: map.get($font-weights, 'semibold');
     white-space: nowrap;
     @include radius('circle');
 
@@ -81,12 +81,12 @@
 
   span {
     color: rgba($color-blue, 0.72);
-    font-weight: map-get($font-weights, 'semibold');
+    font-weight: map.get($font-weights, 'semibold');
   }
 
   strong {
     color: $color-green;
-    font-size: map-get($font-sizes, '2xl');
+    font-size: map.get($font-sizes, '2xl');
   }
 }
 
@@ -118,7 +118,7 @@
 .new-songs__rank {
   text-align: center;
   color: rgba($color-blue, 0.72);
-  font-weight: map-get($font-weights, 'semibold');
+  font-weight: map.get($font-weights, 'semibold');
 }
 
 .new-songs__song {
@@ -149,7 +149,7 @@
 
   small {
     color: rgba($color-blue, 0.72);
-    font-size: map-get($font-sizes, 'sm');
+    font-size: map.get($font-sizes, 'sm');
   }
 }
 
@@ -163,7 +163,7 @@
 
 .new-songs__right--head {
   color: rgba($color-blue, 0.76);
-  font-weight: map-get($font-weights, 'semibold');
+  font-weight: map.get($font-weights, 'semibold');
 }
 
 .new-songs__right--head span:last-child {

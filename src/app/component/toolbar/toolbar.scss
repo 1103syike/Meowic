@@ -34,8 +34,8 @@
 
   &__btn {
     justify-content: flex-start;
-    font-size: map-get($font-sizes, 'base');
-    font-weight: map-get($font-weights, 'semibold');
+    font-size: map.get($font-sizes, 'base');
+    font-weight: map.get($font-weights, 'semibold');
     text-align: left;
     transition:
       opacity 0.18s ease,
@@ -88,8 +88,8 @@
       outline: none;
       color: $color-blue;
       background: transparent;
-      font-size: map-get($font-sizes, 'base');
-      font-weight: map-get($font-weights, 'semibold');
+      font-size: map.get($font-sizes, 'base');
+      font-weight: map.get($font-weights, 'semibold');
       opacity: 0;
       transition: opacity 0.16s ease 0.06s;
     }
@@ -122,11 +122,11 @@
     &__btn,
     &__search {
       padding: 0 12px;
-      font-size: map-get($font-sizes, 'sm');
+      font-size: map.get($font-sizes, 'sm');
     }
 
     &__search input {
-      font-size: map-get($font-sizes, 'sm');
+      font-size: map.get($font-sizes, 'sm');
     }
   }
 }
