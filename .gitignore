@@ -9,6 +9,8 @@
 # Environment
 .env
 .env.local
+serviceAccountKey.json
+firebase-debug.log
 
 # Node
 /node_modules

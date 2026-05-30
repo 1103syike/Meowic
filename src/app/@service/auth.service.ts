@@ -1,53 +1,138 @@
-import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { forkJoin, map } from 'rxjs';
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+  signOut,
+  updatePassword,
+  type User,
+} from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
+import { firstValueFrom, forkJoin, from, map, Observable, of, switchMap, tap } from 'rxjs';
 import { UserType } from './api.service';
-import { apiUrl } from './api-url';
+import { displayLoginId, toAuthEmail } from './firebase/firebase-auth.util';
+import { getFirebaseAuth, getFirebaseFirestore } from './firebase/firebase.app';
+import { FirestoreDataService } from './firebase/firestore-data.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private http: HttpClient = inject(HttpClient);
+  private readonly data = inject(FirestoreDataService);
+  private readonly auth = getFirebaseAuth();
+  private readonly db = getFirebaseFirestore();
   private readonly cmsDefaultAdmins = new Set(['dandy', 'wendy']);
 
-  public currentUserStatus = signal<boolean>(!!localStorage.getItem('token'));
+  public currentUserStatus = signal<boolean>(false);
   public user = signal<UserType | null>(null);
 
-  login(loginData: LoginData) {
-    return this.http.post<LoginResponse>(apiUrl('login'), loginData);
+  constructor() {
+    onAuthStateChanged(this.auth, (firebaseUser) => {
+      this.currentUserStatus.set(!!firebaseUser);
+      if (firebaseUser) {
+        this.loadUserProfile(firebaseUser).subscribe((profile) => this.user.set(profile));
+      } else {
+        this.user.set(null);
+      }
+    });
   }
 
-  register(registerData: RegisterData) {
-    return this.http.post<UserType>(apiUrl('users'), registerData);
+  login(loginData: LoginData): Observable<LoginResponse> {
+    const identifier = (loginData.account || loginData.email || '').trim();
+    const authEmail = toAuthEmail(identifier);
+    return from(
+      signInWithEmailAndPassword(this.auth, authEmail, loginData.password).then(async (cred) => ({
+        accessToken: await cred.user.getIdToken(),
+      })),
+    );
+  }
+
+  register(registerData: RegisterData): Observable<UserType> {
+    const contact =
+      registerData.email?.trim() || registerData.phone?.trim() || '';
+    const authEmail = registerData.email?.trim()
+      ? toAuthEmail(registerData.email)
+      : registerData.phone?.trim()
+        ? toAuthEmail(registerData.phone)
+        : '';
+
+    if (!authEmail) {
+      throw new Error('請提供信箱或手機');
+    }
+
+    return from(
+      createUserWithEmailAndPassword(this.auth, authEmail, registerData.password).then(
+        async (cred) => {
+          const allUsers = await firstValueFrom(this.data.getAllUsers());
+          const id = allUsers.reduce((max, user) => Math.max(max, user.id), 0) + 1;
+
+          const profile: UserType = {
+            id,
+            name: registerData.name,
+            email: registerData.email?.trim() || displayLoginId(authEmail),
+            phone: registerData.phone?.trim(),
+            password: '',
+            role: registerData.role,
+            canAccessCms: registerData.canAccessCms,
+            authEmail,
+            authUid: cred.user.uid,
+          };
+
+          await setDoc(doc(this.db, 'users', String(id)), profile);
+          return profile;
+        },
+      ),
+    );
   }
 
   getUserByIdentifier(identifier: string) {
     const value = identifier.trim();
 
     if (value.includes('@')) {
-      return this.getUsersByParam({ email: value });
+      return this.data.findUsersByEmail(value);
     }
 
-    return forkJoin([this.getUsersByParam({ email: value }), this.getUsersByParam({ phone: value })]).pipe(
+    return forkJoin([
+      this.data.findUsersByEmail(value),
+      this.data.findUsersByPhone(value),
+    ]).pipe(
       map(([emailUsers, phoneUsers]) => [
         ...emailUsers,
-        ...phoneUsers.filter((phoneUser) => !emailUsers.some((emailUser) => emailUser.id === phoneUser.id)),
+        ...phoneUsers.filter(
+          (phoneUser) => !emailUsers.some((emailUser) => emailUser.id === phoneUser.id),
+        ),
       ]),
     );
   }
 
   resetPassword(userId: number, password: string) {
-    return this.http.patch<UserType>(apiUrl(`users/${userId}`), { password });
+    const firebaseUser = this.auth.currentUser;
+    if (!firebaseUser) {
+      return from(Promise.reject(new Error('請先登入')));
+    }
+    return from(updatePassword(firebaseUser, password)).pipe(
+      switchMap(() => this.data.updateUser(userId, { password: '' })),
+    );
+  }
+
+  sendPasswordReset(contact: string): Observable<void> {
+    const authEmail = toAuthEmail(contact);
+    return from(sendPasswordResetEmail(this.auth, authEmail));
   }
 
   handleLoginSuccess(token: string) {
     localStorage.setItem('token', token);
     this.currentUserStatus.set(true);
+    const firebaseUser = this.auth.currentUser;
+    if (firebaseUser) {
+      this.loadUserProfile(firebaseUser).subscribe((profile) => this.user.set(profile));
+    }
   }
 
   logout(): void {
     localStorage.removeItem('token');
+    signOut(this.auth);
     this.currentUserStatus.set(false);
     this.user.set(null);
   }
@@ -57,25 +142,30 @@ export class AuthService {
   }
 
   getUserByEmail(email: string) {
-    return this.http.get<UserType[]>(apiUrl('users'), {
-      params: { email },
-    });
+    return this.data.findUsersByEmail(email);
   }
 
-  getUserInfo() {
-    const identifier = this.getTokenIdentifier();
-    if (!identifier) return null;
-
-    this.getUserByIdentifier(identifier).subscribe((res) => {
-      this.user.set(res[0]);
-    });
-
-    return this.getUserByIdentifier(identifier);
+  getUserInfo(): Observable<UserType[]> | null {
+    const firebaseUser = this.auth.currentUser;
+    if (!firebaseUser) {
+      return null;
+    }
+    return this.loadUserProfile(firebaseUser).pipe(
+      map((profile) => (profile ? [profile] : [])),
+      tap((profiles) => {
+        if (profiles[0]) {
+          this.user.set(profiles[0]);
+        }
+      }),
+    );
   }
 
   canAccessCms(): boolean {
     const currentUser = this.user();
-    return this.canUserAccessCms(currentUser) || this.isDefaultCmsAdmin(this.getTokenEmail());
+    return (
+      this.canUserAccessCms(currentUser) ||
+      this.isDefaultCmsAdmin(currentUser?.email ?? displayLoginId(this.auth.currentUser?.email))
+    );
   }
 
   canUserAccessCms(user: UserType | null | undefined): boolean {
@@ -83,32 +173,40 @@ export class AuthService {
   }
 
   getTokenEmail(): string | null {
-    return this.getTokenPayloadValue('email');
+    return this.user()?.email ?? this.auth.currentUser?.email ?? null;
   }
 
   getTokenIdentifier(): string | null {
-    return this.getTokenPayloadValue('account') ?? this.getTokenPayloadValue('email') ?? this.getTokenPayloadValue('phone');
+    const profile = this.user();
+    if (profile?.email) {
+      return profile.email;
+    }
+    if (profile?.phone) {
+      return profile.phone;
+    }
+    return displayLoginId(this.auth.currentUser?.email ?? null);
   }
 
-  private getTokenPayloadValue(key: 'account' | 'email' | 'phone'): string | null {
-    const token = localStorage.getItem('token');
-    if (!token) return null;
-
-    try {
-      const payload = token.split('.')[1];
-      const decodedJson = atob(payload);
-      return JSON.parse(decodedJson)[key] ?? null;
-    } catch {
-      return null;
-    }
+  private loadUserProfile(firebaseUser: User): Observable<UserType | null> {
+    const authEmail = firebaseUser.email ?? '';
+    return this.data.findUserByAuthEmail(authEmail).pipe(
+      switchMap((byAuthEmail) => {
+        if (byAuthEmail) {
+          return of(byAuthEmail);
+        }
+        const loginId = displayLoginId(authEmail);
+        return this.data.findUsersByEmail(loginId).pipe(map((rows) => rows[0] ?? null));
+      }),
+      tap(async (profile) => {
+        if (profile && firebaseUser) {
+          localStorage.setItem('token', await firebaseUser.getIdToken());
+        }
+      }),
+    );
   }
 
   private isDefaultCmsAdmin(email: string | null | undefined): boolean {
     return !!email && this.cmsDefaultAdmins.has(email.trim().toLowerCase());
-  }
-
-  private getUsersByParam(params: Record<string, string>) {
-    return this.http.get<UserType[]>(apiUrl('users'), { params });
   }
 }
 
