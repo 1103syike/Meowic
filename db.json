@@ -2,7 +2,7 @@
   "users": [
     {
       "id": 1,
-      "name": "鄭丞恩",
+      "name": "?��???,
       "email": "dandy",
       "password": "123",
       "role": "admin",
@@ -10,12 +10,12 @@
     },
     {
       "id": 2,
-      "name": "林庭郁",
+      "name": "?�庭??,
       "email": "wendy",
       "password": "123"
     },
     {
-      "name": "老鐵",
+      "name": "?�鐵",
       "email": "laotei",
       "password": "123",
       "role": "user",
@@ -152,11 +152,11 @@
     },
     {
       "id": 15,
-      "name": "시대를 초월한 마음",
+      "name": "?��?�?초�???마�?",
       "artistId": 4,
       "albumId": 4,
       "like": 42,
-      "audioPath": "assets/audio/시대를_초월한_마음.mp3",
+      "audioPath": "assets/audio/?��?를_초�??�_마�?.mp3",
       "playCount": 28
     },
     {
@@ -164,8 +164,8 @@
       "artistId": 5,
       "albumId": 5,
       "like": 0,
-      "audioPath": "http://localhost:3000/assets/audio/catch-catch.mp3",
-      "imgPath": "http://localhost:3000/mock/upload/Yena-YH-Enter-768x768.jpg",
+      "audioPath": "/assets/audio/catch-catch.mp3",
+      "imgPath": "/mock/upload/Yena-YH-Enter-768x768.jpg",
       "id": 16,
       "playCount": 47
     },
@@ -174,8 +174,8 @@
       "artistId": 6,
       "albumId": 6,
       "like": 0,
-      "audioPath": "http://localhost:3000/assets/audio/1779331985999-565219504.mp3",
-      "imgPath": "http://localhost:3000/mock/upload/1779331986106-909800016.jpg",
+      "audioPath": "/assets/audio/1779331985999-565219504.mp3",
+      "imgPath": "/mock/upload/1779331986106-909800016.jpg",
       "id": 17,
       "playCount": 3
     },
@@ -184,8 +184,8 @@
       "artistId": 1,
       "albumId": 7,
       "like": 0,
-      "audioPath": "http://localhost:3000/assets/audio/1779332661927-995582607.mp3",
-      "imgPath": "http://localhost:3000/mock/upload/1779332662025-219330538.jpg",
+      "audioPath": "/assets/audio/1779332661927-995582607.mp3",
+      "imgPath": "/mock/upload/1779332662025-219330538.jpg",
       "id": 18,
       "playCount": 3
     },
@@ -194,74 +194,74 @@
       "artistId": 7,
       "albumId": 8,
       "like": 0,
-      "audioPath": "http://localhost:3000/assets/audio/1779332945193-625457454.mp3",
-      "imgPath": "http://localhost:3000/mock/upload/1779332945285-241081911.jpg",
+      "audioPath": "/assets/audio/1779332945193-625457454.mp3",
+      "imgPath": "/mock/upload/1779332945285-241081911.jpg",
       "id": 19,
       "playCount": 38
     },
     {
-      "name": "兩三句",
+      "name": "?��???,
       "artistId": 8,
       "albumId": 9,
       "like": 0,
       "playCount": 4,
-      "audioPath": "http://localhost:3000/assets/audio/1779557111226-824381376.mp3",
+      "audioPath": "/assets/audio/1779557111226-824381376.mp3",
       "releaseDate": "2026-05-23",
       "uploadedAt": "2026-05-23T17:25:11.030Z",
       "availableAt": "2026-05-23T17:25:11.030Z",
-      "imgPath": "http://localhost:3000/mock/upload/1779557111265-948095445.jpg",
+      "imgPath": "/mock/upload/1779557111265-948095445.jpg",
       "id": 20
     },
     {
-      "name": "曲中人亦散",
+      "name": "?�中人亦??,
       "artistId": 8,
       "albumId": 10,
       "like": 0,
       "playCount": 88,
-      "audioPath": "http://localhost:3000/assets/audio/1779557190073-231580985.mp3",
+      "audioPath": "/assets/audio/1779557190073-231580985.mp3",
       "releaseDate": "2026-05-23",
       "uploadedAt": "2026-05-23T17:26:29.930Z",
       "availableAt": "2026-05-23T17:26:29.930Z",
-      "imgPath": "http://localhost:3000/mock/upload/1779557190111-511020576.jpg",
+      "imgPath": "/mock/upload/1779557190111-511020576.jpg",
       "id": 21
     },
     {
-      "name": "遺憾也值得",
+      "name": "?�憾也值�?",
       "artistId": 8,
       "albumId": 11,
       "like": 0,
       "playCount": 29,
-      "audioPath": "http://localhost:3000/assets/audio/1779557227166-784483962.mp3",
+      "audioPath": "/assets/audio/1779557227166-784483962.mp3",
       "releaseDate": "2026-05-23",
       "uploadedAt": "2026-05-23T17:27:06.942Z",
       "availableAt": "2026-05-23T17:27:06.942Z",
-      "imgPath": "http://localhost:3000/mock/upload/1779557227198-313589943.jpg",
+      "imgPath": "/mock/upload/1779557227198-313589943.jpg",
       "id": 22
     },
     {
-      "name": "갑자기",
+      "name": "갑�?�?,
       "artistId": 9,
       "albumId": 12,
       "like": 0,
       "playCount": 32,
-      "audioPath": "http://localhost:3000/assets/audio/1779678259985-965080042.mp3",
+      "audioPath": "/assets/audio/1779678259985-965080042.mp3",
       "releaseDate": "2026-05-25",
       "uploadedAt": "2026-05-25T03:04:19.772Z",
       "availableAt": "2026-05-25T03:04:19.772Z",
-      "imgPath": "http://localhost:3000/mock/upload/1779678260049-28190603.jpg",
+      "imgPath": "/mock/upload/1779678260049-28190603.jpg",
       "id": 23
     },
     {
-      "name": "PLAY (合作演出：CHANGMO)",
+      "name": "PLAY (?��?演出：CHANGMO)",
       "artistId": 10,
       "albumId": 13,
       "like": 0,
       "playCount": 2,
-      "audioPath": "http://localhost:3000/assets/audio/1779681444413-256523598.mp3",
+      "audioPath": "/assets/audio/1779681444413-256523598.mp3",
       "releaseDate": "2026-05-25",
       "uploadedAt": "2026-05-25T03:57:24.248Z",
       "availableAt": "2026-05-25T03:57:24.248Z",
-      "imgPath": "http://localhost:3000/mock/upload/1779681444501-760790973.jpg",
+      "imgPath": "/mock/upload/1779681444501-760790973.jpg",
       "id": 24
     },
     {
@@ -270,11 +270,11 @@
       "albumId": 14,
       "like": 0,
       "playCount": 4,
-      "audioPath": "http://localhost:3000/assets/audio/1779681571316-963138021.mp3",
+      "audioPath": "/assets/audio/1779681571316-963138021.mp3",
       "releaseDate": "2026-05-25",
       "uploadedAt": "2026-05-25T03:59:31.125Z",
       "availableAt": "2026-05-25T03:59:31.125Z",
-      "imgPath": "http://localhost:3000/mock/upload/1779681571386-424459443.jpg",
+      "imgPath": "/mock/upload/1779681571386-424459443.jpg",
       "id": 25
     },
     {
@@ -283,11 +283,11 @@
       "albumId": 15,
       "like": 0,
       "playCount": 11,
-      "audioPath": "http://localhost:3000/assets/audio/1779681630515-992552685.mp3",
+      "audioPath": "/assets/audio/1779681630515-992552685.mp3",
       "releaseDate": "2026-05-25",
       "uploadedAt": "2026-05-25T04:00:30.326Z",
       "availableAt": "2026-05-25T04:00:30.326Z",
-      "imgPath": "http://localhost:3000/mock/upload/1779681630564-456125367.jpg",
+      "imgPath": "/mock/upload/1779681630564-456125367.jpg",
       "id": 26
     },
     {
@@ -296,11 +296,11 @@
       "albumId": 16,
       "like": 0,
       "playCount": 5,
-      "audioPath": "http://localhost:3000/assets/audio/1779681689817-214829533.mp3",
+      "audioPath": "/assets/audio/1779681689817-214829533.mp3",
       "releaseDate": "2026-05-25",
       "uploadedAt": "2026-05-25T04:01:29.630Z",
       "availableAt": "2026-05-25T04:01:29.630Z",
-      "imgPath": "http://localhost:3000/mock/upload/1779681689892-290292267.jpg",
+      "imgPath": "/mock/upload/1779681689892-290292267.jpg",
       "id": 27
     },
     {
@@ -309,11 +309,11 @@
       "albumId": 17,
       "like": 0,
       "playCount": 2,
-      "audioPath": "http://localhost:3000/assets/audio/1779681745991-552078121.mp3",
+      "audioPath": "/assets/audio/1779681745991-552078121.mp3",
       "releaseDate": "2026-05-25",
       "uploadedAt": "2026-05-25T04:02:25.775Z",
       "availableAt": "2026-05-25T04:02:25.775Z",
-      "imgPath": "http://localhost:3000/mock/upload/1779681746078-764881971.jpg",
+      "imgPath": "/mock/upload/1779681746078-764881971.jpg",
       "id": 28
     }
   ],
@@ -341,7 +341,7 @@
     {
       "id": 3,
       "imgPath": "./mock/album/album-3.jpg",
-      "name": "進擊的巨人",
+      "name": "?��??�巨�?,
       "type": "ost",
       "artistId": 3,
       "like": 52,
@@ -366,7 +366,7 @@
       "name": "LOVE CATCHER",
       "type": "album",
       "artistId": 5,
-      "imgPath": "http://localhost:3000/mock/upload/Yena-YH-Enter-768x768.jpg",
+      "imgPath": "/mock/upload/Yena-YH-Enter-768x768.jpg",
       "like": 0,
       "id": 5
     },
@@ -374,7 +374,7 @@
       "name": "Walking In The Sun",
       "type": "album",
       "artistId": 6,
-      "imgPath": "http://localhost:3000/mock/upload/1779331986106-909800016.jpg",
+      "imgPath": "/mock/upload/1779331986106-909800016.jpg",
       "like": 0,
       "id": 6
     },
@@ -382,7 +382,7 @@
       "name": "Number 1",
       "type": "album",
       "artistId": 1,
-      "imgPath": "http://localhost:3000/mock/upload/1779332662025-219330538.jpg",
+      "imgPath": "/mock/upload/1779332662025-219330538.jpg",
       "like": 0,
       "id": 7
     },
@@ -390,15 +390,15 @@
       "name": "Undertale Original Soundtrack",
       "type": "album",
       "artistId": 7,
-      "imgPath": "http://localhost:3000/mock/upload/1779333015603-773929815.jpg",
+      "imgPath": "/mock/upload/1779333015603-773929815.jpg",
       "like": 0,
       "id": 8
     },
     {
-      "name": "兩三句",
+      "name": "?��???,
       "type": "album",
       "artistId": 8,
-      "imgPath": "http://localhost:3000/mock/upload/1779557111265-948095445.jpg",
+      "imgPath": "/mock/upload/1779557111265-948095445.jpg",
       "like": 0,
       "releaseDate": "2026-05-23",
       "uploadedAt": "2026-05-23T17:25:11.302Z",
@@ -406,10 +406,10 @@
       "id": 9
     },
     {
-      "name": "曲中人亦散",
+      "name": "?�中人亦??,
       "type": "single",
       "artistId": 8,
-      "imgPath": "http://localhost:3000/mock/upload/1779557190111-511020576.jpg",
+      "imgPath": "/mock/upload/1779557190111-511020576.jpg",
       "like": 0,
       "releaseDate": "2026-05-23",
       "uploadedAt": "2026-05-23T17:26:30.116Z",
@@ -417,10 +417,10 @@
       "id": 10
     },
     {
-      "name": "遺憾也值得",
+      "name": "?�憾也值�?",
       "type": "single",
       "artistId": 8,
-      "imgPath": "http://localhost:3000/mock/upload/1779557227198-313589943.jpg",
+      "imgPath": "/mock/upload/1779557227198-313589943.jpg",
       "like": 0,
       "releaseDate": "2026-05-23",
       "uploadedAt": "2026-05-23T17:27:07.202Z",
@@ -431,7 +431,7 @@
       "name": "I.O.I : LOOP",
       "type": "album",
       "artistId": 9,
-      "imgPath": "http://localhost:3000/mock/upload/1779678260049-28190603.jpg",
+      "imgPath": "/mock/upload/1779678260049-28190603.jpg",
       "like": 0,
       "releaseDate": "2026-05-25",
       "uploadedAt": "2026-05-25T03:04:20.082Z",
@@ -442,7 +442,7 @@
       "name": "Maxi Single",
       "type": "album",
       "artistId": 10,
-      "imgPath": "http://localhost:3000/mock/upload/1779681444501-760790973.jpg",
+      "imgPath": "/mock/upload/1779681444501-760790973.jpg",
       "like": 0,
       "releaseDate": "2026-05-25",
       "uploadedAt": "2026-05-25T03:57:24.551Z",
@@ -453,7 +453,7 @@
       "name": "Offset",
       "type": "album",
       "artistId": 10,
-      "imgPath": "http://localhost:3000/mock/upload/1779681571386-424459443.jpg",
+      "imgPath": "/mock/upload/1779681571386-424459443.jpg",
       "like": 0,
       "releaseDate": "2026-05-25",
       "uploadedAt": "2026-05-25T03:59:31.392Z",
@@ -464,7 +464,7 @@
       "name": "Bare&Rare Part.1",
       "type": "album",
       "artistId": 10,
-      "imgPath": "http://localhost:3000/mock/upload/1779681630564-456125367.jpg",
+      "imgPath": "/mock/upload/1779681630564-456125367.jpg",
       "like": 0,
       "releaseDate": "2026-05-25",
       "uploadedAt": "2026-05-25T04:00:30.568Z",
@@ -475,7 +475,7 @@
       "name": "Flourishing",
       "type": "album",
       "artistId": 10,
-      "imgPath": "http://localhost:3000/mock/upload/1779681689892-290292267.jpg",
+      "imgPath": "/mock/upload/1779681689892-290292267.jpg",
       "like": 0,
       "releaseDate": "2026-05-25",
       "uploadedAt": "2026-05-25T04:01:29.898Z",
@@ -486,7 +486,7 @@
       "name": "already 12:00",
       "type": "album",
       "artistId": 10,
-      "imgPath": "http://localhost:3000/mock/upload/1779681746078-764881971.jpg",
+      "imgPath": "/mock/upload/1779681746078-764881971.jpg",
       "like": 0,
       "releaseDate": "2026-05-25",
       "uploadedAt": "2026-05-25T04:02:26.080Z",
@@ -499,60 +499,60 @@
       "id": 1,
       "imgPath": "./mock/artist/artist-1.webp",
       "name": "BigBang",
-      "description": "BIGBANG（韓語：빅뱅；日語：ビッグバン）是韓國YG娛樂於2006年推出的男子團體，最初由太陽、G-Dragon、大聲、T.O.P以及勝利五位成員組成，G-Dragon擔任隊長一職。團體以「宇宙大爆炸」為名，意味著將對於韓國音樂界，甚至在全世界帶來爆炸性的影響。官方的歌迷名稱則是「V.I.P」，其意思為「Very Important Person」，是根據第二張單曲《BIGBANG Is V.I.P》命名，有著粉絲是非常重要的人的含義。"
+      "description": "BIGBANG（�?語�?빅�?；日語�??��??��??��??��??�YG娛�???006年推?��??��??��?，�??�由太陽?�G-Dragon?�大?�、T.O.P以�??�利五�??�員組�?，G-Dragon?�任?�長一?�。�?體以?��?宙大?�炸?�為?��??�味?��?對於?��??��??��??�至?�全世�?帶�??�炸?��?影響?��??��?歌迷?�稱?�是?�V.I.P?��??��??�為?�Very Important Person?��??�根?�第二張?�曲?�BIGBANG Is V.I.P?�命?��??��?粉絲?��?常�?要�?人�??�義??
     },
     {
       "id": 2,
       "imgPath": "./mock/artist/artist-2.jpg",
       "name": "PLAVE",
-      "description": "PLAVE（韓語：플레이브；日語：プレイブ）是韓國VLAST於2023年推出的虛擬男子團體，由五位成員組成，分別為諾亞、藝俊、斑比、銀虎與河玟，並由藝俊擔任隊長。"
+      "description": "PLAVE（�?語�??��??��?；日語�??�レ?��?）是?��?VLAST??023年推?��??�擬?��??��?，由五�??�員組�?，�??�為諾�??��?俊、�?比、�??��?河�?，並?��?俊�?任�??��?
     },
     {
       "id": 3,
       "imgPath": "./mock/artist/artist-3.jpg",
-      "name": "澤野弘之",
-      "description": "澤野弘之，日本作曲家、編曲家，出生於東京都。代表配樂作品有電視劇《醫龍》系列、動畫《機動戰士鋼彈UC》、《罪惡王冠》、《進擊的巨人》、《KILL la KILL》、《青之驅魔師》、《終結的熾天使》、《七大罪》等。"
+      "name": "澤�?弘�?",
+      "description": "澤�?弘�?，日?��??�家?�編?�家，出?�於?�京?�。代表�?樂�??��??��??�《醫龍》系?�、�??�《�??�戰士鋼彈UC?�、《罪?��??�》、《進�??�巨人》、《KILL la KILL?�、《�?之�?魔師?�、《�?結�??�天使》、《�?大罪?��???
     },
     {
       "id": 4,
       "imgPath": "./mock/artist/DIAN.jpg",
       "name": "DIAN",
-      "description": "以獨特聲線與細膩情感受到關注的韓國創作者型歌手。DIAN 擅長將日常情緒與青春感融入音樂之中，結合柔和旋律、輕電子與 K-Indie 氛圍，打造帶有深夜感性的作品風格。除了音樂創作外，也透過 YouTube 分享生活與創作日常，以真實自然的魅力累積全球粉絲喜愛。"
+      "description": "以獨?�聲線�?細膩?��??�到?�注?��??�創作者�?歌�??�DIAN ?�長將日常�?緒�??�春?��??�音樂�?中�?結�??��??��??��??��???K-Indie 氛�?，�??�帶?�深夜�??��?作�?風格?�除了音樂創作�?，�??��? YouTube ?�享?�活?�創作日常�?以�?實自?��?魅�?累�??��?粉絲?��???
     },
     {
-      "name": "崔叡娜",
-      "imgPath": "http://localhost:3000/mock/upload/1779330917653-785331865.jpg",
-      "description": "崔叡娜（韓語：최예나，英語：Yena Choi，日語：チェ・イェナ，1999年9月29日—），韓國女歌手、演員、主持人，早期曾被音譯為崔藝娜，所屬經紀公司為YH娛樂。曾為期間限定女子團體IZ*ONE成員，團內擔任主rap、領舞、領唱。現以SOLO歌手身分活動。官方粉絲名稱為「Jigumi（지구미）」。",
+      "name": "崔叡�?,
+      "imgPath": "/mock/upload/1779330917653-785331865.jpg",
+      "description": "崔叡娜�??��?：�??��?，英語�?Yena Choi，日語�??�ェ?�イ?��?�?999�???9?�—�?，�??�女歌�??��??�、主?�人，早?�曾被音譯為崔�?娜�??�屬�?紀?�司?�YH娛�??�曾?��??��?定女子�?體IZ*ONE?�員，�??��?任主rap?��??�、�??�。現以SOLO歌�?身�?活�??��??��?絲�?稱為?�Jigumi（�?구미）」�?,
       "id": 5
     },
     {
       "name": "Stream Degauss",
-      "imgPath": "http://localhost:3000/mock/upload/1779332508447-180297057.jpg",
-      "description": "Stream Degauss 本名不詳，在數位音樂界被稱為「音頻洗滌者」。Degauss（消磁）原本是指清除磁體或螢幕雜訊的過程；而他/她擅長在紛亂的數位洪流（Stream）中，用強烈的重低音與電子節奏，將聽眾大腦中的焦慮與雜訊徹底「消磁」，只留下最純粹的音樂共振。",
+      "imgPath": "/mock/upload/1779332508447-180297057.jpg",
+      "description": "Stream Degauss ?��?不詳，在?��??��??�被稱為?�音?��?滌者」。Degauss（�?磁�??�本?��?清除磁�??�螢幕�?訊�??��?；而�?/她�??�在紛�??�數位洪流�?Stream）中，用強�??��?低音?�電子�?奏�?將聽?�大?�中?�焦?��??��?徹�??��?磁」�??��?下�?純粹?�音樂共?��?,
       "id": 6
     },
     {
       "name": "Undertale",
-      "imgPath": "http://localhost:3000/mock/upload/1779333500704-393656202.png",
-      "description": "《Undertale》是一款由獨立遊戲製作人Toby Fox開發的電子角色扮演遊戲，玩家在遊戲中操控一名誤闖地底世界的人類孩童，在這片隱藏於地表之下、由魔法結界隔絕的廣大空間展開冒險，試圖回到地面。旅途中，玩家會遇見各式各樣的怪物，其中部分會引發戰鬥。",
+      "imgPath": "/mock/upload/1779333500704-393656202.png",
+      "description": "?�Undertale?�是一款由?��??�戲製�?人Toby Fox?�發?�電子�??�扮演�??��??�家?��??�中?�控一?�誤?�地底�??��?人�?孩童，在?��??��??�地表�?下、由魔�?結�??��??�廣大空?��??��??��?試�??�到?�面?��??�中，玩家�??��??��??�樣?�怪物，其中部?��?引發?�鬥??,
       "id": 7
     },
     {
-      "name": "宋佳野",
-      "imgPath": "http://localhost:3000/mock/upload/1779557636107-219562376.png",
-      "description": "「宋佳野」是一位近來在各大社群平台（如 Threads、TikTok 等）備受討論的音樂人，以翻唱及詮釋帶有抒情、情感豐沛的流行曲目聞名。",
+      "name": "宋佳??,
+      "imgPath": "/mock/upload/1779557636107-219562376.png",
+      "description": "?��?佳�??�是一位�?來在?�大社群平台（�? Threads?�TikTok 等�??��?討�??�音樂人，以翻唱?�詮?�帶?��??�、�??��?沛�?流�??�目?��???,
       "id": 8
     },
     {
       "name": "I.O.I",
-      "imgPath": "http://localhost:3000/mock/upload/1779678277962-721553002.jpg",
-      "description": "I.O.I，韓國期間限定女子團體，2016年依據Mnet選秀節目《PRODUCE 101》的出道承諾成立。11名成員包括：林娜榮、金請夏、金世正、鄭彩娟、周潔瓊、金素慧、俞璉靜、磪有情、康美娜、金度延和全昭彌。林娜榮由成員們互相投票獲選為隊長。",
+      "imgPath": "/mock/upload/1779678277962-721553002.jpg",
+      "description": "I.O.I，�??��??��?定女子�?體�?2016年�??�Mnet?��?節?�《PRODUCE 101?��??��??�諾?��???1?��??��??��??��?榮、�?請�??��?世正?�鄭彩�??�周潔�??��?素慧?��??��??�磪?��??�康美�??��?度延?�全?��??��?娜榮?��??�們�??��?票獲?�為?�長??,
       "id": 9
     },
     {
-      "name": "請夏",
-      "imgPath": "http://localhost:3000/mock/upload/1779681479298-479535815.jpg",
-      "description": "金請夏，韓國K-pop女歌手和韓國偶像，單曲《已經12點》 是知名代表作。現隸屬MORE VISION。2016年作為YMC娛樂旗下限定組合I.O.I成員出道。2017年1月29日結束團體活動，2017年6月7日個人出道。請夏是具知名度的K-pop歌手。",
+      "name": "請�?",
+      "imgPath": "/mock/upload/1779681479298-479535815.jpg",
+      "description": "?��?夏�??��?K-pop女�??��??��??��?，單?�《已�?2點�??�知?�代表�??�現?�屬MORE VISION??016年�??�YMC娛�??��??��?組�?I.O.I?�員?��???017�???9?��??��?體活?��?2017�????�個人?��??��?夏是?�知?�度?�K-pop歌�???,
       "id": 10
     }
   ],
@@ -590,12 +590,12 @@
   "advertisements": [
     {
       "id": 1,
-      "title": "癡情男聲－宋佳野",
-      "subtitle": "本週主打新上架",
-      "description": "宋佳野最新單曲：曲中人亦散現已可供熱播。",
+      "title": "?��??�聲－�?佳�?",
+      "subtitle": "?�週主?�新上架",
+      "description": "宋佳?��??�單?��??�中人亦??��已可供熱?��?,
       "placement": "homeHero",
-      "imagePath": "http://localhost:3000/mock/upload/1779557752783-71345921.png",
-      "buttonText": "查看推薦",
+      "imagePath": "/mock/upload/1779557752783-71345921.png",
+      "buttonText": "?��??�薦",
       "linkType": "song",
       "linkTarget": "21",
       "enabled": true,
@@ -607,12 +607,12 @@
     },
     {
       "id": 2,
-      "title": "請夏 Chungha",
-      "subtitle": "新歌手加入",
-      "description": "歌手 請夏 現已登入Meowic",
+      "title": "請�? Chungha",
+      "subtitle": "?��??��???,
+      "description": "歌�? 請�? ?�已?�入Meowic",
       "placement": "homeSmall",
-      "imagePath": "http://localhost:3000/mock/upload/1779681807130-267427092.jpg",
-      "buttonText": "去聽聽",
+      "imagePath": "/mock/upload/1779681807130-267427092.jpg",
+      "buttonText": "?�聽??,
       "linkType": "artist",
       "linkTarget": "10",
       "enabled": true,
@@ -624,12 +624,12 @@
     },
     {
       "id": 3,
-      "title": "Meowic Pro 即將開放",
+      "title": "Meowic Pro ?��??�放",
       "subtitle": "Coming Soon",
-      "description": "之後可以放 Pro、活動或會員方案。",
+      "description": "之�??�以??Pro?�活?��??�員?��???,
       "placement": "homeSmall",
-      "imagePath": "http://localhost:3000/mock/upload/1779690103789-662858302.png",
-      "buttonText": "了解更多",
+      "imagePath": "/mock/upload/1779690103789-662858302.png",
+      "buttonText": "了解?��?",
       "linkType": "none",
       "linkTarget": "",
       "enabled": true,
@@ -641,12 +641,12 @@
     },
     {
       "id": 4,
-      "title": "人氣女子團體 I.O.I 強勢回歸！",
-      "subtitle": "今日推薦作品",
-      "description": "最新單曲《갑자기》強勢霸榜中！",
+      "title": "人氣女�??��? I.O.I 強勢?�歸�?,
+      "subtitle": "今日?�薦作�?",
+      "description": "?�?�單?�《�??�기?�強?�霸榜中�?,
       "placement": "entryPopup",
-      "imagePath": "http://localhost:3000/mock/upload/1779684096270-600653067.jpg",
-      "buttonText": "來去聽歌",
+      "imagePath": "/mock/upload/1779684096270-600653067.jpg",
+      "buttonText": "來去?��?",
       "linkType": "song",
       "linkTarget": "23",
       "enabled": true,
@@ -657,14 +657,14 @@
       "endAt": "2026-05-31T04:00:00.000Z"
     },
     {
-      "title": "I.O.I - 갑자기",
-      "subtitle": "新歌上線",
-      "description": "I.O.I 出道十周年正式回歸",
+      "title": "I.O.I - 갑�?�?,
+      "subtitle": "?��?上�?",
+      "description": "I.O.I ?��??�周年正式�?�?,
       "placement": "homeHero",
-      "imagePath": "http://localhost:3000/mock/upload/1779678444474-94087321.jpg",
+      "imagePath": "/mock/upload/1779678444474-94087321.jpg",
       "imagePositionX": 48,
       "imagePositionY": 30,
-      "buttonText": "查看推薦",
+      "buttonText": "?��??�薦",
       "linkType": "song",
       "linkTarget": "23",
       "enabled": false,
@@ -677,42 +677,42 @@
   "playlists": [
     {
       "id": 1,
-      "name": "Dandy的最愛",
+      "name": "Dandy?��???,
       "userId": 1,
       "type": "playlist"
     },
     {
       "id": 2,
-      "name": "Wendy的最愛",
+      "name": "Wendy?��???,
       "userId": 2,
       "type": "playlist"
     },
     {
       "id": 3,
-      "name": "Dandy和Wendy的最愛",
+      "name": "Dandy?�Wendy?��???,
       "userId": 1,
       "type": "playlist"
     },
     {
-      "name": "我喜歡的歌曲",
+      "name": "?��?歡�?歌曲",
       "userId": 1,
       "type": "favorite",
       "id": 5
     },
     {
-      "name": "博樂上班",
+      "name": "?��?上班",
       "userId": 1,
       "type": "playlist",
       "id": 6
     },
     {
-      "name": "我要測試我要測試我要測試我要測試",
+      "name": "?��?測試?��?測試?��?測試?��?測試",
       "userId": 1,
       "type": "playlist",
       "id": 7
     },
     {
-      "name": "我喜歡的歌曲",
+      "name": "?��?歡�?歌曲",
       "userId": 3,
       "type": "favorite",
       "id": 8

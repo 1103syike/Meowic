@@ -32,7 +32,8 @@ import {
   UploadResponse,
   UserType,
 } from '../api.service';
-import { getFirebaseFirestore, getFirebaseStorage } from './firebase.app';
+import { getFirebaseAuth, getFirebaseFirestore, getFirebaseStorage } from './firebase.app';
+import { normalizeRecordMedia } from './media-url.util';
 
 const COL = {
   users: 'users',
@@ -322,7 +323,7 @@ export class FirestoreDataService {
   private fromDoc<T extends { id: number }>(docId: string, data: DocumentData): T {
     const numericId = Number(data['id'] ?? docId);
     const { password: _password, ...rest } = data;
-    return { id: numericId, ...rest, password: '' } as unknown as T;
+    return normalizeRecordMedia({ id: numericId, ...rest, password: '' }) as unknown as T;
   }
 
   private async nextId(name: string): Promise<number> {
@@ -609,10 +610,25 @@ export class FirestoreDataService {
     dataUrl: string,
     fileType: string,
   ): Promise<UploadResponse> {
+    const firebaseUser = getFirebaseAuth().currentUser;
+    if (!firebaseUser) {
+      throw new Error('請先登入 CMS 帳號後再上傳檔案');
+    }
+
     const folder = fileType.startsWith('audio/') ? 'audio' : 'upload';
     const safeName = `${folder}/${Date.now()}-${fileName.replace(/[^\w.\-]+/g, '_')}`;
     const storageRef = ref(this.storage, safeName);
-    await uploadString(storageRef, dataUrl, 'data_url', { contentType: fileType });
+    try {
+      await uploadString(storageRef, dataUrl, 'data_url', { contentType: fileType });
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      if (/unauthorized|permission|403|auth/i.test(message)) {
+        throw new Error(
+          'Storage 上傳被拒絕：請確認已登入，且 Firebase 已加入 meowic.vercel.app 授權網域並部署 storage.rules',
+        );
+      }
+      throw err;
+    }
     const path = await getDownloadURL(storageRef);
     return { path };
   }
