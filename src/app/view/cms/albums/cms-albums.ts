@@ -5,7 +5,9 @@ import {
   AlbumType,
   ApiService,
   ArtistType,
+  catalogStatusLabel,
   fromDateTimeInputValue,
+  getCatalogStatus,
   ReleaseType,
   releaseTypeLabel,
   releaseTypeOptions,
@@ -13,6 +15,7 @@ import {
   toDateInputValue,
   toDateTimeInputValue,
 } from '../../../@service/api.service';
+import { CatalogCmsActions } from '../catalog-cms-actions.service';
 import { formatMissingFields, getCmsErrorMessage, showCmsError, showCmsSuccess } from '../cms-feedback';
 
 @Component({
@@ -23,6 +26,7 @@ import { formatMissingFields, getCmsErrorMessage, showCmsError, showCmsSuccess }
 })
 export class CmsAlbums {
   private api: ApiService = inject(ApiService);
+  private catalogActions = inject(CatalogCmsActions);
 
   public albums = signal<AlbumType[]>([]);
   public artists = signal<ArtistType[]>([]);
@@ -217,6 +221,38 @@ export class CmsAlbums {
 
   public releaseLabel(album: AlbumType | null | undefined): string {
     return releaseTypeLabel(album?.type);
+  }
+
+  public statusLabel(album: AlbumType): string {
+    return catalogStatusLabel(getCatalogStatus(album));
+  }
+
+  public isUnpublished(album: AlbumType | null): boolean {
+    return getCatalogStatus(album) === 'unpublished';
+  }
+
+  public async unpublishAlbum(): Promise<void> {
+    const album = this.selectedAlbum();
+    if (!album) return;
+    await this.catalogActions.unpublishAlbum(album, async () => {
+      this.selectedAlbum.set(null);
+      await this.loadData();
+    });
+  }
+
+  public async republishAlbum(): Promise<void> {
+    const album = this.selectedAlbum();
+    if (!album) return;
+    await this.catalogActions.republishAlbum(album, () => this.loadData());
+  }
+
+  public async deleteAlbum(): Promise<void> {
+    const album = this.selectedAlbum();
+    if (!album) return;
+    await this.catalogActions.deleteAlbum(album, async () => {
+      this.selectedAlbum.set(null);
+      await this.loadData();
+    });
   }
 
   private validateForm(): string[] {

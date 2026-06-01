@@ -30,12 +30,16 @@
             class="cms-albums__item"
             type="button"
             [class.cms-albums__item--active]="selectedAlbum()?.id === album.id"
+            [class.cms-albums__item--muted]="isUnpublished(album)"
             (click)="selectAlbum(album)"
           >
             <img [src]="album.imgPath || './mock/unnamed.png'" alt="" />
             <div>
               <strong>{{ album.name }}</strong>
               <span>{{ releaseLabel(album) }} / {{ album.artist?.name || '未知藝人' }}</span>
+              <span class="cms-status" [class.cms-status--unpublished]="isUnpublished(album)">
+                {{ statusLabel(album) }}
+              </span>
             </div>
           </button>
         } @empty {
@@ -132,7 +136,7 @@
 
         <label class="cms-upload">
           <span class="cms-upload__title">發行作品圖片</span>
-          <span class="cms-upload__hint">選擇圖片後，儲存才會更新封面。</span>
+          <span class="cms-upload__hint">選擇圖片後，儲存才會更新封面。重新上架時可更換封面。</span>
           <input type="file" accept="image/*" (change)="setImageFile($event)" />
         </label>
 
@@ -160,6 +164,25 @@
           <button class="cms-page__primary-btn" type="button" [disabled]="isSaving()" (click)="saveAlbum()">
             {{ isSaving() ? '儲存中...' : '儲存作品' }}
           </button>
+        </div>
+
+        <div class="cms-lifecycle">
+          <p class="cms-lifecycle__title">上架狀態</p>
+          <p class="cms-lifecycle__hint">下架會保留資料；刪除前會檢查是否仍有歌曲、首頁推薦或廣告引用。</p>
+          <div class="cms-lifecycle__actions">
+            @if (isUnpublished(selectedAlbum())) {
+              <button class="cms-page__secondary-btn" type="button" [disabled]="isSaving()" (click)="republishAlbum()">
+                重新上架
+              </button>
+            } @else {
+              <button class="cms-page__secondary-btn" type="button" [disabled]="isSaving()" (click)="unpublishAlbum()">
+                下架作品
+              </button>
+            }
+            <button class="cms-btn--danger" type="button" [disabled]="isSaving()" (click)="deleteAlbum()">
+              刪除作品
+            </button>
+          </div>
         </div>
       } @else {
         <div class="cms-empty">請先選擇一張發行作品</div>

@@ -30,12 +30,16 @@
             class="cms-list__item"
             type="button"
             [class.cms-list__item--active]="selectedArtist()?.id === artist.id"
+            [class.cms-list__item--muted]="isUnpublished(artist)"
             (click)="selectArtist(artist)"
           >
             <img [src]="artist.imgPath || './mock/unnamed.png'" alt="" />
             <div>
               <strong>{{ artist.name }}</strong>
               <span>{{ artist.description || '尚無簡介' }}</span>
+              <span class="cms-status" [class.cms-status--unpublished]="isUnpublished(artist)">
+                {{ statusLabel(artist) }}
+              </span>
             </div>
           </button>
         } @empty {
@@ -76,7 +80,7 @@
 
         <label class="cms-upload">
           <span class="cms-upload__title">藝人圖片</span>
-          <span class="cms-upload__hint">選擇圖片後，儲存才會更新頭像。</span>
+          <span class="cms-upload__hint">選擇圖片後，儲存才會更新頭像。重新上架時可更換頭像。</span>
           <input type="file" accept="image/*" (change)="setImageFile($event)" />
         </label>
 
@@ -91,6 +95,25 @@
           <button class="cms-page__primary-btn" type="button" [disabled]="isSaving()" (click)="saveArtist()">
             {{ isSaving() ? '儲存中...' : '儲存藝人' }}
           </button>
+        </div>
+
+        <div class="cms-lifecycle">
+          <p class="cms-lifecycle__title">上架狀態</p>
+          <p class="cms-lifecycle__hint">下架會保留資料；刪除前會檢查是否仍有作品、歌曲、首頁推薦或廣告引用。</p>
+          <div class="cms-lifecycle__actions">
+            @if (isUnpublished(selectedArtist())) {
+              <button class="cms-page__secondary-btn" type="button" [disabled]="isSaving()" (click)="republishArtist()">
+                重新上架
+              </button>
+            } @else {
+              <button class="cms-page__secondary-btn" type="button" [disabled]="isSaving()" (click)="unpublishArtist()">
+                下架藝人
+              </button>
+            }
+            <button class="cms-btn--danger" type="button" [disabled]="isSaving()" (click)="deleteArtist()">
+              刪除藝人
+            </button>
+          </div>
         </div>
       } @else {
         <div class="cms-empty">請先選擇一位藝人</div>

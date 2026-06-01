@@ -1,7 +1,8 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
-import { ApiService, ArtistType } from '../../../@service/api.service';
+import { ApiService, ArtistType, catalogStatusLabel, getCatalogStatus } from '../../../@service/api.service';
+import { CatalogCmsActions } from '../catalog-cms-actions.service';
 import { formatMissingFields, getCmsErrorMessage, showCmsError, showCmsSuccess } from '../cms-feedback';
 
 @Component({
@@ -12,6 +13,7 @@ import { formatMissingFields, getCmsErrorMessage, showCmsError, showCmsSuccess }
 })
 export class CmsArtists {
   private api: ApiService = inject(ApiService);
+  private catalogActions = inject(CatalogCmsActions);
 
   public artists = signal<ArtistType[]>([]);
   public imagePreview = signal('');
@@ -94,6 +96,38 @@ export class CmsArtists {
 
   public isInvalid(field: string): boolean {
     return this.invalidFields().includes(field);
+  }
+
+  public statusLabel(artist: ArtistType): string {
+    return catalogStatusLabel(getCatalogStatus(artist));
+  }
+
+  public isUnpublished(artist: ArtistType | null): boolean {
+    return getCatalogStatus(artist) === 'unpublished';
+  }
+
+  public async unpublishArtist(): Promise<void> {
+    const artist = this.selectedArtist();
+    if (!artist) return;
+    await this.catalogActions.unpublishArtist(artist, async () => {
+      this.selectedArtist.set(null);
+      await this.loadArtists();
+    });
+  }
+
+  public async republishArtist(): Promise<void> {
+    const artist = this.selectedArtist();
+    if (!artist) return;
+    await this.catalogActions.republishArtist(artist, () => this.loadArtists());
+  }
+
+  public async deleteArtist(): Promise<void> {
+    const artist = this.selectedArtist();
+    if (!artist) return;
+    await this.catalogActions.deleteArtist(artist, async () => {
+      this.selectedArtist.set(null);
+      await this.loadArtists();
+    });
   }
 
   public async saveArtist(): Promise<void> {

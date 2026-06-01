@@ -31,7 +31,7 @@
       "albumId": 1,
       "like": 42,
       "audioPath": "assets/audio/audio-1.mp3",
-      "playCount": 33
+      "playCount": 35
     },
     {
       "id": 2,
@@ -40,7 +40,7 @@
       "albumId": 1,
       "like": 42,
       "audioPath": "assets/audio/audio-2.mp3",
-      "playCount": 9
+      "playCount": 10
     },
     {
       "id": 3,
@@ -49,7 +49,7 @@
       "albumId": 1,
       "like": 42,
       "audioPath": "assets/audio/audio-3.mp3",
-      "playCount": 2
+      "playCount": 4
     },
     {
       "id": 4,
@@ -58,7 +58,7 @@
       "albumId": 1,
       "like": 42,
       "audioPath": "assets/audio/audio-4.mp3",
-      "playCount": 5
+      "playCount": 6
     },
     {
       "id": 5,
@@ -67,7 +67,7 @@
       "albumId": 1,
       "like": 42,
       "audioPath": "assets/audio/audio-5.mp3",
-      "playCount": 18
+      "playCount": 19
     },
     {
       "id": 6,
@@ -76,7 +76,7 @@
       "albumId": 2,
       "like": 42,
       "audioPath": "assets/audio/audio-6.mp3",
-      "playCount": 3
+      "playCount": 5
     },
     {
       "id": 7,
@@ -85,7 +85,7 @@
       "albumId": 3,
       "like": 42,
       "audioPath": "assets/audio/Barricades.mp3",
-      "playCount": 9
+      "playCount": 10
     },
     {
       "id": 8,
@@ -94,7 +94,7 @@
       "albumId": 3,
       "like": 42,
       "audioPath": "assets/audio/Bauklötze.mp3",
-      "playCount": 8
+      "playCount": 12
     },
     {
       "id": 9,
@@ -112,7 +112,7 @@
       "albumId": 3,
       "like": 42,
       "audioPath": "assets/audio/Call_your_name.mp3",
-      "playCount": 10
+      "playCount": 11
     },
     {
       "id": 11,
@@ -129,7 +129,8 @@
       "artistId": 3,
       "albumId": 3,
       "like": 42,
-      "audioPath": "assets/audio/T-KT.mp3"
+      "audioPath": "assets/audio/T-KT.mp3",
+      "playCount": 1
     },
     {
       "id": 13,
@@ -138,7 +139,7 @@
       "albumId": 3,
       "like": 42,
       "audioPath": "assets/audio/YouSeeBIGGIRL_TT.mp3",
-      "playCount": 1
+      "playCount": 4
     },
     {
       "id": 14,
@@ -156,7 +157,7 @@
       "albumId": 4,
       "like": 42,
       "audioPath": "assets/audio/시대를_초월한_마음.mp3",
-      "playCount": 25
+      "playCount": 28
     },
     {
       "name": "Catch Catch",
@@ -166,7 +167,7 @@
       "audioPath": "http://localhost:3000/assets/audio/catch-catch.mp3",
       "imgPath": "http://localhost:3000/mock/upload/Yena-YH-Enter-768x768.jpg",
       "id": 16,
-      "playCount": 39
+      "playCount": 47
     },
     {
       "name": "Walking In The Sun",
@@ -196,14 +197,14 @@
       "audioPath": "http://localhost:3000/assets/audio/1779332945193-625457454.mp3",
       "imgPath": "http://localhost:3000/mock/upload/1779332945285-241081911.jpg",
       "id": 19,
-      "playCount": 34
+      "playCount": 38
     },
     {
       "name": "兩三句",
       "artistId": 8,
       "albumId": 9,
       "like": 0,
-      "playCount": 1,
+      "playCount": 4,
       "audioPath": "http://localhost:3000/assets/audio/1779557111226-824381376.mp3",
       "releaseDate": "2026-05-23",
       "uploadedAt": "2026-05-23T17:25:11.030Z",
@@ -216,7 +217,7 @@
       "artistId": 8,
       "albumId": 10,
       "like": 0,
-      "playCount": 73,
+      "playCount": 88,
       "audioPath": "http://localhost:3000/assets/audio/1779557190073-231580985.mp3",
       "releaseDate": "2026-05-23",
       "uploadedAt": "2026-05-23T17:26:29.930Z",
@@ -229,7 +230,7 @@
       "artistId": 8,
       "albumId": 11,
       "like": 0,
-      "playCount": 13,
+      "playCount": 29,
       "audioPath": "http://localhost:3000/assets/audio/1779557227166-784483962.mp3",
       "releaseDate": "2026-05-23",
       "uploadedAt": "2026-05-23T17:27:06.942Z",
@@ -242,7 +243,7 @@
       "artistId": 9,
       "albumId": 12,
       "like": 0,
-      "playCount": 27,
+      "playCount": 32,
       "audioPath": "http://localhost:3000/assets/audio/1779678259985-965080042.mp3",
       "releaseDate": "2026-05-25",
       "uploadedAt": "2026-05-25T03:04:19.772Z",
@@ -255,7 +256,7 @@
       "artistId": 10,
       "albumId": 13,
       "like": 0,
-      "playCount": 0,
+      "playCount": 2,
       "audioPath": "http://localhost:3000/assets/audio/1779681444413-256523598.mp3",
       "releaseDate": "2026-05-25",
       "uploadedAt": "2026-05-25T03:57:24.248Z",
@@ -268,7 +269,7 @@
       "artistId": 10,
       "albumId": 14,
       "like": 0,
-      "playCount": 3,
+      "playCount": 4,
       "audioPath": "http://localhost:3000/assets/audio/1779681571316-963138021.mp3",
       "releaseDate": "2026-05-25",
       "uploadedAt": "2026-05-25T03:59:31.125Z",
@@ -281,7 +282,7 @@
       "artistId": 10,
       "albumId": 15,
       "like": 0,
-      "playCount": 9,
+      "playCount": 11,
       "audioPath": "http://localhost:3000/assets/audio/1779681630515-992552685.mp3",
       "releaseDate": "2026-05-25",
       "uploadedAt": "2026-05-25T04:00:30.326Z",
@@ -294,7 +295,7 @@
       "artistId": 10,
       "albumId": 16,
       "like": 0,
-      "playCount": 4,
+      "playCount": 5,
       "audioPath": "http://localhost:3000/assets/audio/1779681689817-214829533.mp3",
       "releaseDate": "2026-05-25",
       "uploadedAt": "2026-05-25T04:01:29.630Z",
@@ -307,7 +308,7 @@
       "artistId": 10,
       "albumId": 17,
       "like": 0,
-      "playCount": 1,
+      "playCount": 2,
       "audioPath": "http://localhost:3000/assets/audio/1779681745991-552078121.mp3",
       "releaseDate": "2026-05-25",
       "uploadedAt": "2026-05-25T04:02:25.775Z",
@@ -780,16 +781,6 @@
       "playlistId": 3,
       "songId": 8,
       "id": 7
-    },
-    {
-      "playlistId": 3,
-      "songId": 15,
-      "id": 9
-    },
-    {
-      "playlistId": 3,
-      "songId": 3,
-      "id": 10
     },
     {
       "playlistId": 3,
@@ -3359,6 +3350,646 @@
       "userId": 1,
       "playedAt": "2026-05-26T04:33:36.339Z",
       "duration": 220,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 312,
+      "songId": 21,
+      "userId": 1,
+      "playedAt": "2026-05-26T05:11:33.414Z",
+      "duration": 191,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 313,
+      "songId": 24,
+      "userId": 1,
+      "playedAt": "2026-05-26T05:12:57.099Z",
+      "duration": 198,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 314,
+      "songId": 8,
+      "userId": 1,
+      "playedAt": "2026-05-26T05:16:15.179Z",
+      "duration": 236,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 315,
+      "songId": 13,
+      "userId": 1,
+      "playedAt": "2026-05-26T05:20:11.651Z",
+      "duration": 359,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 316,
+      "songId": 4,
+      "userId": 1,
+      "playedAt": "2026-05-26T05:26:11.209Z",
+      "duration": 297,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 317,
+      "songId": 6,
+      "userId": 1,
+      "playedAt": "2026-05-26T05:31:08.364Z",
+      "duration": 220,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 318,
+      "songId": 19,
+      "userId": 1,
+      "playedAt": "2026-05-26T05:34:48.028Z",
+      "duration": 280,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 319,
+      "songId": 21,
+      "userId": 1,
+      "playedAt": "2026-05-27T00:55:20.409Z",
+      "duration": 191,
+      "listenedSeconds": 19
+    },
+    {
+      "id": 320,
+      "songId": 24,
+      "userId": 1,
+      "playedAt": "2026-05-27T01:00:20.172Z",
+      "duration": 198,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 321,
+      "songId": 19,
+      "userId": 1,
+      "playedAt": "2026-05-27T01:03:38.341Z",
+      "duration": 280,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 322,
+      "songId": 20,
+      "userId": 1,
+      "playedAt": "2026-05-27T01:08:18.414Z",
+      "duration": 220,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 323,
+      "songId": 23,
+      "userId": 1,
+      "playedAt": "2026-05-27T01:11:58.086Z",
+      "duration": 195,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 324,
+      "songId": 25,
+      "userId": 1,
+      "playedAt": "2026-05-27T01:15:13.342Z",
+      "duration": 212,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 325,
+      "songId": 3,
+      "userId": 1,
+      "playedAt": "2026-05-27T01:21:43.587Z",
+      "duration": 220,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 326,
+      "songId": 15,
+      "userId": 1,
+      "playedAt": "2026-05-27T01:25:23.235Z",
+      "duration": 183,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 327,
+      "songId": 13,
+      "userId": 1,
+      "playedAt": "2026-05-27T01:28:26.287Z",
+      "duration": 359,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 328,
+      "songId": 19,
+      "userId": 1,
+      "playedAt": "2026-05-27T01:34:25.884Z",
+      "duration": 280,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 329,
+      "songId": 6,
+      "userId": 1,
+      "playedAt": "2026-05-27T01:39:05.955Z",
+      "duration": 220,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 330,
+      "songId": 21,
+      "userId": 1,
+      "playedAt": "2026-05-27T02:12:42.990Z",
+      "duration": 191,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 331,
+      "songId": 21,
+      "userId": 1,
+      "playedAt": "2026-05-27T02:13:22.908Z",
+      "duration": 191,
+      "listenedSeconds": 28
+    },
+    {
+      "id": 332,
+      "songId": 21,
+      "userId": 1,
+      "playedAt": "2026-05-27T02:16:20.049Z",
+      "duration": 191,
+      "listenedSeconds": 37
+    },
+    {
+      "id": 333,
+      "songId": 23,
+      "userId": 1,
+      "playedAt": "2026-05-27T02:16:27.740Z",
+      "duration": 195,
+      "listenedSeconds": 40
+    },
+    {
+      "id": 334,
+      "songId": 21,
+      "userId": 1,
+      "playedAt": "2026-05-27T02:19:02.510Z",
+      "duration": 191,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 335,
+      "songId": 16,
+      "userId": 1,
+      "playedAt": "2026-05-27T02:22:13.854Z",
+      "duration": 180,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 336,
+      "songId": 16,
+      "userId": 1,
+      "playedAt": "2026-05-27T02:23:52.058Z",
+      "duration": 180,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 337,
+      "songId": 16,
+      "userId": 1,
+      "playedAt": "2026-05-27T02:24:27.333Z",
+      "duration": 180,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 338,
+      "songId": 16,
+      "userId": 1,
+      "playedAt": "2026-05-27T02:24:48.702Z",
+      "duration": 180,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 339,
+      "songId": 15,
+      "userId": 1,
+      "playedAt": "2026-05-27T02:27:46.046Z",
+      "duration": 183,
+      "listenedSeconds": 21
+    },
+    {
+      "id": 340,
+      "songId": 1,
+      "userId": 1,
+      "playedAt": "2026-05-27T02:30:38.399Z",
+      "duration": 224,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 341,
+      "songId": 8,
+      "userId": 1,
+      "playedAt": "2026-05-27T02:34:22.737Z",
+      "duration": 236,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 342,
+      "songId": 8,
+      "userId": 1,
+      "playedAt": "2026-05-27T02:35:44.579Z",
+      "duration": 236,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 343,
+      "songId": 8,
+      "userId": 1,
+      "playedAt": "2026-05-27T02:36:15.121Z",
+      "duration": 236,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 344,
+      "songId": 21,
+      "userId": 1,
+      "playedAt": "2026-05-27T02:37:22.892Z",
+      "duration": 191,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 345,
+      "songId": 20,
+      "userId": 1,
+      "playedAt": "2026-05-27T02:40:02.097Z",
+      "duration": 220,
+      "listenedSeconds": 45
+    },
+    {
+      "id": 346,
+      "songId": 22,
+      "userId": 1,
+      "playedAt": "2026-05-27T02:43:08.861Z",
+      "duration": 237,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 347,
+      "songId": 21,
+      "userId": 1,
+      "playedAt": "2026-05-27T02:47:06.535Z",
+      "duration": 191,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 348,
+      "songId": 16,
+      "userId": 1,
+      "playedAt": "2026-05-27T02:50:17.964Z",
+      "duration": 180,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 349,
+      "songId": 12,
+      "userId": 1,
+      "playedAt": "2026-05-27T02:53:18.965Z",
+      "duration": 175,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 350,
+      "songId": 27,
+      "userId": 1,
+      "playedAt": "2026-05-27T02:55:37.683Z",
+      "duration": 214,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 351,
+      "songId": 7,
+      "userId": 1,
+      "playedAt": "2026-05-27T02:59:11.733Z",
+      "duration": 222,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 352,
+      "songId": 1,
+      "userId": 1,
+      "playedAt": "2026-05-27T03:15:03.322Z",
+      "duration": 224,
+      "listenedSeconds": 40
+    },
+    {
+      "id": 353,
+      "songId": 26,
+      "userId": 1,
+      "playedAt": "2026-05-27T03:50:30.535Z",
+      "duration": 186,
+      "listenedSeconds": 26
+    },
+    {
+      "id": 354,
+      "songId": 21,
+      "userId": 1,
+      "playedAt": "2026-05-27T03:53:21.029Z",
+      "duration": 191,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 355,
+      "songId": 16,
+      "userId": 1,
+      "playedAt": "2026-05-27T03:56:32.196Z",
+      "duration": 180,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 356,
+      "songId": 23,
+      "userId": 1,
+      "playedAt": "2026-05-27T03:59:32.530Z",
+      "duration": 195,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 357,
+      "songId": 19,
+      "userId": 1,
+      "playedAt": "2026-05-27T04:02:47.783Z",
+      "duration": 280,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 358,
+      "songId": 15,
+      "userId": 1,
+      "playedAt": "2026-05-27T04:07:27.874Z",
+      "duration": 183,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 359,
+      "songId": 5,
+      "userId": 1,
+      "playedAt": "2026-05-27T04:10:30.913Z",
+      "duration": 232,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 360,
+      "songId": 13,
+      "userId": 1,
+      "playedAt": "2026-05-27T04:14:22.615Z",
+      "duration": 359,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 361,
+      "songId": 28,
+      "userId": 1,
+      "playedAt": "2026-05-27T04:20:22.464Z",
+      "duration": 223,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 362,
+      "songId": 3,
+      "userId": 1,
+      "playedAt": "2026-05-27T04:24:05.437Z",
+      "duration": 220,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 363,
+      "songId": 2,
+      "userId": 1,
+      "playedAt": "2026-05-27T04:27:45.694Z",
+      "duration": 210,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 364,
+      "songId": 10,
+      "userId": 1,
+      "playedAt": "2026-05-27T04:31:56.634Z",
+      "duration": 268,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 365,
+      "songId": 26,
+      "userId": 1,
+      "playedAt": "2026-05-27T07:14:49.373Z",
+      "duration": 186,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 366,
+      "songId": 21,
+      "userId": 1,
+      "playedAt": "2026-05-27T07:17:48.966Z",
+      "duration": 191,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 367,
+      "songId": 20,
+      "userId": 1,
+      "playedAt": "2026-05-27T07:19:44.328Z",
+      "duration": 220,
+      "listenedSeconds": 36
+    },
+    {
+      "id": 368,
+      "songId": 16,
+      "userId": 1,
+      "playedAt": "2026-05-27T07:20:32.885Z",
+      "duration": 180,
+      "listenedSeconds": 15
+    },
+    {
+      "id": 369,
+      "songId": 23,
+      "userId": 1,
+      "playedAt": "2026-05-27T07:20:46.445Z",
+      "duration": 195,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 370,
+      "songId": 21,
+      "userId": 1,
+      "playedAt": "2026-05-27T07:24:04.513Z",
+      "duration": 191,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 371,
+      "songId": 22,
+      "userId": 1,
+      "playedAt": "2026-05-27T07:27:44.045Z",
+      "duration": 237,
+      "listenedSeconds": 59
+    },
+    {
+      "id": 372,
+      "songId": 21,
+      "userId": 1,
+      "playedAt": "2026-05-27T07:27:56.801Z",
+      "duration": 191,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 373,
+      "songId": 16,
+      "userId": 1,
+      "playedAt": "2026-05-27T07:31:07.950Z",
+      "duration": 180,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 374,
+      "songId": 23,
+      "userId": 1,
+      "playedAt": "2026-05-27T07:34:08.293Z",
+      "duration": 195,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 375,
+      "songId": 22,
+      "userId": 1,
+      "playedAt": "2026-05-27T07:36:00.168Z",
+      "duration": 237,
+      "listenedSeconds": 19
+    },
+    {
+      "id": 376,
+      "songId": 22,
+      "userId": 1,
+      "playedAt": "2026-05-27T07:39:30.732Z",
+      "duration": 237,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 377,
+      "songId": 22,
+      "userId": 1,
+      "playedAt": "2026-05-27T07:43:27.786Z",
+      "duration": 237,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 378,
+      "songId": 22,
+      "userId": 1,
+      "playedAt": "2026-05-27T07:47:24.901Z",
+      "duration": 237,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 379,
+      "songId": 22,
+      "userId": 1,
+      "playedAt": "2026-05-27T07:51:22.021Z",
+      "duration": 237,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 380,
+      "songId": 22,
+      "userId": 1,
+      "playedAt": "2026-05-27T07:55:19.113Z",
+      "duration": 237,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 381,
+      "songId": 22,
+      "userId": 1,
+      "playedAt": "2026-05-27T07:59:16.223Z",
+      "duration": 237,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 382,
+      "songId": 22,
+      "userId": 1,
+      "playedAt": "2026-05-27T08:03:13.460Z",
+      "duration": 237,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 383,
+      "songId": 22,
+      "userId": 1,
+      "playedAt": "2026-05-27T08:07:10.454Z",
+      "duration": 237,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 384,
+      "songId": 22,
+      "userId": 1,
+      "playedAt": "2026-05-27T08:11:07.545Z",
+      "duration": 237,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 385,
+      "songId": 22,
+      "userId": 1,
+      "playedAt": "2026-05-27T08:15:04.687Z",
+      "duration": 237,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 386,
+      "songId": 22,
+      "userId": 1,
+      "playedAt": "2026-05-27T08:19:01.730Z",
+      "duration": 237,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 387,
+      "songId": 22,
+      "userId": 1,
+      "playedAt": "2026-05-27T08:22:58.834Z",
+      "duration": 237,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 388,
+      "songId": 22,
+      "userId": 1,
+      "playedAt": "2026-05-27T08:26:55.925Z",
+      "duration": 237,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 389,
+      "songId": 21,
+      "userId": 1,
+      "playedAt": "2026-05-27T08:28:31.755Z",
+      "duration": 191,
+      "listenedSeconds": 42
+    },
+    {
+      "id": 390,
+      "songId": 21,
+      "userId": 1,
+      "playedAt": "2026-05-27T08:30:05.885Z",
+      "duration": 191,
+      "listenedSeconds": 10
+    },
+    {
+      "id": 391,
+      "songId": 21,
+      "userId": 1,
+      "playedAt": "2026-05-27T08:33:17.001Z",
+      "duration": 191,
       "listenedSeconds": 10
     }
   ]

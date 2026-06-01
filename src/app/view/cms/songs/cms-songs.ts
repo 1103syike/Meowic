@@ -5,12 +5,15 @@ import {
   AlbumType,
   ApiService,
   ArtistType,
+  catalogStatusLabel,
   fromDateTimeInputValue,
+  getCatalogStatus,
   SongType,
   toDateInputValue,
   toDateTimeInputValue,
 } from '../../../@service/api.service';
 import { AddSongDialog } from '../../../component/add-song-dialog/add-song-dialog';
+import { CatalogCmsActions } from '../catalog-cms-actions.service';
 import { getCmsErrorMessage, showCmsError, showCmsSuccess } from '../cms-feedback';
 
 @Component({
@@ -21,6 +24,7 @@ import { getCmsErrorMessage, showCmsError, showCmsSuccess } from '../cms-feedbac
 })
 export class CmsSongs {
   private api: ApiService = inject(ApiService);
+  private catalogActions = inject(CatalogCmsActions);
 
   public albums = signal<AlbumType[]>([]);
   public artists = signal<ArtistType[]>([]);
@@ -46,6 +50,8 @@ export class CmsSongs {
   };
 
   private imageFile: File | null = null;
+  private audioFile: File | null = null;
+  public audioFileName = signal('');
 
   public selectedSongImage = computed(() => {
     const song = this.selectedSong();
@@ -76,6 +82,7 @@ export class CmsSongs {
 
     return (
       !!this.imagePreview() ||
+      !!this.audioFile ||
       this.editForm.name !== song.name ||
       Number(this.editForm.artistId) !== (song.artistId ?? song.artist?.id ?? 0) ||
       Number(this.editForm.albumId) !== (song.albumId ?? song.album?.id ?? 0) ||
@@ -123,6 +130,45 @@ export class CmsSongs {
     this.message.set(file ? '圖片已選擇，儲存後會更新封面。' : '');
   }
 
+  public setAudioFile(event: Event): void {
+    const file = (event.target as HTMLInputElement).files?.[0] ?? null;
+    this.audioFile = file;
+    this.audioFileName.set(file?.name ?? '');
+    this.message.set(file ? '音檔已選擇，儲存後會更新歌曲檔案。' : '');
+  }
+
+  public statusLabel(song: SongType): string {
+    return catalogStatusLabel(getCatalogStatus(song));
+  }
+
+  public isUnpublished(song: SongType | null): boolean {
+    return getCatalogStatus(song) === 'unpublished';
+  }
+
+  public async unpublishSong(): Promise<void> {
+    const song = this.selectedSong();
+    if (!song) return;
+    await this.catalogActions.unpublishSong(song, async () => {
+      this.selectedSong.set(null);
+      await this.loadData();
+    });
+  }
+
+  public async republishSong(): Promise<void> {
+    const song = this.selectedSong();
+    if (!song) return;
+    await this.catalogActions.republishSong(song, () => this.loadData());
+  }
+
+  public async deleteSong(): Promise<void> {
+    const song = this.selectedSong();
+    if (!song) return;
+    await this.catalogActions.deleteSong(song, async () => {
+      this.selectedSong.set(null);
+      await this.loadData();
+    });
+  }
+
   public cancelChanges(): void {
     const song = this.selectedSong();
     if (song) {
@@ -150,7 +196,8 @@ export class CmsSongs {
     this.invalidFields.set([]);
 
     try {
-      const imgPath = this.imageFile ? await this.uploadImage(this.imageFile) : song.imgPath;
+      const imgPath = this.imageFile ? await this.uploadFile(this.imageFile) : song.imgPath;
+      const audioPath = this.audioFile ? await this.uploadFile(this.audioFile) : song.audioPath;
       await firstValueFrom(
         this.api.updateSong(song.id, {
           name: this.editForm.name.trim(),
@@ -161,6 +208,7 @@ export class CmsSongs {
           availableAt: fromDateTimeInputValue(this.editForm.availableAt),
           unavailableAt: fromDateTimeInputValue(this.editForm.unavailableAt),
           ...(imgPath ? { imgPath } : {}),
+          ...(audioPath ? { audioPath } : {}),
         }),
       );
       await this.loadData();
@@ -179,6 +227,8 @@ export class CmsSongs {
     this.message.set('');
     this.invalidFields.set([]);
     this.imageFile = null;
+    this.audioFile = null;
+    this.audioFileName.set('');
     this.imagePreview.set('');
     this.editForm = {
       name: song.name,
@@ -229,7 +279,7 @@ export class CmsSongs {
     return fields.map((field) => labels[field] ?? field);
   }
 
-  private async uploadImage(file: File): Promise<string> {
+  private async uploadFile(file: File): Promise<string> {
     const dataUrl = await this.readFileAsDataUrl(file);
     const result = await firstValueFrom(this.api.uploadFile(file.name, dataUrl, file.type));
     return result.path;

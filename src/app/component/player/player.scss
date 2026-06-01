@@ -33,9 +33,7 @@
   overflow: visible;
 }
 
-.player-container:has(.player__time-tool:hover),
-.player-container:has(.player__range:focus-visible),
-.player-container--seeking {
+.player-container--time-active {
   .song {
     opacity: 0;
     filter: blur(10px);
@@ -190,9 +188,7 @@
   transition: opacity 0.14s ease;
 }
 
-.player__time-tool:hover .player__time-label,
-.player__time-tool:focus-within .player__time-label,
-.player-container--seeking .player__time-label {
+.player-container--time-active .player__time-label {
   opacity: 1;
 }
 

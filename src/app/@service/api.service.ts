@@ -155,6 +155,54 @@ export class ApiService {
     return this.data.updateSong(id, song);
   }
 
+  deleteSong(id: number): Observable<void> {
+    return this.data.deleteSong(id);
+  }
+
+  unpublishSong(id: number): Observable<SongType> {
+    return this.data.unpublishSong(id);
+  }
+
+  republishSong(id: number): Observable<SongType> {
+    return this.data.republishSong(id);
+  }
+
+  getSongDeleteBlockers(id: number): Observable<string[]> {
+    return this.data.getSongDeleteBlockers(id);
+  }
+
+  deleteAlbum(id: number): Observable<void> {
+    return this.data.deleteAlbum(id);
+  }
+
+  unpublishAlbum(id: number): Observable<AlbumType> {
+    return this.data.unpublishAlbum(id);
+  }
+
+  republishAlbum(id: number): Observable<AlbumType> {
+    return this.data.republishAlbum(id);
+  }
+
+  getAlbumDeleteBlockers(id: number): Observable<string[]> {
+    return this.data.getAlbumDeleteBlockers(id);
+  }
+
+  deleteArtist(id: number): Observable<void> {
+    return this.data.deleteArtist(id);
+  }
+
+  unpublishArtist(id: number): Observable<ArtistType> {
+    return this.data.unpublishArtist(id);
+  }
+
+  republishArtist(id: number): Observable<ArtistType> {
+    return this.data.republishArtist(id);
+  }
+
+  getArtistDeleteBlockers(id: number): Observable<string[]> {
+    return this.data.getArtistDeleteBlockers(id);
+  }
+
   uploadFile(fileName: string, dataUrl: string, fileType: string): Observable<UploadResponse> {
     return this.data.uploadFile(fileName, dataUrl, fileType);
   }
@@ -172,6 +220,8 @@ export class ApiService {
   }
 }
 
+export type CatalogStatus = 'published' | 'unpublished' | 'deleted';
+
 export interface CreateSongType {
   name: string;
   artistId: number;
@@ -184,6 +234,7 @@ export interface CreateSongType {
   uploadedAt?: string;
   availableAt?: string;
   unavailableAt?: string;
+  status?: CatalogStatus;
 }
 
 export interface CreateUserType {
@@ -227,6 +278,7 @@ export interface SongType {
   uploadedAt?: string;
   availableAt?: string;
   unavailableAt?: string;
+  status?: CatalogStatus;
 }
 export interface AlbumType {
   id: number;
@@ -242,6 +294,7 @@ export interface AlbumType {
   uploadedAt?: string;
   availableAt?: string;
   unavailableAt?: string;
+  status?: CatalogStatus;
 }
 
 export type ReleaseType = 'album' | 'single' | 'ep' | 'ost';
@@ -266,6 +319,7 @@ export interface ArtistType {
   imgPath: string;
   name: string;
   description: string;
+  status?: CatalogStatus;
 }
 
 export interface UserType {
@@ -398,11 +452,35 @@ export function formatDisplayMonth(value: string | null | undefined): string {
   });
 }
 
+export function getCatalogStatus(
+  item: { status?: CatalogStatus } | null | undefined,
+): CatalogStatus {
+  return item?.status ?? 'published';
+}
+
+export function isCatalogPublished(
+  item: { status?: CatalogStatus } | null | undefined,
+): boolean {
+  return getCatalogStatus(item) === 'published';
+}
+
+export function catalogStatusLabel(status: CatalogStatus): string {
+  switch (status) {
+    case 'unpublished':
+      return '已下架';
+    case 'deleted':
+      return '已刪除';
+    default:
+      return '已上架';
+  }
+}
+
 export function isCatalogItemPlayable(item: {
+  status?: CatalogStatus;
   availableAt?: string;
   unavailableAt?: string;
 } | null | undefined): boolean {
-  if (!item) {
+  if (!item || !isCatalogPublished(item)) {
     return false;
   }
 
@@ -414,12 +492,25 @@ export function isCatalogItemPlayable(item: {
 }
 
 export function isSongPlayable(song: SongType | null | undefined): boolean {
-  return !!song && isCatalogItemPlayable(song) && isCatalogItemPlayable(song.album);
+  return (
+    !!song &&
+    isCatalogItemPlayable(song) &&
+    isCatalogItemPlayable(song.album) &&
+    isCatalogItemPlayable(song.artist)
+  );
 }
 
 export function availabilityMessage(song: SongType | AlbumType | null | undefined): string {
   if (!song) {
     return '找不到這筆資料';
+  }
+
+  const status = getCatalogStatus(song);
+  if (status === 'deleted') {
+    return '已刪除';
+  }
+  if (status === 'unpublished') {
+    return '已下架';
   }
 
   const now = Date.now();

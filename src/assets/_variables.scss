@@ -1,7 +1,7 @@
 @use 'sass:map';
 @forward 'sass:map';
 /* ==========================================================================
-   Variables - ??????
+   Variables - 
    ========================================================================== */
 
 // 1. Colors
@@ -14,7 +14,6 @@ $text-secondary: #526078;
 $text-muted: #66728a;
 $text-soft: rgba($color-blue, 0.64);
 
-// ?????????(Transparent versions)
 $color-ts-green: rgba($color-green, 0.5);
 $color-ts-blue: rgba($color-blue, 0.1);
 $color-ts-prev-lyric: rgba($color-green, 0.5);
@@ -49,9 +48,9 @@ $line-heights: (
 
 $font-weights: (
   'regular': 400,
-  'body': 500,
-  'medium': 600,
-  'semibold': 700,
+  'body': 400,
+  'medium': 500,
+  'semibold': 600,
 );
 
 // 3. Border Radius
@@ -87,9 +86,8 @@ $cms-colors: (
    Typography - ??????
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;600;700&display=swap');
-
-$font-family-base: 'Inter', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+$font-family-base: 'Geist Sans', 'Pretendard Meowic', 'LINE Seed Sans TW', 'Noto Sans TC', 'PingFang TC',
+  'Microsoft JhengHei', sans-serif;
 
 @mixin font-nunito($weight: 700) {
   font-optical-sizing: auto;
@@ -226,7 +224,7 @@ $font-family-base: 'Inter', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei',
   @include radius('small');
 }
 
-// 2. ????????????????(Internal use)
+// 2. Internal use
 @mixin _base-card-style {
   background: $color-white;
   border: 2px solid $color-ts-blue;
@@ -241,7 +239,7 @@ $font-family-base: 'Inter', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei',
 }
 
 // 4. Buttons
-// ???????? Hover ????
+// Hover
 @mixin _btn-hover {
   &:hover {
     cursor: pointer;
@@ -253,15 +251,13 @@ $font-family-base: 'Inter', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei',
     transform: translateY(0);
   }
 }
-
-// ?????
+// Recommend
 @mixin recommand-btn {
   background: $color-ts-blue;
   @include radius('small');
   overflow: hidden;
 }
 
-// ??????
 @mixin nav-button {
   @include _base-card-style;
   @include radius('large');
@@ -282,7 +278,7 @@ $font-family-base: 'Inter', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei',
   color: $color-blue;
 }
 
-// ???????????
+// ?瑕??”??
 @mixin long-button {
   @include radius('small');
   @include _btn-hover;
@@ -293,7 +289,7 @@ $font-family-base: 'Inter', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei',
   background: $color-white;
 
   &:hover {
-    transform: translateY(-2px); // ??? px ????
+    transform: translateY(-2px); 
   }
 }
 // 5. Flex Layout Helper
@@ -302,7 +298,6 @@ $font-family-base: 'Inter', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei',
   flex-direction: $dir;
   gap: $space-base;
 
-  // ????????????????????CSS
   $j-map: (
     'start': flex-start,
     'end': flex-end,

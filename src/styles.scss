@@ -4,6 +4,7 @@
 // Learn more about theming and how to use it for your application's
 // custom components at https://material.angular.dev/guide/theming
 @use 'assets/_reset';
+@use 'assets/_fonts';
 @use 'assets/_variables' as vars;
 @use 'assets/_cms';
 @use '@angular/material' as mat;

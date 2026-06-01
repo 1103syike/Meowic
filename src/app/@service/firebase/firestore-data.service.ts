@@ -224,6 +224,54 @@ export class FirestoreDataService {
     return from(this.patchSong(id, song));
   }
 
+  deleteSong(id: number): Observable<void> {
+    return from(this.deleteSongRecord(id));
+  }
+
+  unpublishSong(id: number): Observable<SongType> {
+    return from(this.setCatalogStatus(COL.songs, id, 'unpublished'));
+  }
+
+  republishSong(id: number): Observable<SongType> {
+    return from(this.republishCatalogItem(COL.songs, id));
+  }
+
+  getSongDeleteBlockers(id: number): Observable<string[]> {
+    return from(this.collectSongDeleteBlockers(id));
+  }
+
+  deleteAlbum(id: number): Observable<void> {
+    return from(this.deleteAlbumRecord(id));
+  }
+
+  unpublishAlbum(id: number): Observable<AlbumType> {
+    return from(this.setCatalogStatus(COL.albums, id, 'unpublished'));
+  }
+
+  republishAlbum(id: number): Observable<AlbumType> {
+    return from(this.republishCatalogItem(COL.albums, id));
+  }
+
+  getAlbumDeleteBlockers(id: number): Observable<string[]> {
+    return from(this.collectAlbumDeleteBlockers(id));
+  }
+
+  deleteArtist(id: number): Observable<void> {
+    return from(this.deleteArtistRecord(id));
+  }
+
+  unpublishArtist(id: number): Observable<ArtistType> {
+    return from(this.setCatalogStatus(COL.artists, id, 'unpublished'));
+  }
+
+  republishArtist(id: number): Observable<ArtistType> {
+    return from(this.republishCatalogItem(COL.artists, id));
+  }
+
+  getArtistDeleteBlockers(id: number): Observable<string[]> {
+    return from(this.collectArtistDeleteBlockers(id));
+  }
+
   uploadFile(fileName: string, dataUrl: string, fileType: string): Observable<UploadResponse> {
     return from(this.uploadToStorage(fileName, dataUrl, fileType));
   }
@@ -305,6 +353,143 @@ export class FirestoreDataService {
 
   private async remove(name: string, id: number): Promise<void> {
     await deleteDoc(doc(this.db, name, String(id)));
+  }
+
+  private nowIso(): string {
+    return new Date().toISOString();
+  }
+
+  private async setCatalogStatus<T extends { id: number }>(
+    name: string,
+    id: number,
+    status: 'unpublished' | 'published' | 'deleted',
+  ): Promise<T> {
+    const payload: DocumentData = { status };
+    if (status === 'unpublished') {
+      payload['unavailableAt'] = this.nowIso();
+    }
+    await this.patch(name, id, payload);
+    if (name === COL.songs) {
+      const [expanded] = await this.loadSongsExpanded({ id });
+      return expanded as T;
+    }
+    if (name === COL.albums) {
+      const [expanded] = await this.loadAlbumsExpanded({ id });
+      return expanded as T;
+    }
+    const [artist] = await this.getCollection<ArtistType>(COL.artists, { id });
+    return artist as T;
+  }
+
+  private async republishCatalogItem<T extends { id: number }>(
+    name: string,
+    id: number,
+  ): Promise<T> {
+    const now = this.nowIso();
+    await this.patch(name, id, {
+      status: 'published',
+      unavailableAt: '',
+      availableAt: now,
+    });
+    if (name === COL.songs) {
+      const [expanded] = await this.loadSongsExpanded({ id });
+      return expanded as T;
+    }
+    if (name === COL.albums) {
+      const [expanded] = await this.loadAlbumsExpanded({ id });
+      return expanded as T;
+    }
+    const [artist] = await this.getCollection<ArtistType>(COL.artists, { id });
+    return artist as T;
+  }
+
+  private async collectSongDeleteBlockers(songId: number): Promise<string[]> {
+    const blockers: string[] = [];
+    const [playlistSongs, homeRecs, ads] = await Promise.all([
+      this.getCollection<PlaylistSongType>(COL.playlistSongs, { songId }),
+      this.getCollection<HomeRecommendationType>(COL.homeRecommendations),
+      this.getCollection<AdvertisementType>(COL.advertisements),
+    ]);
+
+    if (playlistSongs.length) {
+      blockers.push(`仍被 ${playlistSongs.length} 個歌單引用，請先從歌單移除`);
+    }
+    if (homeRecs.some((row) => row.popularSongIds?.includes(songId))) {
+      blockers.push('仍出現在首頁推薦，請先到首頁推薦移除');
+    }
+    if (ads.some((ad) => ad.linkType === 'song' && ad.linkTarget === String(songId))) {
+      blockers.push('仍有廣告連結至這首歌，請先調整廣告設定');
+    }
+    return blockers;
+  }
+
+  private async collectAlbumDeleteBlockers(albumId: number): Promise<string[]> {
+    const blockers: string[] = [];
+    const [songs, homeRecs, ads] = await Promise.all([
+      this.getCollection<SongType>(COL.songs, { albumId }),
+      this.getCollection<HomeRecommendationType>(COL.homeRecommendations),
+      this.getCollection<AdvertisementType>(COL.advertisements),
+    ]);
+
+    if (songs.length) {
+      blockers.push(`仍有 ${songs.length} 首歌曲掛在這張作品下，請先移出或刪除歌曲`);
+    }
+    if (homeRecs.some((row) => row.popularAlbumIds?.includes(albumId))) {
+      blockers.push('仍出現在首頁推薦，請先到首頁推薦移除');
+    }
+    if (ads.some((ad) => ad.linkType === 'album' && ad.linkTarget === String(albumId))) {
+      blockers.push('仍有廣告連結至此作品，請先調整廣告設定');
+    }
+    return blockers;
+  }
+
+  private async collectArtistDeleteBlockers(artistId: number): Promise<string[]> {
+    const blockers: string[] = [];
+    const [albums, songs, homeRecs, ads] = await Promise.all([
+      this.getCollection<AlbumType>(COL.albums, { artistId }),
+      this.getCollection<SongType>(COL.songs, { artistId }),
+      this.getCollection<HomeRecommendationType>(COL.homeRecommendations),
+      this.getCollection<AdvertisementType>(COL.advertisements),
+    ]);
+
+    const releaseAlbums = albums.filter((album) => album.type !== 'playlist');
+    if (releaseAlbums.length) {
+      blockers.push(`仍有 ${releaseAlbums.length} 張發行作品，請先處理相關作品`);
+    }
+    if (songs.length) {
+      blockers.push(`仍有 ${songs.length} 首歌曲，請先移出或刪除歌曲`);
+    }
+    if (homeRecs.some((row) => row.popularArtistIds?.includes(artistId))) {
+      blockers.push('仍出現在首頁推薦，請先到首頁推薦移除');
+    }
+    if (ads.some((ad) => ad.linkType === 'artist' && ad.linkTarget === String(artistId))) {
+      blockers.push('仍有廣告連結至此藝人，請先調整廣告設定');
+    }
+    return blockers;
+  }
+
+  private async deleteSongRecord(id: number): Promise<void> {
+    const blockers = await this.collectSongDeleteBlockers(id);
+    if (blockers.length) {
+      throw new Error(blockers.join('；'));
+    }
+    await this.remove(COL.songs, id);
+  }
+
+  private async deleteAlbumRecord(id: number): Promise<void> {
+    const blockers = await this.collectAlbumDeleteBlockers(id);
+    if (blockers.length) {
+      throw new Error(blockers.join('；'));
+    }
+    await this.remove(COL.albums, id);
+  }
+
+  private async deleteArtistRecord(id: number): Promise<void> {
+    const blockers = await this.collectArtistDeleteBlockers(id);
+    if (blockers.length) {
+      throw new Error(blockers.join('；'));
+    }
+    await this.remove(COL.artists, id);
   }
 
   private async loadArtistsMap(): Promise<Map<number, ArtistType>> {

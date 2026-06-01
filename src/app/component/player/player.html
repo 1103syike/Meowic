@@ -1,4 +1,4 @@
-﻿<section class="player-container" [class.player-container--seeking]="isSeeking()">
+﻿<section class="player-container" [class.player-container--time-active]="isTimeActive()">
   <section class="song">
     <img
       [routerLink]="['/song', this.currentSong()?.id]"
@@ -90,7 +90,7 @@
     </button>
   </section>
 
-  <div class="player__time-tool">
+  <div class="player__time-tool" (pointerenter)="setTimeActive(true)" (pointerleave)="setTimeActive(false)">
     <audio
       #musicPlayer
       (loadedmetadata)="onLoadedMetadata(musicPlayer)"
@@ -111,6 +111,8 @@
       [value]="currentTime"
       [style.background-image]="progressBackground()"
       (pointerdown)="setSeeking(true)"
+      (pointerup)="setSeeking(false)"
+      (pointercancel)="setSeeking(false)"
       (input)="seekFromRange($event, musicPlayer)"
       (change)="setSeeking(false)"
       (blur)="setSeeking(false)"

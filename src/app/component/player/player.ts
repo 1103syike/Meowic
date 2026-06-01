@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, ViewChild, effect, inject, signal } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild, computed, effect, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIcon } from '@angular/material/icon';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
@@ -37,6 +37,8 @@ export class Player {
   public queueOffset = signal<{ x: number; y: number }>(this.getStoredQueueOffset());
   public isQueueDragging = signal(false);
   public isSeeking = signal(false);
+  public isTimelineHover = signal(false);
+  public isTimeActive = computed(() => this.isTimelineHover() || this.isSeeking());
   public isMuted = signal(false);
   private readonly volumeStorageKey = 'playerVolume';
   private readonly mutedStorageKey = 'playerMuted';
@@ -147,6 +149,10 @@ export class Player {
 
   public setSeeking(isSeeking: boolean): void {
     this.isSeeking.set(isSeeking);
+  }
+
+  public setTimeActive(isActive: boolean): void {
+    this.isTimelineHover.set(isActive);
   }
 
   public progressBackground(): string {

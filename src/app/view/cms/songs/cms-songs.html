@@ -29,13 +29,14 @@
         <div class="cms-table__row cms-table__row--head">
           <span>歌曲</span>
           <span>藝人</span>
-          <span>發行作品</span>
+          <span>狀態</span>
         </div>
         @for (song of pagedSongs(); track song.id) {
           <button
             class="cms-table__row cms-table__row--button"
             type="button"
             [class.cms-table__row--active]="selectedSong()?.id === song.id"
+            [class.cms-table__row--muted]="isUnpublished(song)"
             (click)="selectSong(song)"
           >
             <span class="cms-media">
@@ -43,7 +44,9 @@
               <strong>{{ song.name }}</strong>
             </span>
             <span>{{ song.artist.name }}</span>
-            <span>{{ song.album.name }}</span>
+            <span class="cms-status" [class.cms-status--unpublished]="isUnpublished(song)">
+              {{ statusLabel(song) }}
+            </span>
           </button>
         } @empty {
           <div class="cms-empty">找不到符合條件的歌曲</div>
@@ -122,8 +125,20 @@
 
         <label class="cms-upload">
           <span class="cms-upload__title">歌曲圖片</span>
-          <span class="cms-upload__hint">選擇圖片後，儲存才會更新封面。</span>
+          <span class="cms-upload__hint">選擇圖片後，儲存才會更新封面。重新上架時可更換封面。</span>
           <input type="file" accept="image/*" (change)="setImageFile($event)" />
+        </label>
+
+        <label class="cms-upload">
+          <span class="cms-upload__title">歌曲音檔</span>
+          <span class="cms-upload__hint">
+            @if (audioFileName()) {
+              已選擇：{{ audioFileName() }}，儲存後會更新音檔。
+            } @else {
+              重新上架時可上傳新音檔，儲存後才會生效。
+            }
+          </span>
+          <input type="file" accept="audio/*" (change)="setAudioFile($event)" />
         </label>
 
         @if (message()) {
@@ -137,6 +152,25 @@
           <button class="cms-page__primary-btn" type="button" [disabled]="isSaving()" (click)="saveSong()">
             {{ isSaving() ? '儲存中...' : '儲存歌曲' }}
           </button>
+        </div>
+
+        <div class="cms-lifecycle">
+          <p class="cms-lifecycle__title">上架狀態</p>
+          <p class="cms-lifecycle__hint">下架會保留資料與檔案；刪除前會檢查歌單、首頁推薦與廣告引用。</p>
+          <div class="cms-lifecycle__actions">
+            @if (isUnpublished(selectedSong())) {
+              <button class="cms-page__secondary-btn" type="button" [disabled]="isSaving()" (click)="republishSong()">
+                重新上架
+              </button>
+            } @else {
+              <button class="cms-page__secondary-btn" type="button" [disabled]="isSaving()" (click)="unpublishSong()">
+                下架歌曲
+              </button>
+            }
+            <button class="cms-btn--danger" type="button" [disabled]="isSaving()" (click)="deleteSong()">
+              刪除歌曲
+            </button>
+          </div>
         </div>
       } @else {
         <div class="cms-empty">請先選擇一首歌曲</div>
