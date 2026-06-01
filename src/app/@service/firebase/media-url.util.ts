@@ -20,14 +20,14 @@ export function normalizeMediaUrl(url: string | null | undefined): string {
 
 export function normalizeRecordMedia<T extends Record<string, unknown>>(record: T): T {
   const mediaFields = ['imgPath', 'audioPath', 'imagePath'] as const;
-  const next = { ...record };
+  const next: Record<string, unknown> = { ...record };
 
   for (const field of mediaFields) {
     const value = next[field];
     if (typeof value === 'string') {
-      next[field] = normalizeMediaUrl(value) as T[typeof field];
+      next[field] = normalizeMediaUrl(value);
     }
   }
 
-  return next;
+  return next as T;
 }
