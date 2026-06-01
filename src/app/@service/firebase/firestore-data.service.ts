@@ -229,11 +229,11 @@ export class FirestoreDataService {
   }
 
   unpublishSong(id: number): Observable<SongType> {
-    return from(this.setCatalogStatus(COL.songs, id, 'unpublished'));
+    return from(this.unpublishSongRecord(id));
   }
 
   republishSong(id: number): Observable<SongType> {
-    return from(this.republishCatalogItem(COL.songs, id));
+    return from(this.republishSongRecord(id));
   }
 
   getSongDeleteBlockers(id: number): Observable<string[]> {
@@ -245,11 +245,11 @@ export class FirestoreDataService {
   }
 
   unpublishAlbum(id: number): Observable<AlbumType> {
-    return from(this.setCatalogStatus(COL.albums, id, 'unpublished'));
+    return from(this.unpublishAlbumRecord(id));
   }
 
   republishAlbum(id: number): Observable<AlbumType> {
-    return from(this.republishCatalogItem(COL.albums, id));
+    return from(this.republishAlbumRecord(id));
   }
 
   getAlbumDeleteBlockers(id: number): Observable<string[]> {
@@ -261,11 +261,11 @@ export class FirestoreDataService {
   }
 
   unpublishArtist(id: number): Observable<ArtistType> {
-    return from(this.setCatalogStatus(COL.artists, id, 'unpublished'));
+    return from(this.unpublishArtistRecord(id));
   }
 
   republishArtist(id: number): Observable<ArtistType> {
-    return from(this.republishCatalogItem(COL.artists, id));
+    return from(this.republishArtistRecord(id));
   }
 
   getArtistDeleteBlockers(id: number): Observable<string[]> {
@@ -359,48 +359,49 @@ export class FirestoreDataService {
     return new Date().toISOString();
   }
 
-  private async setCatalogStatus<T extends { id: number }>(
-    name: string,
-    id: number,
-    status: 'unpublished' | 'published' | 'deleted',
-  ): Promise<T> {
-    const payload: DocumentData = { status };
-    if (status === 'unpublished') {
-      payload['unavailableAt'] = this.nowIso();
-    }
-    await this.patch(name, id, payload);
-    if (name === COL.songs) {
-      const [expanded] = await this.loadSongsExpanded({ id });
-      return expanded as T;
-    }
-    if (name === COL.albums) {
-      const [expanded] = await this.loadAlbumsExpanded({ id });
-      return expanded as T;
-    }
-    const [artist] = await this.getCollection<ArtistType>(COL.artists, { id });
-    return artist as T;
+  private async unpublishSongRecord(id: number): Promise<SongType> {
+    await this.patch(COL.songs, id, { status: 'unpublished', unavailableAt: this.nowIso() });
+    const [expanded] = await this.loadSongsExpanded({ id });
+    if (!expanded) throw new Error('找不到歌曲');
+    return expanded;
   }
 
-  private async republishCatalogItem<T extends { id: number }>(
-    name: string,
-    id: number,
-  ): Promise<T> {
+  private async republishSongRecord(id: number): Promise<SongType> {
     const now = this.nowIso();
-    await this.patch(name, id, {
-      status: 'published',
-      unavailableAt: '',
-      availableAt: now,
-    });
-    if (name === COL.songs) {
-      const [expanded] = await this.loadSongsExpanded({ id });
-      return expanded as T;
-    }
-    if (name === COL.albums) {
-      const [expanded] = await this.loadAlbumsExpanded({ id });
-      return expanded as T;
-    }
+    await this.patch(COL.songs, id, { status: 'published', unavailableAt: '', availableAt: now });
+    const [expanded] = await this.loadSongsExpanded({ id });
+    if (!expanded) throw new Error('找不到歌曲');
+    return expanded;
+  }
+
+  private async unpublishAlbumRecord(id: number): Promise<AlbumType> {
+    await this.patch(COL.albums, id, { status: 'unpublished', unavailableAt: this.nowIso() });
+    const [expanded] = await this.loadAlbumsExpanded({ id });
+    if (!expanded) throw new Error('找不到發行作品');
+    return expanded;
+  }
+
+  private async republishAlbumRecord(id: number): Promise<AlbumType> {
+    const now = this.nowIso();
+    await this.patch(COL.albums, id, { status: 'published', unavailableAt: '', availableAt: now });
+    const [expanded] = await this.loadAlbumsExpanded({ id });
+    if (!expanded) throw new Error('找不到發行作品');
+    return expanded;
+  }
+
+  private async unpublishArtistRecord(id: number): Promise<ArtistType> {
+    await this.patch(COL.artists, id, { status: 'unpublished', unavailableAt: this.nowIso() });
     const [artist] = await this.getCollection<ArtistType>(COL.artists, { id });
-    return artist as T;
+    if (!artist) throw new Error('找不到藝人');
+    return artist;
+  }
+
+  private async republishArtistRecord(id: number): Promise<ArtistType> {
+    const now = this.nowIso();
+    await this.patch(COL.artists, id, { status: 'published', unavailableAt: '', availableAt: now });
+    const [artist] = await this.getCollection<ArtistType>(COL.artists, { id });
+    if (!artist) throw new Error('找不到藝人');
+    return artist;
   }
 
   private async collectSongDeleteBlockers(songId: number): Promise<string[]> {
